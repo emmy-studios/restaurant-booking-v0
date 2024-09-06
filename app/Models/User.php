@@ -65,10 +65,28 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    /*
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin() || $this->isSupervisor() || $this->isEmployee();
+    }*/
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Obtener el ID del panel usando el método getId()
+        $panelId = $panel->getId();
+
+        // Verificar si el panel es 'admin' y si el usuario es Admin o Supervisor
+        if ($panelId === 'admin') {
+            return $this->isAdmin() || $this->isSupervisor();
+        }
+
+        // Verificar si el panel es 'employee' y si el usuario es Employee
+        if ($panelId === 'employee') {
+            return $this->isEmployee();
+        }
+
+        return false; // Bloquear acceso a cualquier otro panel
     }
 
     public function isAdmin(){
