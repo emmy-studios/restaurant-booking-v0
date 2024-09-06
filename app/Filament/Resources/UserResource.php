@@ -24,6 +24,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('models.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('first_name')
