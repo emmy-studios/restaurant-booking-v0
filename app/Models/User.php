@@ -16,13 +16,13 @@ class User extends Authenticatable implements FilamentUser
     use HasApiTokens, HasFactory, Notifiable;
 
     const ADMIN_ROLE = 'ADMIN';
-    const SUPERVISOR_ROLE = 'SUPERVISOR';
+    const MANAGER_ROLE = 'MANAGER';
     const CUSTOMER_ROLE = 'CUSTOMER';
     const EMPLOYEE_ROLE = 'EMPLOYEE';
 
     const ROLES = [
         self::ADMIN_ROLE => 'admin',
-        self::SUPERVISOR_ROLE => 'supervisor',
+        self::MANAGER_ROLE => 'manager',
         self::CUSTOMER_ROLE => 'customer',
         self::EMPLOYEE_ROLE => 'employee',
     ];
@@ -65,36 +65,32 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    /*
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->isAdmin() || $this->isSupervisor() || $this->isEmployee();
-    }*/
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Obtener el ID del panel usando el método getId()
         $panelId = $panel->getId();
 
-        // Verificar si el panel es 'admin' y si el usuario es Admin o Supervisor
         if ($panelId === 'admin') {
-            return $this->isAdmin() || $this->isSupervisor();
+            return $this->isAdmin();
         }
 
-        // Verificar si el panel es 'employee' y si el usuario es Employee
         if ($panelId === 'employee') {
             return $this->isEmployee();
         }
 
-        return false; // Bloquear acceso a cualquier otro panel
+        if ($panelId === 'manager') {
+            return $this->isManager();
+        }
+
+        return false; 
     }
 
     public function isAdmin(){
         return $this->role === self::ADMIN_ROLE;
     }
 
-    public function isSupervisor(){
-        return $this->role === self::SUPERVISOR_ROLE;
+    public function isManager(){
+        return $this->role === self::MANAGER_ROLE;
     }
 
     public function isEmployee(){

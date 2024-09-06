@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Products;
 
-use App\Filament\Resources\Products\ProductResource\Pages;
-use App\Filament\Resources\Products\ProductResource\RelationManagers;
-use App\Models\Products\Product;
+use App\Filament\Resources\Products\CategoryResource\Pages;
+use App\Filament\Resources\Products\CategoryResource\RelationManagers;
+use App\Models\Products\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +13,17 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
 
-    protected static ?string $navigationLabel = 'Products';
+    protected static ?string $navigationLabel = 'Categories';
 
     protected static ?string $navigationGroup = 'Products';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -33,23 +33,7 @@ class ProductResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
-                    ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image_url')
-                    ->image()
-                    ->required(),
-                Forms\Components\TextInput::make('portion')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price_currency')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('currency_symbol')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('unit_price')
-                    ->required()
-                    ->maxLength(255),
             ]);
     }
 
@@ -58,15 +42,6 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
-                Tables\Columns\TextColumn::make('portion')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price_currency')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('currency_symbol')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('unit_price')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -101,10 +76,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'view' => Pages\ViewCategory::route('/{record}'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }
