@@ -26,10 +26,12 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandLogo(asset('utils/logo/krusty_logo_transparent.png'))
+            ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->login()
             ->colors([
-                'primary' => Color::Red,
+                'primary' => '#E77917',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
