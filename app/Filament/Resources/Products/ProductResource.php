@@ -19,9 +19,9 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
-    protected static ?string $navigationLabel = 'Products';
+    protected static ?string $navigationLabel = null;
 
-    protected static ?string $navigationGroup = 'Products';
+    protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
 
@@ -30,24 +30,23 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('models.name'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
+                    ->label(__('models.description'))
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image_url')
+                    ->label(__('models.image_url'))
                     ->image()
                     ->required(),
                 Forms\Components\TextInput::make('portion')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price_currency')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('currency_symbol')
+                    ->label(__('models.portion'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('unit_price')
+                    ->label(__('models.unit_price'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -58,21 +57,23 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('models.name'))
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label(__('models.image_url')), 
                 Tables\Columns\TextColumn::make('portion')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price_currency')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('currency_symbol')
+                    ->label(__('models.portion'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('unit_price')
+                    ->label(__('models.unit_price'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -106,5 +107,17 @@ class ProductResource extends Resource
             'view' => Pages\ViewProduct::route('/{record}'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    // Translate Navigation Label.
+    public static function getNavigationLabel(): string
+    {
+        return __('models.products');
+    }
+ 
+    // Translate Navigation Group.
+    public static function getNavigationGroup(): string
+    {
+        return __('models.products');
     }
 }

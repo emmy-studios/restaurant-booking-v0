@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('image_url');
-            $table->string('portion');
-            $table->string('price_currency');
-            $table->string('currency_symbol');
+            $table->string('portion'); 
             $table->string('unit_price');
             $table->timestamps();
         });

@@ -18,12 +18,14 @@ class User extends Authenticatable implements FilamentUser
     const ADMIN_ROLE = 'ADMIN';
     const MANAGER_ROLE = 'MANAGER';
     const CUSTOMER_ROLE = 'CUSTOMER';
+    const CHEF_ROLE = 'CHEF';
     const EMPLOYEE_ROLE = 'EMPLOYEE';
 
     const ROLES = [
         self::ADMIN_ROLE => 'admin',
         self::MANAGER_ROLE => 'manager',
         self::CUSTOMER_ROLE => 'customer',
+        self::CHEF_ROLE => 'chef',
         self::EMPLOYEE_ROLE => 'employee',
     ];
 
@@ -38,10 +40,12 @@ class User extends Authenticatable implements FilamentUser
         'last_name',
         'country_code',
         'phone_number',
+        'postal_code',
         'country',
         'city',
         'address',
         'email',
+        'image_url',
         'role',
         'password',
     ];
@@ -78,6 +82,14 @@ class User extends Authenticatable implements FilamentUser
             return $this->isEmployee();
         }
 
+        if ($panelId === 'chef') {
+            return $this->isChef();
+        }
+
+        if ($panelId === 'customer') {
+            return $this->isCustomer();
+        }
+
         if ($panelId === 'manager') {
             return $this->isManager();
         }
@@ -95,6 +107,14 @@ class User extends Authenticatable implements FilamentUser
 
     public function isEmployee(){
         return $this->role === self::EMPLOYEE_ROLE;
+    }
+
+    public function isCustomer(){
+        return $this->role === self::CUSTOMER_ROLE;
+    }
+
+    public function isChef(){
+        return $this->role === self::CHEF_ROLE;
     }
 }
 

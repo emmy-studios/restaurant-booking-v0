@@ -19,9 +19,9 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
 
-    protected static ?string $navigationLabel = 'Categories';
+    protected static ?string $navigationLabel = null;
 
-    protected static ?string $navigationGroup = 'Products';
+    protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 2;
 
@@ -30,9 +30,11 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('models.name'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
+                    ->label(__('models.description'))
                     ->columnSpanFull(),
             ]);
     }
@@ -42,12 +44,17 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label(__('models.name'))
+                    ->searchable(), 
+                Tables\Columns\TextColumn::make('description')
+                    ->label(__('models.description')),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -81,5 +88,17 @@ class CategoryResource extends Resource
             'view' => Pages\ViewCategory::route('/{record}'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
+    }
+
+    // Translate Navigation Label.
+    public static function getNavigationLabel(): string
+    {
+        return __('models.categories');
+    }
+ 
+    // Translate Navigation Group.
+    public static function getNavigationGroup(): string
+    {
+        return __('models.products');
     }
 }

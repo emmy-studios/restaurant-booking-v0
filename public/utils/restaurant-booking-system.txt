@@ -1,0 +1,638 @@
+Table users {
+  id integer [primary key]
+  name varchar
+  first_name varchar
+  last_name varchar
+  email varchar
+  phone_code enum [note: "Search Codes"]
+  phone_number varchar
+  country enum [note: "Search Countries"]
+  city varchar
+  address text
+  postal_code varchar
+  role enum('ADMIN', 'MANAGER', 'CUSTOMER', 'CHEF')
+  is_active bool
+  password varchar
+  created_at timestamp
+  updated_at timestamp
+}
+Table notices {
+  id integer [primary key]
+  user_id integer
+  type enum [note: "Notification/Warning/Message"] 
+  subject varchar
+  message text
+  date date
+  created_at timestamp
+  updated_at timestamp
+}
+// REVIEWS Models
+Table reviews {
+  id integer [primary key]
+  user_id integer
+  content text
+  created_at timestamp
+  updated_at timestamp
+}
+// Orders Models
+Table orders {
+  id integer [primary key]
+  user_id integer
+  order_status enum [note: "Cancel/Delivered"]
+  order_currency enum('USD', 'CR')
+  order_source varchar [note:'online/phone/email']
+  subtotal decimal(10,2)
+  total decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table order_items {
+  id integer [primary key]
+  product_id integer
+  quantity integer
+  subtotal decimal(10,2)
+  total decimal(10,2) [note: 'With discount']
+  order_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table discount_order_items {
+  id integer [primary key]
+  discount_id integer
+  order_item_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table billings {
+  id integer [primary key]
+  user_id integer
+  billing_code varchar
+  payment_method varchar
+  payment_currency varchar
+  status enum('pending', 'completed')
+  order_id integer
+  subtotal decimal(10,2)
+  total decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+// Stock Models
+Table products {
+  id integer [primary key]
+  name varchar
+  description text
+  image_url varchar
+  portion varchar
+  price_currency varchar
+  currency_symbol varchar
+  unit_price decimal
+  created_at timestamp
+  updated_at timestamp
+}
+Table discounts {
+  id integer [primary key]
+  discount_code varchar
+  discount_percentage decimal(10,2)
+  starts_at datetime
+  ends_at datetime
+  banner_text text
+  banner_image varchar
+  note text
+  created_at timestamp
+  updated_at timestamp
+}
+Table discount_product {
+  id integer [primary key]
+  discount_id integer
+  product_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table categories {
+  id integer [primary key]
+  name varchar
+  description text
+  created_at timestamp
+  updated_at timestamp
+}
+Table category_product {
+  id integer [primary key]
+  category_id integer
+  product_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table recipes {
+  id integer [primary key]
+  title varchar
+  preparation text
+  recomendations text
+  considerations text
+  additional_details text
+  product_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table ingredients {
+  id integer [primary key]
+  name varchar
+  description text
+  image_url varchar
+  created_at timestamp
+  updated_at timestamp
+}
+Table ingredient_recipe {
+  id integer [primary key]
+  ingredient_id integer
+  recipe_id integer
+  unit_of_measurement varchar
+  quantity decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table sections {
+  id integer [primary key]
+  name varchar
+  description text
+  created_at timestamp
+  updated_at timestamp
+}
+Table ingredient_section {
+  id integer [primary key]
+  ingredient_id integer
+  section_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table inventories {
+  id integer [primary key]
+  stock_quantity bigint
+  last_restocked_at datetime
+  next_restock_date datetime
+  inventory_value decimal(10,2)
+  warehouse_location varchar
+  storage_conditions text
+  holding_cost decimal
+  cost_of_goods_sold decimal
+  last_audit_date datetime
+  next_audit_date datetime
+  inventory_status enum [note: "Active/Under/Audit/Inactive"]
+  inventory_manager varchar
+  description text
+  note text
+  created_at timestamp
+  updated_at timestamp
+}
+Table ingredient_inventory {
+  id integer [primary key]
+  ingredient_id integer
+  batch_number varchar
+  inventory_id integer
+  expiration_date date
+  unit_of_measurement varchar
+  quantity decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table suppliers {
+  id integer [primary key]
+  name varchar
+  company_name varchar
+  phone_code varchar
+  phone_number varchar
+  email varchar
+  country varchar
+  state varchar
+  city varchar
+  address text
+  created_at timestamp
+  updated_at timestamp
+}
+Table purchases {
+  id integer [primary key]
+  supplier_id integer
+  total_amount decimal(10,2)
+  purchase_date datetime
+  purchase_supervisor varchar
+  created_at timestamp
+  updated_at timestamp
+}
+Table purchase_items {
+  id integer [primary key]
+  purchase_id integer
+  product_name varchar
+  unit_of_measurement varchar
+  quantity decimal(10,2)
+  unit_price decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table returns {
+  id integer [primary key]
+  order_code varchar
+  product_name varchar
+  customer_name varchar
+  responsable_employee varchar
+  request_date datetime
+  quantity integer
+  reason text
+  status enum [note: "inproccess/finalized"]
+  created_at timestamp
+  updated_at timestamp
+}
+//MENU Models
+Table menus {
+  id integer [primary key]
+  title varchar
+  description text
+  menu_code varchar
+  status enum('active', 'inactive')
+  is_recurring boolean
+  menu_type enum('Breakfast', 'Lunch', 'Dinner', 'Special')
+  initial_date datetime
+  final_date datetime
+  menu_availability varchar [note:'mañana/tarde/noche']
+  price decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table menu_items {
+  id integer [primary key]
+  menu_id integer
+  product_id integer 
+  portion varchar
+  quantity integer
+  is_optional boolean [note:'si el producto es opcional']
+  created_at timestamp
+  updated_at timestamp
+}
+Table menu_specials {
+  id integer [primary key]
+  menu_id integer
+  discount_percentage decimal(5,2)
+  discount_code varchar
+  starts_at datetime 
+  ends_at datetime
+  created_at timestamp
+  updated_at timestamp
+}
+Table menu_schedules {
+  id integer [primary key]
+  menu_id integer
+  day_of_week enum('Monday', 'Tuesday')
+  start_time time
+  end_time time
+  created_at timestamp
+  updated_at timestamp
+}
+//RESERVATION Models
+Table reservations {
+  id integer [primary key]
+  user_id integer 
+  reservation_date datetime
+  num_guests integer
+  special_requests text 
+  status enum('pending', 'confirmed', 'cancelled')
+  created_at timestamp
+  updated_at timestamp
+}
+Table reservation_table {
+  id integer [primary key]
+  reservation_id integer
+  table_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table tables {
+  id integer [primary key]
+  table_number integer [unique]
+  capacity integer
+  location varchar [note:'Interior/Terraza']
+  is_available boolean 
+  created_at timestamp
+  updated_at timestamp
+}
+Table events {
+  id integer [primary key]
+  event_code varchar [unique]
+  user_id integer
+  event_name varchar
+  event_date datetime 
+  num_guests integer 
+  event_description text
+  event_status enum('pending', 'confirmed', 'cancelled') 
+  subtotal_cost decimal(10,2)
+  total_cost decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_table {
+  id integer [primary key]
+  event_id integer
+  table_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_services {
+  id integer [primary key]
+  name varchar
+  description text
+  details text
+  additional_details text
+  service_price decimal(10,2)
+  additional_cost decimal(10,2)
+  event_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_packages {
+  id integer [primary key]
+  package_name varchar
+  details text
+  additional_details text
+  note text
+  price decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_event_packages {
+  id integer
+  event_id integer
+  event_package_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table reservation_payments {
+  id integer [primary key]
+  reservation_id integer
+  payment_method enum('credit_card', 'paypal', 'cash')
+  payment_amount decimal(10,2)
+  payment_status enum('pending', 'completed')
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_payments {
+  id integer [primary key]
+  event_id integer
+  payment_method enum('credit_card', 'paypal', 'cash')
+  payment_amount decimal(10,2)
+  payment_status enum('pending', 'completed')
+  created_at timestamp
+  updated_at timestamp
+}
+Table staffs {
+  id integer [primary key]
+  first_name varchar
+  last_name varchar
+  contact_number varchar
+  emergency_contact varchar
+  role varchar
+  shift_start datetime
+  shift_end datetime
+  status varchar [note:'asignado/confirmado']
+  check_in_time datetime
+  check_out_time datetime
+  hours_worked decimal(10,2)
+  notes text
+  uniform bool
+  meal_preference text [note:'Vegetariano/Sin gluten']
+  transport_provided bool
+  training_required bool
+  training_completed bool
+  location_assigned text [note:'Área de servicio/cocina']
+  created_at timestamp
+  updated_at timestamp
+}
+Table event_staff {
+  id integer [primary key]
+  event_id integer
+  staff_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+// ERP Models
+Table employees {
+  id integer [primary key]
+  username varchar
+  first_name varchar
+  last_name varchar
+  date_of_birth date
+  country varchar
+  state varchar
+  address varchar
+  phone_code varchar
+  phone_number varchar
+  postal_code varchar
+  email varchar
+  image_url varchar
+  password varchar
+  hire_date date
+  salary decimal
+  created_at timestamp
+  updated_at timestamp
+}
+Table schedules {
+  id integer [primary key]
+  employee_id integer
+  day_of_week enum
+  start_time time
+  end_time time
+  created_at timestamp
+  updated_at timestamp
+}
+Table attendances {
+  id integer [primary key]
+  employee_id integer
+  date date
+  check_in_time time
+  check_out_time time
+  created_at timestamp
+  updated_at timestamp
+}
+Table vacations {
+  id integer [primary key]
+  employee_id integer
+  number_of_days integer
+  start_date date
+  end_date date
+  created_at timestamp
+  updated_at timestamp
+}
+Table salaries {
+  id integer [primary key]
+  employee_id integer
+  base_salary decimal
+  salary_type enum [note: "Anually/Monthly/"]
+  net_salary decimal
+  effective_date date
+  end_date date
+  created_at timestamp
+  updated_at timestamp
+}
+Table bonuses {
+  id integer [primary key]
+  salary_id integer
+  amount decimal
+  type varchar
+  description text
+  date_awarded date
+  created_at timestamp
+  updated_at timestamp
+}
+Table deductions {
+  id integer [primary key]
+  salary_id integer
+  amount decimal
+  type varchar
+  description text
+  date_applied date
+  created_at timestamp
+  updated_at timestamp
+}
+// SALES Models
+Table sales {
+  id integer [primary key]
+  sale_code varchar
+  subtotal decimal(10,2)
+  total decimal(10,2)
+  created_at timestamp
+  updated_at timestamp
+}
+Table sale_items {
+  id integer [primary key]
+  sale_id integer
+  product_id integer
+  discount_percentage decimal(10,2)
+  unit_of_measurement varchar
+  quantity integer
+  description text
+  note text
+  created_at timestamp
+  updated_at timestamp
+}
+Table sale_user {
+  id integer [primary key]
+  sale_id integer
+  user_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table reports {
+  id integer [primary key]
+  report_name varchar
+  report_type enum('PRODUCT', 'SALES', 'INVENTORY')
+  report_details text
+  additional_details text
+  user_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table daily_sales_reports {
+  id integer [primary key]
+  report_date date
+  total_orders integer
+  total_sales integer
+  total_amount decimal(10,2) [note:'without discount']
+  total_discounts integer
+  total_net_amount decimal(10,2) [note:'with discount']
+  user_id integer
+  created_at timestamp
+  updated_at timestamp
+}
+Table inventory_reports {
+  id integer [primary key]
+  report_date datetime
+  total_stock_value decimal(10,2)
+  total_items_in_stock integer
+  total_expired_items integer
+  items_expiring_soon integer
+  most_used_items text
+  least_used_items text
+  total_used_items_value decimal(10,2)
+  restock_needed_items text
+  stock_wastage text
+  stock_wastage_value decimal(10,2)
+  last_audit_date datetime
+  next_audit_date datetime
+  user_id integer
+  report_notes text
+  inventory_location text
+  created_at timestamp
+  updated_at timestamp
+}
+// Relationships
+Ref: users.id < orders.user_id
+Ref: orders.id < order_items.order_id
+Ref: products.id < order_items.product_id
+
+Ref: users.id < notices.user_id
+
+Ref: users.id < billings.user_id
+Ref: orders.id < billings.order_id
+// Reservations
+Ref: users.id < reservations.user_id
+Ref: users.id < events.user_id
+// Events/Tables
+Ref: events.id < event_table.event_id
+Ref: tables.id < event_table.table_id
+// Events-services
+Ref: events.id < event_services.event_id
+// Events-Packages
+Ref: events.id < event_event_packages.event_id
+Ref: event_packages.id < event_event_packages.event_package_id
+// Events Staffs
+Ref: events.id < event_staff.event_id
+Ref: staffs.id < event_staff.staff_id
+// Reservation-payments
+Ref: reservations.id < reservation_payments.reservation_id
+Ref: events.id < event_payments.event_id
+// Reservation-tables
+Ref: reservations.id < reservation_table.reservation_id
+Ref: tables.id < reservation_table.table_id
+// Orders-discounts
+Ref: order_items.id < discount_order_items.order_item_id
+Ref: discounts.id < discount_order_items.discount_id
+
+Ref: users.id < reviews.user_id
+Ref: users.id < sale_user.user_id
+Ref: sales.id < sale_user.sale_id
+Ref: sales.id < sale_items.sale_id
+Ref: products.id < sale_items.product_id
+
+Ref: users.id < daily_sales_reports.user_id
+Ref: users.id < reports.user_id
+
+Ref: discounts.id < discount_product.discount_id
+Ref: products.id < discount_product.product_id
+
+Ref: categories.id < category_product.category_id
+Ref: products.id < category_product.product_id
+
+Ref: products.id - recipes.product_id
+Ref: recipes.id < ingredient_recipe.recipe_id
+Ref: ingredients.id < ingredient_recipe.ingredient_id
+
+Ref: ingredients.id < ingredient_section.ingredient_id
+Ref: sections.id < ingredient_section.section_id
+
+Ref: ingredients.id < ingredient_inventory.ingredient_id
+Ref: inventories.id < ingredient_inventory.inventory_id
+
+Ref: suppliers.id < purchases.supplier_id
+Ref: purchases.id < purchase_items.purchase_id
+
+Ref: menus.id < menu_items.menu_id
+Ref: products.id < menu_items.product_id
+
+Ref: menus.id < menu_specials.menu_id
+Ref: menus.id < menu_schedules.menu_id
+
+// ERP relationships
+Ref: employees.id < schedules.employee_id
+Ref: employees.id < attendances.employee_id
+Ref: employees.id < vacations.employee_id
+Ref: employees.id < salaries.employee_id
+Ref: salaries.id < bonuses.salary_id
+Ref: salaries.id < deductions.salary_id
+
+Ref: users.id < inventory_reports.user_id
