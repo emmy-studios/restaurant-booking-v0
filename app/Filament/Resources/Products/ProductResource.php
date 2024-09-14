@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Products;
 
 use App\Filament\Resources\Products\ProductResource\Pages;
 use App\Filament\Resources\Products\ProductResource\RelationManagers;
+use App\Filament\Resources\Products\ProductResource\RelationManagers\CategoriesRelationManager;
 use App\Models\Products\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -82,7 +83,7 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make(), 
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -95,7 +96,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CategoriesRelationManager::class,
         ];
     }
 

@@ -27,8 +27,12 @@ class CustomerPanelProvider extends PanelProvider
             ->path('dashboard')
             ->login()
             ->registration()
+            ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->login()
             ->colors([
-                'primary' => Color::Red,
+                'primary' => '#E77917',
             ])
             ->discoverResources(in: app_path('Filament/Customer/Resources'), for: 'App\\Filament\\Customer\\Resources')
             ->discoverPages(in: app_path('Filament/Customer/Pages'), for: 'App\\Filament\\Customer\\Pages')
@@ -38,7 +42,6 @@ class CustomerPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Customer/Widgets'), for: 'App\\Filament\\Customer\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

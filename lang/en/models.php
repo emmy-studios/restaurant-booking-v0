@@ -22,7 +22,7 @@ return [
     'create_user' => 'Create User',
     'edit_user' => 'Edit User',
     'view_user' => 'View User',
-    /**  ProductsResource Filament Translations  */
+    /**  ProductResource Filament Translations  */
     'description' => 'Description',
     'portion' => 'Portion',
     'unit_price' => 'Unit Price',
@@ -36,4 +36,26 @@ return [
     'create_category' => 'Create Category',
     'edit_category' => 'Edit Category',
     'view_category' => 'View Category',
+    // RelationManagers
+    'Attach Category' => 'Attach Category',
+    'Select a Category/Categories' => 'Select a Category/Categories',
+    'Categories related to the Product' => 'Categories related to the Product',
+    /**  DiscountResource Filament Translations  */
+    'discounts' => 'Discounts',
+    'discount_code' => 'Discount Code',
+    'discount_percentage' => 'Discount Percentage',
+    'start_at' => 'Start At',
+    'end_at' => 'End At',
+    'banner_text' => 'Banner Text',
+    'banner_image' => 'Banner Image',
+    'additional_details' => 'Additional Details',
+    // Pages
+    'create_discount' => 'Create Discount',
+    'edit_discount' => 'Edit Discount',
+    'view_discount' => 'View Discount',
+    // RelationManagers
+    'Attach Product' => 'Attach Product',
+    'Select a Product/Products' => 'Select a Product/Products',
+    'Products related to the Discount' => 'Products related to the Discount',
+
 ];
