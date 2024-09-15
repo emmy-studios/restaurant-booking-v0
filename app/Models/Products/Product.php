@@ -3,10 +3,12 @@
 namespace App\Models\Products;
 
 use App\Models\Discounts\Discount;
+use App\Models\Orders\OrderItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Products\Category;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -28,5 +30,10 @@ class Product extends Model
     public function discounts(): BelongsToMany
     {
         return $this->belongsToMany(Discount::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

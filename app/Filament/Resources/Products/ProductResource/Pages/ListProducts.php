@@ -21,4 +21,4 @@ class ListProducts extends ListRecords
     {
         return __('models.products');
     }
-}
+} 

@@ -19,6 +19,7 @@ return [
     'image_url' => 'Image Url',
     // Pages
     'users' => 'Users',
+    'user' => 'User',
     'create_user' => 'Create User',
     'edit_user' => 'Edit User',
     'view_user' => 'View User',
@@ -57,5 +58,35 @@ return [
     'Attach Product' => 'Attach Product',
     'Select a Product/Products' => 'Select a Product/Products',
     'Products related to the Discount' => 'Products related to the Discount',
-
-];
+    /**  OrderResource Filament Translations  */
+    'orders' => 'Orders',
+    'order' => 'Order',
+    'order_code' => 'Order Code',
+    'order_status' => 'Order Status',
+    'order_source' => 'Order Source',
+    'order_currency' => 'Order Currency',
+    'subtotal' => 'Subtotal', 
+    'total' => 'Total',
+    // Pages
+    'create_order' => 'Create Order',
+    'edit_order' => 'Edit Order',
+    'view_order' => 'View Order',
+    /**  OrderItemResource Filament Translations  */
+    'quantity' => 'Quantity',
+    'order_items' => 'Order Items',
+    'product_name' => 'Product Name',
+    // Pages
+    'create_order_item' => 'Create Order Item',
+    'edit_order_item' => 'Edit Order Item',
+    'view_order_item' => 'View Order Item',
+    /**  BillingResource Filament Translations  */
+    'billings' => 'Billings',
+    'billing_code' => 'Billing Code',
+    'payment_method' => 'Payment Method',
+    'payment_currency' => 'Payment Currency',
+    'status' => 'Status',
+    // Pages
+    'create_billing' => 'Create Billing',
+    'edit_billing' => 'Edit Billing',
+    'view_billing' => 'View Billing',
+]; 
