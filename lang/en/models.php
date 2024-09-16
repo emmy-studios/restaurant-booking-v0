@@ -29,6 +29,7 @@ return [
     'unit_price' => 'Unit Price',
     // Pages
     'products' => 'Products',
+    'product' => 'Product',
     'create_product' => 'Create Product',
     'edit_product' => 'Edit Product',
     'view_product' => 'View Product',
@@ -85,8 +86,50 @@ return [
     'payment_method' => 'Payment Method',
     'payment_currency' => 'Payment Currency',
     'status' => 'Status',
-    // Pages
+    // Pages 
     'create_billing' => 'Create Billing',
     'edit_billing' => 'Edit Billing',
     'view_billing' => 'View Billing',
+    /**  RecipeResource Filament Translations  */
+    'recipes' => 'Recipes',
+    'recipe' => 'Recipe',
+    'title' => 'Title',
+    'preparation' => 'Preparation',
+    'recomendations' => 'Recomendations',
+    'considerations' => 'Considerations',
+    'additional_details' => 'Additional Details',
+    // Pages
+    'create_recipe' => 'Create Recipe',
+    'edit_recipe' => 'Edit Recipe',
+    'view_recipe' => 'View Recipe',
+    /**  IngredientResource Filament Translations  */
+    'ingredient' => 'Ingredient',
+    'ingredients' => 'Ingredients',
+    // Pages
+    'create_ingredient' => 'Create Ingredient',
+    'edit_ingredient' => 'Edit Ingredient',
+    'view_ingredient' => 'View Ingredient',
+    /**  SectionResource Filament Translations  */
+    'section' => 'Section',
+    'sections' => 'Sections',
+    // Pages
+    'create_section' => 'Create Section',
+    'edit_section' => 'Edit Section',
+    'view_section' => 'View Section',
+    /**  MenuResource Filament Translations  */
+    'menu' => 'Menu',
+    'menus' => 'Menus',
+    'menu_code' => 'Menu Code',
+    'menu_status' => 'Menu Status',
+    'menu_type' => 'Menu Type',
+    'is_recurring' => 'Is Recurring',
+    'initial_date' => 'Initial Date',
+    'final_date' => 'Final Date',
+    'menu_availability' => 'Menu Availability',
+    'price' => 'Price',
+    'portions' => 'Portions',
+    // Pages
+    'create_menu' => 'Create Menu',
+    'edit_menu' => 'Edit Menu',
+    'view_menu' => 'View Menu',
 ]; 

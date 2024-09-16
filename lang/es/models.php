@@ -29,6 +29,7 @@ return [
     'unit_price' => 'Precio Unitario',
     // Pages
     'products' => 'Productos',
+    'product' => 'Producto',
     'create_product' => 'Crear Producto',
     'edit_product' => 'Editar Producto',
     'view_product' => 'Ver Producto',
@@ -81,7 +82,7 @@ return [
     'view_order_item' => 'Ver Elemento de Orden',
     /**  BillingResource Filament Translations  */
     'billings' => 'Facturas',
-    'billing_code' => 'Código de Factura',
+    'billing_code' => 'Código de Factura', 
     'payment_method' => 'Método de Pago',
     'payment_currency' => 'Moneda de Pago',
     'status' => 'Estado',
@@ -89,5 +90,49 @@ return [
     'create_billing' => 'Crear Factura',
     'edit_billing' => 'Editar Factura',
     'view_billing' => 'Ver Factura',
+    /**  RecipeResource Filament Translations  */
+    'recipes' => 'Recetas',
+    'recipe' => 'Receta',
+    'title' => 'Título',
+    'preparation' => 'Preparación',
+    'recomendations' => 'Recomendaciones',
+    'considerations' => 'Consideraciones',
+    'additional_details' => 'Detalles Adicionales',
+    // Pages
+    'create_recipe' => 'Crear Receta',
+    'edit_recipe' => 'Editar Receta',
+    'view_recipe' => 'Ver Receta',
+    /**  IngredientResource Filament Translations  */
+    'ingredient' => 'Ingrediente',
+    'ingredients' => 'Ingredientes',
+    
+    // Pages
+    'create_ingredient' => 'Crear Ingrediente',
+    'edit_ingredient' => 'Editar Ingrediente',
+    'view_ingredient' => 'Vee Ingrediente',
+    /**  SectionResource Filament Translations  */
+    'section' => 'Sección',
+    'sections' => 'Secciones', 
+    // Pages
+    'create_section' => 'Crear Sección',
+    'edit_section' => 'Editar Sección',
+    'view_section' => 'Ver Sección',
+    /**  MenuResource Filament Translations  */
+    /**  MenuResource Filament Translations  */
+    'menu' => 'Menu',
+    'menus' => 'Menus',
+    'menu_code' => 'Código de Menu',
+    'menu_status' => 'Estado del Menu',
+    'menu_type' => 'Tipo del Menu',
+    'is_recurring' => 'Es Recurrente',
+    'initial_date' => 'Fecha Inicial',
+    'final_date' => 'Fecha Final',
+    'menu_availability' => 'Disponibilidad del Menu',
+    'price' => 'Precio',
+    'portions' => 'Porciones',
+    // Pages
+    'create_menu' => 'Crear Menu',
+    'edit_menu' => 'Editar Menu',
+    'view_menu' => 'Ver Menu',
 ];
  

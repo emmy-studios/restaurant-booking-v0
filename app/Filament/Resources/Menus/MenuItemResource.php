@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Orders;
+namespace App\Filament\Resources\Menus;
 
-use App\Filament\Resources\Orders\OrderItemResource\Pages;
-use App\Filament\Resources\Orders\OrderItemResource\RelationManagers;
-use App\Models\Orders\OrderItem;
+use App\Filament\Resources\Menus\MenuItemResource\Pages;
+use App\Filament\Resources\Menus\MenuItemResource\RelationManagers;
+use App\Models\Menus\MenuItem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,12 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
- 
-class OrderItemResource extends Resource
-{
-    protected static ?string $model = OrderItem::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-numbered-list';
+class MenuItemResource extends Resource
+{
+    protected static ?string $model = MenuItem::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = null;
 
@@ -29,26 +29,17 @@ class OrderItemResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('menu_id')
+                    ->relationship('menu', 'title')
+                    ->required(),
                 Forms\Components\Select::make('product_id')
-                    ->label(__('models.product_name'))
                     ->relationship('product', 'name')
                     ->required(),
-                Forms\Components\Select::make('order_id')
-                    ->label(__('models.order'))
-                    ->relationship('order', 'id')
-                    ->required(),
+                Forms\Components\TextInput::make('portion')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
-                    ->label(__('models.quantity'))
-                    ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('subtotal')
-                    ->label(__('models.subtotal'))
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('total')
-                    ->label(__('models.total'))
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Toggle::make('is_opcional'),
             ]);
     }
 
@@ -56,33 +47,24 @@ class OrderItemResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('menu.title')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label(__('models.product_name'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order.id')
-                    ->label(__('models.order'))
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('portion')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->label(__('models.quantity'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subtotal') 
-                    ->label(__('models.subtotal'))
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('total')
-                    ->label(__('models.total'))
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_opcional')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -111,22 +93,22 @@ class OrderItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrderItems::route('/'),
-            'create' => Pages\CreateOrderItem::route('/create'),
-            'view' => Pages\ViewOrderItem::route('/{record}'),
-            'edit' => Pages\EditOrderItem::route('/{record}/edit'),
+            'index' => Pages\ListMenuItems::route('/'),
+            'create' => Pages\CreateMenuItem::route('/create'),
+            'view' => Pages\ViewMenuItem::route('/{record}'),
+            'edit' => Pages\EditMenuItem::route('/{record}/edit'),
         ];
     }
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
-        return __('models.order_items');
+        return __('models.menu_items');
     }
  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.orders');
+        return __('models.menus');
     }
 }
