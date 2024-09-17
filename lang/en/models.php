@@ -129,7 +129,32 @@ return [
     'price' => 'Price',
     'portions' => 'Portions',
     // Pages
-    'create_menu' => 'Create Menu',
+    'create_menu' => 'Create Menu', 
     'edit_menu' => 'Edit Menu',
     'view_menu' => 'View Menu',
+    /**  MenuItemResource Filament Translations  */
+    'menu_item' => 'Menu Item',
+    'menu_items' => 'Menu Items',
+    'is_optional' => 'Is Optional',
+    // Pages
+    'create_menu_item' => 'Create Menu Item', 
+    'edit_menu_item' => 'Edit Menu Item',
+    'view_menu_item' => 'View Menu Item',
+    /**  MenuScheduleResource Filament Translations  */
+    'menu_schedule' => 'Menu Schedule',
+    'menu_schedules' => 'Menu Schedules',
+    'day_of_week' => 'Day of Week',
+    'start_time' => 'Start Time',
+    'end_time' => 'End Time',
+    // Pages
+    'create_menu_schedule' => 'Create Menu Schedule', 
+    'edit_menu_schedule' => 'Edit Menu Schedule',
+    'view_menu_schedule' => 'View Menu Schedule',
+    /**  MenuSpecialResource Filament Translations  */
+    'menu_special' => 'Menu Special',
+    'menu_specials' => 'Menu Specials',
+    // Pages
+    'create_menu_special' => 'Create Menu Special', 
+    'edit_menu_special' => 'Edit Menu Special',
+    'view_menu_special' => 'View Menu Special',
 ]; 

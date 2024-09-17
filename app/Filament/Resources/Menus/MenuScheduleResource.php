@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Menus;
 
+use App\Enums\DayOfWeek;
 use App\Filament\Resources\Menus\MenuScheduleResource\Pages;
 use App\Filament\Resources\Menus\MenuScheduleResource\RelationManagers;
 use App\Models\Menus\MenuSchedule;
@@ -31,10 +32,16 @@ class MenuScheduleResource extends Resource
             ->schema([
                 Forms\Components\Select::make('menu_id')
                     ->relationship('menu', 'title')
+                    ->label(__('models.menu'))
                     ->required(),
-                Forms\Components\TextInput::make('day_of_week'),
-                Forms\Components\TextInput::make('start_time'),
-                Forms\Components\TextInput::make('end_time'),
+                Forms\Components\Select::make('day_of_week')
+                    ->label(__('models.day_of_week'))
+                    ->options(self::getDayOfWeek())
+                    ->searchable(),
+                Forms\Components\TimePicker::make('start_time')
+                    ->label(__('models.start_time')),
+                Forms\Components\TimePicker::make('end_time')
+                    ->label(__('models.end_time')),
             ]);
     }
 
@@ -44,16 +51,22 @@ class MenuScheduleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('menu.title')
                     ->numeric()
+                    ->label(__('models.menu'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('day_of_week'),
-                Tables\Columns\TextColumn::make('start_time'),
-                Tables\Columns\TextColumn::make('end_time'),
+                Tables\Columns\TextColumn::make('day_of_week')
+                    ->label(__('models.day_of_week')),
+                Tables\Columns\TextColumn::make('start_time')
+                    ->label(__('models.start_time')),
+                Tables\Columns\TextColumn::make('end_time')
+                    ->label(__('models.end_time')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -88,12 +101,17 @@ class MenuScheduleResource extends Resource
         ];
     }
 
+    public static function getDayOfWeek(): array
+    {
+        return array_map(fn($case) => $case->value, DayOfWeek::cases());
+    }
+
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
         return __('models.menu_schedules');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

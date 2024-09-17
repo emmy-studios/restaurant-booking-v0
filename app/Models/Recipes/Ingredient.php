@@ -2,12 +2,13 @@
 
 namespace App\Models\Recipes;
 
-use App\Models\Inventories\Inventory;
+use App\Models\Inventories\InventoryItem;
 use App\Models\Sections\Section;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Recipes\Recipe;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ingredient extends Model
 {
@@ -29,8 +30,8 @@ class Ingredient extends Model
         return $this->belongsToMany(Recipe::class);
     }
 
-    public function inventories(): BelongsToMany
+    public function inventoryItems(): HasMany
     {
-        return $this->belongsToMany(Inventory::class);
+        return $this->hasMany(InventoryItem::class);
     }
 }

@@ -16,4 +16,9 @@ class ViewMenuItem extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
-}
+
+    public function getTitle(): string 
+    {
+        return __('models.view_menu_item');
+    }
+} 

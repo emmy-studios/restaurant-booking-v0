@@ -31,13 +31,18 @@ class MenuSpecialResource extends Resource
             ->schema([
                 Forms\Components\Select::make('menu_id')
                     ->relationship('menu', 'title')
+                    ->label(__('models.menu'))
                     ->required(),
                 Forms\Components\TextInput::make('discount_percentage')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.discount_percentage')),
                 Forms\Components\TextInput::make('discount_code')
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('start_at'),
-                Forms\Components\DateTimePicker::make('end_at'),
+                    ->maxLength(255)
+                    ->label(__('models.discount_code')),
+                Forms\Components\DateTimePicker::make('start_at')
+                    ->label(__('models.start_at')),
+                Forms\Components\DateTimePicker::make('end_at')
+                    ->label(__('models.end_at')),
             ]);
     }
 
@@ -47,24 +52,31 @@ class MenuSpecialResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('menu.title')
                     ->numeric()
+                    ->label(__('models.menu'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('discount_percentage')
                     ->numeric()
+                    ->label(__('models.discount_percentage'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('discount_code')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.discount_code')),
                 Tables\Columns\TextColumn::make('start_at')
                     ->dateTime()
+                    ->label(__('models.start_at'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_at')
                     ->dateTime()
+                    ->label(__('models.end_at'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

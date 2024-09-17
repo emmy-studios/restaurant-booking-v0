@@ -118,7 +118,6 @@ return [
     'edit_section' => 'Editar Sección',
     'view_section' => 'Ver Sección',
     /**  MenuResource Filament Translations  */
-    /**  MenuResource Filament Translations  */
     'menu' => 'Menu',
     'menus' => 'Menus',
     'menu_code' => 'Código de Menu',
@@ -134,5 +133,30 @@ return [
     'create_menu' => 'Crear Menu',
     'edit_menu' => 'Editar Menu',
     'view_menu' => 'Ver Menu',
+    /**  MenuItemResource Filament Translations  */
+    'menu_item' => 'Elemento del Menu',
+    'menu_items' => 'Elementos del Menu',
+    'is_optional' => 'Es Opcional?',
+    // Pages
+    'create_menu_item' => 'Crear Elemento del Menu', 
+    'edit_menu_item' => 'Editar Elemento del Menu',
+    'view_menu_item' => 'Ver Elemento del Menu',
+    /**  MenuScheduleResource Filament Translations  */
+    'menu_schedule' => 'Horario del Menu',
+    'menu_schedules' => 'Horarios del Menu',
+    'day_of_week' => 'Día de la Semana',
+    'start_time' => 'Hora Inicial',
+    'end_time' => 'Hora Final',
+    // Pages
+    'create_menu_schedule' => 'Crear Menu Horario', 
+    'edit_menu_schedule' => 'Editar Menu Horario',
+    'view_menu_schedule' => 'Ver Menu Horario',
+    /**  MenuSpecialResource Filament Translations  */
+    'menu_special' => 'Especial de Menu',
+    'menu_specials' => 'Especiales de Menu',
+    // Pages
+    'create_menu_special' => 'Crear Especial de Menu', 
+    'edit_menu_special' => 'Editar Especial de Menu',
+    'view_menu_special' => 'Ver Especial de Menu',
 ];
  

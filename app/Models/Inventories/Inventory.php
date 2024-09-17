@@ -2,10 +2,10 @@
 
 namespace App\Models\Inventories;
 
-use App\Models\Recipes\Ingredient;
+use App\Models\Inventories\InventoryItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Inventory extends Model
 {
@@ -28,8 +28,8 @@ class Inventory extends Model
         'notes',
     ];
 
-    public function ingredients(): BelongsToMany
+    public function inventoryItems(): HasMany
     {
-        return $this->belongsToMany(Ingredient::class);
+        return $this->hasMany(InventoryItem::class);
     }
 }

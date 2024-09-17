@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Orders\Billing;
 use App\Models\Orders\Order;
+use App\Models\Reviews\Review;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -129,6 +130,11 @@ class User extends Authenticatable implements FilamentUser
     public function billings(): HasMany
     {
         return $this->hasMany(Billing::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }
 

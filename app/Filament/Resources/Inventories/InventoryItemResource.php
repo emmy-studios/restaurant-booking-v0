@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Menus;
+namespace App\Filament\Resources\Inventories;
 
-use App\Filament\Resources\Menus\MenuItemResource\Pages;
-use App\Filament\Resources\Menus\MenuItemResource\RelationManagers;
-use App\Models\Menus\MenuItem;
+use App\Enums\UnitOfMeasurement;
+use App\Filament\Resources\Inventories\InventoryItemResource\Pages;
+use App\Filament\Resources\Inventories\InventoryItemResource\RelationManagers;
+use App\Models\Inventories\InventoryItem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MenuItemResource extends Resource
+class InventoryItemResource extends Resource
 {
-    protected static ?string $model = MenuItem::class;
+    protected static ?string $model = InventoryItem::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -29,22 +30,21 @@ class MenuItemResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('menu_id')
-                    ->relationship('menu', 'title')
-                    ->label(__('models.menu'))
+                Forms\Components\Select::make('ingredient_id')
+                    ->relationship('ingredient', 'name')
                     ->required(),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
-                    ->label(__('models.product'))
+                Forms\Components\Select::make('inventory_id') 
+                    ->relationship('inventory', 'id')
                     ->required(),
-                Forms\Components\TextInput::make('portion')
-                    ->maxLength(255)
-                    ->label(__('models.portion')),
+                Forms\Components\TextInput::make('batch_number')
+                    ->maxLength(255),
+                Forms\Components\DatePicker::make('expiration_date'),
+                Forms\Components\Select::make('unit_of_measurement')
+                    ->options(self::getUnitOfMeasurements())
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('quantity')
-                    ->numeric()
-                    ->label(__('models.quantity')),
-                Forms\Components\Toggle::make('is_opcional')
-                    ->label(__('models.is_optional')),
+                    ->numeric(),
             ]);
     }
 
@@ -52,32 +52,27 @@ class MenuItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('menu.title')
+                Tables\Columns\TextColumn::make('ingredient.name')
                     ->numeric()
-                    ->label(__('models.menu'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product.name')
+                Tables\Columns\TextColumn::make('inventory.id')
                     ->numeric()
-                    ->label(__('models.product'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('portion')
-                    ->searchable()
-                    ->label(__('models.portion')),
+                Tables\Columns\TextColumn::make('batch_number')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('expiration_date')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('unit_of_measurement'),
                 Tables\Columns\TextColumn::make('quantity')
                     ->numeric()
-                    ->label(__('models.quantity'))
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_opcional')
-                    ->boolean()
-                    ->label(__('models.is_optional')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -94,6 +89,12 @@ class MenuItemResource extends Resource
                 ]),
             ]);
     }
+ 
+
+    public static function getUnitOfMeasurements(): array
+    {
+        return array_map(fn($case) => $case->value, UnitOfMeasurement::cases());
+    }
 
     public static function getRelations(): array
     {
@@ -105,22 +106,22 @@ class MenuItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenuItems::route('/'),
-            'create' => Pages\CreateMenuItem::route('/create'),
-            'view' => Pages\ViewMenuItem::route('/{record}'),
-            'edit' => Pages\EditMenuItem::route('/{record}/edit'),
+            'index' => Pages\ListInventoryItems::route('/'),
+            'create' => Pages\CreateInventoryItem::route('/create'),
+            'view' => Pages\ViewInventoryItem::route('/{record}'),
+            'edit' => Pages\EditInventoryItem::route('/{record}/edit'),
         ];
     }
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
-        return __('models.menu_items');
-    }
+        return __('models.inventory_items');
+    } 
  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.menus');
+        return __('models.inventories');
     }
 }
