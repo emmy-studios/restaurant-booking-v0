@@ -4,9 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Notice;
 use App\Models\Events\Event;
 use App\Models\Orders\Billing;
 use App\Models\Orders\Order;
+use App\Models\Reports\InventoryReport;
+use App\Models\Reports\Report;
 use App\Models\Reviews\Review;
 use App\Models\Sales\Sale;
 use Filament\Models\Contracts\FilamentUser;
@@ -149,6 +152,21 @@ class User extends Authenticatable implements FilamentUser
     public function sales(): BelongsToMany
     {
         return $this->belongsToMany(Sale::class);
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    public function inventoryReports(): HasMany
+    {
+        return $this->hasMany(InventoryReport::class);
+    }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class);
     }
 }
 
