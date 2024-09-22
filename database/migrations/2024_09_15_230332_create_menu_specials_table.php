@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('menu_specials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('menu_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->text('details')->nullable();
             $table->decimal('discount_percentage', 10, 2)->nullable();
             $table->string('discount_code')->nullable();
             $table->dateTime('start_at')->nullable();

@@ -4,9 +4,11 @@ namespace App\Models\Inventories;
 
 use App\Models\Recipes\Ingredient;
 use App\Models\Inventories\Inventory;
+use App\Models\Inventories\InventoryMovement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class InventoryItem extends Model
 {
@@ -29,5 +31,10 @@ class InventoryItem extends Model
     public function inventory(): BelongsTo
     {
         return $this->belongsTo(Inventory::class);
+    }
+
+    public function inventoryMovements(): HasMany
+    {
+        return $this->hasMany(InventoryMovement::class);
     }
 }

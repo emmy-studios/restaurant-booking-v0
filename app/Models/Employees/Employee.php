@@ -44,7 +44,6 @@ class Employee extends Model
         'last_promotion_date',
         'last_promotion_role',
         'role',
-        'currency', 
         'bank_name',
         'account_number',
         'account_type',

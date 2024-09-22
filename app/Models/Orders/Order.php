@@ -18,6 +18,7 @@ class Order extends Model
         'user_id',
         'order_status',
         'order_currency',
+        'currency_symbol',
         'order_source',
         'subtotal',
         'total',
@@ -27,7 +28,7 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(Order::class);
-    }
+    } 
 
     public function orderItems(): HasMany
     {

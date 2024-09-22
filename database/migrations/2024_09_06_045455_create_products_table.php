@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('image_url');
             $table->string('portion'); 
-            $table->string('unit_price');
             $table->timestamps();
         });
     }

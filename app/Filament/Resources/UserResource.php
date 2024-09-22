@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\Countries;
 use App\Enums\CountryCode;
+use App\Enums\Gender;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
@@ -47,6 +48,11 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('gender')
+                    ->label(__('models.gender'))
+                    ->options(self::getGenderOptions())
+                    ->searchable()
+                    ->default('Other'),
                 Forms\Components\Select::make('country_code')
                     ->label(__('models.country_code'))
                     ->options(self::getCountryOptions())
@@ -105,6 +111,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('models.email'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('gender')
+                    ->label(__('models.gender')),
                 Tables\Columns\ImageColumn::make('image_url')
                     ->label(__('models.image_url')), 
                 Tables\Columns\TextColumn::make('country_code')
@@ -161,6 +169,11 @@ class UserResource extends Resource
     public static function getCountryNames(): array
     {
         return array_map(fn($case) => $case->value, Countries::cases());
+    }
+
+    public function getGenderOptions(): array
+    {
+        return array_map(fn($case) => $case->value, Gender::cases());
     }
 
     public static function getRelations(): array

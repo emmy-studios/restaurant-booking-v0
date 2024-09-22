@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->text('content');
-            $table->unsignedTinyInteger('rating')->default(1)->comment('Calificación de 1 a 5 estrellas');
+            $table->unsignedTinyInteger('rating')->default(1)->comment('Calification from 1 to 5 stars');
             $table->timestamp('reviewed_at')->useCurrent();
             $table->timestamps();
         });

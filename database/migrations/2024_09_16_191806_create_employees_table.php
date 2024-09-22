@@ -49,8 +49,7 @@ return new class extends Migration
             $table->date('last_promotion_date')->nullable();
             $table->date('last_promotion_role')->nullable();
             $table->enum('role', array_map(fn($code) => $code->value, Roles::cases()))->default('Employee');
-            $table->enum('currency', array_map(fn($code) => $code->value, PaymentCurrency::cases()))->default('CRC');
-            $table->string('bank_name')->nullable();
+            $table->string('bank_name')->nullable(); 
             $table->string('account_number')->nullable();
             $table->enum('account_type', array_map(fn($code) => $code->value, AccountType::cases()))->default('Checking');
             $table->string('bank_code')->nullable();

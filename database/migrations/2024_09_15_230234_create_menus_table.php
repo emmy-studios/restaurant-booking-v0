@@ -22,9 +22,8 @@ return new class extends Migration
             $table->enum('menu_type', array_map(fn($code) => $code->value, MenuType::cases()))->default('Special');
             $table->boolean('is_recurring')->nullable();
             $table->dateTime('initial_date')->nullable();
-            $table->dateTime('final_date')->nullable();
+            $table->dateTime('final_date')->nullable(); 
             $table->string('menu_availability')->nullable();
-            $table->decimal('price', 10, 2);
             $table->string('portions');
             $table->timestamps();
         });

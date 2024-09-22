@@ -2,6 +2,7 @@
 
 use App\Enums\Countries;
 use App\Enums\CountryCode;
+use App\Enums\Gender;
 use App\Enums\Roles;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,8 +23,9 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
+            $table->enum('gender', array_map(fn($code) => $code->value, Gender::cases()))->default('Other');
             $table->string('image_url')->nullable();
-            $table->enum('country_code', array_map(fn($code) => $code->value, CountryCode::cases()))->nullable();
+            $table->enum('country_code', array_map(fn($code) => $code->value, CountryCode::cases()))->default('+506');
             $table->string('phone_number')->nullable();
             $table->enum('country', array_map(fn($code) => $code->value, Countries::cases()))->default('Costa Rica');
             $table->string('city')->nullable(); 

@@ -6,6 +6,7 @@ return [
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'email' => 'Email',
+    'gender' => 'Gender',
     'country_code' => 'Country Code',
     'phone_number' => 'Phone Number',
     'country' => 'Country',

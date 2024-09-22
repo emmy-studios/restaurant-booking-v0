@@ -13,6 +13,7 @@ class MenuSpecial extends Model
 
     protected $fillable = [
         'menu_id',
+        'product_id',
         'discount_percentage',
         'discount_code',
         'start_at',

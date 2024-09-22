@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\CurrencyCode;
+use App\Enums\CurrencySymbol;
 use App\Enums\PaymentCurrency;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,9 +17,10 @@ return new class extends Migration
         Schema::create('bonuses', function (Blueprint $table) {
             $table->id(); 
             $table->foreignId('salary_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
             $table->decimal('amount', 10, 2)->nullable();
             $table->string('type')->nullable();
-            $table->enum('currency', array_map(fn($code) => $code->value, PaymentCurrency::cases()))->default('USD');
             $table->text('description')->nullable(); 
             $table->date('date_awarded')->nullable();
             $table->timestamps();

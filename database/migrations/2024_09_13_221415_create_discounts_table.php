@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\CurrencyCode;
+use App\Enums\CurrencySymbol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +23,9 @@ return new class extends Migration
             $table->string('banner_image')->nullable();
             $table->text('description')->nullable();
             $table->text('additional_details')->nullable();
+            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->nullable();
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
             $table->timestamps();
         });
     }

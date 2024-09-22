@@ -5,11 +5,13 @@ namespace App\Models\Products;
 use App\Models\Discounts\Discount;
 use App\Models\Menus\MenuItem;
 use App\Models\Orders\OrderItem;
+use App\Models\Products\Price;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Products\Category;
 use App\Models\Recipes\Recipe;
+use App\Models\Sales\SaleItem;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -21,7 +23,6 @@ class Product extends Model
         'description',
         'image_url',
         'portion',
-        'unit_price',
     ];
 
     public function categories(): BelongsToMany
@@ -44,8 +45,18 @@ class Product extends Model
         return $this->hasMany(Recipe::class);
     }
 
-    public function menu_items(): HasMany
+    public function menuItems(): HasMany
     {
         return $this->hasMany(MenuItem::class);
+    }
+
+    public function saleItems(): HasMany
+    {
+        return $this->hasMany(SaleItem::class);
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(Price::class);
     }
 }

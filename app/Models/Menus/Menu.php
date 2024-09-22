@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Menus\MenuSchedule;
 use App\Models\Menus\MenuItem;
 use App\Models\Menus\MenuSpecial;
+use App\Models\Menus\MenuPrice;
 
 class Menu extends Model
 {
@@ -39,5 +40,10 @@ class Menu extends Model
     public function menu_specials(): HasMany
     {
         return $this->hasMany(MenuSpecial::class);
+    }
+
+    public function menuPrices(): HasMany
+    {
+        return $this->hasMany(MenuPrice::class);
     }
 }

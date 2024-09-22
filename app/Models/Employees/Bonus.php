@@ -13,6 +13,8 @@ class Bonus extends Model
 
     protected $fillable = [
         'salary_id',
+        'currency_code',
+        'currency_symbol',
         'amount',
         'type',
         'currency',

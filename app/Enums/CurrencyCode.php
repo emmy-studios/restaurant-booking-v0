@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PaymentCurrency: string
+enum CurrencyCode: string
 {
     case AED = 'AED'; // United Arab Emirates Dirham
     case AFN = 'AFN'; // Afghan Afghani

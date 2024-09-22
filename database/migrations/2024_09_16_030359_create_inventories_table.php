@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CurrencyCode;
 use App\Enums\InventoryStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id(); 
-            $table->integer('stock_quantity')->nullable();
+            $table->decimal('total_quantity', 10, 2)->default(0);
             $table->dateTime('last_restocked_at')->nullable();
             $table->dateTime('next_restock_date')->nullable();
-            $table->decimal('inventory_value', 10, 2)->nullable();
-            $table->string('warehouse_location')->nullable();
+            $table->string('warehouse_location')->nullable(); 
             $table->text('storage_conditions')->nullable();
+            $table->enum('currency', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
+            $table->decimal('inventory_value', 10, 2)->nullable();
             $table->decimal('holding_cost', 10, 2)->nullable();
             $table->decimal('cost_of_goods_sold', 10, 2)->nullable();
             $table->dateTime('last_audit_date')->nullable();
