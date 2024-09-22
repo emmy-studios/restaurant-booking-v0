@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('details')->nullable();
             $table->text('additional_details')->nullable();
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('service_price', 10, 2)->nullable();
             $table->decimal('additional_cost', 10, 2)->nullable();
             $table->text('additional_cost_details')->nullable();

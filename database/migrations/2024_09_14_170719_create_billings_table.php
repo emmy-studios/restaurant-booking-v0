@@ -2,7 +2,7 @@
 
 use App\Enums\BillingStatus;
 use App\Enums\CurrencyCode;
-use App\Enums\PaymentCurrency;
+use App\Enums\CurrencySymbol;
 use App\Enums\PaymentMethod;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('billing_code');
             $table->enum('payment_method', array_map(fn($code) => $code->value, PaymentMethod::cases()))->default('Credit Card');
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->enum('status', array_map(fn($code) => $code->value, BillingStatus::cases()))->default('Processing');
             $table->decimal('subtotal', 10, 2); 
             $table->decimal('total', 10, 2);

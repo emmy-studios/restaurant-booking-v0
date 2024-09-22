@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('report_date');
             $table->string('inventory_location')->nullable();
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('total_stock_value', 10, 2);
             $table->integer('total_items_in_stock')->nullable();
             $table->integer('total_expired_items')->nullable();

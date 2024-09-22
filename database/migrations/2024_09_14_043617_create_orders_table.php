@@ -2,7 +2,7 @@
 
 use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
-use App\Enums\OrderSource;
+use App\Enums\OrderSource; 
 use App\Enums\OrderStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,10 +19,10 @@ return new class extends Migration
             $table->id(); 
             $table->string('order_code'); 
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('order_status', array_map(fn($code) => $code->value, OrderStatus::cases()));
+            $table->enum('order_status', array_map(fn($code) => $code->value, OrderStatus::cases()))->default('Processing');
             $table->enum('order_currency', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
-            $table->enum('order_source', array_map(fn($code) => $code->value, OrderSource::cases()));
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
+            $table->enum('order_source', array_map(fn($code) => $code->value, OrderSource::cases()))->default('Online');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamps();

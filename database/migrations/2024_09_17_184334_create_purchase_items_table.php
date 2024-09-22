@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('unit_of_measurement', array_map(fn($code) => $code->value, UnitOfMeasurement::cases()))->default('unit'); 
             $table->decimal('quantity', 10, 2)->nullable();
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('unit_price', 10, 2)->nullable();
             $table->timestamps();
         });

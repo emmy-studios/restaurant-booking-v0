@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('event_description')->nullable();
             $table->enum('event_status', array_map(fn($code) => $code->value, EventStatus::cases()))->default('Confirmed');
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('subtotal_cost', 10, 2);
             $table->decimal('total_cost', 10, 2);
             $table->timestamps();

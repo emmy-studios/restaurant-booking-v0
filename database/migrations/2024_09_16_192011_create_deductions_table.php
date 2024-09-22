@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('salary_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('amount', 10, 2);
             $table->string('type')->nullable();
             $table->text('description')->nullable(); 

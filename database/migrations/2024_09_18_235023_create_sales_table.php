@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('sale_code');
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamps();

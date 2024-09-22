@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('total_orders')->nullable();
             $table->integer('total_sales')->nullable();
             $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('$');
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('total_amount', 10, 2)->default(0);
             $table->integer('total_discounts')->nullable();
             $table->decimal('total_net_amount')->default(0);
