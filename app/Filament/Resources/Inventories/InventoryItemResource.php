@@ -18,7 +18,7 @@ class InventoryItemResource extends Resource
 {
     protected static ?string $model = InventoryItem::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationLabel = null;
 
@@ -30,21 +30,27 @@ class InventoryItemResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('ingredient_id')
+                Forms\Components\Select::make('ingredient_id') 
                     ->relationship('ingredient', 'name')
+                    ->label(__('models.ingredient'))
                     ->required(),
-                Forms\Components\Select::make('inventory_id') 
+                Forms\Components\Select::make('inventory_id')
                     ->relationship('inventory', 'id')
+                    ->label(__('models.inventory'))
                     ->required(),
                 Forms\Components\TextInput::make('batch_number')
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('expiration_date'),
+                    ->maxLength(255)
+                    ->label(__('models.batch_number')),
+                Forms\Components\DatePicker::make('expiration_date')
+                    ->label(__('models.expiration_date')),
                 Forms\Components\Select::make('unit_of_measurement')
-                    ->options(self::getUnitOfMeasurements())
+                    ->options(self::getUnitOfMeasurement())
+                    ->label(__('models.unit_of_measurement'))
                     ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('quantity')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.quantity')),
             ]);
     }
 
@@ -54,25 +60,33 @@ class InventoryItemResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('ingredient.name')
                     ->numeric()
+                    ->label(__('models.ingredient'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('inventory.id')
                     ->numeric()
+                    ->label(__('models.inventory'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('batch_number')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.batch_number')),
                 Tables\Columns\TextColumn::make('expiration_date')
                     ->date()
+                    ->label(__('models.expiration_date'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('unit_of_measurement'),
+                Tables\Columns\TextColumn::make('unit_of_measurement')
+                    ->label(__('models.unit_of_measurement')),
                 Tables\Columns\TextColumn::make('quantity')
                     ->numeric()
+                    ->label(__('models.quantity'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -89,9 +103,8 @@ class InventoryItemResource extends Resource
                 ]),
             ]);
     }
- 
 
-    public static function getUnitOfMeasurements(): array
+    public static function getUnitOfMeasurement(): array
     {
         return array_map(fn($case) => $case->value, UnitOfMeasurement::cases());
     }
@@ -116,8 +129,8 @@ class InventoryItemResource extends Resource
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
-        return __('models.inventory_items');
-    } 
+        return __('models.inventory_item');
+    }
  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string

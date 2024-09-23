@@ -110,7 +110,7 @@ return [
     // Pages
     'create_ingredient' => 'Crear Ingrediente',
     'edit_ingredient' => 'Editar Ingrediente',
-    'view_ingredient' => 'Vee Ingrediente',
+    'view_ingredient' => 'Ver Ingrediente',
     /**  SectionResource Filament Translations  */
     'section' => 'Sección',
     'sections' => 'Secciones', 
@@ -159,5 +159,79 @@ return [
     'create_menu_special' => 'Crear Especial de Menu', 
     'edit_menu_special' => 'Editar Especial de Menu',
     'view_menu_special' => 'Ver Especial de Menu',
+    /** InventoryResource Filament Translations */
+    'total_quantity' => 'Cantidad Total',
+    'last_restocked_at' => 'Última Reposición',
+    'next_restock_date' => 'Próxima Fecha de Reposición',
+    'warehouse_location' => 'Ubicación del Almacén',
+    'currency' => 'Moneda',
+    'inventory_value' => 'Valor del Inventario',
+    'holding_cost' => 'Costo de Mantenimiento',
+    'storage_conditions' => 'Condiciones de Almacenamiento',
+    'notes' => 'Notas',
+    'cost_of_goods_sold' => 'Costo de los Bienes Vendidos',
+    'last_audit_date' => 'Fecha de Última Auditoría',
+    'next_audit_date' => 'Próxima Fecha de Auditoría',
+    'inventory_status' => 'Estado del Inventario',
+    'inventory_manager' => 'Administrador de Inventario',
+    'inventory' => 'Inventario',
+    'inventories' => 'Inventarios',
+    // Pages
+    'create_inventory' => 'Crear Inventario',
+    'edit_inventory' => 'Editar Inventario',
+    'view_inventory' => 'Ver Inventario',
+    /** InventoryItemResource Filament Translations */
+    'items' => 'Elementos',
+    'item' => 'Elemento',
+    'batch_number' => 'Número de Lote',
+    'expiration_date' => 'Día de Expiración',
+    'unit_of_measurement' => 'Unidad de Medida',
+    'quantity' => 'Cantidad',
+    // Pages
+    'create_item' => 'Crear Elemento', 
+    'edit_item' => 'Editar Elemento', 
+    'view_item' => 'Ver Elemento',
+    /** InventoryAuditResource Filament Translations */
+    'audit' => 'Auditoría',
+    'audits' => 'Auditorías',
+    'audited_value' => 'Valor Auditado',
+    'audited_quantity' => 'Cantidad Auditada',
+    'audited_by' => 'Auditado Por',
+    'audit_date' => 'Fecha de Auditoría',
+    'remarks' => 'Observaciones',
+    // Pages
+    'create_audit' => 'Crear Auditoría',  
+    'edit_audit' => 'Editar Auditoría',
+    'view_audit' => 'Ver Auditoría',
+    /** InventoryMovementResource Filament Translations */
+    'inventory_movements' => 'Movimientos de Inventario',
+    'movement' => 'Movimiento',
+    'movements' => 'Movimientos',
+    'inventory_item' => 'Elemento del Inventario',
+    'movement_type' => 'Tipo de Movimiento',
+    'previous_quantity' => 'Cantidad Anterior',
+    'new_quantity' => 'Nueva Cantidad',
+    'reason' => 'Razón',
+    'performed_by' => 'Realizado Por',
+    // Pages
+    'create_movement' => 'Crear Movimiento',  
+    'edit_movement' => 'Editar Movimiento',
+    'view_movement' => 'Ver Movimiento',
+    /** PriceResource Filament Translations */
+    'prices' => 'Precios',
+    'price' => 'Precio', 
+    // Pages
+    'create_price' => 'Crear Precio',  
+    'edit_price' => 'Editar Precio',
+    'view_price' => 'Ver Precio',
+    /** CurrencyResource Filament Translations */
+    'currencies' => 'Monedas',
+    'currency_symbol' => 'Símbolo de Moneda',
+    'currency_code' => 'Código de Moneda',
+    'currency_name' => 'Nombre de Moneda',
+    // Pages
+    'create_currency' => 'Crear Moneda',  
+    'edit_currency' => 'Editar Moneda',
+    'view_currency' => 'Ver Moneda',
 ];
- 
+   

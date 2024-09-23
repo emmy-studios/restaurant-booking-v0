@@ -35,7 +35,7 @@ return [
     'edit_product' => 'Edit Product',
     'view_product' => 'View Product',
     /**  CategoryResource Filament Translations  */
-    'categories' => 'Categories', 
+    'categories' => 'Categories',
     'create_category' => 'Create Category',
     'edit_category' => 'Edit Category',
     'view_category' => 'View Category',
@@ -67,7 +67,7 @@ return [
     'order_status' => 'Order Status',
     'order_source' => 'Order Source',
     'order_currency' => 'Order Currency',
-    'subtotal' => 'Subtotal', 
+    'subtotal' => 'Subtotal',
     'total' => 'Total',
     // Pages
     'create_order' => 'Create Order',
@@ -130,7 +130,7 @@ return [
     'price' => 'Price',
     'portions' => 'Portions',
     // Pages
-    'create_menu' => 'Create Menu', 
+    'create_menu' => 'Create Menu',
     'edit_menu' => 'Edit Menu',
     'view_menu' => 'View Menu',
     /**  MenuItemResource Filament Translations  */
@@ -138,7 +138,7 @@ return [
     'menu_items' => 'Menu Items',
     'is_optional' => 'Is Optional',
     // Pages
-    'create_menu_item' => 'Create Menu Item', 
+    'create_menu_item' => 'Create Menu Item',
     'edit_menu_item' => 'Edit Menu Item',
     'view_menu_item' => 'View Menu Item',
     /**  MenuScheduleResource Filament Translations  */
@@ -148,14 +148,88 @@ return [
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     // Pages
-    'create_menu_schedule' => 'Create Menu Schedule', 
+    'create_menu_schedule' => 'Create Menu Schedule',
     'edit_menu_schedule' => 'Edit Menu Schedule',
     'view_menu_schedule' => 'View Menu Schedule',
     /**  MenuSpecialResource Filament Translations  */
     'menu_special' => 'Menu Special',
     'menu_specials' => 'Menu Specials',
     // Pages
-    'create_menu_special' => 'Create Menu Special', 
+    'create_menu_special' => 'Create Menu Special',
     'edit_menu_special' => 'Edit Menu Special',
     'view_menu_special' => 'View Menu Special',
-]; 
+    /**  InventoryResource Filament Translations  */
+    'total_quantity' => 'Total Quantity',
+    'last_restocked_at' => 'Last Restocked At',
+    'next_restock_date' => 'Next Restock Date',
+    'warehouse_location' => 'Warehouse Location',
+    'currency' => 'Currency',
+    'inventory_value' => 'Inventory Value',
+    'holding_cost' => 'Holding Cost',
+    'storage_conditions' => 'Storage Conditions',
+    'notes' => 'Notes',
+    'cost_of_goods_sold' => 'Cost of Goods Sold',
+    'last_audit_date' => 'Last Audit Date',
+    'next_audit_date' => 'Next Audit Date',
+    'inventory_status' => 'Inventory Status',
+    'inventory_manager' => 'Inventory Manager',
+    'inventory' => 'Inventory',
+    'inventories' => 'Inventories',
+    // Pages
+    'create_inventory' => 'Create Inventory',
+    'edit_inventory' => 'Edit Inventory',
+    'view_inventory' => 'View Inventory', 
+    /** InventoryItemResource Filament Translations */
+    'items' => 'Items',
+    'item' => 'Item',
+    'batch_number' => 'Batch Number',
+    'expiration_date' => 'Expiration Date',
+    'unit_of_measurement' => 'Unit of Measurement',
+    'quantity' => 'Quantity',
+    // Pages
+    'create_item' => 'Create Item',  
+    'edit_item' => 'Edit Item',
+    'view_item' => 'View Item',
+    /** InventoryAuditResource Filament Translations */
+    'audit' => 'Audit',
+    'audits' => 'Audits',
+    'audited_value' => 'Audited Value',
+    'audited_quantity' => 'Audited Quantity',
+    'audited_by' => 'Audited By',
+    'audit_date' => 'Audit Date',
+    'remarks' => 'Remarks',
+    // Pages
+    'create_audit' => 'Create Audit',  
+    'edit_audit' => 'Edit Audit',
+    'view_audit' => 'View Audit',
+    /** InventoryMovementResource Filament Translations */
+    'inventory_movements' => 'Inventory Movement',
+    'movement' => 'Movement',
+    'movements' => 'Movements',
+    'inventory_item' => 'Inventory Item',
+    'movement_type' => 'Movement Type',
+    'previous_quantity' => 'Previous Quantity',
+    'new_quantity' => 'New Quantity',
+    'reason' => 'Reason',
+    'performed_by' => 'Performed By',
+    // Pages
+    'create_movement' => 'Create Movement',  
+    'edit_movement' => 'Edit Movement',
+    'view_movement' => 'View Movement',
+    /** PriceResource Filament Translations */
+    'prices' => 'Prices',
+    'price' => 'Price', 
+    // Pages
+    'create_price' => 'Create Price',  
+    'edit_price' => 'Edit Price',
+    'view_price' => 'View Price',
+    /** CurrencyResource Filament Translations */
+    'currencies' => 'Currencies',
+    'currency_symbol' => 'Currency Symbol',
+    'currency_code' => 'Currency Code',
+    'currency_name' => 'Currency Name',
+    // Pages
+    'create_currency' => 'Create Currency',  
+    'edit_currency' => 'Edit Currency',
+    'view_currency' => 'View Currency',
+];

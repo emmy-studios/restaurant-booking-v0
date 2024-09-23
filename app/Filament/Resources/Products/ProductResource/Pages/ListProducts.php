@@ -15,10 +15,10 @@ class ListProducts extends ListRecords
         return [
             Actions\CreateAction::make()->label(__('models.create_product')),
         ];
-    }
+    } 
 
     public function getTitle(): string
     {
         return __('models.products');
     }
-} 
+}

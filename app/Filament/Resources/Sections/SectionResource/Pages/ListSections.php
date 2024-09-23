@@ -19,6 +19,6 @@ class ListSections extends ListRecords
 
     public function getTitle(): string
     {
-        return __('models.section');
+        return __('models.sections');
     }
 }

@@ -31,51 +31,49 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('models.name'))
                     ->required()
+                    ->label(__('models.name'))
                     ->maxLength(255),
                 Forms\Components\MarkdownEditor::make('description')
-                    ->label(__('models.description'))
                     ->required()
+                    ->label(__('models.description'))
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image_url')
-                    ->label(__('models.image_url'))
+                    ->disk('public')
+                    ->directory('product-images')
                     ->image()
+                    ->imageEditor()
+                    ->label(__('models.image_url')) 
                     ->required(),
                 Forms\Components\TextInput::make('portion')
+                    ->required()
                     ->label(__('models.portion'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('unit_price')
-                    ->label(__('models.unit_price'))
-                    ->required()
                     ->maxLength(255),
             ]);
-    }
+    } 
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable()
                     ->label(__('models.name'))
-                    ->searchable(),
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('image_url')
-                    ->label(__('models.image_url')), 
+                    ->circular()
+                    ->label(__('models.image_url')),
                 Tables\Columns\TextColumn::make('portion')
-                    ->label(__('models.portion'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('unit_price')
-                    ->label(__('models.unit_price'))
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.portion')),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('models.created_at'))
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('models.updated_at'))
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -83,7 +81,7 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(), 
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -122,3 +120,4 @@ class ProductResource extends Resource
         return __('models.products');
     }
 }
+ 

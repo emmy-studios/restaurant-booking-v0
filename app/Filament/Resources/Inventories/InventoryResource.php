@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Inventories;
 
+use App\Enums\CurrencySymbol;
 use App\Enums\InventoryStatus;
 use App\Filament\Resources\Inventories\InventoryResource\Pages;
 use App\Filament\Resources\Inventories\InventoryResource\RelationManagers;
@@ -10,53 +11,73 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Tables\Table; 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+ 
 class InventoryResource extends Resource
 {
     protected static ?string $model = Inventory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack'; 
+    protected static ?string $navigationIcon = 'heroicon-o-table-cells';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
-
+ 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('stock_quantity')
-                    ->numeric(),
-                Forms\Components\DateTimePicker::make('last_restocked_at'),
-                Forms\Components\DateTimePicker::make('next_restock_date'),
-                Forms\Components\TextInput::make('inventory_value')
-                    ->numeric(),
+                Forms\Components\TextInput::make('total_quantity')
+                    ->required()
+                    ->numeric()
+                    ->label(__('models.total_quantity'))
+                    ->default(0.00), 
+                Forms\Components\DateTimePicker::make('last_restocked_at')
+                    ->label(__('models.last_restocked_at')),
+                Forms\Components\DateTimePicker::make('next_restock_date')
+                    ->label(__('models.next_restock_date')),
                 Forms\Components\TextInput::make('warehouse_location')
-                    ->columnSpanFull()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label(__('models.warehouse_location')),
                 Forms\Components\MarkdownEditor::make('storage_conditions')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.storage_conditions')),
+                Forms\Components\Select::make('currency') 
+                    ->label(__('models.currency'))
+                    ->options(self::getCurrencySymbol())
+                    ->searchable()
+                    ->required(),
+                Forms\Components\TextInput::make('inventory_value')
+                    ->numeric()
+                    ->label(__('models.inventory_value')),
                 Forms\Components\TextInput::make('holding_cost')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.holding_cost')),
                 Forms\Components\TextInput::make('cost_of_goods_sold')
-                    ->numeric(),
-                Forms\Components\DateTimePicker::make('last_audit_date'),
-                Forms\Components\DateTimePicker::make('next_audit_date'),
+                    ->numeric()
+                    ->label(__('models.cost_of_goods_sold')),
+                Forms\Components\DateTimePicker::make('last_audit_date')
+                    ->label(__('models.last_audit_date')),
+                Forms\Components\DateTimePicker::make('next_audit_date')
+                    ->label(__('models.next_audit_date')),
                 Forms\Components\Select::make('inventory_status')
                     ->options(self::getInventoryStatus())
+                    ->label(__('models.inventory_status'))
                     ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('inventory_manager')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label(__('models.inventory_manager')),
                 Forms\Components\MarkdownEditor::make('description')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.description')),
                 Forms\Components\MarkdownEditor::make('notes')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.notes')),
             ]);
     }
 
@@ -64,42 +85,57 @@ class InventoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('stock_quantity')
+                Tables\Columns\TextColumn::make('total_quantity')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.total_quantity')),
                 Tables\Columns\TextColumn::make('last_restocked_at')
                     ->dateTime()
+                    ->label(__('models.last_restocked_at'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('next_restock_date')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.next_restock_date')),
+                Tables\Columns\TextColumn::make('warehouse_location')
+                    ->searchable()
+                    ->label(__('models.warehouse_location')),
+                Tables\Columns\TextColumn::make('currency')
+                    ->label(__('models.currency')),
                 Tables\Columns\TextColumn::make('inventory_value')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('warehouse_location')
-                    ->searchable(),
+                    ->sortable()
+                    ->label(__('models.inventory_value')),
                 Tables\Columns\TextColumn::make('holding_cost')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.holding_cost')),
                 Tables\Columns\TextColumn::make('cost_of_goods_sold')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.cost_of_goods_sold')),
                 Tables\Columns\TextColumn::make('last_audit_date')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.last_audit_date')),
                 Tables\Columns\TextColumn::make('next_audit_date')
                     ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('inventory_status'),
+                    ->sortable()
+                    ->label(__('models.next_audit_date')),
+                Tables\Columns\TextColumn::make('inventory_status')
+                    ->label(__('models.inventory_status')),
                 Tables\Columns\TextColumn::make('inventory_manager')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.inventory_manager')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.updated_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
@@ -116,6 +152,16 @@ class InventoryResource extends Resource
             ]);
     }
 
+    public static function getCurrencySymbol(): array
+    {
+        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
+    }
+
+    public static function getInventoryStatus(): array
+    {
+        return array_map(fn($case) => $case->value, InventoryStatus::cases());
+    }
+ 
     public static function getRelations(): array
     {
         return [
@@ -133,16 +179,11 @@ class InventoryResource extends Resource
         ];
     }
 
-    public static function getInventoryStatus(): array
-    {
-        return array_map(fn($case) => $case->value, InventoryStatus::cases());
-    }
-
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
         return __('models.inventories');
-    } 
+    }
  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string

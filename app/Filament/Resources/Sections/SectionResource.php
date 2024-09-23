@@ -33,7 +33,7 @@ class SectionResource extends Resource
                     ->required()
                     ->label(__('models.name'))
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
                     ->label(__('models.description'))
                     ->columnSpanFull(),
             ]);
@@ -46,6 +46,8 @@ class SectionResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label(__('models.name')),
+                Tables\Columns\TextColumn::make('description')
+                    ->label(__('models.description')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))

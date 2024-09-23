@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Inventories\InventoryResource\Pages;
+namespace App\Filament\Resources\Products\PriceResource\Pages;
 
-use App\Filament\Resources\Inventories\InventoryResource;
+use App\Filament\Resources\Products\PriceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditInventory extends EditRecord
+class EditPrice extends EditRecord
 {
-    protected static string $resource = InventoryResource::class;
+    protected static string $resource = PriceResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -20,6 +20,6 @@ class EditInventory extends EditRecord
 
     public function getTitle(): string
     {
-        return __('models.edit_inventory');
+        return __('models.edit_price');
     }
-} 
+}

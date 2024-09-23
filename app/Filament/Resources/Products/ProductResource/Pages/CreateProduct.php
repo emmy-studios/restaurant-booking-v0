@@ -15,3 +15,4 @@ class CreateProduct extends CreateRecord
         return __('models.create_product');
     }
 }
+ 
