@@ -31,6 +31,7 @@ class CustomerPanelProvider extends PanelProvider
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->login()
+            ->authGuard('web')
             ->colors([
                 'primary' => '#E77917',
             ])

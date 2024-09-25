@@ -1,0 +1,2 @@
+main color: #E77917
+secondary color: #f1b559

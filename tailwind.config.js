@@ -1,19 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-import forms from '@tailwindcss/forms'; 
 
 export default {
-  presets: [
-    require('./vendor/tallstackui/tallstackui/tailwind.config.js') 
-  ],
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
-    './vendor/tallstackui/tallstackui/src/**/*.php',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'main-color': '#E77917',
+        'secondary-color': '#f1b559',
+      }
+    },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [],
 }
 
