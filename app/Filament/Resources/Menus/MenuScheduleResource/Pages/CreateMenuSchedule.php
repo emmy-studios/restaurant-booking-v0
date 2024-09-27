@@ -12,6 +12,7 @@ class CreateMenuSchedule extends CreateRecord
 
     public function getTitle(): string
     {
-        return __('models.create_menu_schedule'); 
+        return __('models.create_menu_schedule');
     }
 }
+ 

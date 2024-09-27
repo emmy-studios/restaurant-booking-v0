@@ -10,8 +10,9 @@ class CreateMenu extends CreateRecord
 {
     protected static string $resource = MenuResource::class;
 
-    public function getTitle(): string 
+    public function getTitle(): string
     {
         return __('models.create_menu');
     }
 }
+ 

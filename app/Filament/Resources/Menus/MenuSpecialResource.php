@@ -17,22 +17,29 @@ class MenuSpecialResource extends Resource
 {
     protected static ?string $model = MenuSpecial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
-        return $form
+        return $form 
             ->schema([
                 Forms\Components\Select::make('menu_id')
                     ->relationship('menu', 'title')
                     ->label(__('models.menu'))
                     ->required(),
+                Forms\Components\TextInput::make('product_id')
+                    ->required()
+                    ->label(__('models.product'))
+                    ->numeric(),
+                Forms\Components\MarkdownEditor::make('details')
+                    ->columnSpanFull()
+                    ->label(__('models.additional_details')),
                 Forms\Components\TextInput::make('discount_percentage')
                     ->numeric()
                     ->label(__('models.discount_percentage')),
@@ -54,6 +61,10 @@ class MenuSpecialResource extends Resource
                     ->numeric()
                     ->label(__('models.menu'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('product_id')
+                    ->numeric()
+                    ->label(__('models.product'))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('discount_percentage')
                     ->numeric()
                     ->label(__('models.discount_percentage'))
@@ -71,8 +82,8 @@ class MenuSpecialResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
                     ->label(__('models.created_at'))
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()

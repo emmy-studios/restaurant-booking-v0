@@ -19,14 +19,14 @@ class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
-
+ 
     public static function form(Form $form): Form 
     {
         return $form
@@ -35,7 +35,7 @@ class MenuResource extends Resource
                     ->required()
                     ->label(__('models.title'))
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
                     ->columnSpanFull()
                     ->label(__('models.description')),
                 Forms\Components\TextInput::make('menu_code')
@@ -43,13 +43,11 @@ class MenuResource extends Resource
                     ->label(__('models.menu_code')),
                 Forms\Components\Select::make('menu_status')
                     ->options(self::getMenuStatus())
-                    ->searchable()
-                    ->required() 
                     ->default('Active')
+                    ->searchable()
                     ->label(__('models.menu_status')),
                 Forms\Components\Select::make('menu_type')
                     ->options(self::getMenuType())
-                    ->required()
                     ->searchable()
                     ->default('Special')
                     ->label(__('models.menu_type')),
@@ -62,11 +60,6 @@ class MenuResource extends Resource
                 Forms\Components\TextInput::make('menu_availability')
                     ->maxLength(255)
                     ->label(__('models.menu_availability')),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->label(__('models.price'))
-                    ->numeric()
-                    ->prefix('$'),
                 Forms\Components\TextInput::make('portions')
                     ->required()
                     ->label(__('models.portions'))
@@ -80,6 +73,7 @@ class MenuResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.title')),
                 Tables\Columns\TextColumn::make('menu_code')
                     ->searchable()
@@ -102,10 +96,6 @@ class MenuResource extends Resource
                 Tables\Columns\TextColumn::make('menu_availability')
                     ->searchable()
                     ->label(__('models.menu_availability')),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->label(__('models.price'))
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('portions')
                     ->searchable()
                     ->label(__('models.portions')),
@@ -134,6 +124,16 @@ class MenuResource extends Resource
             ]);
     }
 
+    public static function getMenuStatus(): array
+    {
+        return array_map(fn($case) => $case->value, MenuStatus::cases());
+    }
+
+    public static function getMenuType(): array
+    {
+        return array_map(fn($case) => $case->value, MenuType::cases());
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -151,16 +151,6 @@ class MenuResource extends Resource
         ];
     }
 
-    public static function getMenuStatus(): array
-    {
-        return array_map(fn($case) => $case->value, MenuStatus::cases());
-    }
-
-    public static function getMenuType(): array
-    {
-        return array_map(fn($case) => $case->value, MenuType::cases());
-    }
-
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
@@ -173,4 +163,3 @@ class MenuResource extends Resource
         return __('models.menus');
     }
 }
- 

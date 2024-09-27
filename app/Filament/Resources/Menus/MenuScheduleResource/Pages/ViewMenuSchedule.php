@@ -14,7 +14,7 @@ class ViewMenuSchedule extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-        ];
+        ]; 
     }
 
     public function getTitle(): string 

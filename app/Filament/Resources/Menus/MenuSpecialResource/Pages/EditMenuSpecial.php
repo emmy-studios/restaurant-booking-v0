@@ -15,8 +15,8 @@ class EditMenuSpecial extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
-        ];
-    } 
+        ]; 
+    }
 
     public function getTitle(): string
     {

@@ -14,7 +14,7 @@ class ViewMenuSpecial extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-        ]; 
+        ];
     }
 
     public function getTitle(): string 
@@ -22,3 +22,4 @@ class ViewMenuSpecial extends ViewRecord
         return __('models.view_menu_special');
     }
 }
+ 

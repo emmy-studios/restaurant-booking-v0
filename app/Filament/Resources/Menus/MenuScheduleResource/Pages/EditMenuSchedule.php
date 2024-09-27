@@ -15,7 +15,7 @@ class EditMenuSchedule extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
-        ];
+        ]; 
     }
 
     public function getTitle(): string
@@ -23,4 +23,3 @@ class EditMenuSchedule extends EditRecord
         return __('models.edit_menu_schedule');
     }
 }
- 

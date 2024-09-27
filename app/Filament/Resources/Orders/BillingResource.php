@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Orders;
 
 use App\Enums\BillingStatus;
-use App\Enums\PaymentCurrency;
+use App\Enums\CurrencySymbol;
 use App\Enums\PaymentMethod;
 use App\Filament\Resources\Orders\BillingResource\Pages;
 use App\Filament\Resources\Orders\BillingResource\RelationManagers;
@@ -50,9 +50,9 @@ class BillingResource extends Resource
                     ->default('Credit Card')
                     ->label(__('models.payment_method')),
                 Forms\Components\Select::make('payment_currency')
-                    ->options(self::getPaymentCurrency())
+                    ->options(self::getCurrencyCode())
                     ->searchable()
-                    ->default('USD')
+                    ->default('USD $')
                     ->required()
                     ->label(__('models.payment_currency')),
                 Forms\Components\Select::make('status')
@@ -149,9 +149,9 @@ class BillingResource extends Resource
         return array_map(fn($case) => $case->value, PaymentMethod::cases());
     }
 
-    public static function getPaymentCurrency(): array
+    public static function getCurrencyCode(): array
     {
-        return array_map(fn($case) => $case->value, PaymentCurrency::cases());
+        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }
 
     public static function getBillingStatus(): array

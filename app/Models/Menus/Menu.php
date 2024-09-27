@@ -24,7 +24,6 @@ class Menu extends Model
         'initial_date',
         'final_date',
         'menu_availability',
-        'price',
     ];
 
     public function menu_schedules(): HasMany

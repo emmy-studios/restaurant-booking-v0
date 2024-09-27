@@ -2,49 +2,55 @@
 
 namespace App\Filament\Resources\Menus;
 
-use App\Filament\Resources\Menus\MenuItemResource\Pages;
-use App\Filament\Resources\Menus\MenuItemResource\RelationManagers;
-use App\Models\Menus\MenuItem;
+use App\Enums\CurrencyCode;
+use App\Enums\CurrencySymbol;
+use App\Filament\Resources\Menus\MenuPriceResource\Pages;
+use App\Filament\Resources\Menus\MenuPriceResource\RelationManagers;
+use App\Models\Menus\MenuPrice;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables; 
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MenuItemResource extends Resource
+class MenuPriceResource extends Resource
 {
-    protected static ?string $model = MenuItem::class;
+    protected static ?string $model = MenuPrice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-document-currency-euro';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
-    {
+    { 
         return $form
             ->schema([
                 Forms\Components\Select::make('menu_id')
                     ->relationship('menu', 'title')
                     ->label(__('models.menu'))
                     ->required(),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
+                Forms\Components\Select::make('currency_symbol')
+                    ->options(self::getCurrencySymbol())
+                    ->searchable()
+                    ->default('USD $')
                     ->required()
-                    ->label(__('models.product')),
-                Forms\Components\TextInput::make('portion')
-                    ->maxLength(255)
-                    ->label(__('models.portion')),
-                Forms\Components\TextInput::make('quantity')
-                    ->numeric()
-                    ->label(__('models.quantity')),
-                Forms\Components\Toggle::make('is_optional')
-                    ->label(__('models.is_optional')),
+                    ->label(__('models.currency_symbol')),
+                Forms\Components\Select::make('currency_code')
+                    ->options(self::getCurrencyCode())
+                    ->searchable()
+                    ->default('USD')
+                    ->required()
+                    ->label(__('models.currency_code')),
+                Forms\Components\TextInput::make('price')
+                    ->required()
+                    ->label(__('models.price'))
+                    ->numeric(),
             ]);
     }
 
@@ -54,22 +60,16 @@ class MenuItemResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('menu.title')
                     ->numeric()
-                    ->label(__('models.title'))
+                    ->label(__('models.menu'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product.name')
-                    ->numeric()
-                    ->label(__('models.product'))
+                Tables\Columns\TextColumn::make('currency_symbol')
+                    ->label(__('models.currency_symbol')),
+                Tables\Columns\TextColumn::make('currency_code')
+                    ->label(__('models.currency_code')),
+                Tables\Columns\TextColumn::make('price')
+                    ->money()
+                    ->label(__('models.price'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('portion')
-                    ->searchable()
-                    ->label(__('models.portion')),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->numeric()
-                    ->label(__('models.quantity'))
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_optional')
-                    ->boolean()
-                    ->label(__('models.is_optional')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
@@ -95,6 +95,16 @@ class MenuItemResource extends Resource
             ]);
     }
 
+    public static function getCurrencySymbol(): array
+    {
+        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
+    }
+
+    public static function getCurrencyCode(): array
+    {
+        return array_map(fn($case) => $case->value, CurrencyCode::cases());
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -105,17 +115,17 @@ class MenuItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenuItems::route('/'),
-            'create' => Pages\CreateMenuItem::route('/create'),
-            'view' => Pages\ViewMenuItem::route('/{record}'),
-            'edit' => Pages\EditMenuItem::route('/{record}/edit'),
+            'index' => Pages\ListMenuPrices::route('/'),
+            'create' => Pages\CreateMenuPrice::route('/create'),
+            'view' => Pages\ViewMenuPrice::route('/{record}'),
+            'edit' => Pages\EditMenuPrice::route('/{record}/edit'),
         ];
-    }
+    } 
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
-        return __('models.menu_items');
+        return __('models.menu_prices');
     }
  
     // Translate Navigation Group.

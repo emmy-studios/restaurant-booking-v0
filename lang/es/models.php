@@ -106,7 +106,6 @@ return [
     /**  IngredientResource Filament Translations  */
     'ingredient' => 'Ingrediente',
     'ingredients' => 'Ingredientes',
-    
     // Pages
     'create_ingredient' => 'Crear Ingrediente',
     'edit_ingredient' => 'Editar Ingrediente',
@@ -152,6 +151,13 @@ return [
     'create_menu_schedule' => 'Crear Menu Horario', 
     'edit_menu_schedule' => 'Editar Menu Horario',
     'view_menu_schedule' => 'Ver Menu Horario',
+    /** MenuPriceResource Filament Translations */
+    'menu_prices' => 'Precios del Menu',
+    'menu_price' => 'Precio del Menu',
+    // Pages
+    'create_menu_price' => 'Crear Precio de Menu',
+    'edit_menu_price' => 'Editar Precio de Menu',
+    'view_menu_price' => 'Ver Precio de Menu',
     /**  MenuSpecialResource Filament Translations  */
     'menu_special' => 'Especial de Menu',
     'menu_specials' => 'Especiales de Menu',

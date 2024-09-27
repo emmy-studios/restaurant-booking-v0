@@ -12,7 +12,7 @@ class CreateMenuSpecial extends CreateRecord
 
     public function getTitle(): string
     {
-        return __('models.create_menu_special'); 
+        return __('models.create_menu_special');
     }
 }
  

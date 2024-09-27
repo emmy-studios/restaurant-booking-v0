@@ -19,6 +19,6 @@ class ViewMenuItem extends ViewRecord
 
     public function getTitle(): string 
     {
-        return __('models.view_menu_item');
+        return __('models.view_item');
     }
-} 
+}

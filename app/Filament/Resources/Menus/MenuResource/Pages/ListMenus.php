@@ -15,10 +15,10 @@ class ListMenus extends ListRecords
         return [
             Actions\CreateAction::make()->label(__('models.create_menu')),
         ];
-    } 
+    }
 
     public function getTitle(): string
     {
         return __('models.menus');
-    }
+    } 
 }

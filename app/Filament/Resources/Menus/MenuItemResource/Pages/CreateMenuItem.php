@@ -12,7 +12,6 @@ class CreateMenuItem extends CreateRecord
 
     public function getTitle(): string
     {
-        return __('models.create_menu_item'); 
+        return __('models.create_item');
     }
 }
- 

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Orders;
 
+use App\Enums\CurrencySymbol;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
-use App\Enums\PaymentCurrency;
 use App\Filament\Resources\Orders\OrderResource\Pages;
 use App\Filament\Resources\Orders\OrderResource\RelationManagers;
 use App\Models\Orders\Order;
@@ -46,10 +46,10 @@ class OrderResource extends Resource
                     ->default('Processing')
                     ->label(__('models.order_status')),
                 Forms\Components\Select::make('order_currency')
-                    ->options(self::getPaymentCurrency())
+                    ->options(self::getOrderCurrency())
                     ->searchable()
                     ->required()
-                    ->default('USD')
+                    ->default('USD $')
                     ->label(__('models.order_currency')),
                 Forms\Components\Select::make('order_source')
                     ->options(self::getOrderSource())
@@ -146,9 +146,9 @@ class OrderResource extends Resource
         return array_map(fn($case) => $case->value, OrderStatus::cases());
     }
 
-    public static function getPaymentCurrency(): array
+    public static function getOrderCurrency(): array
     {
-        return array_map(fn($case) => $case->value, PaymentCurrency::cases());
+        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }
 
     // Translate Navigation Label.
@@ -163,3 +163,4 @@ class OrderResource extends Resource
         return __('models.orders');
     }
 }
+ 

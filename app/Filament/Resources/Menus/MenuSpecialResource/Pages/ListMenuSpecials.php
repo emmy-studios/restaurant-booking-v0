@@ -21,4 +21,5 @@ class ListMenuSpecials extends ListRecords
     {
         return __('models.menu_specials');
     }
-} 
+}
+ 

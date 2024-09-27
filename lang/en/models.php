@@ -151,6 +151,13 @@ return [
     'create_menu_schedule' => 'Create Menu Schedule',
     'edit_menu_schedule' => 'Edit Menu Schedule',
     'view_menu_schedule' => 'View Menu Schedule',
+    /** MenuPriceResource Filament Translations */
+    'menu_prices' => 'Menu Prices',
+    'menu_price' => 'Menu Price',
+    // Pages
+    'create_menu_price' => 'Create Menu Price',
+    'edit_menu_price' => 'Edit Menu Price',
+    'view_menu_price' => 'View Menu Price',
     /**  MenuSpecialResource Filament Translations  */
     'menu_special' => 'Menu Special',
     'menu_specials' => 'Menu Specials',

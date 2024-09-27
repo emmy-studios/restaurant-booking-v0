@@ -20,6 +20,5 @@ class ListMenuSchedules extends ListRecords
     public function getTitle(): string
     {
         return __('models.menu_schedules');
-    }
-}
- 
+    } 
+} 

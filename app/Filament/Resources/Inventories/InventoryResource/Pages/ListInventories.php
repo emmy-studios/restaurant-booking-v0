@@ -20,5 +20,5 @@ class ListInventories extends ListRecords
     public function getTitle(): string
     {
         return __('models.inventories');
-    }
+    } 
 }

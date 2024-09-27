@@ -18,13 +18,13 @@ class MenuScheduleResource extends Resource
 {
     protected static ?string $model = MenuSchedule::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -35,9 +35,9 @@ class MenuScheduleResource extends Resource
                     ->label(__('models.menu'))
                     ->required(),
                 Forms\Components\Select::make('day_of_week')
-                    ->label(__('models.day_of_week'))
                     ->options(self::getDayOfWeek())
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.day_of_week')),
                 Forms\Components\TimePicker::make('start_time')
                     ->label(__('models.start_time')),
                 Forms\Components\TimePicker::make('end_time')
@@ -84,6 +84,11 @@ class MenuScheduleResource extends Resource
             ]);
     }
 
+    public static function getDayOfWeek(): array
+    {
+        return array_map(fn($case) => $case->value, DayOfWeek::cases());
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -101,17 +106,12 @@ class MenuScheduleResource extends Resource
         ];
     }
 
-    public static function getDayOfWeek(): array
-    {
-        return array_map(fn($case) => $case->value, DayOfWeek::cases());
-    }
-
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
         return __('models.menu_schedules');
     }
-
+ 
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
