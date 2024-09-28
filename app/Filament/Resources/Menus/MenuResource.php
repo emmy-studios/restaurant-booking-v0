@@ -156,7 +156,7 @@ class MenuResource extends Resource
     {
         return __('models.menus');
     }
- 
+  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

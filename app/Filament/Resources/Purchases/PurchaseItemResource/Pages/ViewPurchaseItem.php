@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Filament\Resources\Purchases\PurchaseItemResource\Pages;
+
+use App\Filament\Resources\Purchases\PurchaseItemResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
+
+class ViewPurchaseItem extends ViewRecord
+{
+    protected static string $resource = PurchaseItemResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\EditAction::make(),
+        ];
+    }
+}

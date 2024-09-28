@@ -205,3 +205,4 @@ class UserResource extends Resource
         return __('models.users');
     }
 }
+ 
