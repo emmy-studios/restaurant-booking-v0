@@ -8,5 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateInventoryReport extends CreateRecord
 {
-    protected static string $resource = InventoryReportResource::class;
+    protected static string $resource = InventoryReportResource::class; 
+
+    public function getTitle(): string
+    {
+        return __('models.create_report');
+    }
 }

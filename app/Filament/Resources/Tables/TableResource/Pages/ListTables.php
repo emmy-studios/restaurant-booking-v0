@@ -13,7 +13,13 @@ class ListTables extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label(__('models.create_table')),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return __('models.tables');
+    } 
 }
+ 

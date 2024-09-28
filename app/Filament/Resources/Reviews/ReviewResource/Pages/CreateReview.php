@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateReview extends CreateRecord
 {
     protected static string $resource = ReviewResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_review');
+    }
 }
+ 

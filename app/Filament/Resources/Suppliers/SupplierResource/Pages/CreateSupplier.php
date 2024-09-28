@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSupplier extends CreateRecord
 {
     protected static string $resource = SupplierResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_supplier');
+    }
 }
+ 

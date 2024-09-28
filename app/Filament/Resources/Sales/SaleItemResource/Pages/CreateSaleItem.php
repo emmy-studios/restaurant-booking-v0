@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSaleItem extends CreateRecord
 {
     protected static string $resource = SaleItemResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_item');
+    }
 }
+ 

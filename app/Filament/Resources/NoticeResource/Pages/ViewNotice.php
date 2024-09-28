@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Sales\SaleItemResource\Pages;
+namespace App\Filament\Resources\NoticeResource\Pages;
 
-use App\Filament\Resources\Sales\SaleItemResource;
+use App\Filament\Resources\NoticeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewSaleItem extends ViewRecord
+class ViewNotice extends ViewRecord
 {
-    protected static string $resource = SaleItemResource::class;
+    protected static string $resource = NoticeResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -19,7 +19,6 @@ class ViewSaleItem extends ViewRecord
 
     public function getTitle(): string 
     {
-        return __('models.view_item');
+        return __('models.view_notice');
     }
 }
- 

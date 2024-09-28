@@ -16,4 +16,9 @@ class ViewPurchase extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
-}
+
+    public function getTitle(): string 
+    {
+        return __('models.view_purchase');
+    }
+} 

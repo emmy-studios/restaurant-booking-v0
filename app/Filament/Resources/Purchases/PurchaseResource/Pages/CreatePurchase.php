@@ -8,5 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreatePurchase extends CreateRecord
 {
-    protected static string $resource = PurchaseResource::class;
+    protected static string $resource = PurchaseResource::class; 
+
+    public function getTitle(): string
+    {
+        return __('models.create_purchase');
+    }
 }

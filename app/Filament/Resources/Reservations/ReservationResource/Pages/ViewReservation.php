@@ -14,6 +14,11 @@ class ViewReservation extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-        ];
+        ]; 
+    }
+
+    public function getTitle(): string 
+    {
+        return __('models.view_reservation');
     }
 }

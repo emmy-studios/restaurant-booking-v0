@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateReport extends CreateRecord
 {
     protected static string $resource = ReportResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_report');
+    }
 }
+ 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Tables\TableResource\Pages;
+namespace App\Filament\Resources\NoticeResource\Pages;
 
-use App\Filament\Resources\Tables\TableResource;
+use App\Filament\Resources\NoticeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditTable extends EditRecord
+class EditNotice extends EditRecord
 {
-    protected static string $resource = TableResource::class;
+    protected static string $resource = NoticeResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -20,6 +20,6 @@ class EditTable extends EditRecord
 
     public function getTitle(): string
     {
-        return __('models.edit_table');
+        return __('models.edit_notice');
     }
 }

@@ -371,9 +371,10 @@ return [
     'edit_purchase' => 'Editar Compra',
     'view_purchase' => 'Ver Compra',
     /** SaleResource Filament Translations */
+    'sale_code' => 'Código de Venta',
     'sale_items' => 'Elementos de Ventas',
     'sales' => 'Ventas',
-    'Sale' => 'Venta',
+    'sale' => 'Venta',
     // Pages
     'create_sale' => 'Crear Venta',   
     'edit_sale' => 'Editar Venta',
@@ -410,6 +411,17 @@ return [
     'total_orders' => 'Órdenes Totales',
     'total_sales' => 'Ventas Totales',
     'total_discounts' => 'Descuentos Totales',
-    'total_net_amount' => 'Cantidad Neta Total'
+    'total_net_amount' => 'Cantidad Neta Total',
+    /** NoticeResource Filament Translations */
+    'notice' => 'Aviso',
+    'notices' => 'Avisos',
+    'type' => 'Tipo',
+    'subject' => 'Asunto',
+    'message' => 'Mensaje',
+    'date' => 'Fecha',
+    // Pages
+    'create_notice' => 'Crear Aviso',   
+    'edit_notice' => 'Editar Aviso',
+    'view_notice' => 'Ver Aviso'
 ];  
    

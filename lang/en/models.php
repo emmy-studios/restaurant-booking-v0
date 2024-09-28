@@ -342,6 +342,7 @@ return [
     'view_review' => 'View Review',
     /** ReservationResource Filament Translations */
     'reservation_payment' => 'Reservation Payment',
+    'reservation_payments' => 'Reservation Payments',
     'reservation' => 'Reservation',
     'reservations' => 'Reservations',
     'reservation_date' => 'Reservation Date',
@@ -371,9 +372,10 @@ return [
     'edit_purchase' => 'Edit Purchase',
     'view_purchase' => 'View Purchase',  
     /** SaleResource Filament Translations */
+    'sale_code' => 'Sale Code',
     'sale_items' => 'Sale Items',
     'sales' => 'Sales',
-    'Sale' => 'Sale',
+    'sale' => 'Sale',
     // Pages
     'create_sale' => 'Create Sale',   
     'edit_sale' => 'Edit Sale',
@@ -410,6 +412,17 @@ return [
     'total_orders' => 'Total Orders',
     'total_sales' => 'Total Sales',
     'total_discounts' => 'Total Discounts',
-    'total_net_amount' => 'Total Net Amount'
+    'total_net_amount' => 'Total Net Amount',
+    /** NoticeResource Filament Translations */
+    'notice' => 'Notice',
+    'notices' => 'Notices',
+    'type' => 'Type',
+    'subject' => 'Subject',
+    'message' => 'Message',
+    'date' => 'Date',
+    // Pages
+    'create_notice' => 'Create Notice',   
+    'edit_notice' => 'Edit Notice',
+    'view_notice' => 'View Notice'
 ]; 
  

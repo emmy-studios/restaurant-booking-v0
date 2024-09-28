@@ -16,5 +16,10 @@ class EditReview extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
+    } 
+
+    public function getTitle(): string
+    {
+        return __('models.edit_review');
     }
 }

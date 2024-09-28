@@ -13,7 +13,12 @@ class ListInventoryReports extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label(__('models.create_report')),
         ];
-    }
+    } 
+
+    public function getTitle(): string
+    {
+        return __('models.reports');
+    } 
 }

@@ -32,7 +32,7 @@ class InventoryReportResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DateTimePicker::make('report_date')
-                    ->label(__('models.report_type'))
+                    ->label(__('models.report_date'))
                     ->required(),
                 Forms\Components\TextInput::make('inventory_location')
                     ->maxLength(255)
@@ -62,10 +62,10 @@ class InventoryReportResource extends Resource
                 Forms\Components\TextInput::make('items_expiring_soon')
                     ->numeric()
                     ->label(__('models.items_expiring_soon')),
-                Forms\Components\Textarea::make('most_used_items')
+                Forms\Components\MarkdownEditor::make('most_used_items')
                     ->columnSpanFull()
                     ->label(__('models.most_used_items')),
-                Forms\Components\Textarea::make('least_used_items')
+                Forms\Components\MarkdownEditor::make('least_used_items')
                     ->columnSpanFull()
                     ->label(__('models.least_used_items')),
                 Forms\Components\TextInput::make('total_used_items_value')
@@ -88,7 +88,7 @@ class InventoryReportResource extends Resource
                     ->relationship('user', 'name')
                     ->required()
                     ->label(__('models.user')),
-                Forms\Components\Textarea::make('report_notes')
+                Forms\Components\MarkdownEditor::make('report_notes')
                     ->columnSpanFull()
                     ->label(__('models.report_notes')),
             ]);

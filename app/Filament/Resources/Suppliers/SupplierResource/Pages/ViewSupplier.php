@@ -16,4 +16,10 @@ class ViewSupplier extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+
+    public function getTitle(): string 
+    {
+        return __('models.view_supplier');
+    }
 }
+ 

@@ -8,5 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateReservation extends CreateRecord
 {
-    protected static string $resource = ReservationResource::class;
+    protected static string $resource = ReservationResource::class; 
+
+    public function getTitle(): string
+    {
+        return __('models.create_reservation');
+    }
 }

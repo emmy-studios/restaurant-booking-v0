@@ -13,7 +13,12 @@ class ListSuppliers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label(__('models.create_supplier')),
         ];
-    }
+    } 
+
+    public function getTitle(): string
+    {
+        return __('models.suppliers');
+    } 
 }

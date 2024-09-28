@@ -13,7 +13,12 @@ class ListReservationPayments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label(__('models.create_payment')),
         ];
     }
-}
+
+    public function getTitle(): string
+    {
+        return __('models.payments');
+    } 
+} 
