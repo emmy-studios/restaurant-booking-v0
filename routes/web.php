@@ -14,14 +14,6 @@ Route::prefix('{locale}')
     ->group(function() {
         
         // Core Routes
-        Route::get('/', function() {
-            return Inertia::render('Home');
-        }); 
-
-        Route::get('/about-us', function() {
-            return Inertia::render('About', [
-                'name' => 'Jesucristo',
-                'last_name' => 'de Nazareth'
-            ]);
-        });
+        Route::get('/', [CoreController::class, 'index'])->name('home'); 
+        Route::get('/teams', [CoreController::class, 'teams'])->name('teams');
     });

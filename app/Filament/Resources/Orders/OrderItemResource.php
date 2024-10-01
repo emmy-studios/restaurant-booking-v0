@@ -35,7 +35,7 @@ class OrderItemResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('order_id')
                     ->label(__('models.order'))
-                    ->relationship('order', 'id')
+                    ->relationship('order', 'order_code')
                     ->required(),
                 Forms\Components\TextInput::make('quantity')
                     ->label(__('models.quantity'))
@@ -60,9 +60,8 @@ class OrderItemResource extends Resource
                     ->label(__('models.product_name'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order.id')
+                Tables\Columns\TextColumn::make('order.order_code')
                     ->label(__('models.order'))
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label(__('models.quantity'))

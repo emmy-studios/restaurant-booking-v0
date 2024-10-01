@@ -33,7 +33,7 @@ class SaleItemResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('sale_id')
-                    ->relationship('sale', 'id')
+                    ->relationship('sale', 'sale_code')
                     ->label(__('models.sale'))
                     ->required(),
                 Forms\Components\Select::make('product_id')
@@ -47,6 +47,7 @@ class SaleItemResource extends Resource
                 Forms\Components\Select::make('unit_of_measurement')
                     ->options(self::getUnitOfMeasurement())
                     ->searchable()
+                    ->default('unit')
                     ->required()
                     ->label(__('models.unit_of_measurement')),
                 Forms\Components\TextInput::make('quantity')
@@ -84,9 +85,8 @@ class SaleItemResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('sale.id')
-                    ->numeric()
+            ->columns([ 
+                Tables\Columns\TextColumn::make('sale.sale_code')
                     ->label(__('models.sale'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')

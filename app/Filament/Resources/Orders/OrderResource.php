@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Orders;
 
+use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
@@ -37,10 +38,10 @@ class OrderResource extends Resource
                     ->label(__('models.order_code'))
                     ->maxLength(255),
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'id') 
+                    ->relationship('user', 'name') 
                     ->label(__('models.user'))
                     ->required(),
-                Forms\Components\Select::make('order_status') 
+                Forms\Components\Select::make('order_status')  
                     ->options(self::getOrderStatus())
                     ->searchable()
                     ->default('Processing')
@@ -49,8 +50,13 @@ class OrderResource extends Resource
                     ->options(self::getOrderCurrency())
                     ->searchable()
                     ->required()
+                    ->default('USD')
+                    ->label(__('models.currency_code')),
+                Forms\Components\Select::make('currency_symbol')
+                    ->options(self::getCurrencySymbol())
+                    ->searchable()
                     ->default('USD $')
-                    ->label(__('models.order_currency')),
+                    ->label(__('models.currency_symbol')),
                 Forms\Components\Select::make('order_source')
                     ->options(self::getOrderSource())
                     ->default('Online')
@@ -77,16 +83,19 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('user.id')
                     ->numeric()
                     ->label(__('models.user')) 
-                    ->sortable(),
+                    ->sortable(), 
                 Tables\Columns\TextColumn::make('order_status')
                     ->label(__('models.order_status')),
                 Tables\Columns\TextColumn::make('order_currency')
-                    ->searchable()
-                    ->label(__('models.order_currency')),
+                    ->searchable() 
+                    ->label(__('models.currency_code')),
+                Tables\Columns\TextColumn::make('currency_symbol')
+                    ->label(__('models.currency_symbol'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('order_source')
                     ->label(__('models.order_source')),
                 Tables\Columns\TextColumn::make('subtotal')
-                    ->numeric()
+                    ->numeric() 
                     ->label(__('models.subtotal'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
@@ -147,6 +156,11 @@ class OrderResource extends Resource
     }
 
     public static function getOrderCurrency(): array
+    {
+        return array_map(fn($case) => $case->value, CurrencyCode::cases());
+    }
+
+    public static function getCurrencySymbol(): array
     {
         return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }

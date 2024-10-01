@@ -5,18 +5,19 @@ return [
     'name' => 'Nombre',
     'first_name' => 'Primer Nombre',
     'last_name' => 'Apellido',
-    'email' => 'Correo electrónico',
+    'email' => 'Correo Electrónico',
     'gender' => 'Genero',
-    'country_code' => 'Código de país',
-    'phone_number' => 'Número de teléfono',
+    'country_code' => 'Código de País',
+    'phone_number' => 'Número de Teléfono',
     'country' => 'País',
     'city' => 'Ciudad',
     'address' => 'Dirección',
-    'email_verified_at' => 'Correo verificado en',
+    'email_verified_at' => 'Correo Verificado En',
     'updated_at' => 'Actualizado en',
     'password' => 'Contraseña',
     'created_at' => 'Creado en',
     'role' => 'Rol',
+    'postal_code' => 'Código Postal',
     'image_url' => 'Imagen',
     // Pages
     'users' => 'Usuarios',
@@ -61,7 +62,7 @@ return [
     'Select a Product/Products' => 'Seleccionar un Producto/Productos',
     'Products related to the Discount' => 'Productos relacionados al Descuento',
     /**  OrderResource Filament Translations  */
-    'orders' => 'Ordenes',
+    'orders' => 'Órdenes',
     'order' => 'Orden',
     'order_code' => 'Código de la Orden',
     'order_status' => 'Estado de la Orden',
@@ -422,6 +423,13 @@ return [
     // Pages
     'create_notice' => 'Crear Aviso',   
     'edit_notice' => 'Editar Aviso',
-    'view_notice' => 'Ver Aviso'
+    'view_notice' => 'Ver Aviso',
+    /** AdminProfilePage Filament Translations */ 
+    'profile' => 'Perfil',
+    'settings' => 'Ajustes',
+    'stats' => 'Estadísticas',
+    'number_of_users' => 'Numero de Usuarios',
+    'total_sales' => 'Ventas Totales',
+    'total_orders_made' => 'Órdenes Totales Realizadas'
 ];  
    

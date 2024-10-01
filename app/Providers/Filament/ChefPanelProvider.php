@@ -22,12 +22,16 @@ class ChefPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return $panel 
             ->id('chef')
             ->path('chef')
+            ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
-                'primary' => Color::Gray,
+                'primary' => '#E77917',
             ])
             ->discoverResources(in: app_path('Filament/Chef/Resources'), for: 'App\\Filament\\Chef\\Resources')
             ->discoverPages(in: app_path('Filament/Chef/Pages'), for: 'App\\Filament\\Chef\\Pages')
@@ -37,7 +41,6 @@ class ChefPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Chef/Widgets'), for: 'App\\Filament\\Chef\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

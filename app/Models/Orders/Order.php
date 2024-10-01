@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Orders\OrderItem;
 use App\Models\Orders\Billing;
+use App\Models\User;
 
 class Order extends Model
 {
@@ -25,9 +26,9 @@ class Order extends Model
     ];
 
     // Relationships
-    public function user(): BelongsTo
+    public function user(): BelongsTo 
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(User::class);
     } 
 
     public function orderItems(): HasMany

@@ -17,6 +17,7 @@ return [
     'password' => 'Password',
     'created_at' => 'Created At',
     'role' => 'Role',
+    'postal_code' => 'Postal Code',
     'image_url' => 'Image Url',
     // Pages
     'users' => 'Users',
@@ -423,6 +424,13 @@ return [
     // Pages
     'create_notice' => 'Create Notice',   
     'edit_notice' => 'Edit Notice',
-    'view_notice' => 'View Notice'
-]; 
+    'view_notice' => 'View Notice',
+   /** Admin/Profile/Page/Widgets Filament Translations */ 
+    'profile' => 'Profile',
+    'settings' => 'Settings',
+    'stats' => 'Stats',
+    'number_of_users' => 'Number of Users',
+    'total_sales' => 'Total Sales',
+    'total_orders_made' => 'Total Orders Made'
+];  
  

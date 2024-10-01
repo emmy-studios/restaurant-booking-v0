@@ -49,10 +49,10 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('gender')
-                    ->label(__('models.gender'))
                     ->options(self::getGenderOptions())
-                    ->searchable()
-                    ->default('Other'),
+                    ->label(__('models.gender'))
+                    ->default('Other')
+                    ->searchable(),
                 Forms\Components\Select::make('country_code')
                     ->label(__('models.country_code'))
                     ->options(self::getCountryOptions())
@@ -86,9 +86,12 @@ class UserResource extends Resource
                     ->options(USER::ROLES)
                     ->default('CUSTOMER'),
                 Forms\Components\FileUpload::make('image_url')
-                    ->label(__('models.image_url'))
+                    ->label(__('models.image_url')) 
+                    ->disk('public')
+                    ->directory('users-image')
+                    ->imageEditor()
                     ->image()
-            ]);
+            ]); 
     }
 
     public static function table(Table $table): Table
@@ -114,6 +117,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('gender')
                     ->label(__('models.gender')),
                 Tables\Columns\ImageColumn::make('image_url')
+                    ->circular()
                     ->label(__('models.image_url')), 
                 Tables\Columns\TextColumn::make('country_code')
                     ->label(__('models.country_code')),
@@ -171,7 +175,7 @@ class UserResource extends Resource
         return array_map(fn($case) => $case->value, Countries::cases());
     }
 
-    public function getGenderOptions(): array
+    public static function getGenderOptions(): array
     {
         return array_map(fn($case) => $case->value, Gender::cases());
     }
