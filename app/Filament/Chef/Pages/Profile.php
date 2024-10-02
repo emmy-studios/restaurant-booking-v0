@@ -46,6 +46,11 @@ class Profile extends Page
 
     }
 
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('models.profile');     
