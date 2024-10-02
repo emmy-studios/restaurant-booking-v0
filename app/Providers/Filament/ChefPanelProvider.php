@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use Filament\Pages\Page;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -36,11 +37,11 @@ class ChefPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Chef/Resources'), for: 'App\\Filament\\Chef\\Resources')
             ->discoverPages(in: app_path('Filament/Chef/Pages'), for: 'App\\Filament\\Chef\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Chef/Widgets'), for: 'App\\Filament\\Chef\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                //Widgets\AccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
