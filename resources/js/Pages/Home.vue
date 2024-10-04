@@ -1,12 +1,17 @@
 <script setup>
+
+    import { NButton } from 'naive-ui';
+
 </script>
 
 <template>
 
-    <h1>Home Page</h1>
+    <div class="flex flex-row justify-center my-10">
 
-    <v-btn>
-        Button
-    </v-btn>
+        <n-button>
+            Home
+        </n-button>
+
+    </div>
 
 </template>
