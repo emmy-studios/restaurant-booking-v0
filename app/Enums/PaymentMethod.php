@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum PaymentMethod: string
+use Filament\Support\Contracts\HasLabel;
+
+enum PaymentMethod: string implements HasLabel
 {
     case CREDIT_CARD = 'Credit Card';
     case DEBIT_CARD = 'Debit Card';
@@ -12,4 +14,10 @@ enum PaymentMethod: string
     case CRYPTO = 'Cryptocurrency';
     case EMAIL = 'Email';
     case WHATSAPP = 'Whatsapp';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

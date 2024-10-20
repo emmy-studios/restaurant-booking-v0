@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum MenuType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum MenuType: string implements HasLabel
 {
     case BREAKFAST = 'Breakfast';
     case LUNCH = 'Lunch';
@@ -13,4 +15,10 @@ enum MenuType: string
     case KIDS = 'Kids';
     case DRINKS = 'Drinks';
     case DESSERTS = 'Desserts';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

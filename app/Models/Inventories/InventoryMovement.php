@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventories;
 
+use App\Models\Employees\Employee;
 use App\Models\Inventories\Inventory;
 use App\Models\Inventories\InventoryItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,11 @@ class InventoryMovement extends Model
         'previous_quantity',
         'new_quantity',
         'reason',
-        'performed_by',
+        'employee_id',
+    ]; 
+
+    protected $casts = [
+        'movement_type',
     ];
 
     public function inventory(): BelongsTo
@@ -32,4 +37,10 @@ class InventoryMovement extends Model
     {
         return $this->belongsTo(InventoryItem::class);
     }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
 }

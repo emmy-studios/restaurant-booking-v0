@@ -42,12 +42,12 @@ class MenuResource extends Resource
                     ->maxLength(255)
                     ->label(__('models.menu_code')),
                 Forms\Components\Select::make('menu_status')
-                    ->options(self::getMenuStatus())
+                    ->options(MenuStatus::class)
                     ->default('Active')
                     ->searchable()
                     ->label(__('models.menu_status')),
                 Forms\Components\Select::make('menu_type')
-                    ->options(self::getMenuType())
+                    ->options(MenuType::class)
                     ->searchable()
                     ->default('Special')
                     ->label(__('models.menu_type')),
@@ -77,10 +77,13 @@ class MenuResource extends Resource
                     ->label(__('models.title')),
                 Tables\Columns\TextColumn::make('menu_code')
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.menu_code')),
                 Tables\Columns\TextColumn::make('menu_status')
+                    ->badge()
                     ->label(__('models.menu_status')),
                 Tables\Columns\TextColumn::make('menu_type')
+                    ->badge()
                     ->label(__('models.menu_type')),
                 Tables\Columns\IconColumn::make('is_recurring')
                     ->boolean()
@@ -122,16 +125,6 @@ class MenuResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getMenuStatus(): array
-    {
-        return array_map(fn($case) => $case->value, MenuStatus::cases());
-    }
-
-    public static function getMenuType(): array
-    {
-        return array_map(fn($case) => $case->value, MenuType::cases());
     }
 
     public static function getRelations(): array

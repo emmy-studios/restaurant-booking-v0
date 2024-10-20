@@ -16,13 +16,17 @@ class Salary extends Model
 
     protected $fillable = [
         'employee_id',
-        'currency_code',
         'currency_symbol',
         'base_salary',
         'net_salary',
         'salary_type',
         'effective_date',
-        'end_date',
+        'end_date', 
+    ];
+
+    protected $casts = [
+        'salary_type',
+        'currency_symbol',
     ];
 
     public function employee(): BelongsTo

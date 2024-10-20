@@ -33,6 +33,14 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->label(__('models.name'))
+                    ->columnSpanFull()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('quantity')
+                    ->label(__('models.quantity')) 
+                    ->numeric(), 
+                Forms\Components\TextInput::make('portion')
+                    ->required()
+                    ->label(__('models.portion'))
                     ->maxLength(255),
                 Forms\Components\MarkdownEditor::make('description')
                     ->required()
@@ -45,10 +53,6 @@ class ProductResource extends Resource
                     ->imageEditor()
                     ->label(__('models.image_url')) 
                     ->required(),
-                Forms\Components\TextInput::make('portion')
-                    ->required()
-                    ->label(__('models.portion'))
-                    ->maxLength(255),
             ]);
     } 
 
@@ -63,6 +67,8 @@ class ProductResource extends Resource
                 Tables\Columns\ImageColumn::make('image_url')
                     ->circular()
                     ->label(__('models.image_url')),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->label(__('models.quantity')),
                 Tables\Columns\TextColumn::make('portion')
                     ->searchable()
                     ->label(__('models.portion')),

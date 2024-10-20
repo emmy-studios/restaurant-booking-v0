@@ -18,11 +18,16 @@ class Order extends Model
         'order_code',
         'user_id',
         'order_status',
-        'order_currency',
         'currency_symbol',
         'order_source',
         'subtotal',
         'total',
+    ];
+
+    protected $casts = [
+        'order_status',
+        'currency_symbol',
+        'order_source',
     ];
 
     // Relationships

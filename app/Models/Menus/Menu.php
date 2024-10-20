@@ -18,12 +18,18 @@ class Menu extends Model
         'title',
         'description',
         'menu_code',
-        'status',
+        'menu_status',  
         'is_recurring',
         'menu_type',
         'initial_date',
         'final_date',
         'menu_availability',
+        'portions',
+    ];
+
+    protected $casts = [
+        'menu_status',
+        'menu_type',
     ];
 
     public function menu_schedules(): HasMany

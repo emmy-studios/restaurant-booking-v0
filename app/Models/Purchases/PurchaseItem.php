@@ -15,8 +15,10 @@ class PurchaseItem extends Model
         'purchase_id',
         'product_name',
         'unit_of_measurement',
-        'quantity',
-        'unit_price',
+        'quantity', 
+        'currency_symbol',
+        'discount_percentage',
+        'unit_price', 
     ];
 
     public function purchase(): BelongsTo

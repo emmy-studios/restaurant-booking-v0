@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
+use App\Enums\Roles;
 
 class UserResource extends Resource
 {
@@ -43,19 +44,22 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('last_name')
                     ->label(__('models.last_name'))
                     ->maxLength(255),
+                Forms\Components\TextInput::make('identification_code')
+                    ->label(__('models.identification_code'))
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->label(__('models.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('gender')
-                    ->options(self::getGenderOptions())
+                    ->options(Gender::class)
                     ->label(__('models.gender'))
                     ->default('Other')
                     ->searchable(),
                 Forms\Components\Select::make('country_code')
                     ->label(__('models.country_code'))
-                    ->options(self::getCountryOptions())
+                    ->options(CountryCode::class)
                     ->searchable()
                     ->default('+506'),
                 Forms\Components\TextInput::make('phone_number')
@@ -64,7 +68,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('country')
                     ->label(__('models.country'))
-                    ->options(self::getCountryNames())
+                    ->options(Countries::class)
                     ->searchable()
                     ->default('Costa Rica'),
                 Forms\Components\TextInput::make('city')
@@ -83,15 +87,16 @@ class UserResource extends Resource
                 Forms\Components\Select::make('role')
                     ->label(__('models.role'))
                     ->required()
-                    ->options(USER::ROLES)
+                    //->options(USER::ROLES)
+                    ->options(Roles::class)
                     ->default('CUSTOMER'),
                 Forms\Components\FileUpload::make('image_url')
-                    ->label(__('models.image_url')) 
+                    ->label(__('models.image_url'))
                     ->disk('public')
                     ->directory('users-image')
                     ->imageEditor()
                     ->image()
-            ]); 
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -111,14 +116,19 @@ class UserResource extends Resource
                     ->label(__('models.last_name'))
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('identification_code')
+                    ->label(__('models.identification_code'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('models.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('gender')
-                    ->label(__('models.gender')),
+                    ->label(__('models.gender'))
+                    ->badge(),
                 Tables\Columns\ImageColumn::make('image_url')
                     ->circular()
-                    ->label(__('models.image_url')), 
+                    ->label(__('models.image_url')),
                 Tables\Columns\TextColumn::make('country_code')
                     ->label(__('models.country_code')),
                 Tables\Columns\TextColumn::make('phone_number')
@@ -126,6 +136,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country')
                     ->sortable()
+                    ->badge()
                     ->label(__('models.country'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
@@ -149,6 +160,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('role')
                     ->label(__('models.role'))
                     ->sortable()
+                    ->badge()
                     ->searchable(),
             ])
             ->filters([
@@ -163,21 +175,6 @@ class UserResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getCountryOptions(): array
-    {
-        return array_map(fn($case) => $case->value, CountryCode::cases());
-    }
-
-    public static function getCountryNames(): array
-    {
-        return array_map(fn($case) => $case->value, Countries::cases());
-    }
-
-    public static function getGenderOptions(): array
-    {
-        return array_map(fn($case) => $case->value, Gender::cases());
     }
 
     public static function getRelations(): array
@@ -202,11 +199,11 @@ class UserResource extends Resource
     {
         return __('models.users');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.users');
     }
 }
- 
+

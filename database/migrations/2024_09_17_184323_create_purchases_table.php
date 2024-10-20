@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CurrencySymbol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,12 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('total_amount'); 
+            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
+            $table->decimal('subtotal', 10, 2)->nullable();
+            $table->decimal('total', 10, 2);
+            $table->decimal('total_amount', 10, 2)->nullable(); 
             $table->dateTime('purchase_datetime')->nullable();
-            $table->string('purchase_supervisor')->nullable();
+            $table->foreignId('purchase_supervisor')->constrained('employees')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

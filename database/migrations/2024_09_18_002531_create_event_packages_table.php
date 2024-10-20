@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +18,6 @@ return new class extends Migration
             $table->text('details')->nullable();
             $table->text('additional_details')->nullable();
             $table->text('notes')->nullable();
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('subtotal', 10, 2)->nullable();
             $table->decimal('total', 10, 2)->nullable();

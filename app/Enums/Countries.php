@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum Countries: string
+use Filament\Support\Contracts\HasLabel;
+
+
+enum Countries: string implements HasLabel
 {
     case Afghanistan = 'Afghanistan';
     case Albania = 'Albania';
@@ -199,4 +202,10 @@ enum Countries: string
     case Yemen = 'Yemen';
     case Zambia = 'Zambia';
     case Zimbabwe = 'Zimbabwe';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

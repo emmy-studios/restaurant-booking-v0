@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum PaymentStatus: string
+use Filament\Support\Contracts\HasLabel;
+
+enum PaymentStatus: string implements HasLabel
 {
     case PENDING = 'Pending';            
     case PROCESSING = 'Processing';     
@@ -12,4 +14,10 @@ enum PaymentStatus: string
     case ON_HOLD = 'On Hold';           
     case AWAITING_PAYMENT = 'Awaiting Payment';
     case COMPLETED = 'Completed';        
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    } 
+
 }

@@ -27,6 +27,11 @@ class Schedule extends Model
         'notes',
     ];
 
+    protected $casts = [
+        'work_shift',
+        'work_type',
+    ];
+
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);

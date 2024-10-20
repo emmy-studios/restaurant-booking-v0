@@ -19,8 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('payment_method', array_map(fn($code) => $code->value, PaymentMethod::cases()))->default('Cash');
-            $table->enum('payment_status', array_map(fn($code) => $code->value, PaymentStatus::cases()))->default('Pending');
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
+            $table->enum('payment_status', array_map(fn($code) => $code->value, PaymentStatus::cases()))->default('Processing');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('payment_amount', 10, 2);
             $table->timestamps();

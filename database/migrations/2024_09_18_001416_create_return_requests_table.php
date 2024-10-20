@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('order_code');
             $table->string('product_name');
             $table->string('customer_name');
-            $table->string('responsable_employee');
-            $table->dateTime('request_date');
+            $table->foreignId('employee_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->dateTime('request_date'); 
             $table->integer('quantity');
             $table->text('reason');
             $table->enum('status', array_map(fn($code) => $code->value, ReturnStatus::cases()))->default('Processing');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 

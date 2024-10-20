@@ -5,6 +5,7 @@ return [
     'name' => 'Name',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
+    'identification_code' => 'Identification Code',
     'email' => 'Email',
     'gender' => 'Gender',
     'country_code' => 'Country Code',
@@ -431,6 +432,8 @@ return [
     'stats' => 'Stats',
     'number_of_users' => 'Number of Users',
     'total_sales' => 'Total Sales',
-    'total_orders_made' => 'Total Orders Made'
+    'total_orders_made' => 'Total Orders Made',
+    // Notices Modal
+    'notice_details' => 'Notice Details'
 ];  
  

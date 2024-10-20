@@ -22,6 +22,11 @@ class Supplier extends Model
         'address',
     ];
 
+    protected $casts = [
+        'phone_code',
+        'country',
+    ];
+
     public function purchases(): HasMany
     {
         return $this->hasMany(Purchase::class);

@@ -14,14 +14,18 @@ class SaleItem extends Model
 
     protected $fillable = [
         'sale_id',
-        'product_id',
+        'product_id', 
         'discount_percentage',
         'unit_of_measurement',
         'quantity',
         'description',
-        'note',
+        'notes',
         'subtotal',
         'total',
+    ];
+
+    protected $casts = [
+        'unit_of_measurement',
     ];
 
     public function sale(): BelongsTo

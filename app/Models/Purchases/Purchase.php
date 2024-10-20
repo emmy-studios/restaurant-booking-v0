@@ -2,6 +2,7 @@
 
 namespace App\Models\Purchases;
 
+use App\Models\Employees\Employee;
 use App\Models\Purchases\PurchaseItem;
 use App\Models\Suppliers\Supplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,9 +16,16 @@ class Purchase extends Model
 
     protected $fillable = [
         'supplier_id',
-        'total_amount',
+        'currency_symbol',
+        'subtotal',
+        'total',
+        'total_amount', 
         'purchase_datetime',
         'purchase_supervisor',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function purchase_items(): HasMany
@@ -28,5 +36,10 @@ class Purchase extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'purchase_supervisor');
     }
 } 

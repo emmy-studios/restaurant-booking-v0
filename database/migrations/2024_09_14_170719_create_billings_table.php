@@ -21,11 +21,10 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('billing_code');
             $table->enum('payment_method', array_map(fn($code) => $code->value, PaymentMethod::cases()))->default('Credit Card');
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->enum('status', array_map(fn($code) => $code->value, BillingStatus::cases()))->default('Processing');
             $table->decimal('subtotal', 10, 2); 
-            $table->decimal('total', 10, 2);
+            $table->decimal('total', 10, 2); 
             $table->timestamps(); 
         });
     }

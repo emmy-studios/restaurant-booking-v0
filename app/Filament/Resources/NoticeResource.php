@@ -18,7 +18,7 @@ class NoticeResource extends Resource
 {
     protected static ?string $model = Notice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bell-alert'; 
+    protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
 
     protected static ?string $navigationLabel = null;
 
@@ -35,7 +35,7 @@ class NoticeResource extends Resource
                     ->label(__('models.user'))
                     ->required(),
                 Forms\Components\Select::make('type')
-                    ->options(self::getNoticeType())
+                    ->options(NoticesType::class)
                     ->searchable()
                     ->default('Information')
                     ->required()
@@ -61,6 +61,7 @@ class NoticeResource extends Resource
                     ->label(__('models.user'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->badge()
                     ->label(__('models.type')),
                 Tables\Columns\TextColumn::make('subject')
                     ->searchable()
@@ -93,11 +94,11 @@ class NoticeResource extends Resource
                 ]),
             ]);
     }
-
+    /*
     public static function getNoticeType(): array
     {
         return array_map(fn($case) => $case->value, NoticesType::cases());
-    }
+    } */
 
     public static function getRelations(): array
     {
@@ -121,7 +122,7 @@ class NoticeResource extends Resource
     {
         return __('models.notices');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

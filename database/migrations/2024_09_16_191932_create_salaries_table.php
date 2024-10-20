@@ -17,7 +17,6 @@ return new class extends Migration
         Schema::create('salaries', function (Blueprint $table) {
             $table->id(); 
             $table->foreignId('employee_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('base_salary', 10, 2);
             $table->decimal('net_salary', 10, 2);

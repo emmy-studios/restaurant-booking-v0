@@ -38,7 +38,7 @@ class SupplierResource extends Resource
                     ->maxLength(255)
                     ->label(__('models.company_name')),
                 Forms\Components\Select::make('phone_code')
-                    ->options(self::getCountryCode())
+                    ->options(CountryCode::class)
                     ->searchable()
                     ->default('+506')
                     ->label(__('models.phone_code'))
@@ -52,7 +52,7 @@ class SupplierResource extends Resource
                     ->label(__('models.email'))
                     ->maxLength(255), 
                 Forms\Components\Select::make('country')
-                    ->options(self::getCountryOptions())
+                    ->options(Countries::class)
                     ->searchable()
                     ->default('Costa Rica')
                     ->required()
@@ -78,7 +78,8 @@ class SupplierResource extends Resource
                     ->searchable()
                     ->label(__('models.company_name')),
                 Tables\Columns\TextColumn::make('phone_code')
-                    ->label(__('models.phone_code')),
+                    ->label(__('models.phone_code'))
+                    ->badge(),
                 Tables\Columns\TextColumn::make('phone_number')
                     ->searchable()
                     ->label(__('models.phone_number')),
@@ -86,6 +87,7 @@ class SupplierResource extends Resource
                     ->searchable()
                     ->label(__('models.email')),
                 Tables\Columns\TextColumn::make('country')
+                    ->badge()
                     ->label(__('models.country')),
                 Tables\Columns\TextColumn::make('city')
                     ->searchable()
@@ -113,16 +115,6 @@ class SupplierResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getCountryOptions(): array
-    {
-        return array_map(fn($case) => $case->value, Countries::cases());
-    }
-
-    public static function getCountryCode(): array
-    {
-        return array_map(fn($case) => $case->value, CountryCode::cases());
     }
 
     public static function getRelations(): array

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->unsignedTinyInteger('rating')->default(1)->comment('Calification from 1 to 5 stars');
             $table->timestamp('reviewed_at')->useCurrent();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 

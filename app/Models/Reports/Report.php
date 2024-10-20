@@ -12,7 +12,8 @@ class Report extends Model
 
     protected $fillable = [
         'title',
-        'report_type',
+        'report_type', 
+        'content',
         'details',
         'additional_details',
         'user_id',

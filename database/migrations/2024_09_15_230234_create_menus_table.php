@@ -18,20 +18,20 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('menu_code')->nullable();
-            $table->enum('menu_status', array_map(fn($code) => $code->value, MenuStatus::cases()))->default('Draft');
+            $table->enum('menu_status', array_map(fn($code) => $code->value, MenuStatus::cases()))->default('Active');
             $table->enum('menu_type', array_map(fn($code) => $code->value, MenuType::cases()))->default('Special');
             $table->boolean('is_recurring')->nullable();
             $table->dateTime('initial_date')->nullable();
             $table->dateTime('final_date')->nullable(); 
             $table->string('menu_availability')->nullable();
             $table->string('portions');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
-    /**
+    /** 
      * Reverse the migrations.
-     */
+     */ 
     public function down(): void
     {
         Schema::dropIfExists('menus');

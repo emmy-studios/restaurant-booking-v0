@@ -23,10 +23,10 @@ return new class extends Migration
             $table->decimal('total_work_hours', 5, 2)->nullable();
             $table->decimal('lunch_break_duration', 4, 2)->nullable();
             $table->decimal('overtime_hours', 5, 2)->nullable();
-            $table->decimal('overtime_rate', 5, 2)->nullable();
+            $table->decimal('overtime_rate', 5, 2)->nullable(); 
             $table->date('schedule_start_date')->nullable();
             $table->date('schedule_end_date')->nullable();
-            $table->date('modified_date')->nullable(); 
+            $table->date('modified_date')->nullable();  
             $table->text('notes')->nullable();
             $table->timestamps();
         });

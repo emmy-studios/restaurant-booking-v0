@@ -32,17 +32,11 @@ class CurrencyResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
                     ->label(__('models.currency_symbol'))
                     ->required(),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->required()
-                    ->label(__('models.currency_code')),
                 Forms\Components\TextInput::make('currency_name')
                     ->required()
                     ->label(__('models.currency_name'))
@@ -60,8 +54,6 @@ class CurrencyResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('currency_symbol')
                     ->label(__('models.currency_symbol')),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
                 Tables\Columns\TextColumn::make('currency_name')
                     ->searchable()
                     ->sortable()

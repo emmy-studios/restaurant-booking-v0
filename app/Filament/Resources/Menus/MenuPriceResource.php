@@ -36,17 +36,11 @@ class MenuPriceResource extends Resource
                     ->label(__('models.menu'))
                     ->required(),
                 Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
-                    ->required()
+                    ->required() 
                     ->label(__('models.currency_symbol')),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->required()
-                    ->label(__('models.currency_code')),
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->label(__('models.price'))
@@ -64,8 +58,6 @@ class MenuPriceResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
                     ->label(__('models.currency_symbol')),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->label(__('models.price'))

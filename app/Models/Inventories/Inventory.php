@@ -31,6 +31,11 @@ class Inventory extends Model
         'notes',
     ];
 
+    protected $casts = [
+        'currency',
+        'inventory_status',
+    ];
+
     public function inventoryItems(): HasMany
     {
         return $this->hasMany(InventoryItem::class);

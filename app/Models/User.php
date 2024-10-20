@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\Countries;
 use App\Models\Notice;
 use App\Models\Events\Event;
 use App\Models\Orders\Billing;
@@ -20,6 +21,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
+use App\Enums\Gender;
+use App\Enums\Roles;
+use App\Models\Employees\Absence;
+use App\Models\Employees\Overtime;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -48,6 +54,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'first_name',
         'last_name',
+        'identification_code',
         'country_code',
         'phone_number',
         'gender',
@@ -77,6 +84,9 @@ class User extends Authenticatable implements FilamentUser
      * @var array<string, string>
      */
     protected $casts = [
+        'gender' => Gender::class,
+        //'role' => Roles::class,
+        'country' => Countries::class,
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
@@ -105,7 +115,7 @@ class User extends Authenticatable implements FilamentUser
             return $this->isManager();
         }
 
-        return false; 
+        return false;
     }
 
     public function isAdmin(){
@@ -149,11 +159,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Event::class);
     }
 
-    public function sales(): BelongsToMany
-    {
-        return $this->belongsToMany(Sale::class);
-    }
-
     public function reports(): HasMany
     {
         return $this->hasMany(Report::class);
@@ -167,6 +172,18 @@ class User extends Authenticatable implements FilamentUser
     public function notices(): HasMany
     {
         return $this->hasMany(Notice::class);
+    }
+
+    // Overtime Relationships
+    public function approvedOvertimes(): HasMany
+    {
+        return $this->hasMany(Overtime::class, 'approved_by');
+    }
+
+    // Absences Relationships
+    public function approvedAbsences(): HasMany 
+    {
+        return $this->hasMany(Absence::class, 'approved_by');
     }
 }
 

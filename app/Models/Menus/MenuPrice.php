@@ -14,8 +14,12 @@ class MenuPrice extends Model
     protected $fillable = [
         'menu_id',
         'currency_symbol',
-        'currency_code',
-        'price',
+        'subtotal',
+        'total',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function menu(): BelongsTo

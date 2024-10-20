@@ -1,16 +1,17 @@
 <template>
 
-    <h1>Are you a member of our organization?</h1>
-    <h2>Choose your role and login</h2>
+    <div class="flex flex-row justify-center">
 
-    <p>{{ counter }}</p>
+        <n-gradient-text type="alert">
+            Are you part of our teams?
+        </n-gradient-text>
+
+    </div>
 
 </template>
 
 <script setup>
 
-    import { ref } from 'vue';
-
-    const counter = ref(0);
+    import { NGradientText } from "naive-ui";
 
 </script>

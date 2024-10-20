@@ -16,10 +16,13 @@ class EventPackage extends Model
         'details',
         'additional_details',
         'notes',
-        'currency_code',
         'currency_symbol',
         'subtotal',
         'total',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function events(): BelongsToMany

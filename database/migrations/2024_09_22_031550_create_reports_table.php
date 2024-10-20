@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->enum('report_type', array_map(fn($code) => $code->value, ReportType::cases()))->default('Generic');
+            $table->text('content');
             $table->text('details')->nullable();
             $table->text('additional_details')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');

@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum InventoryStatus: string
+use Filament\Support\Contracts\HasLabel;
+
+enum InventoryStatus: string implements HasLabel
 {
     case ACTIVE = 'Active';
     case LOW_STOCK = 'Low Stock';
@@ -13,4 +15,10 @@ enum InventoryStatus: string
     case PENDING_AUDIT = 'Pending Audit';
     case UNDER_REVIEW = 'Under Review';
     case RESERVED = 'Reserved';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

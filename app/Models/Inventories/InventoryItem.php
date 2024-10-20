@@ -23,6 +23,10 @@ class InventoryItem extends Model
         'quantity',
     ];
 
+    protected $casts = [
+        'unit_of_measurement',
+    ];
+
     public function ingredient(): BelongsTo
     {
         return $this->belongsTo(Ingredient::class);

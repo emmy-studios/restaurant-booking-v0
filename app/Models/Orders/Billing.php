@@ -17,11 +17,16 @@ class Billing extends Model
         'order_id',
         'billing_code',
         'payment_method',
-        'currency_code',
         'currency_symbol',
         'status',
         'subtotal',
         'total',
+    ];
+
+    protected $casts = [
+        'status',
+        'payment_method',
+        'currency_symbol',
     ];
 
     public function user(): BelongsTo

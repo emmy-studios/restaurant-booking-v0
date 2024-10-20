@@ -37,14 +37,8 @@ class InventoryReportResource extends Resource
                 Forms\Components\TextInput::make('inventory_location')
                     ->maxLength(255)
                     ->label(__('models.inventory_location')),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->label(__('models.currency_code'))
-                    ->required(),
                 Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
                     ->label(__('models.currency_symbol'))
@@ -105,9 +99,8 @@ class InventoryReportResource extends Resource
                 Tables\Columns\TextColumn::make('inventory_location')
                     ->searchable()
                     ->label(__('models.inventory_location')),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
                 Tables\Columns\TextColumn::make('currency_symbol')
+                    ->badge()
                     ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('total_stock_value')
                     ->numeric()
@@ -168,16 +161,6 @@ class InventoryReportResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getCurrencyCode(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencyCode::cases());
-    }
-
-    public static function getCurrencySymbol(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }
 
     public static function getRelations(): array

@@ -37,7 +37,7 @@ class PriceResource extends Resource
                     ->relationship('currency', 'currency_symbol')
                     ->label(__('models.currency'))
                     ->required(),
-                Forms\Components\TextInput::make('unit_price')
+                Forms\Components\TextInput::make('unit_price') 
                     ->required()
                     ->label(__('models.unit_price'))
                     ->numeric(),

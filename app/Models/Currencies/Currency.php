@@ -13,9 +13,12 @@ class Currency extends Model
 
     protected $fillable = [
         'currency_symbol',
-        'currency_code',
         'currency_name',
         'notes',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function prices(): HasMany

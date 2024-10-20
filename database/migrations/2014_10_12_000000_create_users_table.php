@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('identification_code')->nullable()->unique();
             $table->string('email')->unique();
             $table->enum('gender', array_map(fn($code) => $code->value, Gender::cases()))->default('Other');
             $table->string('image_url')->nullable();

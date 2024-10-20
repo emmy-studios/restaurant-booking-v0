@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\NoticesType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,10 @@ class Notice extends Model
         'subject',
         'message',
         'date',
+    ];
+
+    protected $casts = [
+        'type' => NoticesType::class,
     ];
 
     public function user(): BelongsTo

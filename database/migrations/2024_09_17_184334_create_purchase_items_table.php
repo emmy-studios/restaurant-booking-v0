@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+    /** 
      * Run the migrations.
      */ 
     public function up(): void
@@ -18,10 +18,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('product_name')->nullable();
-            $table->enum('unit_of_measurement', array_map(fn($code) => $code->value, UnitOfMeasurement::cases()))->default('unit'); 
+            $table->enum('unit_of_measurement', array_map(fn($code) => $code->value, UnitOfMeasurement::cases()))->default('Unit'); 
             $table->decimal('quantity', 10, 2)->nullable();
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
+            $table->decimal('discount_percentage', 10, 2)->nullable();
             $table->decimal('unit_price', 10, 2)->nullable();
             $table->timestamps();
         });

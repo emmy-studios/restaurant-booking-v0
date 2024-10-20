@@ -17,11 +17,14 @@ class EventService extends Model
         'description',
         'details',
         'additional_details',
-        'currency_code',
         'currency_symbol',
         'service_price',
         'additional_cost',
         'additional_cost_details', 
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function event(): BelongsTo

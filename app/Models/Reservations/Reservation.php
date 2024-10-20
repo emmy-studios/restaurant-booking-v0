@@ -21,10 +21,14 @@ class Reservation extends Model
         'status',
     ];
 
+    protected $casts = [
+        'status',
+    ];
+
     public function reservationPayments(): HasMany
     {
         return $this->hasMany(ReservationPayment::class);
-    }
+    } 
 
     public function tables(): BelongsToMany
     {

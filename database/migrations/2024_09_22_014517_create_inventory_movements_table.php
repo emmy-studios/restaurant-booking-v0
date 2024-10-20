@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreignId('inventory_item_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('movement_type', array_map(fn($code) => $code->value, InventoryMovementType::cases()));
             $table->decimal('quantity', 10, 2);
-            $table->decimal('previous_quantity', 10, 2)->nullable(); // Para almacenar la cantidad anterior
-            $table->decimal('new_quantity', 10, 2)->nullable(); // Para almacenar la cantidad después del movimiento
-            $table->text('reason')->nullable(); // Razón del movimiento
-            $table->string('performed_by')->nullable(); // Usuario que realizó el movimiento
+            $table->decimal('previous_quantity', 10, 2)->nullable(); 
+            $table->decimal('new_quantity', 10, 2)->nullable(); 
+            $table->text('reason')->nullable();  
+            $table->foreignId('employee_id')->constrained()->onDelete('cascade')->onUpdate('cascade'); // Usuario que realizó el movimiento
             $table->timestamps();
         });
     } 

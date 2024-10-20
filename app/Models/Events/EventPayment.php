@@ -14,9 +14,14 @@ class EventPayment extends Model
     protected $fillable = [
         'event_id',
         'payment_method',
-        'currency_code',
         'currency_symbol',
         'payment_amount',
+        'payment_status',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
+        'payment_method',
         'payment_status',
     ];
 

@@ -13,12 +13,20 @@ class DailySaleReport extends Model
 
     protected $fillable = [
         'report_date',
-        'total_orders',
+        'total_orders', 
         'total_sales',
-        'total_amount',
-        'total_discounts',
+        'sales_currency_symbol',
+        'sales_subtotal',
+        'sales_discounts_applied',
+        'discount_total_amount',
         'total_net_amount',
+        'details',
+        'notes',
         'user_id',
+    ];
+
+    protected $casts = [
+        'sales_currency_symbol',
     ];
 
     public function user(): BelongsTo

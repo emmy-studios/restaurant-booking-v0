@@ -12,13 +12,16 @@ class Deduction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'salary_id',
-        'currency_code',
+        'salary_id', 
         'currency_symbol',
         'amount',
         'type',
         'description',
         'date_applied',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function salary(): BelongsTo

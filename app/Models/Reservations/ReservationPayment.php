@@ -14,10 +14,15 @@ class ReservationPayment extends Model
     protected $fillable = [
         'reservation_id',
         'payment_method',
-        'currency_symbol',
-        'currency_code',
+        'currency_symbol', 
         'payment_amount',
         'payment_status',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
+        'payment_status',
+        'payment_method',
     ];
 
     public function reservation(): BelongsTo

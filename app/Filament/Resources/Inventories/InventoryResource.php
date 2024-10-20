@@ -48,7 +48,7 @@ class InventoryResource extends Resource
                     ->label(__('models.storage_conditions')),
                 Forms\Components\Select::make('currency') 
                     ->label(__('models.currency'))
-                    ->options(self::getCurrencySymbol())
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('inventory_value')
@@ -65,7 +65,7 @@ class InventoryResource extends Resource
                 Forms\Components\DateTimePicker::make('next_audit_date')
                     ->label(__('models.next_audit_date')),
                 Forms\Components\Select::make('inventory_status')
-                    ->options(self::getInventoryStatus())
+                    ->options(InventoryStatus::class)
                     ->label(__('models.inventory_status'))
                     ->searchable()
                     ->required(),
@@ -101,6 +101,7 @@ class InventoryResource extends Resource
                     ->searchable()
                     ->label(__('models.warehouse_location')),
                 Tables\Columns\TextColumn::make('currency')
+                    ->badge()
                     ->label(__('models.currency')),
                 Tables\Columns\TextColumn::make('inventory_value')
                     ->numeric()
@@ -123,6 +124,7 @@ class InventoryResource extends Resource
                     ->sortable()
                     ->label(__('models.next_audit_date')),
                 Tables\Columns\TextColumn::make('inventory_status')
+                    ->badge()
                     ->label(__('models.inventory_status')),
                 Tables\Columns\TextColumn::make('inventory_manager')
                     ->searchable()

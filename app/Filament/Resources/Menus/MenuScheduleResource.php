@@ -35,7 +35,7 @@ class MenuScheduleResource extends Resource
                     ->label(__('models.menu'))
                     ->required(),
                 Forms\Components\Select::make('day_of_week')
-                    ->options(self::getDayOfWeek())
+                    ->options(DayOfWeek::class)
                     ->searchable()
                     ->label(__('models.day_of_week')),
                 Forms\Components\TimePicker::make('start_time')
@@ -54,6 +54,7 @@ class MenuScheduleResource extends Resource
                     ->label(__('models.menu'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
+                    ->badge()
                     ->label(__('models.day_of_week')),
                 Tables\Columns\TextColumn::make('start_time')
                     ->label(__('models.start_time')),

@@ -12,7 +12,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up(): void 
     {
         Schema::create('sale_items', function (Blueprint $table) {
             $table->id();
@@ -23,8 +23,6 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->text('description')->nullable();
             $table->text('notes')->nullable(); 
-            $table->enum('currency_code', array_map(fn($code) => $code->value, CurrencyCode::cases()))->default('USD');
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamps();

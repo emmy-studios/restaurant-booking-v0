@@ -26,10 +26,14 @@ class Event extends Model
         'number_of_guests',
         'event_description',
         'event_status',
-        'currency_code',
         'currency_symbol',
         'subtotal_cost',
         'total_cost',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
+        'event_status',
     ];
 
     public function user(): BelongsTo

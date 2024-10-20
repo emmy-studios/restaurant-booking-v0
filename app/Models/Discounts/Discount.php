@@ -20,6 +20,12 @@ class Discount extends Model
         'banner_image',
         'description',
         'additional_details',
+        'currency_symbol',
+        'amount',
+    ];
+
+    protected $casts = [
+        'currency_symbol',
     ];
 
     public function products(): BelongsToMany

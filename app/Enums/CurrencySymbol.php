@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum CurrencySymbol: string
+use Filament\Support\Contracts\HasLabel;
+
+enum CurrencySymbol: string implements HasLabel
 {
     case USD = 'USD $';       // Dólar estadounidense
     case CRC = 'CRC ₡';       // Cólon costarricense
@@ -39,4 +41,10 @@ enum CurrencySymbol: string
     case THB = 'THB ฿';       // Baht tailandés
     case MYR = 'MYR RM';      // Ringgit malasio
     case IDR = 'IDR Rp';      // Rupia indonesia
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

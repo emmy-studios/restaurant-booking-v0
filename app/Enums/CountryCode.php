@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum CountryCode: string
+use Filament\Support\Contracts\HasLabel;
+
+enum CountryCode: string implements HasLabel
 {
     case Albania = '+355';
     case Algeria = '+213';
@@ -181,4 +183,10 @@ enum CountryCode: string
     case Yemen = '+967';
     case Zambia = '+260';
     case Zimbabwe = '+263';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }

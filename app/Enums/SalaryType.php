@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum SalaryType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum SalaryType: string implements HasLabel
 {
     case HOURLY = 'Hourly';
     case DAILY = 'Daily';
@@ -14,4 +16,10 @@ enum SalaryType: string
     case STIPEND = 'Stipend';
     case CONTRACTUAL = 'Contractual';
     case PERFORMANCE_BASED = 'Performance-Based';
+
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
+
 }
