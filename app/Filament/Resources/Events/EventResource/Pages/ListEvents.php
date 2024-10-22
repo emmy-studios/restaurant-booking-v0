@@ -22,3 +22,4 @@ class ListEvents extends ListRecords
         return __('models.events');
     } 
 } 
+ 

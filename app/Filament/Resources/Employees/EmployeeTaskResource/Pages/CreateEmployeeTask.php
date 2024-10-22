@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateEmployeeTask extends CreateRecord
 {
     protected static string $resource = EmployeeTaskResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_task');
+    }
+
 }

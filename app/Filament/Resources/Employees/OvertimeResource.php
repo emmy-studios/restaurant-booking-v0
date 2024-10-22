@@ -35,18 +35,24 @@ class OvertimeResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\DatePicker::make('overtime_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.overtime_date')),
                 Forms\Components\TimePicker::make('start_time')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.start_time')),
                 Forms\Components\TimePicker::make('end_time')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.end_time')),
                 Forms\Components\TextInput::make('number_of_hours')
                     ->required()
+                    ->label(__('models.number_of_hours'))
                     ->numeric(),
                 Forms\Components\MarkdownEditor::make('reason')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.reason')),
                 Forms\Components\Select::make('status')
                     ->options(OvertimeStatus::class)
                     ->searchable()
@@ -55,23 +61,29 @@ class OvertimeResource extends Resource
                 Forms\Components\Select::make('overtime_type')
                     ->options(OvertimeType::class)
                     ->searchable()
+                    ->label(__('models.overtime_type'))
                     ->required(), 
                 Forms\Components\Select::make('approved_by')
                     ->relationship('approver', 'name')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.approved_by')),
                 Forms\Components\Select::make('payment_method')
                     ->options(PaymentMethod::class)
                     ->searchable()
+                    ->label(__('models.payment_method'))
                     ->required(),
                 Forms\Components\Select::make('payment_currency')
                     ->options(CurrencySymbol::class)
                     ->searchable()
+                    ->label(__('models.payment_currency'))
                     ->default('USD $')
                     ->required(),
                 Forms\Components\TextInput::make('hourly_rate')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.hourly_rate')),
                 Forms\Components\TextInput::make('total_payment')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.total_payment')),
             ]);
     }
 
@@ -81,32 +93,43 @@ class OvertimeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee_id')
                     ->numeric()
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('overtime_date')
                     ->date()
+                    ->label(__('models.overtime_date'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_time'),
-                Tables\Columns\TextColumn::make('end_time'),
+                Tables\Columns\TextColumn::make('start_time')
+                    ->label(__('models.start_time')),
+                Tables\Columns\TextColumn::make('end_time')
+                    ->label(__('models.end_time')),
                 Tables\Columns\TextColumn::make('number_of_hours')
                     ->numeric()
+                    ->label(__('models.number_of_hours'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->label(__('models.status')),
                 Tables\Columns\TextColumn::make('overtime_type')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.overtime_type')),
                 Tables\Columns\TextColumn::make('approved_by')
                     ->numeric()
+                    ->label(__('models.approved_by'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('payment_method')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.payment_method')),
                 Tables\Columns\TextColumn::make('payment_currency')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.payment_currency')),
                 Tables\Columns\TextColumn::make('hourly_rate')
                     ->numeric()
+                    ->label(__('models.hourly_rate'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_payment')
                     ->numeric()
+                    ->label(__('models.total_payment'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

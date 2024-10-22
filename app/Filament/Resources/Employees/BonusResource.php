@@ -32,19 +32,25 @@ class BonusResource extends Resource
             ->schema([
                 Forms\Components\Select::make('salary_id')
                     ->relationship('salary', 'id')
+                    ->label(__('models.salary'))
                     ->required(),
                 Forms\Components\Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
+                    ->label(__('models.currency_symbol'))
                     ->default('USD $')
                     ->required(),
                 Forms\Components\TextInput::make('amount')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.amount')),
                 Forms\Components\TextInput::make('type')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label(__('models.type')),
                 Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\DatePicker::make('date_awarded'),
+                    ->columnSpanFull()
+                    ->label(__('models.description')),
+                Forms\Components\DatePicker::make('date_awarded')
+                    ->label(__('models.date_awarded')),
             ]);
     }
 
@@ -54,22 +60,29 @@ class BonusResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('salary.id')
                     ->numeric()
+                    ->label(__('models.salary'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('currency_symbol'),
+                Tables\Columns\TextColumn::make('currency_symbol')
+                    ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
+                    ->label(__('models.amount'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.type')),
                 Tables\Columns\TextColumn::make('date_awarded')
                     ->date()
+                    ->label(__('models.date_awarded'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

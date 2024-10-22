@@ -32,20 +32,26 @@ class EmployeeTaskResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\TextInput::make('task_name')
                     ->required()
+                    ->label(__('models.task_name'))
                     ->maxLength(255),
                 Forms\Components\MarkdownEditor::make('description')
                     ->required()
+                    ->label(__('models.description'))
                     ->columnSpanFull(),
                 Forms\Components\MarkdownEditor::make('additional_details')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.additional_details')),
                 Forms\Components\Select::make('status')
                     ->options(TaskStatus::class)
                     ->searchable()
+                    ->label(__('models.status'))
                     ->required(),
-                Forms\Components\DatePicker::make('due_date'),
+                Forms\Components\DatePicker::make('due_date')
+                    ->label(__('models.due_date')),
             ]);
     }
 
@@ -55,21 +61,26 @@ class EmployeeTaskResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('task_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.task_name')),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->label(__('models.status')),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
+                    ->label(__('models.due_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

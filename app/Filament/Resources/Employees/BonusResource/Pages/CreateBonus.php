@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBonus extends CreateRecord
 {
     protected static string $resource = BonusResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_bonus');
+    }
+
 }

@@ -13,7 +13,13 @@ class ListEmployeeTasks extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label(__('models.create_task')),
         ];
     }
+
+    public function getTitle(): string 
+    {
+        return __('models.tasks');
+    }
+
 }

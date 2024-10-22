@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateVacation extends CreateRecord
 {
     protected static string $resource = VacationResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_vacation');
+    }
+
 }

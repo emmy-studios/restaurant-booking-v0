@@ -461,6 +461,7 @@ return [
     /** SalaryResource Filament Translations */
     'salary' => 'Salary',
     'salaries' => 'Salaries',
+    'amount' => 'Amount',
     'base_salary' => 'Base Salary',
     'net_salary' => 'Net Salary',
     'salary_type' => 'Salary Type',
@@ -471,6 +472,8 @@ return [
     'edit_salary' => 'Edit Salary',
     'view_salary' => 'View Salary', 
     /** SchedulesResource Filament Translations */
+    'schedules' => 'Schedules',
+    'schedule' => 'Schedule',
     'shift_start_time' => 'Shift Start Time',
     'shift_end_time' => 'Shift End Time',
     'work_shift' => 'Work Shift',
@@ -486,9 +489,6 @@ return [
     'create_schedule' => 'Create Schedule',   
     'edit_schedule' => 'Edit Schedule',
     'view_schedule' => 'View Schedule',
-
-
-
     /** BonusResource Filament Translations */
     'bonus' => 'Bonus',
     'bonuses' => 'Bonuses',
@@ -554,9 +554,6 @@ return [
     'create_task' => 'Create Task',   
     'edit_task' => 'Edit Task',
     'view_task' => 'View Task',
-
-
-
     /** Admin/Profile/Page/Widgets Filament Translations */ 
     'profile' => 'Profile',
     'settings' => 'Settings',

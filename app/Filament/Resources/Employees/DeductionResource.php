@@ -37,7 +37,7 @@ class DeductionResource extends Resource
                 Forms\Components\Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
-                    ->default('USD $')
+                    ->default('USD $') 
                     ->required()
                     ->label(__('models.currency_symbol')), 
                 Forms\Components\TextInput::make('amount')
@@ -47,10 +47,11 @@ class DeductionResource extends Resource
                 Forms\Components\TextInput::make('type')
                     ->label(__('models.type'))
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
                     ->columnSpanFull()
                     ->label(__('models.description')),
-                Forms\Components\DatePicker::make('date_applied'),
+                Forms\Components\DatePicker::make('date_applied')
+                    ->label(__('models.date_applied')),
             ]);
     }
 
@@ -60,23 +61,30 @@ class DeductionResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('salary.id')
                     ->numeric()
+                    ->label(__('models.salary'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
+                    ->label(__('models.amount'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('models.type')),
                 Tables\Columns\TextColumn::make('date_applied')
                     ->date()
+                    ->label(__('models.date_applied'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

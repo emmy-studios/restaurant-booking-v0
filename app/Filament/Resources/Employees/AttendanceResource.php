@@ -31,24 +31,35 @@ class AttendanceResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
-                Forms\Components\DatePicker::make('date'),
-                Forms\Components\TextInput::make('check_in_time'),
-                Forms\Components\TextInput::make('check_out_time'),
+                Forms\Components\DatePicker::make('date')
+                    ->label(__('models.date')),
+                Forms\Components\TextInput::make('check_in_time')
+                    ->label(__('models.check_in_time')),
+                Forms\Components\TextInput::make('check_out_time')
+                    ->label(__('models.check_out_time')),
                 Forms\Components\TextInput::make('total_work_hours')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.total_work_hours')),
                 Forms\Components\TextInput::make('overtime_hours')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.overtime_hours')),
                 Forms\Components\TextInput::make('overtime_rate')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.overtime_rate')),
                 Forms\Components\TextInput::make('lunch_break_duration')
-                    ->numeric(),
+                    ->numeric()
+                    ->label(__('models.lunch_break_duration')),
                 Forms\Components\Toggle::make('is_holiday')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.is_holiday')),
                 Forms\Components\Toggle::make('is_weekend')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.is_weekend')),
                 Forms\Components\Textarea::make('notes')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.notes')),
             ]);
     }
 
@@ -58,34 +69,46 @@ class AttendanceResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.employee')),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
+                    ->label(__('models.date'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('check_in_time'),
-                Tables\Columns\TextColumn::make('check_out_time'),
+                Tables\Columns\TextColumn::make('check_in_time')
+                    ->label(__('models.check_in_time')),
+                Tables\Columns\TextColumn::make('check_out_time')
+                    ->label(__('models.check_out_time')),
                 Tables\Columns\TextColumn::make('total_work_hours')
                     ->numeric()
+                    ->label(__('models.total_work_hours'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('overtime_hours')
                     ->numeric()
+                    ->label(__('models.overtime_hours'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('overtime_rate')
                     ->numeric()
+                    ->label(__('models.overtime_rate'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lunch_break_duration')
                     ->numeric()
+                    ->label(__('models.lunch_break_duration'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_holiday')
-                    ->boolean(),
+                    ->boolean()
+                    ->label(__('models.is_holiday')),
                 Tables\Columns\IconColumn::make('is_weekend')
-                    ->boolean(),
+                    ->boolean()
+                    ->label(__('models.is_weekend')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

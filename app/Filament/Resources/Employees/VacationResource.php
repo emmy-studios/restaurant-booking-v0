@@ -31,16 +31,21 @@ class VacationResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\TextInput::make('number_of_days')
                     ->required()
+                    ->label(__('models.number_of_days'))
                     ->numeric(),
                 Forms\Components\DatePicker::make('start_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.start_date')),
                 Forms\Components\DatePicker::make('end_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.end_date')),
                 Forms\Components\MarkdownEditor::make('notes')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.notes')),
             ]);
     }
 
@@ -50,22 +55,28 @@ class VacationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number_of_days')
                     ->numeric()
+                    ->label(__('models.number_of_days'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->date()
+                    ->label(__('models.start_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->date()
+                    ->label(__('models.end_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

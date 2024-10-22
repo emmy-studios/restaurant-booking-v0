@@ -17,4 +17,10 @@ class EditBonus extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return __('models.edit_bonus');
+    }
+
 }

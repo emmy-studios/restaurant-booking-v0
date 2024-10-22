@@ -458,6 +458,7 @@ return [
     /** SalaryResoure Filament Translations */ 
     'salary' => 'Salario',
     'salaries' => 'Salarios',
+    'amount' => 'Monto',
     'base_salary' => 'Salario Base',
     'net_salary' => 'Salario Neto',
     'salary_type' => 'Tipo de Salario',
@@ -468,6 +469,8 @@ return [
     'edit_salary' => 'Editar Salario',
     'view_salary' => 'Ver Salario',
     /** ScheduleResoure Filament Translations */ 
+    'schedules' => 'Horarios',
+    'schedule' => 'Horario',
     'shift_start_time' => 'Hora de Inicio del Turno',
     'shift_end_time' => 'Hora de Fin del Turno',
     'work_shift' => 'Turno de Trabajo',

@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateOvertime extends CreateRecord
 {
     protected static string $resource = OvertimeResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_overtime');
+    }
+
 }

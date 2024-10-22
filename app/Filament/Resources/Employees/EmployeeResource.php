@@ -37,7 +37,7 @@ class EmployeeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label(__('models.name')) 
-                    ->required()
+                    ->required() 
                     ->maxLength(255),
                 Forms\Components\TextInput::make('first_name')
                     ->label(__('models.first_name'))

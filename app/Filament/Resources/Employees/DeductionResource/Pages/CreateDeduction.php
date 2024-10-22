@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDeduction extends CreateRecord
 {
     protected static string $resource = DeductionResource::class;
+
+    public function getTitle(): string
+    {
+        return __('models.create_deduction');
+    }
+
 }

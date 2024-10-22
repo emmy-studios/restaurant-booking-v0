@@ -32,23 +32,31 @@ class AbsenceResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\DatePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DatePicker::make('end_date'),
+                    ->required()
+                    ->label(__('models.start_date')),
+                Forms\Components\DatePicker::make('end_date')
+                    ->label(__('models.end_date')),
                 Forms\Components\Toggle::make('justified')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.justified')),
                 Forms\Components\MarkdownEditor::make('reason')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.reason')),
                 Forms\Components\MarkdownEditor::make('details')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label(__('models.details')),
                 Forms\Components\Select::make('absence_type')
                     ->options(AbsenceType::class)
                     ->searchable()
+                    ->label(__('models.absence_type'))
                     ->required(),
                 Forms\Components\Select::make('approved_by')
                     ->relationship('approver', 'name')
-                    ->required(),
+                    ->required()
+                    ->label(__('models.approved_by')),
             ]);
     }
 
@@ -58,25 +66,33 @@ class AbsenceResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('models.employee')),
                 Tables\Columns\TextColumn::make('start_date')
                     ->date()
+                    ->label(__('models.start_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->date()
+                    ->label(__('models.end_date'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('justified')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('absence_type'),
+                    ->boolean()
+                    ->label(__('models.justified')),
+                Tables\Columns\TextColumn::make('absence_type')
+                    ->label(__('models.absence_type')),
                 Tables\Columns\TextColumn::make('approved_by')
                     ->numeric()
+                    ->label(__('models.approved_by'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

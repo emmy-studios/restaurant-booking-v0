@@ -33,24 +33,31 @@ class SalaryResource extends Resource
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
+                    ->label(__('models.currency_symbol'))
                     ->default('USD $')
                     ->required(), 
                 Forms\Components\TextInput::make('base_salary')
                     ->required()
+                    ->label(__('models.base_salary'))
                     ->numeric(),
                 Forms\Components\TextInput::make('net_salary')
                     ->required()
+                    ->label(__('models.net_salary'))
                     ->numeric(),
                 Forms\Components\Select::make('salary_type')
                     ->options(SalaryType::class)
                     ->searchable()
+                    ->label(__('models.salary_type'))
                     ->required(),
-                Forms\Components\DateTimePicker::make('effective_date'),
-                Forms\Components\DateTimePicker::make('end_date'),
+                Forms\Components\DateTimePicker::make('effective_date')
+                    ->label(__('models.effective_date')),
+                Forms\Components\DateTimePicker::make('end_date')
+                    ->label(__('models.end_date')),
             ]);
     }
 
@@ -60,29 +67,38 @@ class SalaryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('base_salary')
                     ->numeric()
+                    ->label(__('models.base_salary'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('net_salary')
                     ->numeric()
+                    ->label(__('models.net_salary'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('salary_type')
-                    ->badge(),
+                    ->badge()
+                    ->label(__('models.salary_type')),
                 Tables\Columns\TextColumn::make('effective_date')
                     ->dateTime()
+                    ->label(__('models.effective_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->dateTime()
+                    ->label(__('models.end_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

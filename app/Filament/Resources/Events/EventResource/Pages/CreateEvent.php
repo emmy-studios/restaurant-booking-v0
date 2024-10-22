@@ -14,5 +14,5 @@ class CreateEvent extends CreateRecord
     {
         return __('models.create_event');
     }
-}
+} 
  
