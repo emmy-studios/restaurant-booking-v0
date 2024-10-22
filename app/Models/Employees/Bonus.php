@@ -16,7 +16,6 @@ class Bonus extends Model
         'currency_symbol',
         'amount',
         'type',
-        'currency',
         'description',
         'date_awarded',
     ];

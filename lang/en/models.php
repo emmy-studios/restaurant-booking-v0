@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\map;
+
 return [
     /**  UserResource Filament Translations  */
     'name' => 'Name',
@@ -15,7 +17,7 @@ return [
     'address' => 'Address',
     'email_verified_at' => 'Email Verified At',
     'updated_at' => 'Updated At',
-    'password' => 'Password',
+    'password' => 'Password', 
     'created_at' => 'Created At',
     'role' => 'Role',
     'postal_code' => 'Postal Code',
@@ -426,7 +428,136 @@ return [
     'create_notice' => 'Create Notice',   
     'edit_notice' => 'Edit Notice',
     'view_notice' => 'View Notice',
-   /** Admin/Profile/Page/Widgets Filament Translations */ 
+    /** EmployeeResource Filament Translations */
+    'employee' => 'Employee',
+    'employees' => 'Employees',
+    'identification_code' => 'Identification Code',
+    'id_number' => 'Id Number',
+    'date_of_birth' => 'Day of Birth',
+    'hire_date' => 'Hire Date',
+    'social_security_number' => 'Social Security Number',
+    'job_title' => 'Job Title',
+    'department' => 'Department',
+    'contract_type' => 'Contract Type',
+    'secondary_email' => 'Secondary Email',
+    'emergency_contact_name' => 'Emergency Contact Name',
+    'emergency_contact_phone' => 'Emergency Contact Phone',
+    'work_permit' => 'Work Permit',
+    'tax_id_number' => 'Tax Id Number',
+    'supervisor' => 'Supervisor',
+    'fire_date' => 'Fire Date',
+    'termination_date' => 'Termination Date',
+    'last_promotion_date' => 'Last Promotion Date',
+    'last_promotion_role' => 'Last Promotion Role',
+    'bank_name' => 'Bank Name',
+    'account_type' => 'Account Type',
+    'bank_code' => 'Bank Code',
+    'routing_number' => 'Routing Number',
+    'iban' => 'Iban',
+    // Pages  
+    'create_employee' => 'Create Employee',   
+    'edit_employee' => 'Edit Employee',
+    'view_employee' => 'View Employee',
+    /** SalaryResource Filament Translations */
+    'salary' => 'Salary',
+    'salaries' => 'Salaries',
+    'base_salary' => 'Base Salary',
+    'net_salary' => 'Net Salary',
+    'salary_type' => 'Salary Type',
+    'effective_date' => 'Effective Date',
+    'end_date' => 'End Date',
+    // Pages
+    'create_salary' => 'Create Salary',   
+    'edit_salary' => 'Edit Salary',
+    'view_salary' => 'View Salary', 
+    /** SchedulesResource Filament Translations */
+    'shift_start_time' => 'Shift Start Time',
+    'shift_end_time' => 'Shift End Time',
+    'work_shift' => 'Work Shift',
+    'work_type' => 'Work Type',
+    'total_work_hours' => 'Total Work Hours',
+    'lunch_break_duration' => 'Lunch Break Duration',
+    'overtime_hours' => 'Overtime Hours',
+    'overtime_rate' => 'Overtime Rate',
+    'schedule_start_date' => 'Schedule Start Date',
+    'schedule_end_date' => 'Schedule End Date',
+    'modified_date' => 'Modified Date',
+    // Pages
+    'create_schedule' => 'Create Schedule',   
+    'edit_schedule' => 'Edit Schedule',
+    'view_schedule' => 'View Schedule',
+
+
+
+    /** BonusResource Filament Translations */
+    'bonus' => 'Bonus',
+    'bonuses' => 'Bonuses',
+    'date_awarded' => 'Date Awarded',      
+    // Pages
+    'create_bonus' => 'Create Bonus',   
+    'edit_bonus' => 'Edit Bonus',
+    'view_bonus' => 'View Bonus',
+    /** DeductionResource Filament Translations */
+    'deduction' => 'Dedudction',
+    'deductions' => 'Deductions',
+    'date_applied' => 'Date Applied',   
+    // Pages
+    'create_deduction' => 'Create Deduction',   
+    'edit_deduction' => 'Edit Deduction',
+    'view_deduction' => 'View Deduction',
+    /** VacationResource Filament Translations */
+    'vacation' => 'Vacation',
+    'vacations' => 'Vacations',
+    'number_of_days' => 'Number of Days',
+    // Pages
+    'create_vacation' => 'Create Vacation',   
+    'edit_vacation' => 'Edit Vacation',
+    'view_vacation' => 'View Vacation',
+    /** OvertimeResource Filament Translations */
+    'overtime' => 'Overtime',
+    'overtimes' => 'Overtimes',
+    'overtime_date' => 'Overtime Date',
+    'overtime_type' => 'Overtime Type',
+    'approved_by' => 'Approved By',
+    'hourly_rate' => 'Hourly Rate',
+    'total_payment' => 'Total Payment',
+    // Pages
+    'create_overtime' => 'Create Overtime',   
+    'edit_overtime' => 'Edit Overtime',
+    'view_overtime' => 'View Overtime',
+    /** AbsenceResource Filament Translations */
+    'absence' => 'absence',
+    'absences' => 'Absences',
+    'justified' => 'Justified',
+    'absence_type' => 'Absence Type',
+    // Pages
+    'create_absence' => 'Create Absence',   
+    'edit_absence' => 'Edit Absence',
+    'view_absence' => 'View Absence',
+    /** AttendanceResource Filament Translations */
+    'attendance' => 'Attendance',
+    'attendances' => 'Attendances',
+    'check_in_time' => 'Check in Time',
+    'check_out_time' => 'Check out Time',
+    'is_holiday' => 'Is Holiday',
+    'is_weekend' => 'Is Weekend',
+    // Pages
+    'create_attendance' => 'Create Attendance',   
+    'edit_attendance' => 'Edit Attendance',
+    'view_attendance' => 'View Attendance',
+    /** EmployeeTasksResource Filament Translations */
+    'task' => 'Task',
+    'tasks' => 'Tasks',
+    'task_name' => 'Task Name',
+    'due_date' => 'Due Date',
+    // Pages
+    'create_task' => 'Create Task',   
+    'edit_task' => 'Edit Task',
+    'view_task' => 'View Task',
+
+
+
+    /** Admin/Profile/Page/Widgets Filament Translations */ 
     'profile' => 'Profile',
     'settings' => 'Settings',
     'stats' => 'Stats',

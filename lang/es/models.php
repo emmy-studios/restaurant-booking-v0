@@ -20,7 +20,7 @@ return [
     'role' => 'Rol',
     'postal_code' => 'Código Postal',
     'image_url' => 'Imagen',
-    // Pages
+    // Pages 
     'users' => 'Usuarios',
     'user' => 'Usuario',
     'create_user' => 'Crear usuario',
@@ -425,6 +425,129 @@ return [
     'create_notice' => 'Crear Aviso',   
     'edit_notice' => 'Editar Aviso',
     'view_notice' => 'Ver Aviso',
+    /** EmployeeResoure Filament Translations */ 
+    'employee' => 'Empleado',
+    'employees' => 'Empleados',
+    'identification_code' => 'Código de Identificación',
+    'id_number' => 'Número de Identificación',
+    'date_of_birth' => 'Fecha de Nacimiento',
+    'hire_date' => 'Fecha de Contratación',
+    'social_security_number' => 'Número de Seguro Social',
+    'job_title' => 'Título del Puesto',
+    'department' => 'Departamento',
+    'contract_type' => 'Tipo de Contrato',
+    'secondary_email' => 'Correo Electrónico Secundario',
+    'emergency_contact_name' => 'Nombre del Contacto de Emergencia',
+    'emergency_contact_phone' => 'Teléfono del Contacto de Emergencia',
+    'work_permit' => 'Permiso de Trabajo',
+    'tax_id_number' => 'Número de Identificación Fiscal',
+    'supervisor' => 'Supervisor',
+    'fire_date' => 'Fecha de Despido',
+    'termination_date' => 'Fecha de Terminación',
+    'last_promotion_date' => 'Fecha de la Última Promoción',
+    'last_promotion_role' => 'Rol de la Última Promoción',
+    'bank_name' => 'Nombre del Banco',
+    'account_type' => 'Tipo de Cuenta',
+    'bank_code' => 'Código del Banco',
+    'routing_number' => 'Número de Ruta',
+    'iban' => 'IBAN',
+    // Pages
+    'create_employee' => 'Crear Empleado',
+    'edit_employee' => 'Editar Empleado',
+    'view_employee' => 'Ver Empleado',
+    /** SalaryResoure Filament Translations */ 
+    'salary' => 'Salario',
+    'salaries' => 'Salarios',
+    'base_salary' => 'Salario Base',
+    'net_salary' => 'Salario Neto',
+    'salary_type' => 'Tipo de Salario',
+    'effective_date' => 'Fecha Efectiva',
+    'end_date' => 'Fecha de Fin',
+    // Pages
+    'create_salary' => 'Crear Salario',
+    'edit_salary' => 'Editar Salario',
+    'view_salary' => 'Ver Salario',
+    /** ScheduleResoure Filament Translations */ 
+    'shift_start_time' => 'Hora de Inicio del Turno',
+    'shift_end_time' => 'Hora de Fin del Turno',
+    'work_shift' => 'Turno de Trabajo',
+    'work_type' => 'Tipo de Trabajo',
+    'total_work_hours' => 'Total de Horas Trabajadas',
+    'lunch_break_duration' => 'Duración del Almuerzo',
+    'overtime_hours' => 'Horas Extras',
+    'overtime_rate' => 'Tarifa de Horas Extras',
+    'schedule_start_date' => 'Fecha de Inicio del Horario', 
+    'schedule_end_date' => 'Fecha de Fin del Horario',
+    'modified_date' => 'Fecha Modificada',
+    // Pages
+    'create_schedule' => 'Crear Horario',
+    'edit_schedule' => 'Editar Horario',
+    'view_schedule' => 'Ver Horario',
+    /** BonusResource Filament Translations */
+    'bonus' => 'Bono',
+    'bonuses' => 'Bonos',
+    'date_awarded' => 'Fecha de Otorgamiento',
+    // Pages
+    'create_bonus' => 'Crear Bono',
+    'edit_bonus' => 'Editar Bono',
+    'view_bonus' => 'Ver Bono',
+    /** DeductionResource Filament Translations */
+    'deduction' => 'Deducción',
+    'deductions' => 'Deducciones',
+    'date_applied' => 'Fecha Aplicada',
+    // Pages
+    'create_deduction' => 'Crear Deducción',
+    'edit_deduction' => 'Editar Deducción',
+    'view_deduction' => 'Ver Deducción',
+    /** VacationResource Filament Translations */
+    'vacation' => 'Vacaciones',
+    'vacations' => 'Vacaciones',
+    'number_of_days' => 'Número de Días',
+    // Pages
+    'create_vacation' => 'Crear Vacaciones',
+    'edit_vacation' => 'Editar Vacaciones',
+    'view_vacation' => 'Ver Vacaciones',
+    /** OvertimeResource Filament Translations */
+    'overtime' => 'Horas Extra',
+    'overtimes' => 'Horas Extras',
+    'overtime_date' => 'Fecha de Horas Extra',
+    'overtime_type' => 'Tipo de Horas Extra',
+    'approved_by' => 'Aprobado Por',
+    'hourly_rate' => 'Tarifa por Hora',
+    'total_payment' => 'Pago Total',
+    // Pages
+    'create_overtime' => 'Crear Horas Extra',
+    'edit_overtime' => 'Editar Horas Extra',
+    'view_overtime' => 'Ver Horas Extra',
+    /** AbsenceResource Filament Translations */
+    'absence' => 'Ausencia',
+    'absences' => 'Ausencias',
+    'justified' => 'Justificada',
+    'absence_type' => 'Tipo de Ausencia',
+    // Pages
+    'create_absence' => 'Crear Ausencia',
+    'edit_absence' => 'Editar Ausencia',
+    'view_absence' => 'Ver Ausencia',
+    /** AttendanceResource Filament Translations */
+    'attendance' => 'Asistencia',
+    'attendances' => 'Asistencias',
+    'check_in_time' => 'Hora de Entrada',
+    'check_out_time' => 'Hora de Salida',
+    'is_holiday' => 'Es Feriado',
+    'is_weekend' => 'Es Fin de Semana',
+    // Pages
+    'create_attendance' => 'Crear Asistencia',
+    'edit_attendance' => 'Editar Asistencia',
+    'view_attendance' => 'Ver Asistencia',
+    /** EmployeeTasksResource Filament Translations */
+    'task' => 'Tarea',
+    'tasks' => 'Tareas',
+    'task_name' => 'Nombre de la Tarea',
+    'due_date' => 'Fecha de Vencimiento',
+    // Pages
+    'create_task' => 'Crear Tarea',
+    'edit_task' => 'Editar Tarea',
+    'view_task' => 'Ver Tarea',
     /** AdminProfilePage Filament Translations */ 
     'profile' => 'Perfil',
     'settings' => 'Ajustes',
@@ -434,5 +557,6 @@ return [
     'total_orders_made' => 'Órdenes Totales Realizadas',
     // Notice Modal
     'notice_details' => 'Detalles del Aviso'
+
 ];  
    
