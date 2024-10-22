@@ -14,7 +14,7 @@ class Absence extends Model
 
     protected $fillable = [
         'employee_id',
-        'start_date',
+        'start_date', 
         'end_date',
         'justified',
         'reason',
@@ -22,6 +22,15 @@ class Absence extends Model
         'absence_type',
         'approved_by',
     ];
+
+    protected $casts = [
+        'absence_type',
+    ];
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function approver(): BelongsTo
     {

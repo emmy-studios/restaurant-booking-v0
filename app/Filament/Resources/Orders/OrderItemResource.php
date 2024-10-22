@@ -32,6 +32,7 @@ class OrderItemResource extends Resource
                 Forms\Components\Select::make('product_id')
                     ->label(__('models.product_name'))
                     ->relationship('product', 'name')
+                    ->columnSpanFull()
                     ->required(),
                 Forms\Components\Select::make('order_id')
                     ->label(__('models.order'))

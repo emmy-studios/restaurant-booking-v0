@@ -37,7 +37,7 @@ class BillingResource extends Resource
                     ->relationship('user', 'name')
                     ->required(),
                 Forms\Components\Select::make('order_id')
-                    ->relationship('order', 'id')
+                    ->relationship('order', 'order_code')
                     ->label(__('models.order'))
                     ->required(),
                 Forms\Components\TextInput::make('billing_code')
@@ -45,19 +45,19 @@ class BillingResource extends Resource
                     ->label(__('models.billing_code'))
                     ->maxLength(255),
                 Forms\Components\Select::make('payment_method')
-                    ->options(self::getPaymentMethod())
+                    ->options(PaymentMethod::class)
                     ->searchable()
                     ->default('Credit Card')
                     ->label(__('models.payment_method')),
-                Forms\Components\Select::make('payment_currency')
-                    ->options(self::getCurrencyCode())
+                Forms\Components\Select::make('currency_symbol')
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
                     ->required()
                     ->label(__('models.payment_currency')),
                 Forms\Components\Select::make('status')
                     ->required()
-                    ->options(self::getBillingStatus())
+                    ->options(BillingStatus::class)
                     ->default('Processing')
                     ->searchable()
                     ->label(__('models.status')),
@@ -77,7 +77,7 @@ class BillingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('models.name'))
+                    ->label(__('models.name')) 
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('order.id')
@@ -87,12 +87,16 @@ class BillingResource extends Resource
                 Tables\Columns\TextColumn::make('billing_code')
                     ->searchable()
                     ->label(__('models.billing_code')),
-                Tables\Columns\TextColumn::make('payment_method')
-                    ->label(__('models.payment_method')),
-                Tables\Columns\TextColumn::make('payment_currency')
-                    ->label(__('models.payment_currency')),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->label(__('models.status')),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->searchable()
+                    ->badge()
+                    ->label(__('models.payment_method')),
+                Tables\Columns\TextColumn::make('currency_symbol')
+                    ->badge()
+                    ->label(__('models.payment_currency')),
                 Tables\Columns\TextColumn::make('subtotal')
                     ->numeric()
                     ->label(__('models.subtotal'))

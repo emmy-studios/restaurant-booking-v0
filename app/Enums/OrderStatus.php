@@ -13,14 +13,14 @@ enum OrderStatus: string implements HasLabel, HasColor
     case DELIVERED = 'Delivered';        
     case CANCELLED = 'Cancelled';      
     case REFUNDED = 'Refunded';         
-    case FAILED = 'Failed';             
+    case FAILED = 'Failed';              
     case ON_HOLD = 'On Hold';           
     case AWAITING_PAYMENT = 'Awaiting Payment'; 
     case COMPLETED = 'Completed';       
 
     public function getLabel(): ?string
     {
-        return match($this){
+        /*return match($this){
             self::PENDING => 'Pending',
             self::PROCESSING => 'Processing',
             self::SHIPPED => 'Shipped',
@@ -30,7 +30,10 @@ enum OrderStatus: string implements HasLabel, HasColor
             self::ON_HOLD => 'On Hold',
             self::AWAITING_PAYMENT => 'Awaiting Payment',
             self::COMPLETED => 'Completed',
-        };
+        }; */
+
+        return $this->value;
+
     }
 
     public function getColor(): string|array|null

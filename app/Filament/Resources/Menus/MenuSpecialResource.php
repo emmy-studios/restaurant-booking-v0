@@ -21,22 +21,22 @@ class MenuSpecialResource extends Resource
 
     protected static ?string $navigationLabel = null;
 
-    protected static ?string $navigationGroup = null;
+    protected static ?string $navigationGroup = null; 
 
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
         return $form 
-            ->schema([
+            ->schema([ 
                 Forms\Components\Select::make('menu_id')
                     ->relationship('menu', 'title')
                     ->label(__('models.menu'))
                     ->required(),
-                Forms\Components\TextInput::make('product_id')
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
                     ->required()
-                    ->label(__('models.product'))
-                    ->numeric(),
+                    ->label(__('models.product')),
                 Forms\Components\MarkdownEditor::make('details')
                     ->columnSpanFull()
                     ->label(__('models.additional_details')),
@@ -61,8 +61,7 @@ class MenuSpecialResource extends Resource
                     ->numeric()
                     ->label(__('models.menu'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('product.name')
                     ->label(__('models.product'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('discount_percentage')

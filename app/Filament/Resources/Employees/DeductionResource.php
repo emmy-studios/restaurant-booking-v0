@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Menus;
+namespace App\Filament\Resources\Employees;
 
-use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
-use App\Filament\Resources\Menus\MenuPriceResource\Pages;
-use App\Filament\Resources\Menus\MenuPriceResource\RelationManagers;
-use App\Models\Menus\MenuPrice;
+use App\Filament\Resources\Employees\DeductionResource\Pages;
+use App\Filament\Resources\Employees\DeductionResource\RelationManagers;
+use App\Models\Employees\Deduction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,37 +14,43 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MenuPriceResource extends Resource
+class DeductionResource extends Resource
 {
-    protected static ?string $model = MenuPrice::class;
+    protected static ?string $model = Deduction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-currency-euro';
+    protected static ?string $navigationIcon = 'heroicon-o-minus';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 4; 
 
     public static function form(Form $form): Form
-    { 
+    {
         return $form
             ->schema([
-                Forms\Components\Select::make('menu_id')
-                    ->relationship('menu', 'title')
-                    ->label(__('models.menu'))
-                    ->columnSpanFull()
+                Forms\Components\Select::make('salary_id')
+                    ->label(__('models.salary'))
+                    ->relationship('salary', 'id')
                     ->required(),
                 Forms\Components\Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
-                    ->required() 
-                    ->label(__('models.currency_symbol')),
-                Forms\Components\TextInput::make('price')
                     ->required()
-                    ->label(__('models.price'))
+                    ->label(__('models.currency_symbol')), 
+                Forms\Components\TextInput::make('amount')
+                    ->required()
+                    ->label(__('models.amount'))
                     ->numeric(),
+                Forms\Components\TextInput::make('type')
+                    ->label(__('models.type'))
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('description')
+                    ->columnSpanFull()
+                    ->label(__('models.description')),
+                Forms\Components\DatePicker::make('date_applied'),
             ]);
     }
 
@@ -53,25 +58,25 @@ class MenuPriceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('menu.title')
+                Tables\Columns\TextColumn::make('salary.id')
                     ->numeric()
-                    ->searchable()
-                    ->label(__('models.menu'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->label(__('models.currency_symbol')),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->label(__('models.price'))
+                    ->badge(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('date_applied')
+                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -89,16 +94,6 @@ class MenuPriceResource extends Resource
             ]);
     }
 
-    public static function getCurrencySymbol(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
-    }
-
-    public static function getCurrencyCode(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencyCode::cases());
-    }
-
     public static function getRelations(): array
     {
         return [
@@ -109,22 +104,22 @@ class MenuPriceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenuPrices::route('/'),
-            'create' => Pages\CreateMenuPrice::route('/create'),
-            'view' => Pages\ViewMenuPrice::route('/{record}'),
-            'edit' => Pages\EditMenuPrice::route('/{record}/edit'),
+            'index' => Pages\ListDeductions::route('/'),
+            'create' => Pages\CreateDeduction::route('/create'),
+            'view' => Pages\ViewDeduction::route('/{record}'),
+            'edit' => Pages\EditDeduction::route('/{record}/edit'),
         ];
-    } 
+    }
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    {
-        return __('models.menu_prices');
+    { 
+        return __('models.deductions');
     }
  
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.menus');
+        return __('models.employees');
     }
 }

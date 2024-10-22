@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Orders;
 
-use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
@@ -27,7 +26,7 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 1; 
 
     public static function form(Form $form): Form
     {
@@ -38,30 +37,24 @@ class OrderResource extends Resource
                     ->label(__('models.order_code'))
                     ->maxLength(255),
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name') 
+                    ->relationship('user', 'name')  
                     ->label(__('models.user'))
                     ->required(),
                 Forms\Components\Select::make('order_status')  
-                    ->options(self::getOrderStatus())
+                    ->options(OrderStatus::class)
                     ->searchable()
                     ->default('Processing')
                     ->label(__('models.order_status')),
-                Forms\Components\Select::make('order_currency')
-                    ->options(self::getOrderCurrency())
-                    ->searchable()
-                    ->required()
-                    ->default('USD')
-                    ->label(__('models.currency_code')),
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
-                    ->searchable()
-                    ->default('USD $')
-                    ->label(__('models.currency_symbol')),
                 Forms\Components\Select::make('order_source')
-                    ->options(self::getOrderSource())
+                    ->options(OrderSource::class)
                     ->default('Online')
                     ->searchable()
                     ->label(__('models.order_source')),
+                Forms\Components\Select::make('currency_symbol')
+                    ->options(CurrencySymbol::class)
+                    ->searchable()
+                    ->default('USD $')
+                    ->label(__('models.currency_symbol')),
                 Forms\Components\TextInput::make('subtotal')
                     ->required()
                     ->label(__('models.subtotal'))
@@ -85,15 +78,15 @@ class OrderResource extends Resource
                     ->label(__('models.user')) 
                     ->sortable(), 
                 Tables\Columns\TextColumn::make('order_status')
+                    ->badge()
                     ->label(__('models.order_status')),
-                Tables\Columns\TextColumn::make('order_currency')
-                    ->searchable() 
-                    ->label(__('models.currency_code')),
+                Tables\Columns\TextColumn::make('order_source')
+                    ->badge()
+                    ->label(__('models.order_source')),
                 Tables\Columns\TextColumn::make('currency_symbol')
+                    ->badge()
                     ->label(__('models.currency_symbol'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('order_source')
-                    ->label(__('models.order_source')),
                 Tables\Columns\TextColumn::make('subtotal')
                     ->numeric() 
                     ->label(__('models.subtotal'))
@@ -138,31 +131,10 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
+            'create' => Pages\CreateOrder::route('/create'), 
             'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
-    }
-
-    //
-    public static function getOrderSource(): array
-    {
-        return array_map(fn($case) => $case->value, OrderSource::cases());
-    }
-
-    public static function getOrderStatus(): array
-    {
-        return array_map(fn($case) => $case->value, OrderStatus::cases());
-    }
-
-    public static function getOrderCurrency(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencyCode::cases());
-    }
-
-    public static function getCurrencySymbol(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }
 
     // Translate Navigation Label.

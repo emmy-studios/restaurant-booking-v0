@@ -44,7 +44,7 @@ class Employee extends Model
         'emergency_contact_name',
         'emergency_contact_phone',
         'work_permit',
-        'tax_id_number',
+        'tax_id_number', 
         'status',
         'supervisor',
         'fire_date',

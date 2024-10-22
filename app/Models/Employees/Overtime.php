@@ -28,6 +28,16 @@ class Overtime extends Model
         'total_payment',
     ];
 
+    protected $casts = [
+        'status',
+        'overtime_type',
+    ];
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     public function approver(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'approved_by');

@@ -4,6 +4,7 @@ namespace App\Models\Products;
 
 use App\Models\Discounts\Discount;
 use App\Models\Menus\MenuItem;
+use App\Models\Menus\MenuSpecial;
 use App\Models\Orders\OrderItem;
 use App\Models\Products\Price;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,11 +45,16 @@ class Product extends Model
     public function recipes(): HasMany
     {
         return $this->hasMany(Recipe::class);
-    }
+    } 
 
     public function menuItems(): HasMany
     {
         return $this->hasMany(MenuItem::class);
+    }
+
+    public function menuSpecials(): HasMany
+    {
+        return $this->hasMany(MenuSpecial::class);
     }
 
     public function saleItems(): HasMany
