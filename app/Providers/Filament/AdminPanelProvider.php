@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
                 'primary' => '#E77917',
@@ -36,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

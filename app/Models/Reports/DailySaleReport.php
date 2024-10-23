@@ -19,7 +19,7 @@ class DailySaleReport extends Model
         'sales_subtotal',
         'sales_discounts_applied',
         'discount_total_amount',
-        'total_net_amount',
+        'total_net_amount', 
         'details',
         'notes',
         'user_id',

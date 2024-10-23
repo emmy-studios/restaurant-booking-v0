@@ -414,6 +414,9 @@ return [
     'total_sales' => 'Ventas Totales',
     'total_discounts' => 'Descuentos Totales',
     'total_net_amount' => 'Cantidad Neta Total',
+    'sales_discounts_applied' => 'Descuentos de Ventas Aplicados',
+    'sales_subtotal' => 'Subtotal de Ventas',
+    'discount_total_amount' => 'Cantidad Total de Descuento',
     /** NoticeResource Filament Translations */
     'notice' => 'Aviso',
     'notices' => 'Avisos',
@@ -464,7 +467,7 @@ return [
     'salary_type' => 'Tipo de Salario',
     'effective_date' => 'Fecha Efectiva',
     'end_date' => 'Fecha de Fin',
-    // Pages
+    // Pages 
     'create_salary' => 'Crear Salario',
     'edit_salary' => 'Editar Salario',
     'view_salary' => 'Ver Salario',

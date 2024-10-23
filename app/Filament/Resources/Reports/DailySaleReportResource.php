@@ -40,34 +40,39 @@ class DailySaleReportResource extends Resource
                 Forms\Components\TextInput::make('total_sales')
                     ->numeric()
                     ->label(__('models.total_sales')),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->required()
-                    ->label(__('models.currency_code')),
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
+                Forms\Components\Select::make('sales_currency_symbol')
+                    ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
                     ->required()
                     ->label(__('models.currency_symbol')),
-                Forms\Components\TextInput::make('total_amount')
+                Forms\Components\TextInput::make('sales_subtotal')
                     ->required()
-                    ->label(__('models.total_amount'))
+                    ->label(__('models.sales_subtotal'))
                     ->numeric()
                     ->default(0.00),
-                Forms\Components\TextInput::make('total_discounts')
+                Forms\Components\TextInput::make('sales_discounts_applied')
                     ->numeric()
-                    ->label(__('models.total_discounts')),
+                    ->label(__('models.sales_discounts_applied')),
+                Forms\Components\TextInput::make('discount_total_amount')
+                    ->required()
+                    ->label(__('models.discount_total_amount'))
+                    ->numeric()
+                    ->default(0.00),
                 Forms\Components\TextInput::make('total_net_amount')
                     ->required()
                     ->label(__('models.total_net_amount'))
                     ->numeric()
                     ->default(0.00),
+                Forms\Components\MarkdownEditor::make('details')
+                    ->columnSpanFull()
+                    ->label(__('models.details')),
+                Forms\Components\MarkdownEditor::make('notes')
+                    ->columnSpanFull()
+                    ->label(__('models.notes')),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
-                    ->label(__('models.user'))
+                    ->label(__('models.employee'))
                     ->required(),
             ]);
     }
@@ -88,17 +93,18 @@ class DailySaleReportResource extends Resource
                     ->numeric()
                     ->label(__('models.total_sales'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
-                Tables\Columns\TextColumn::make('currency_symbol')
+                Tables\Columns\TextColumn::make('sales_currency_symbol')
+                    ->badge()
                     ->label(__('models.currency_symbol')),
-                Tables\Columns\TextColumn::make('total_amount')
+                Tables\Columns\TextColumn::make('sales_subtotal')
+                    ->label(__('models.sales_subtotal')),
+                Tables\Columns\TextColumn::make('sales_discounts_applied')
                     ->numeric()
-                    ->label(__('models.total_amount'))
+                    ->label(__('models.sales_discounts_applied'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total_discounts')
+                Tables\Columns\TextColumn::make('discount_total_amount')
                     ->numeric()
-                    ->label(__('models.total_discounts'))
+                    ->label(__('models.discount_total_amount'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_net_amount')
                     ->numeric()
@@ -106,7 +112,7 @@ class DailySaleReportResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->label(__('models.user'))
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -131,16 +137,6 @@ class DailySaleReportResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getCurrencyCode(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencyCode::cases());
-    }
-
-    public static function getCurrencySymbol(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
     }
 
     public static function getRelations(): array

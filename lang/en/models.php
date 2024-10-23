@@ -413,10 +413,13 @@ return [
     /** DailySaleReportResource Filament Translations */
     'daily_sale_report' => 'Daily Sale Report',
     'daily_sale_reports' => 'Daily Sale Reports',
-    'total_orders' => 'Total Orders',
+    'total_orders' => 'Total Orders', 
     'total_sales' => 'Total Sales',
     'total_discounts' => 'Total Discounts',
     'total_net_amount' => 'Total Net Amount',
+    'sales_discounts_applied' => 'Sales Discounts Applied',
+    'sales_subtotal' => 'Sales Subtotal',
+    'discount_total_amount' => 'Discount Total Amount',
     /** NoticeResource Filament Translations */
     'notice' => 'Notice',
     'notices' => 'Notices',
@@ -457,7 +460,7 @@ return [
     // Pages  
     'create_employee' => 'Create Employee',   
     'edit_employee' => 'Edit Employee',
-    'view_employee' => 'View Employee',
+    'view_employee' => 'View Employee', 
     /** SalaryResource Filament Translations */
     'salary' => 'Salary',
     'salaries' => 'Salaries',

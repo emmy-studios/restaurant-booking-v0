@@ -40,12 +40,12 @@ class ReturnRequestResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('customer_name')
                     ->required()
-                    ->label(__('models.customer_name'))
+                    ->label(__('models.customer_name')) 
                     ->maxLength(255),
-                Forms\Components\TextInput::make('responsable_employee')
+                Forms\Components\Select::make('employee_id')
+                    ->relationship('employee', 'name')
                     ->required()
-                    ->label(__('models.responsable_employee'))
-                    ->maxLength(255),
+                    ->label(__('models.responsable_employee')),
                 Forms\Components\DateTimePicker::make('request_date')
                     ->required()
                     ->label(__('models.request_date')),
@@ -58,9 +58,9 @@ class ReturnRequestResource extends Resource
                     ->label(__('models.reason'))
                     ->columnSpanFull(),
                 Forms\Components\Select::make('status')
-                    ->options(self::getReturnStatus())
+                    ->options(ReturnStatus::class)
                     ->searchable()
-                    ->default('Confirmed')
+                    ->default('Processing')
                     ->required()
                     ->label(__('models.status')),
             ]);
@@ -75,12 +75,15 @@ class ReturnRequestResource extends Resource
                     ->label(__('models.order_code')),
                 Tables\Columns\TextColumn::make('product_name')
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.product_name')),
                 Tables\Columns\TextColumn::make('customer_name')
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.customer_name')),
-                Tables\Columns\TextColumn::make('responsable_employee')
+                Tables\Columns\TextColumn::make('employee_id')
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.responsable_employee')),
                 Tables\Columns\TextColumn::make('request_date')
                     ->dateTime()
@@ -91,6 +94,8 @@ class ReturnRequestResource extends Resource
                     ->label(__('models.quantity'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->searchable()
                     ->label(__('models.status')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -115,11 +120,6 @@ class ReturnRequestResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getReturnStatus(): array
-    {
-        return array_map(fn($case) => $case->value, ReturnStatus::cases());
     }
 
     public static function getRelations(): array

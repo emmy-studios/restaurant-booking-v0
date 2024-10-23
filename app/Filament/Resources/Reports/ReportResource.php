@@ -35,10 +35,13 @@ class ReportResource extends Resource
                     ->label(__('models.title'))
                     ->maxLength(255),
                 Forms\Components\Select::make('report_type')
-                    ->options(self::getReportType())
+                    ->options(ReportType::class)
                     ->searchable()
-                    ->required()
+                    ->required() 
                     ->label(__('models.report_type')),
+                Forms\Components\MarkdownEditor::make('content')
+                    ->columnSpanFull()
+                    ->label(__('models.content')),
                 Forms\Components\MarkdownEditor::make('details')
                     ->columnSpanFull()
                     ->label(__('models.details')),
@@ -46,8 +49,8 @@ class ReportResource extends Resource
                     ->columnSpanFull()
                     ->label(__('models.additional_details')),
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'title')
-                    ->label(__('models.user'))
+                    ->relationship('user', 'name') 
+                    ->label(__('models.employee'))
                     ->required(),
             ]);
     }
@@ -58,13 +61,18 @@ class ReportResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title') 
                     ->searchable()
+                    ->sortable()
                     ->label(__('models.title')),
                 Tables\Columns\TextColumn::make('report_type')
+                    ->badge()
+                    ->searchable()
+                    ->sortable()
                     ->label(__('models.report_type')),
-                Tables\Columns\TextColumn::make('user.title')
-                    ->numeric()
-                    ->label(__('models.user'))
+                Tables\Columns\TextColumn::make('user.name')
+                    ->searchable()
+                    ->label(__('models.employee'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('content'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))

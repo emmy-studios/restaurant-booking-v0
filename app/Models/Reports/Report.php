@@ -2,6 +2,7 @@
 
 namespace App\Models\Reports;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,8 +20,12 @@ class Report extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'report_type'
+    ];
+
     public function user(): BelongsTo
     {
-        return $this->belongsTo(Report::class);
+        return $this->belongsTo(User::class);
     }
 }

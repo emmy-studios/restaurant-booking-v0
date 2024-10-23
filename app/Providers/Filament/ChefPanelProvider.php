@@ -23,7 +23,7 @@ class ChefPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel 
+        return $panel  
             ->id('chef')
             ->path('chef')
             ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
