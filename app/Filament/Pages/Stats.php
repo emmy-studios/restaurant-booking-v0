@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\AdminStats;
 use Filament\Pages\Page;
 
 class Stats extends Page
@@ -17,7 +18,20 @@ class Stats extends Page
 
     public function getHeading(): string
     {
-        return __('models.stats'); 
+        return __('models.stats');  
     }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 4;
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            AdminStats::class,
+        ]; 
+    }
+
 }
  
