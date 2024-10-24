@@ -19,7 +19,7 @@ class EditProfile extends Page
 
     public static function getNavigationSort(): ?int
     {
-        return 3; 
+        return 4; 
     }
 
     public static function getNavigationLabel(): string
@@ -34,7 +34,7 @@ class EditProfile extends Page
 
     // Get Personal Information
     public $name;
-    public $firstName;
+    public $firstName; 
     public $lastName;
     public $email;
     public $phoneCode;

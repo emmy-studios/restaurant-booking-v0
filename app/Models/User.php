@@ -26,6 +26,7 @@ use App\Enums\Gender;
 use App\Enums\Roles;
 use App\Models\Employees\Absence;
 use App\Models\Employees\Overtime;
+use App\Models\Reservations\Reservation;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -172,6 +173,11 @@ class User extends Authenticatable implements FilamentUser
     public function notices(): HasMany
     {
         return $this->hasMany(Notice::class);
+    }
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
     }
 
     // Overtime Relationships

@@ -11,6 +11,11 @@ class Profile extends Page
 
     protected static string $view = 'filament.pages.profile';
 
+    public static function getNavigationSort(): ?int
+    {
+        return 3; 
+    }
+
     public $adminData;
 
     public function mount() 
@@ -25,7 +30,7 @@ class Profile extends Page
 
     public function getHeading(): string
     {
-        return __('models.profile');
+        return __('models.profile'); 
     }
 }
 

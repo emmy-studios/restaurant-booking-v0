@@ -3,6 +3,10 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\AdminStats;
+use App\Filament\Widgets\OrdersByMonth;
+use App\Filament\Widgets\OrdersLineChart;
+use App\Filament\Widgets\ReservationsPerMonth;
+use App\Filament\Widgets\SalesLineChart;
 use Filament\Pages\Page;
 
 class Stats extends Page
@@ -23,13 +27,17 @@ class Stats extends Page
 
     public static function getNavigationSort(): ?int
     {
-        return 4;
+        return 2;
     }
 
     public function getWidgets(): array
     {
         return [
             AdminStats::class,
+            OrdersByMonth::class,
+            OrdersLineChart::class,
+            SalesLineChart::class,
+            ReservationsPerMonth::class,
         ]; 
     }
 

@@ -40,15 +40,15 @@ class ReservationResource extends Resource
                     ->columnSpanFull()
                     ->label(__('models.special_requests')),
                 Forms\Components\Select::make('status')
-                    ->options(self::getReservationStatus())
+                    ->options(ReservationStatus::class)
                     ->searchable()
                     ->default('Confirmed')
                     ->required()
                     ->label(__('models.status')),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->label(__('models.user'))
-                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required() 
+                    ->label(__('models.user')),
             ]);
     }
 
@@ -65,6 +65,7 @@ class ReservationResource extends Resource
                     ->label(__('models.number_of_guests'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->label(__('models.status')),
                 Tables\Columns\TextColumn::make('user_id')
                     ->numeric()

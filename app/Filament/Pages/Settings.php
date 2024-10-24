@@ -10,6 +10,11 @@ class Settings extends Page
 
     protected static string $view = 'filament.pages.settings';
 
+    public static function getNavigationSort(): ?int
+    {
+        return 5; 
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('models.settings');    
