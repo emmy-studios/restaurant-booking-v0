@@ -71,6 +71,9 @@ class UserResource extends Resource
                     ->options(Countries::class)
                     ->searchable()
                     ->default('Costa Rica'),
+                Forms\Components\TextInput::make('postal_code')
+                    ->label(__('models.postal_code'))
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('city')
                     ->label(__('models.city'))
                     ->maxLength(255),
@@ -138,6 +141,9 @@ class UserResource extends Resource
                     ->sortable()
                     ->badge()
                     ->label(__('models.country'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('postal_code')
+                    ->label(__('models.postal_code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
                     ->label(__('models.city'))

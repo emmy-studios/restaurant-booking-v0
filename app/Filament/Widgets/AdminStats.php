@@ -13,17 +13,21 @@ class AdminStats extends BaseWidget
 {
     protected function getStats(): array 
     {
+        $totalOrders = Order::count();
+        $totalSales = Sale::count();
+        $totalReservations = Reservation::count();
+
         return [
-            Stat::make(__('models.orders'), Order::count())
-                ->description('Total Orders Made')
+            Stat::make(__('models.orders'), $totalOrders)
+                ->description(__('panels.total_orders_made'))
                 ->descriptionIcon('heroicon-o-clipboard-document', IconPosition::Before)
                 ->color('success'),
-            Stat::make(__('models.reservations'), Reservation::count())
-                ->description('Total Reservations')
+            Stat::make(__('models.reservations'), $totalReservations)
+                ->description(__('panels.total_reservations'))
                 ->descriptionIcon('heroicon-o-book-open', IconPosition::Before)
                 ->color('warning'),
-            Stat::make(__('models.sales'), Sale::count())
-                ->description('Total Sales')
+            Stat::make(__('models.sales'), $totalSales)
+                ->description(__('panels.total_sales'))
                 ->descriptionIcon('heroicon-o-presentation-chart-bar', IconPosition::Before)
                 ->color('info'),
         ];

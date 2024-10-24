@@ -1,7 +1,11 @@
 <?php
 
-namespace App\Filament\Chef\Pages;
+namespace App\Filament\Pages;
 
+use App\Enums\Countries;
+use App\Enums\CountryCode;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Pages\Page;
@@ -11,8 +15,24 @@ class EditProfile extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
-    protected static string $view = 'filament.chef.pages.edit-profile'; 
+    protected static string $view = 'filament.pages.edit-profile';
 
+    public static function getNavigationSort(): ?int
+    {
+        return 3; 
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Edit Profile');     
+    }
+
+    public function getHeading(): string
+    {
+        return __('Edit Profile');
+    }
+
+    // Get Personal Information
     public $name;
     public $firstName;
     public $lastName;
@@ -26,31 +46,31 @@ class EditProfile extends Page
 
     public function mount()
     {
-        $chef = Auth::user();
-
+        $admin = Auth::user();
+ 
+        // Fill the Form with Admin Data
         $this->form->fill([
-            'name' => $chef->name,
-            'firstName' => $chef->first_name,
-            'lastName' => $chef->last_name,
-            'email' => $chef->email,
-            'phoneCode' => $chef->phone_code,
-            'phoneNumber' => $chef->phone_number,
-            'country' => $chef->country,
-            'city' => $chef->city,
-            'address' => $chef->address,
-            'postalCode' => $chef->postal_code,
+            'name' => $admin->name,
+            'firstName' => $admin->first_name,
+            'lastName' => $admin->last_name,
+            'email' => $admin->email,
+            'phoneCode' => $admin->country_code,
+            'phoneNumber' => $admin->phone_number,
+            'country' => $admin->country,
+            'city' => $admin->city,
+            'address' => $admin->address,
+            'postalCode' => $admin->postal_code,
         ]);
-        
     }
 
     public function getFormSchema(): array
     {
-        return [
+        return [ 
             Wizard::make([
-                Wizard\Step::make(__('Personal Information'))
+                Wizard\Step::make(__('panels.personal_information'))
                     ->columns(2)
                     ->icon('heroicon-o-identification')
-                    ->description('Change your personal information')
+                    //->description(__('panels.change_your_personal_information'))
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->schema([
                         TextInput::make('name')
@@ -59,36 +79,39 @@ class EditProfile extends Page
                         TextInput::make('firstName')
                             ->label(__('models.first_name')),
                         TextInput::make('lastName')
+                            ->columnSpanFull()
                             ->label(__('models.last_name'))
                     ]),
-                Wizard\Step::make(__('Contact Information'))
+                Wizard\Step::make(__('panels.contact_information'))
                     ->icon('heroicon-o-signal')
-                    ->description('Change your contact information')
+                    //->description(__('panels.change_your_contact_information'))
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->columns(2)
                     ->schema([
                         TextInput::make('email')
                             ->label(__('models.email'))
                             ->required(),
-                        TextInput::make('phoneCode')
+                        Select::make('phoneCode')
+                            ->options(CountryCode::class)
                             ->label(__('models.phone_code')),
                         TextInput::make('phoneNumber')
+                            ->columnSpanFull()
                             ->label(__('models.phone_number'))
                     ]),
-                Wizard\Step::make(__('Address Information'))
+                Wizard\Step::make(__('panels.address_information'))
                     ->icon('heroicon-o-map-pin')
-                    ->description('Change your address information')
+                    //->description('Change your address information')
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->columns(2)
                     ->schema([
-                        TextInput::make('country')
-                            ->label(__('models.country')),
+                        Select::make('country')
+                            ->options(Countries::class)
+                            ->label(__('models.country')), 
                         TextInput::make('city')
                             ->label(__('models.city')),
-                        TextInput::make('address')
+                        MarkdownEditor::make('address')
+                            ->columnSpanFull()
                             ->label(__('models.address')),
-                        TextInput::make('postalCode')
-                            ->label(__('models.postal_code'))
                     ]),
             ])
         ];
@@ -99,26 +122,13 @@ class EditProfile extends Page
         // Validate Data  
         $validatedData = $this->form->getState();
         // Get Authenticated User
-        /** @var \App\Models\User $chef */
-        $chef = Auth::user();
+        /** @var \App\Models\User $admin */
+        $admin = Auth::user();
         // Update Data
-        $chef->update($validatedData);
+        $admin->update($validatedData);
 
-        return redirect()->route('filament.chef.pages.profile');
+        return redirect()->route('filament.admin.pages.profile');
     }
 
-    public static function getNavigationSort(): ?int
-    {
-        return 2;
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return __('Edit Profile');     
-    }
-
-    public function getHeading(): string
-    {
-        return __('Edit Profile');
-    }
 }
+ 

@@ -12,41 +12,38 @@
     </div> 
 
     {{-- Hero Card --}}
-    <div
-        style="display: grid;
-               grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-               gap: 10px;
-               background-color: #fff;
-               border-radius: 20px;
-               padding: 20px 20px;">
+    <div 
+        style="
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            margin-bottom: 20px;">
 
-        <div
+        {{-- Welcome Message Section --}}
+        <div 
             style="display: flex;
                    flex-direction: column;
-                   justify-content: center;
-                   align-items: flex-start;
-                   gap: 10px">
-
-            <span style="font-weight: bold; font-size: 1.5rem; color: #E77917;">
-                Welcome Back, {{ $adminInfo->name }}!
-            </span>
-            <p style="color: cornflowerblue;">
-                This is the admin panel.
+                   gap: 15px;">
+            <h1 style="font-size: 2rem; font-weight: bold; color: #333;">
+                {{ __('Welcome Back') }}, {{ $adminInfo->name }}!
+            </h1>
+            <p style="font-size: 1rem; color: #555;">
+                {{ __('Monitor, manage, and streamline your operations seamlessly from this central hub. All the tools you need are just a click away.') }}
             </p>
-            <p style="color:cornflowerblue;">
-                You can control all the information, models and fields 
-                of the web application.
-            </p>
-
         </div>
 
-        <div style="display: flex; justify-content: flex-end;">
-            <img
-                style="height: 20rem;"
-                src="{{ asset('assets/images/panels/background01.png') }}"
-            />
+        {{-- Image Section --}}
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <img 
+                src="{{ asset('assets/images/panels/background01.png') }}" 
+                alt="Dashboard Illustration"
+                style="max-width: 100%; height: auto; border-radius: 15px;">
         </div>
-
     </div>
 
     {{-- Filament Widget Section --}}
@@ -63,6 +60,28 @@
             </div>
         @endforeach
     </div>
+
+    <style>
+        @media (max-width: 768px) {
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.95rem;
+            }
+
+            a {
+                width: 100%; 
+                text-align: center;
+            }
+        }
+    </style>
+
 
 </x-filament-panels::page>
  

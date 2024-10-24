@@ -10,7 +10,7 @@
             icon="heroicon-o-rocket-launch"
             icon-position="before"
             type="submit" 
-            color="info">
+            color="warning">
 
             {{ __('Save') }}
         

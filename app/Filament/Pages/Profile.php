@@ -13,7 +13,7 @@ class Profile extends Page
 
     public $adminData;
 
-    public function mount()
+    public function mount() 
     {
         $this->adminData = User::where('role', 'ADMIN')->first();
     }

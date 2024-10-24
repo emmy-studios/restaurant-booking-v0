@@ -420,7 +420,7 @@ return [
     'sales_discounts_applied' => 'Sales Discounts Applied',
     'sales_subtotal' => 'Sales Subtotal',
     'discount_total_amount' => 'Discount Total Amount',
-    /** NoticeResource Filament Translations */
+    /** NoticeResource Filament Translations */ 
     'notice' => 'Notice',
     'notices' => 'Notices',
     'type' => 'Type',

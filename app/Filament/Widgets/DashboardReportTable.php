@@ -38,7 +38,8 @@ class DashboardReportTable extends BaseWidget
                     ->label(__('models.employee'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('content'),
+                Tables\Columns\TextColumn::make('content')
+                    ->label(__('models.content')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
