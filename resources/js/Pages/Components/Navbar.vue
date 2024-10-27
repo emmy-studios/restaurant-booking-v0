@@ -14,14 +14,19 @@
         NBadge
     } from "naive-ui";
 
+    // xicons
     import {
         AccountBoxTwotone,
         ShoppingCartRound,
         AccountCircleFilled,
+        AccountCircleOutlined,
+        GroupAddFilled,
         MenuFilled,
         EditFilled,
         LogInFilled,
-        CloseFilled
+        CloseFilled,
+        ExitToAppTwotone,
+        LanguageFilled
     } from "@vicons/material";
 
     // Responsive Menu Show Function
@@ -35,8 +40,8 @@
         default: () => h(icon)
     });
 
-    // Dropdown Options
-    const options = ref([
+    // Authenticated Account Dropdown Options
+    const accountOptions = ref([
         {
             label: "Profile",
             key: "profile",
@@ -50,6 +55,20 @@
         {
             label: "Logout",
             key: "logout",
+            icon: renderIcon(ExitToAppTwotone),
+        },
+    ]);
+
+    // Guest Account Dropdown Options
+    const guestOptions = ref([
+        {
+            label: "Sign Up",
+            key: "signup",
+            icon: renderIcon(GroupAddFilled),
+        },
+        {
+            label: "Log In",
+            key: "login",
             icon: renderIcon(LogInFilled),
         },
     ]);
@@ -80,6 +99,9 @@
     // Shoppingcart Items
     const shoppingcartNumber = ref(0);
 
+    // Account Logic
+    const isLoggedIn = window.auth.isLoggedIn;
+
 </script>
 
 <template>
@@ -105,18 +127,30 @@
 
                 <!-- Language Dropdown -->
                 <n-dropdown trigger="click" :options="languages" @select="changeLanguage">
-                    <n-button>
-                        lang
-                    </n-button>
+                    <n-icon size="30">
+                        <LanguageFilled/>
+                    </n-icon>
                 </n-dropdown>
 
                 <!-- Account Dropdown -->
-                <n-dropdown trigger="click" :options="options">
-                    <n-button secondary circle color="red">
-                        <n-icon size="20">
-                            <AccountCircleFilled />
-                        </n-icon>
-                    </n-button>
+                <!-- authenticated user -->
+                <n-dropdown
+                    v-if="isLoggedIn"
+                    trigger="click"
+                    :options="accountOptions"
+                >
+                    <n-icon size="30">
+                        <AccountCircleFilled/>
+                    </n-icon>
+                </n-dropdown>
+                <!-- guest user -->
+                <n-dropdown v-else
+                    trigger="click"
+                    :options="guestOptions"
+                >
+                    <n-icon size="30">
+                        <AccountCircleFilled />
+                    </n-icon>
                 </n-dropdown>
 
                 <!-- Shoppingcart Button -->

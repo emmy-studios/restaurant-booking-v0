@@ -34,6 +34,7 @@
                     <p>
                         lorem ipsum dolerum ipsum notre damum.
                     </p>
+
                 </div>
 
                 <div class="slider-item">
