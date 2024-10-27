@@ -12,8 +12,9 @@ Route::get('/', function () {
 Route::prefix('{locale}')
     ->middleware(Localization::class)
     ->group(function() {
-        
+
         // Core Routes
-        Route::get('/', [CoreController::class, 'index'])->name('home'); 
+        Route::get('/', [CoreController::class, 'index'])->name('home');
         Route::get('/teams', [CoreController::class, 'teams'])->name('teams');
+        Route::get('/products', [CoreController::class, 'products'])->name('products');
     });

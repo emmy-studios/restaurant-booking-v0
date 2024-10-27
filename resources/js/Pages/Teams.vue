@@ -1,17 +1,15 @@
+<script setup>
+
+</script>
+
 <template>
 
-    <div class="flex flex-row justify-center">
-
-        <n-gradient-text type="alert">
-            Are you part of our teams?
-        </n-gradient-text>
-
-    </div>
+    <h1>OUR TEAMS</h1>
 
 </template>
 
-<script setup>
+<style scoped>
 
-    import { NGradientText } from "naive-ui";
 
-</script>
+
+</style>

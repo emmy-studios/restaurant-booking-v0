@@ -1,6 +1,9 @@
 <script setup>
 
     import { ref, h, onMounted, onBeforeUnmount } from "vue";
+
+    import { Link, usePage } from "@inertiajs/vue3";
+
     import {
         NButton,
         NIcon,
@@ -10,6 +13,7 @@
         NFloatButton,
         NBadge
     } from "naive-ui";
+
     import {
         AccountBoxTwotone,
         ShoppingCartRound,
@@ -25,18 +29,6 @@
     const toggleMenu = () => {
         isMenuOpen.value = !isMenuOpen.value;
     };
-    /*const navbarRef = ref(null);
-    const handleClickOutside = (event) => {
-        if (navbarRef.value && !navbarRef.value.contains(event.target)) {
-            isMenuOpen.value = false;
-        }
-    };
-    onMounted(() => {
-        document.addEventListener("click", handleClickOutside);
-    });
-    onBeforeUnmount(() => {
-        document.removeEventListener("click", handleClickOutside);
-    });*/
 
     // Render Icons for Dropdown
     const renderIcon = (icon) => () => h(NIcon, null, {
@@ -61,6 +53,21 @@
             icon: renderIcon(LogInFilled),
         },
     ]);
+
+    // Language Dropdown Options
+    const languages = ref([
+        {label: "Español", key: "es"},
+        {label: "English", key: "en"},
+    ]);
+
+    // Localization Setup
+    const { locale } = usePage().props;
+    const currentLocale = locale || 'en';
+
+    // Change Current Language
+    const changeLanguage = (lang) => {
+        window.location.href = `/${lang}${window.location.pathname.substring(3)}`;
+    };
 
     // Shoppingcart Drawer
     const active = ref(false);
@@ -88,16 +95,23 @@
             </div>
 
             <div class="navbar-links">
-                <a>INICIO</a>
-                <a>PRODUCTS</a>
-                <a>MENU</a>
+                <Link :href="`/${currentLocale}/`">INICIO</Link>
+                <Link :href="`/${currentLocale}/products`">PRODUCTS</Link>
+                <Link :href="`/${currentLocale}/teams`">TEAMS</Link>
                 <a>Reservation</a>
             </div>
 
             <div class="navbar-buttons">
 
+                <!-- Language Dropdown -->
+                <n-dropdown trigger="click" :options="languages" @select="changeLanguage">
+                    <n-button>
+                        lang
+                    </n-button>
+                </n-dropdown>
+
                 <!-- Account Dropdown -->
-                <n-dropdown :options="options">
+                <n-dropdown trigger="click" :options="options">
                     <n-button secondary circle color="red">
                         <n-icon size="20">
                             <AccountCircleFilled />

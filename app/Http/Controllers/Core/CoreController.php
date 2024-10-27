@@ -8,10 +8,25 @@ use Inertia\Inertia;
 
 class CoreController extends Controller
 {
-    
+
     public function index()
     {
-        return Inertia::render('Home');
+
+        // Translation Helper
+        $translations = getTranslations(['home']);
+
+        // Get Current Language
+        $locale = app()->getLocale();
+
+        return Inertia::render('Home', [
+            'translations' => $translations,
+            'locale' => $locale,
+        ]);
+    }
+
+    public function products()
+    {
+        return Inertia::render('Products');
     }
 
     public function teams()
