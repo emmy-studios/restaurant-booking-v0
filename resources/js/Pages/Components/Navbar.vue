@@ -3,6 +3,7 @@
     import { ref, h, onMounted, onBeforeUnmount } from "vue";
 
     import { Link, usePage } from "@inertiajs/vue3";
+    import { router } from "@inertiajs/vue3";
 
     import {
         NButton,
@@ -29,6 +30,15 @@
         LanguageFilled
     } from "@vicons/material";
 
+	// Localization Setup
+    const { locale } = usePage().props;
+    const currentLocale = locale || 'en';
+
+    // Change Current Language
+    const changeLanguage = (lang) => {
+        window.location.href = `/${lang}${window.location.pathname.substring(3)}`;
+    };
+
     // Responsive Menu Show Function
     const isMenuOpen = ref(false);
     const toggleMenu = () => {
@@ -43,19 +53,22 @@
     // Authenticated Account Dropdown Options
     const accountOptions = ref([
         {
-            label: "Profile",
-            key: "profile",
+            label: "Dashboard",
+            key: "dashboard",
             icon: renderIcon(AccountCircleFilled),
+            url: `/${currentLocale}/dashboard`,
         },
         {
             label: "Edit Profile",
             key: "edit profile",
             icon: renderIcon(EditFilled),
+            //url: `/${currentLocale}/signup`,
         },
         {
             label: "Logout",
             key: "logout",
             icon: renderIcon(ExitToAppTwotone),
+            //url: `/${currentLocale}/signup`,
         },
     ]);
 
@@ -65,11 +78,13 @@
             label: "Sign Up",
             key: "signup",
             icon: renderIcon(GroupAddFilled),
+            url: `/${currentLocale}/signup`,
         },
         {
             label: "Log In",
             key: "login",
             icon: renderIcon(LogInFilled),
+            url: `/${currentLocale}/login`,
         },
     ]);
 
@@ -78,15 +93,6 @@
         {label: "Español", key: "es"},
         {label: "English", key: "en"},
     ]);
-
-    // Localization Setup
-    const { locale } = usePage().props;
-    const currentLocale = locale || 'en';
-
-    // Change Current Language
-    const changeLanguage = (lang) => {
-        window.location.href = `/${lang}${window.location.pathname.substring(3)}`;
-    };
 
     // Shoppingcart Drawer
     const active = ref(false);
@@ -101,6 +107,18 @@
 
     // Account Logic
     const isLoggedIn = window.auth.isLoggedIn;
+
+    // Inertia Router - NaiveUI Dropdown
+    const handleDropdownSelect = (key) => {
+        const option = guestOptions.value.find(opt => opt.key === key);
+
+        if (option && option.url) {
+            // Use Inertia Router for Browser
+            router.visit(option.url);
+        } else {
+            console.warn('Url Not Defined:', key);
+        }
+    };
 
 </script>
 
@@ -147,6 +165,7 @@
                 <n-dropdown v-else
                     trigger="click"
                     :options="guestOptions"
+                    @select="handleDropdownSelect"
                 >
                     <n-icon size="30">
                         <AccountCircleFilled />
