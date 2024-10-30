@@ -9,10 +9,6 @@
         @vite(['resources/js/app.js', 'resources/css/app.css'])
         @inertiaHead
 
-        <script>
-            window.auth = @json(["isLoggedIn" => false]);
-        </script>
-
     </head>
 
     <body>

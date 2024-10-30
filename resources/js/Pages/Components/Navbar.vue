@@ -27,7 +27,8 @@
         LogInFilled,
         CloseFilled,
         ExitToAppTwotone,
-        LanguageFilled
+        LanguageFilled,
+        AddBusinessFilled,
     } from "@vicons/material";
 
 	// Localization Setup
@@ -62,13 +63,13 @@
             label: "Edit Profile",
             key: "edit profile",
             icon: renderIcon(EditFilled),
-            //url: `/${currentLocale}/signup`,
+            url: `/${currentLocale}/edit-profile`,
         },
         {
             label: "Logout",
             key: "logout",
             icon: renderIcon(ExitToAppTwotone),
-            //url: `/${currentLocale}/signup`,
+            url: `/${currentLocale}/logout`,
         },
     ]);
 
@@ -85,6 +86,12 @@
             key: "login",
             icon: renderIcon(LogInFilled),
             url: `/${currentLocale}/login`,
+        },
+        {
+            label: "Teams",
+            key: "teams",
+            icon: renderIcon(AddBusinessFilled),
+            url: `/${currentLocale}/teams`,
         },
     ]);
 
@@ -105,12 +112,23 @@
     // Shoppingcart Items
     const shoppingcartNumber = ref(0);
 
-    // Account Logic
-    const isLoggedIn = window.auth.isLoggedIn;
+    // ############# Account Logic #################
 
     // Inertia Router - NaiveUI Dropdown
     const handleDropdownSelect = (key) => {
         const option = guestOptions.value.find(opt => opt.key === key);
+
+        if (option && option.url) {
+            // Use Inertia Router for Browser
+            router.visit(option.url);
+        } else {
+            console.warn('Url Not Defined:', key);
+        }
+    };
+
+    // Authenticated User Dropdown Links
+    const authenticatedLinksSelect = (key) => {
+        const option = accountOptions.value.find(opt => opt.key === key);
 
         if (option && option.url) {
             // Use Inertia Router for Browser
@@ -153,9 +171,10 @@
                 <!-- Account Dropdown -->
                 <!-- authenticated user -->
                 <n-dropdown
-                    v-if="isLoggedIn"
+                    v-if="$page.props.auth.isLoggedIn"
                     trigger="click"
                     :options="accountOptions"
+                    @select="authenticatedLinksSelect"
                 >
                     <n-icon size="30">
                         <AccountCircleFilled/>
