@@ -26,7 +26,7 @@ class CoreController extends Controller
 
     public function products()
     {
-        return Inertia::render('Products');
+        return Inertia::render('TestComponent');
     }
 
     public function teams()

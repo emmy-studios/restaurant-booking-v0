@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'isLoggedIn' => auth()->check(),
             ],
+            'locale' => app()->getLocale(),
         ]);
     }
 }

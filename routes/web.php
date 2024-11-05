@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\Accounts\AuthenticationController;
 use App\Http\Controllers\Teams\TeamsController;
+use App\Http\Controllers\Accounts\DashboardController;
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
@@ -19,12 +20,13 @@ Route::prefix('{locale}')
         // Core Routes
         Route::get('/', [CoreController::class, 'index'])->name('home');
         Route::get('/products', [CoreController::class, 'products'])->name('products');
-        // Authentication Routes
+        // Accounts Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
         Route::post('/register', [AuthenticationController::class, 'register'])->name('register');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
         Route::post('/authenticate', [AuthenticationController::class, 'authenticate'])->name('authenticate');
         Route::get('/dashboard', [AuthenticationController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
         Route::get('/edit-profile', [AuthenticationController::class, 'edit'])->name('edit.profile');
         Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
         // Teams

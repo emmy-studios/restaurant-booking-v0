@@ -101,8 +101,12 @@ class AuthenticationController extends Controller
         //Get Current Locale
         $locale = app()->getLocale();
 
+        // Get User Information
+        $user = Auth::user();
+
         return Inertia::render("EditProfile", [
             "locale" => $locale,
+            "user" => $user,
         ]);
     }
 
