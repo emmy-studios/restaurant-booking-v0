@@ -13,7 +13,8 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        //
+
+        return Inertia::render('Accounts/Dashboard');
     }
 
     public function profile()
@@ -29,7 +30,8 @@ class DashboardController extends Controller
 
     public function editProfile()
     {
-        //
+
+        return Inertia::render('Accounts/EditProfile');
     }
 
 }

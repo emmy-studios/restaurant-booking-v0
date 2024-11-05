@@ -34,7 +34,7 @@
     const notifications = ref(4);
     //const imageProfile = ref("/assets/images/panels/admin_profile.png");
 
-    import DashboardSidebar from "./Components/DashboardSidebar.vue";
+    import DashboardSidebar from "../Components/DashboardSidebar.vue";
 
 </script>
 
@@ -43,6 +43,7 @@
     <DashboardSidebar
         :notifications="notifications"
         :pageTitle="'Dashboard'"
+        :activePage="'Dashboard'"
     >
 
         <template v-slot:mainContentSlot>

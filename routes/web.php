@@ -20,15 +20,16 @@ Route::prefix('{locale}')
         // Core Routes
         Route::get('/', [CoreController::class, 'index'])->name('home');
         Route::get('/products', [CoreController::class, 'products'])->name('products');
-        // Accounts Routes
+        // Authentication Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
-        Route::post('/register', [AuthenticationController::class, 'register'])->name('register');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
+        Route::post('/register', [AuthenticationController::class, 'register'])->name('register');
         Route::post('/authenticate', [AuthenticationController::class, 'authenticate'])->name('authenticate');
-        Route::get('/dashboard', [AuthenticationController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
-        Route::get('/edit-profile', [AuthenticationController::class, 'edit'])->name('edit.profile');
         Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+       	// Dashboard Routes
+       	Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+        Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         // Teams
         Route::get('/teams', [TeamsController::class, 'teams'])->name('teams');
     });

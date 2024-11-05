@@ -80,10 +80,10 @@
 				</Link>
 			</li>
 			<li :class="{ active: activePage === 'Edit Profile' }">
-				<a href="#">
+                <Link :href="`/${locale}/edit-profile`">
                     <n-icon class="bx"><DonutSmallFilled/></n-icon>
                     <span class="text">Edit Profile</span>
-				</a>
+				</Link>
 			</li>
 			<li :class="{ active: activePage === 'Analytics' }">
 				<a href="#">

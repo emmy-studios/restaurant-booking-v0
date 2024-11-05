@@ -18,14 +18,13 @@ class AuthenticationController extends Controller
         // Get Current Language
         $locale = app()->getLocale();
 
-        return Inertia::render("SignUp", [
+        return Inertia::render("Accounts/SignUp", [
             "locale" => $locale,
         ]);
     }
 
     public function register(Request $request)
     {
-
         // Get Current Language
         $locale = app()->getLocale();
 
@@ -41,23 +40,20 @@ class AuthenticationController extends Controller
 
         // Redirect to Dashboard
         return to_route("dashboard");
-
     }
 
     public function login()
     {
-
         // Get Current Locale
         $locale = app()->getLocale();
 
-        return Inertia::render("LogIn", [
+        return Inertia::render("Accounts/LogIn", [
             "locale" => $locale,
         ]);
     }
 
     public function authenticate(Request $request)
     {
-
         // Validate User Data
         $credentials = $request->validate([
             "name" => ["required", "string", "max:255", "min:4"],
@@ -75,39 +71,6 @@ class AuthenticationController extends Controller
         return back()->withErrors([
             "name" => "Las credenciales proporcionadas no coinciden con nuestros registros.",
         ])->onlyInput("name");
-
-    }
-
-    public function dashboard()
-    {
-
-        // Get Current Locale
-        $locale = app()->getLocale();
-
-        // Get User Information
-        $user = Auth::user();
-        $orders = $user->orders()->latest()->get();
-
-        return Inertia::render("Dashboard", [
-            "user" => $user,
-            "locale" => $locale,
-            "orders" => $orders,
-        ]);
-    }
-
-    public function edit()
-    {
-
-        //Get Current Locale
-        $locale = app()->getLocale();
-
-        // Get User Information
-        $user = Auth::user();
-
-        return Inertia::render("EditProfile", [
-            "locale" => $locale,
-            "user" => $user,
-        ]);
     }
 
     public function logout(Request $request)
@@ -118,7 +81,6 @@ class AuthenticationController extends Controller
         $request->session()->regenerateToken();
 
         return to_route("home");
-
     }
 
 }
