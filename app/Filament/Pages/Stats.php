@@ -17,17 +17,17 @@ class Stats extends Page
 
     public static function getNavigationLabel(): string
     {
-        return __('models.stats');    
+        return __('models.stats');
     }
 
     public function getHeading(): string
     {
-        return __('models.stats');  
+        return __('models.stats');
     }
 
     public static function getNavigationSort(): ?int
     {
-        return 2;
+        return 3;
     }
 
     public function getWidgets(): array
@@ -38,8 +38,8 @@ class Stats extends Page
             OrdersLineChart::class,
             SalesLineChart::class,
             ReservationsPerMonth::class,
-        ]; 
+        ];
     }
 
 }
- 
+

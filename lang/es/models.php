@@ -20,12 +20,12 @@ return [
     'role' => 'Rol',
     'postal_code' => 'Código Postal',
     'image_url' => 'Imagen',
-    // Pages 
+    // Pages
     'users' => 'Usuarios',
     'user' => 'Usuario',
     'create_user' => 'Crear usuario',
     'edit_user' => 'Editar usuario',
-    'view_user' => 'Ver usuario', 
+    'view_user' => 'Ver usuario',
     /**  ProductsResource Filament Translations  */
     'description' => 'Descripción',
     'portion' => 'Porción',
@@ -52,7 +52,7 @@ return [
     'start_at' => 'Comienza En',
     'end_at' => 'Termina En',
     'banner_text' => 'Texto de Anuncio',
-    'banner_image' => 'Imagen de Anuncio', 
+    'banner_image' => 'Imagen de Anuncio',
     'additional_details' => 'Detalles Adicionales',
     // Pages
     'create_discount' => 'Crear Descuento',
@@ -74,7 +74,7 @@ return [
     // Pages
     'create_order' => 'Crear Orden',
     'edit_order' => 'Editar Orden',
-    'view_order' => 'Ver Orden', 
+    'view_order' => 'Ver Orden',
     /**  OrderItemResource Filament Translations  */
     'quantity' => 'Cantidad',
     'order_items' => 'Elementos de Orden',
@@ -85,7 +85,7 @@ return [
     'view_order_item' => 'Ver Elemento de Orden',
     /**  BillingResource Filament Translations  */
     'billings' => 'Facturas',
-    'billing_code' => 'Código de Factura', 
+    'billing_code' => 'Código de Factura',
     'payment_method' => 'Método de Pago',
     'payment_currency' => 'Moneda de Pago',
     'status' => 'Estado',
@@ -114,7 +114,7 @@ return [
     'view_ingredient' => 'Ver Ingrediente',
     /**  SectionResource Filament Translations  */
     'section' => 'Sección',
-    'sections' => 'Secciones', 
+    'sections' => 'Secciones',
     // Pages
     'create_section' => 'Crear Sección',
     'edit_section' => 'Editar Sección',
@@ -140,7 +140,7 @@ return [
     'menu_items' => 'Elementos del Menu',
     'is_optional' => 'Es Opcional?',
     // Pages
-    'create_menu_item' => 'Crear Elemento del Menu', 
+    'create_menu_item' => 'Crear Elemento del Menu',
     'edit_menu_item' => 'Editar Elemento del Menu',
     'view_menu_item' => 'Ver Elemento del Menu',
     /**  MenuScheduleResource Filament Translations  */
@@ -150,7 +150,7 @@ return [
     'start_time' => 'Hora Inicial',
     'end_time' => 'Hora Final',
     // Pages
-    'create_menu_schedule' => 'Crear Menu Horario', 
+    'create_menu_schedule' => 'Crear Menu Horario',
     'edit_menu_schedule' => 'Editar Menu Horario',
     'view_menu_schedule' => 'Ver Menu Horario',
     /** MenuPriceResource Filament Translations */
@@ -164,7 +164,7 @@ return [
     'menu_special' => 'Especial de Menu',
     'menu_specials' => 'Especiales de Menu',
     // Pages
-    'create_menu_special' => 'Crear Especial de Menu', 
+    'create_menu_special' => 'Crear Especial de Menu',
     'edit_menu_special' => 'Editar Especial de Menu',
     'view_menu_special' => 'Ver Especial de Menu',
     /** InventoryResource Filament Translations */
@@ -196,8 +196,8 @@ return [
     'unit_of_measurement' => 'Unidad de Medida',
     'quantity' => 'Cantidad',
     // Pages
-    'create_item' => 'Crear Elemento', 
-    'edit_item' => 'Editar Elemento', 
+    'create_item' => 'Crear Elemento',
+    'edit_item' => 'Editar Elemento',
     'view_item' => 'Ver Elemento',
     /** InventoryAuditResource Filament Translations */
     'audit' => 'Auditoría',
@@ -208,7 +208,7 @@ return [
     'audit_date' => 'Fecha de Auditoría',
     'remarks' => 'Observaciones',
     // Pages
-    'create_audit' => 'Crear Auditoría',  
+    'create_audit' => 'Crear Auditoría',
     'edit_audit' => 'Editar Auditoría',
     'view_audit' => 'Ver Auditoría',
     /** InventoryMovementResource Filament Translations */
@@ -222,14 +222,14 @@ return [
     'reason' => 'Razón',
     'performed_by' => 'Realizado Por',
     // Pages
-    'create_movement' => 'Crear Movimiento',  
+    'create_movement' => 'Crear Movimiento',
     'edit_movement' => 'Editar Movimiento',
     'view_movement' => 'Ver Movimiento',
     /** PriceResource Filament Translations */
     'prices' => 'Precios',
-    'price' => 'Precio', 
+    'price' => 'Precio',
     // Pages
-    'create_price' => 'Crear Precio',  
+    'create_price' => 'Crear Precio',
     'edit_price' => 'Editar Precio',
     'view_price' => 'Ver Precio',
     /** CurrencyResource Filament Translations */
@@ -238,19 +238,19 @@ return [
     'currency_code' => 'Código de Moneda',
     'currency_name' => 'Nombre de Moneda',
     // Pages
-    'create_currency' => 'Crear Moneda',  
+    'create_currency' => 'Crear Moneda',
     'edit_currency' => 'Editar Moneda',
     'view_currency' => 'Ver Moneda',
     /** ReturnResource Filament Translations */
     'returns' => 'Devoluciones',
-    'return' => 'Devolución', 
+    'return' => 'Devolución',
     'product_name' => 'Nombre del Producto',
     'customer_name' => 'Nombre del Cliente',
     'responsable_employee' => 'Empleado Responsable',
     'request_date' => 'Fecha de Solicitud',
     'reason' => 'Razón',
     // Pages
-    'create_return' => 'Crear Devolución',  
+    'create_return' => 'Crear Devolución',
     'edit_return' => 'Editar Devolución',
     'view_return' => 'Ver Devolución',
         /** TableResource Filament Translations */
@@ -261,7 +261,7 @@ return [
     'location' => 'Ubicación',
     'is_available' => 'Está Disponible',
     // Pages
-    'create_table' => 'Crear Mesa',  
+    'create_table' => 'Crear Mesa',
     'edit_table' => 'Editar Mesa',
     'view_table' => 'Ver Mesa',
     /** EventResource Filament Translations */
@@ -276,18 +276,18 @@ return [
     'subtotal_cost' => 'Costo Subtotal',
     'total_cost' => 'Costo Total',
     // Pages
-    'create_event' => 'Crear Evento',  
+    'create_event' => 'Crear Evento',
     'edit_event' => 'Editar Evento',
     'view_event' => 'Ver Evento',
     /** EventPackageResource Filament Translations */
     'event_packages' => 'Paquetes de Eventos',
     'event_package' => 'Paquete de Evento',
     'packages' => 'Paquetes',
-    'package' => 'Paquete', 
+    'package' => 'Paquete',
     'package_name' => 'Nombre del Paquete',
-    'details' => 'Detalles', 
+    'details' => 'Detalles',
     // Pages
-    'create_package' => 'Crear Paquete',  
+    'create_package' => 'Crear Paquete',
     'edit_package' => 'Editar Paquete',
     'view_package' => 'Ver Paquete',
     /** EventPaymentResource Filament Translations */
@@ -297,7 +297,7 @@ return [
     'payment_amount' => 'Monto del Pago',
     'payment_status' => 'Estado del Pago',
     // Pages
-    'create_payment' => 'Crear Pago',   
+    'create_payment' => 'Crear Pago',
     'edit_payment' => 'Editar Pago',
     'view_payment' => 'Ver Pago',
     /** EventServiceResource Filament Translations */
@@ -309,7 +309,7 @@ return [
     'additional_cost' => 'Costo Adicional',
     'additional_cost_details' => 'Detalles del Costo Adicional',
     // Pages
-    'create_service' => 'Crear Servicio',  
+    'create_service' => 'Crear Servicio',
     'edit_service' => 'Editar Servicio',
     'view_service' => 'Ver Servicio',
     /** StaffResource Filament Translations */
@@ -329,9 +329,9 @@ return [
     'emergency_contact' => 'Contacto de Emergencia',
     'emergency_contact_number' => 'Número de Contacto de Emergencia',
     // Pages
-    'create_staff' => 'Crear Personal',  
+    'create_staff' => 'Crear Personal',
     'edit_staff' => 'Editar Personal',
-    'view_staff' => 'Ver Personal', 
+    'view_staff' => 'Ver Personal',
     /** ReturnResource Filament Translations */
     'reviews' => 'Reseñas',
     'review' => 'Reseña',
@@ -339,8 +339,8 @@ return [
     'rating' => 'Calificación',
     'reviewed_at' => 'Revisado En',
     // Pages
-    'create_review' => 'Crear Reseña',  
-    'edit_review' => 'Editar Reseña', 
+    'create_review' => 'Crear Reseña',
+    'edit_review' => 'Editar Reseña',
     'view_review' => 'Ver Reseña',
     /** ReservationResource Filament Translations */
     'reservation_payments' => 'Pagos de Reservaciones',
@@ -349,16 +349,16 @@ return [
     'reservation_date' => 'Fecha de Reservación',
     'special_requests' => 'Peticiones Especiales',
     // Pages
-    'create_reservation' => 'Crear Reservación',  
+    'create_reservation' => 'Crear Reservación',
     'edit_reservation' => 'Editar Reservación',
     'view_reservation' => 'Ver Reservación',
     /** SupplierResource Filament Translations */
-    'supplier' => 'Proveedor', 
+    'supplier' => 'Proveedor',
     'phone_code' => 'Código de Teléfono',
     'suppliers' => 'Proveedores',
     'company_name' => 'Nombre de la Compañía',
     // Pages
-    'create_supplier' => 'Crear Proveedor',   
+    'create_supplier' => 'Crear Proveedor',
     'edit_supplier' => 'Editar Proveedor',
     'view_supplier' => 'Ver Proveedor',
     /** PurchaseResource Filament Translations */
@@ -369,7 +369,7 @@ return [
     'purchase_datetime' => 'Fecha de Compra',
     'purchase_supervisor' => 'Supervisor de Compra',
     // Pages
-    'create_purchase' => 'Crear Compra',   
+    'create_purchase' => 'Crear Compra',
     'edit_purchase' => 'Editar Compra',
     'view_purchase' => 'Ver Compra',
     /** SaleResource Filament Translations */
@@ -378,7 +378,7 @@ return [
     'sales' => 'Ventas',
     'sale' => 'Venta',
     // Pages
-    'create_sale' => 'Crear Venta',   
+    'create_sale' => 'Crear Venta',
     'edit_sale' => 'Editar Venta',
     'view_sale' => 'Ver Venta',
     /** ReportResource Filament Translations */
@@ -386,7 +386,7 @@ return [
     'reports' => 'Reportes',
     'report_type' => 'Tipo de Reporte',
     // Pages
-    'create_report' => 'Crear Reporte',   
+    'create_report' => 'Crear Reporte',
     'edit_report' => 'Editar Reporte',
     'view_report' => 'Ver Reporte',
     /** InventoryReportResource Filament Translations */
@@ -425,10 +425,10 @@ return [
     'message' => 'Mensaje',
     'date' => 'Fecha',
     // Pages
-    'create_notice' => 'Crear Aviso',   
+    'create_notice' => 'Crear Aviso',
     'edit_notice' => 'Editar Aviso',
     'view_notice' => 'Ver Aviso',
-    /** EmployeeResoure Filament Translations */ 
+    /** EmployeeResoure Filament Translations */
     'employee' => 'Empleado',
     'employees' => 'Empleados',
     'identification_code' => 'Código de Identificación',
@@ -458,7 +458,7 @@ return [
     'create_employee' => 'Crear Empleado',
     'edit_employee' => 'Editar Empleado',
     'view_employee' => 'Ver Empleado',
-    /** SalaryResoure Filament Translations */ 
+    /** SalaryResoure Filament Translations */
     'salary' => 'Salario',
     'salaries' => 'Salarios',
     'amount' => 'Monto',
@@ -467,11 +467,11 @@ return [
     'salary_type' => 'Tipo de Salario',
     'effective_date' => 'Fecha Efectiva',
     'end_date' => 'Fecha de Fin',
-    // Pages 
+    // Pages
     'create_salary' => 'Crear Salario',
     'edit_salary' => 'Editar Salario',
     'view_salary' => 'Ver Salario',
-    /** ScheduleResoure Filament Translations */ 
+    /** ScheduleResoure Filament Translations */
     'schedules' => 'Horarios',
     'schedule' => 'Horario',
     'shift_start_time' => 'Hora de Inicio del Turno',
@@ -482,7 +482,7 @@ return [
     'lunch_break_duration' => 'Duración del Almuerzo',
     'overtime_hours' => 'Horas Extras',
     'overtime_rate' => 'Tarifa de Horas Extras',
-    'schedule_start_date' => 'Fecha de Inicio del Horario', 
+    'schedule_start_date' => 'Fecha de Inicio del Horario',
     'schedule_end_date' => 'Fecha de Fin del Horario',
     'modified_date' => 'Fecha Modificada',
     // Pages
@@ -554,7 +554,19 @@ return [
     'create_task' => 'Crear Tarea',
     'edit_task' => 'Editar Tarea',
     'view_task' => 'Ver Tarea',
-    /** AdminProfilePage Filament Translations */ 
+    /** Notification Filament Translations */
+    'notifications' => 'Notificaciones',
+    'notification' => 'Notificación',
+    'message' => 'Mensaje',
+    'notification_type' => 'Tipo de Notificación',
+    'is_read' => 'Está Leído?',
+    'data' => 'Datos',
+    'redirect_url' => 'URL de Redireccionamiento',
+    // Pages
+    'create_notification' => 'Crear Notificación',
+    'edit_notification' => 'Editar Notificación',
+    'view_notification' => 'Ver Notificación',
+    /** AdminProfilePage Filament Translations */
     'profile' => 'Perfil',
     'settings' => 'Ajustes',
     'stats' => 'Estadísticas',
@@ -564,5 +576,5 @@ return [
     // Notice Modal
     'notice_details' => 'Detalles del Aviso'
 
-];  
-   
+];
+

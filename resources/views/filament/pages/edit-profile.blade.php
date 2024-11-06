@@ -7,13 +7,13 @@
     <div style="padding-top: 10px">
 
         <x-filament::button
-            icon="heroicon-o-rocket-launch"
+            icon="heroicon-o-arrow-up-circle"
             icon-position="before"
-            type="submit" 
+            type="submit"
             color="warning">
 
             {{ __('Save') }}
-        
+
         </x-filament::button>
 
     </div>

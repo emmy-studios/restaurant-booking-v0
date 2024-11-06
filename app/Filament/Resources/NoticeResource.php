@@ -18,7 +18,7 @@ class NoticeResource extends Resource
 {
     protected static ?string $model = Notice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
+    protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
 
     protected static ?string $navigationLabel = null;
 
