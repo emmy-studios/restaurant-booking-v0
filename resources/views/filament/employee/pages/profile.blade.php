@@ -1,84 +1,197 @@
 <x-filament-panels::page>
 
-    <x-filament::section>
+    <div
+        style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: 20px;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 
-        <x-slot name="heading">
-            @if($employee->image_url)
+        {{-- Profile Image --}}
+        <div
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-color: white;
+                overflow: hidden;">
 
-                <x-filament::avatar 
-                    src="{{ asset('storage/' . $employee->image_url) }}"
-                    alt="{{ $employee->name }}"
-                    size="w-16 h-16"
-                /> 
-            @else
-                <x-filament::avatar
-                    src="{{ asset('assets/images/panels/employee_profile.png') }}"
-                    alt="Default Profile Image"
-                    size="h-16 w-16"
-                />
-            @endif
+                <img
+                    src="{{ $employee->image_url ? asset('storage/' . $employee->image_url) : asset('assets/images/panels/admin_profile.png') }}"
+                    alt="Profile Image"
+                    style="width: 100%; height: 100%; object-fit: cover;">
 
-            <p style="margin-top: 10px">
-                {{ $employee->name }}
-            </p>
-            <h1>
+        </div>
+
+        {{-- Profile Info --}}
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+            <h2 style="font-size: 1.25rem; font-weight: bold; color: #333;">
                 {{ $employee->first_name }} {{ $employee->last_name }}
-            </h1>
-            <h2>
-                {{ $employee->email }}
             </h2>
-        </x-slot>    
+            <p style="font-size: 1rem; color: #555;">{{ $employee->name }}</p>
+            <p style="font-size: 1rem; color: #555;">{{ $employee->email }}</p>
+            <p style="font-size: 1rem; color: #555;">
+                {{ $employee->country_code }} {{ $employee->phone_number }}
+            </p>
+        </div>
 
-        <p>Role: {{ $employee->role }}</p>
+        {{-- Update Profile Image Modal --}}
+        <div
+            style="display: flex; align-items: center; justify-content: flex-end;"
+        >
 
-    </x-filament::section>
+            <x-filament::modal
+                icon="heroicon-o-photo"
+                icon-color="success"
+                alignment="start"
+                sticky-header
+                sticky-footer
+            >
 
-    <x-filament::section>
-        
-        <x-slot name="heading"> 
-            <p>Personal Information</p>
-            <h2>User Personal Information</h2>
-        </x-slot>
+                <x-slot name="trigger">
+                    <x-heroicon-o-pencil-square
+                        class="w-5 h-5"
+                        style="color: #E77917;"
+                    />
+                </x-slot>
 
-        <p>
-            <span style="color: #a517e7">First Name:</span> {{ $employee->first_name }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Last Name:</span> {{ $employee->last_name }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Email:</span> {{ $employee->email }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Phone:</span> {{ $employee->country_code }} {{ $employee->phone_number }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Email:</span> {{ $employee->gender }}
-        </p>
+                <x-slot name="heading">
+                    {{ __('panels.change_profile_image') }}
+                </x-slot>
 
-    </x-filament::section>
+                <x-slot name="description">
+                    {{ __('panels.upload_a_jpg,_png,_jpeg_file') }}.
+                </x-slot>
 
-    <x-filament::section> 
+                {{-- Modal content --}}
+                <x-filament::input.wrapper>
+                    <x-filament::input
+                        type="file"
+                        wire:model="newImage"
+                    />
+                </x-filament::input.wrapper>
 
-        <x-slot name="heading">
-            <p>Address Information</p>
-            <h2>User Address Information</h2>
-        </x-slot>
- 
-        <p>
-            <span style="color: #a517e7">Country:</span> {{ $employee->country }}
-        </p>
-        <p>
-            <span style="color: #a517e7">City:</span> {{ $employee->city }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Adress:</span> {{ $employee->address }}
-        </p>
-        <p>
-            <span style="color: #a517e7">Postal Code:</span> {{ $employee->country }}
-        </p>
+                <x-slot name="footerActions">
+                    <x-filament::button wire:click="saveImage">
+                        {{ __('panels.save') }}
+                    </x-filament::button>
+                </x-slot>
 
-    </x-filament::section>
+            </x-filament::modal>
 
-</x-filament-panels::page> 
- 
+        </div>
+
+    </div>
+
+    {{-- Profile Information --}}
+    <div
+        style="
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+        <h3 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 20px;">
+            {{ __('panels.personal_information') }}
+        </h3>
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;">
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.identification_number') }}:</p>
+                <p style="color: #555;">{{ $employee->identification_number }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.role') }}:</p>
+                <p style="color: #555;">{{ $employee->role }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.first_name') }}:</p>
+                <p style="color: #555;">{{ $employee->first_name }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.last_name') }}:</p>
+                <p style="color: #555;">{{ $employee->last_name }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.postal_code') }}:</p>
+                <p style="color: #555;">{{ $employee->postal_code }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.gender') }}:</p>
+                <p style="color: #555;">{{ $employee->gender }}</p>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- Address Information --}}
+    <div
+        style="
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+        <h3 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 20px;">
+            {{ __('panels.address_information') }}
+        </h3>
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;">
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.country') }}:</p>
+                <p style="color: #555;">{{ $employee->country }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.city') }}:</p>
+                <p style="color: #555;">{{ $employee->city }}</p>
+            </div>
+
+        </div>
+
+        <div style="padding-top: 20px;">
+            <p style="font-weight: bold; color: #333;">{{ __('models.address') }}:</p>
+            <p style="color: #555;">{{ $employee->address }}</p>
+        </div>
+
+    </div>
+
+    <style>
+        @media (max-width: 768px) {
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            h2, h3 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+
+</x-filament-panels::page>
+

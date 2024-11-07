@@ -13,7 +13,7 @@ use function Laravel\Prompts\text;
 return new class extends Migration
 {
     /**
-     * Run the migrations. 
+     * Run the migrations.
      */
     public function up(): void
     {
@@ -22,14 +22,16 @@ return new class extends Migration
             $table->string('name');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('identification_code')->nullable()->unique();
+            $table->string('identification_code')->nullable()->unique(); // Number for System
+            $table->string('identification_number')->nullable()->unique(); // User Identification Number
             $table->string('email')->unique();
+            $table->date('birth')->nullable();
             $table->enum('gender', array_map(fn($code) => $code->value, Gender::cases()))->default('Other');
             $table->string('image_url')->nullable();
             $table->enum('country_code', array_map(fn($code) => $code->value, CountryCode::cases()))->default('+506');
             $table->string('phone_number')->nullable();
             $table->enum('country', array_map(fn($code) => $code->value, Countries::cases()))->default('Costa Rica');
-            $table->string('city')->nullable(); 
+            $table->string('city')->nullable();
             $table->string('postal_code')->nullable();
             $table->text('address')->nullable();
             $table->enum('role', array_map(fn($code) => $code->value, Roles::cases()))->default('CUSTOMER');
@@ -37,7 +39,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Table extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'table_number',
         'capacity',
+        'floor',
         'location',
         'is_available',
     ];

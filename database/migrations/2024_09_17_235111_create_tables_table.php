@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('table_number')->nullable();
             $table->integer('capacity')->nullable();
+            $table->integer('floor')->nullable();
             $table->string('location')->nullable();
             $table->boolean('is_available')->nullable();
             $table->timestamps();

@@ -47,6 +47,9 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('identification_code')
                     ->label(__('models.identification_code'))
                     ->maxLength(255),
+                Forms\Components\TextInput::make('identification_number')
+                    ->label(__('models.identification_number'))
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->label(__('models.email'))
                     ->email()
@@ -123,6 +126,8 @@ class UserResource extends Resource
                     ->label(__('models.identification_code'))
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('identification_number')
+                    ->label(__('models.identification_number')),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('models.email'))
                     ->searchable(),

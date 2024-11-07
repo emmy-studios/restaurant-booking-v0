@@ -1,4 +1,4 @@
- <?php 
+ <?php
 
 return [
   /**  Admin Panel */
@@ -19,4 +19,7 @@ return [
   "the_number_of_orders_made_per_month" => "The number of orders made per month",
   "sales_per_month" => "Sales per Month",
   "reservations_per_month" => "Reservations per Month",
-];    
+  "change_profile_image" => "Change Profile Image",
+  "upload_a_jpg,_png,_jpeg_file" => "Upload a jpg, png, jpeg file",
+  "save" => "Save"
+];

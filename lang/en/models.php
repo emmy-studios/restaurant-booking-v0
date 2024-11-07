@@ -1,13 +1,12 @@
 <?php
 
-use function PHPSTORM_META\map;
-
 return [
     /**  UserResource Filament Translations  */
     'name' => 'Name',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'identification_code' => 'Identification Code',
+    'identification_number' => 'Identification Number',
     'email' => 'Email',
     'gender' => 'Gender',
     'country_code' => 'Country Code',
@@ -454,6 +453,7 @@ return [
     'last_promotion_role' => 'Last Promotion Role',
     'bank_name' => 'Bank Name',
     'account_type' => 'Account Type',
+    'account_number' => 'Account Number',
     'bank_code' => 'Bank Code',
     'routing_number' => 'Routing Number',
     'iban' => 'Iban',

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace App\Filament\Manager\Pages;
+
 
 use App\Enums\Countries;
 use App\Enums\CountryCode;
@@ -17,7 +18,7 @@ class EditProfile extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
-    protected static string $view = 'filament.pages.edit-profile';
+    protected static string $view = 'filament.manager.pages.edit-profile';
 
     public static function getNavigationSort(): ?int
     {
@@ -50,22 +51,22 @@ class EditProfile extends Page
 
     public function mount()
     {
-        $admin = Auth::user();
+        $manager = Auth::user();
 
         // Fill the Form with Admin Data
         $this->form->fill([
-            'name' => $admin->name,
-            'identification_number' => $admin->identification_number,
-            'first_name' => $admin->first_name,
-            'last_name' => $admin->last_name,
-            'email' => $admin->email,
-            'country_code' => $admin->country_code,
-            'phone_number' => $admin->phone_number,
-            'country' => $admin->country,
-            'gender' => $admin->gender,
-            'city' => $admin->city,
-            'address' => $admin->address,
-            'postal_code' => $admin->postal_code,
+            'name' => $manager->name,
+            'identification_number' => $manager->identification_number,
+            'first_name' => $manager->first_name,
+            'last_name' => $manager->last_name,
+            'email' => $manager->email,
+            'country_code' => $manager->country_code,
+            'phone_number' => $manager->phone_number,
+            'country' => $manager->country,
+            'gender' => $manager->gender,
+            'city' => $manager->city,
+            'address' => $manager->address,
+            'postal_code' => $manager->postal_code,
         ]);
     }
 
@@ -137,14 +138,17 @@ class EditProfile extends Page
         $validatedData = $this->form->getState();
 
         // Get Authenticated User
-        /** @var \App\Models\User $admin */
-        $admin = Auth::user();
+        /** @var \App\Models\User $manager */
+        $manager = Auth::user();
 
         // Update Data
-        $admin->update($validatedData);
+        $manager->update($validatedData);
 
-        return redirect()->route('filament.admin.pages.profile');
+        return redirect()->route('filament.manager.pages.profile');
     }
 
 }
+
+
+
 

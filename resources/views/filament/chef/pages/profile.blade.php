@@ -1,54 +1,76 @@
 <x-filament-panels::page>
 
-    <p>{{ __('Real-Time Information and Activities of your Property') }}</p>
+    <div
+        style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: 20px;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 
-    <x-filament::section>
+        {{-- Profile Image --}}
+        <div
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-color: white;
+                overflow: hidden;">
 
-        <x-slot name="heading"> 
-            
-            <div 
-                style="display: flex; align-items: center;">
+                <img
+                    src="{{ $chef->image_url ? asset('storage/' . $chef->image_url) : asset('assets/images/panels/admin_profile.png') }}"
+                    alt="Profile Image"
+                    style="width: 100%; height: 100%; object-fit: cover;">
 
-                @if($chef->image_url)
-                    <x-filament::avatar 
-                        src="{{ asset('storage/' . $chef->image_url) }}"
-                        alt="{{ $chef->name }}"
-                        size="w-16 h-16"
-                    /> 
-                @else
-                    <x-filament::avatar
-                        src="{{ asset('assets/images/panels/chef_profile.png') }}"
-                        alt="Default Profile Image"
-                        size="h-16 w-16"
-                    />
-                @endif
+        </div>
 
-                <p style="padding-left: 10px;">
-                    {{ $chef->name }}
-                </p>
+        {{-- Profile Info --}}
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+            <h2 style="font-size: 1.25rem; font-weight: bold; color: #333;">
+                {{ $chef->first_name }} {{ $chef->last_name }}
+            </h2>
+            <p style="font-size: 1rem; color: #555;">{{ $chef->name }}</p>
+            <p style="font-size: 1rem; color: #555;">{{ $chef->email }}</p>
+            <p style="font-size: 1rem; color: #555;">
+                {{ $chef->country_code }} {{ $chef->phone_number }}
+            </p>
+        </div>
 
-            </div>
+        {{-- Update Profile Image Modal --}}
+        <div
+            style="display: flex; align-items: center; justify-content: flex-end;"
+        >
 
-            <p style="padding-top: 8px;">{{ $chef->first_name }} {{ $chef->last_name }}</p>
-
-        </x-slot>
-
-        <x-slot name="headerEnd">
-            <x-filament::modal>
-                <x-slot name="heading">
-                    {{ __('Upload Photo') }}
-                </x-slot>
+            <x-filament::modal
+                icon="heroicon-o-photo"
+                icon-color="success"
+                alignment="start"
+                sticky-header
+                sticky-footer
+            >
 
                 <x-slot name="trigger">
-                    <x-filament::button>
-                        {{ __('Change Photo') }}
-                    </x-filament::button>
+                    <x-heroicon-o-pencil-square
+                        class="w-5 h-5"
+                        style="color: #E77917;"
+                    />
+                </x-slot>
+
+                <x-slot name="heading">
+                    {{ __('panels.change_profile_image') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('Choose a jpg/png/jpeg file') }}
+                    {{ __('panels.upload_a_jpg,_png,_jpeg_file') }}.
                 </x-slot>
 
+                {{-- Modal content --}}
                 <x-filament::input.wrapper>
                     <x-filament::input
                         type="file"
@@ -56,73 +78,120 @@
                     />
                 </x-filament::input.wrapper>
 
-                <x-filament::button wire:click="saveImage">
-                    {{ __('Save') }}
-                </x-filament::button>
+                <x-slot name="footerActions">
+                    <x-filament::button wire:click="saveImage">
+                        {{ __('panels.save') }}
+                    </x-filament::button>
+                </x-slot>
+
             </x-filament::modal>
-        </x-slot>
 
-        <p>
-            {{ __('models.phone_number') }}: {{ $chef->phone_code }} {{ $chef->phone_number }}
-        </p>
-        <p>{{ __('models.role') }}: {{ $chef->role }}</p>
-
-    </x-filament::section>
-
-    <x-filament::section icon="heroicon-o-envelope" icon-color="success" icon-size="lg">
-
-        <x-slot name="heading">
-            <p>{{ __('Contact Email') }}</p>
-            <h2>{{ __('The Email Address for Receive Notifications') }}.</h2>
-        </x-slot>
-
-        <p>{{ $chef->email }}</p>
-
-    </x-filament::section>
-
-    <x-filament::section icon="heroicon-o-map-pin" icon-color="info" icon-size="lg">
-
-        <x-slot name="heading">
-            <p>{{ __('Address Information') }}</p>
-            <h2>{{ __('Your Personal Address Information') }}</h2>
-        </x-slot>
-
-        <div style="display: flex;">
-            <span style="font-weight: 600; padding-right: 4px; padding-bottom: 2px;">
-                {{ __('models.country') }}:
-            </span>
-            <p>
-                {{ $chef->country }}
-            </p> 
         </div>
 
-        <div style="display: flex;">
-            <span style="font-weight: 600; padding-right: 4px; padding-bottom: 2px;">
-                {{ __('models.city') }}:
-            </span>
-            <p>
-                {{ $chef->city }}
-            </p>
+    </div>
+
+    {{-- Profile Information --}}
+    <div
+        style="
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+        <h3 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 20px;">
+            {{ __('panels.personal_information') }}
+        </h3>
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;">
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.identification_number') }}:</p>
+                <p style="color: #555;">{{ $chef->identification_number }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.role') }}:</p>
+                <p style="color: #555;">{{ $chef->role }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.first_name') }}:</p>
+                <p style="color: #555;">{{ $chef->first_name }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.last_name') }}:</p>
+                <p style="color: #555;">{{ $chef->last_name }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.postal_code') }}:</p>
+                <p style="color: #555;">{{ $chef->postal_code }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.gender') }}:</p>
+                <p style="color: #555;">{{ $chef->gender }}</p>
+            </div>
         </div>
 
-        <div style="display: flex;">
-            <span style="font-weight: 600; padding-right: 4px; padding-bottom: 2px;">
-                {{ __('models.address') }}:
-            </span>
-            <p>
-                {{ $chef->address }}
-            </p>
+    </div>
+
+    {{-- Address Information --}}
+    <div
+        style="
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+        <h3 style="font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 20px;">
+            {{ __('panels.address_information') }}
+        </h3>
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;">
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.country') }}:</p>
+                <p style="color: #555;">{{ $chef->country }}</p>
+            </div>
+
+            <div>
+                <p style="font-weight: bold; color: #333;">{{ __('models.city') }}:</p>
+                <p style="color: #555;">{{ $chef->city }}</p>
+            </div>
+
         </div>
 
-        <div style="display: flex;">
-            <span style="font-weight: 600; padding-right: 4px; padding-bottom: 2px;">
-                {{ __('models.postal_code') }}:
-            </span>
-            <p>
-                {{ $chef->postal_code }}
-            </p>
+        <div style="padding-top: 20px;">
+            <p style="font-weight: bold; color: #333;">{{ __('models.address') }}:</p>
+            <p style="color: #555;">{{ $chef->address }}</p>
         </div>
 
-    </x-filament::section>
+    </div>
+
+    <style>
+        @media (max-width: 768px) {
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            h2, h3 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
 
 </x-filament-panels::page>
+

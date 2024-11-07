@@ -57,6 +57,8 @@ class User extends Authenticatable implements FilamentUser
         'first_name',
         'last_name',
         'identification_code',
+        'identification_number',
+        'birth',
         'country_code',
         'phone_number',
         'gender',

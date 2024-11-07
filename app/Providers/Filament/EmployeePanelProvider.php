@@ -25,14 +25,18 @@ class EmployeePanelProvider extends PanelProvider
         return $panel
             ->id('employee')
             ->path('employee')
+            ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
-                'primary' => Color::Purple,
+                'primary' => '#E77917',
             ])
             ->discoverResources(in: app_path('Filament/Employee/Resources'), for: 'App\\Filament\\Employee\\Resources')
             ->discoverPages(in: app_path('Filament/Employee/Pages'), for: 'App\\Filament\\Employee\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Employee/Widgets'), for: 'App\\Filament\\Employee\\Widgets')
             ->widgets([

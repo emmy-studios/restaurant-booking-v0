@@ -1,35 +1,24 @@
 <x-filament-panels::page>
 
-    <x-filament::section>
+  <form wire:submit.prevent="submit">
 
-        <x-slot name="heading">
-            Change your personal information here
-        </x-slot>
+    {{ $this->form }}
 
-        <x-filament::fieldset>
-            <x-slot name="label">
-                Personal Data
-            </x-slot>
-             
-            <p>Name: </p>
-            <x-filament::input.wrapper>
-                <x-filament::input
-                    type="text"
-                    wire:model="name"
-                />
-            </x-filament::input.wrapper>
+    <div style="padding-top: 10px">
 
-            <p>First Name: </p>
-            <x-filament::input.wrapper>
-                <x-filament::input
-                    type="text"
-                    wire:model="name"
-                />
-            </x-filament::input.wrapper>
-            
+        <x-filament::button
+            icon="heroicon-o-arrow-up-circle"
+            icon-position="before"
+            type="submit"
+            color="warning">
 
-        </x-filament::fieldset>
-    
-    </x-filament::section>
+            {{ __('Save') }}
+
+        </x-filament::button>
+
+    </div>
+
+  </form>
 
 </x-filament-panels::page>
+

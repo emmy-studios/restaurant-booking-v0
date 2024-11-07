@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
    /** Panel de Administración */
@@ -18,6 +18,9 @@ return [
    "orders_by_month" => "Órdenes por Mes",
    "the_number_of_orders_made_per_month" => "El número de órdenes hechas por mes",
    "sales_per_month" => "Ventas por Mes",
-   "reservations_per_month" => "Reservaciones por Mes",
+    "reservations_per_month" => "Reservaciones por Mes",
+    "change_profile_image" => "Cambiar Imagen de Perfil",
+    "upload_a_jpg,_png,_jpeg_file" => "Subir un archivo jpg, png, jpeg",
+    "save" => "Guardar"
 ];
- 
+

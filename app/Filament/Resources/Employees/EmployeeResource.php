@@ -29,15 +29,15 @@ class EmployeeResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 1; 
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('models.name')) 
-                    ->required() 
+                    ->label(__('models.name'))
+                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('first_name')
                     ->label(__('models.first_name'))
@@ -75,7 +75,7 @@ class EmployeeResource extends Resource
                     ->label(__('models.city')),
                 Forms\Components\TextInput::make('postal_code')
                     ->maxLength(255)
-                    ->label(__('models.postal_code')), 
+                    ->label(__('models.postal_code')),
                 Forms\Components\MarkdownEditor::make('address')
                     ->columnSpanFull()
                     ->label(__('models.address')),
@@ -176,7 +176,7 @@ class EmployeeResource extends Resource
                     ->label(__('models.identification_code')),
                 Tables\Columns\TextColumn::make('id_number')
                     ->searchable()
-                    ->label(__('models.id_number')), 
+                    ->label(__('models.id_number')),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->label(__('models.email')),
@@ -212,7 +212,8 @@ class EmployeeResource extends Resource
                     ->searchable()
                     ->label(__('models.department')),
                 Tables\Columns\TextColumn::make('contract_type')
-                    ->label(__('models.contrat_type')),
+                    ->badge()
+                    ->label(__('models.contract_type')),
                 Tables\Columns\TextColumn::make('secondary_email')
                     ->searchable()
                     ->label(__('models.secondary_email')),
@@ -298,7 +299,7 @@ class EmployeeResource extends Resource
     {
         return [
             //
-        ]; 
+        ];
     }
 
     public static function getPages(): array
@@ -316,7 +317,7 @@ class EmployeeResource extends Resource
     {
         return __('models.employees');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Filament\Employee\Pages;
+namespace App\Filament\Manager\Pages;
+
 
 use App\Models\User;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class Profile extends Page
 {
@@ -13,21 +14,21 @@ class Profile extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
-    protected static string $view = 'filament.employee.pages.profile';
+    protected static string $view = 'filament.manager.pages.profile';
 
     public static function getNavigationSort(): ?int
     {
         return 2;
     }
 
-    public $employee;
+    public $manager;
 
     public $newImage;
 
     public function mount()
     {
         //$this->adminData = User::where('role', 'ADMIN')->first();
-        $this->employee = Auth::user();
+        $this->manager = Auth::user();
     }
 
     public function saveImage()
@@ -41,7 +42,7 @@ class Profile extends Page
         $path = $this->newImage->store('users-image', 'public');
 
         // Update Image Url
-        $this->employee->update([
+        $this->manager->update([
             'image_url' => $path,
         ]);
 
@@ -49,7 +50,7 @@ class Profile extends Page
         $this->reset('newImage');
 
         // Redirect the Page
-        return redirect()->route('filament.employee.pages.profile');
+        return redirect()->route('filament.manager.pages.profile');
 
     }
 
@@ -63,4 +64,5 @@ class Profile extends Page
         return __('models.profile');
     }
 }
+
 

@@ -25,14 +25,18 @@ class ManagerPanelProvider extends PanelProvider
         return $panel
             ->id('manager')
             ->path('manager')
+            ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
-                'primary' => Color::Red,
+                'primary' => '#E77917',
             ])
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Manager/Widgets'), for: 'App\\Filament\\Manager\\Widgets')
             ->widgets([
