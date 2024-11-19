@@ -24,7 +24,7 @@ class EmployeeTaskResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 10; 
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {
@@ -50,6 +50,8 @@ class EmployeeTaskResource extends Resource
                     ->searchable()
                     ->label(__('models.status'))
                     ->required(),
+                Forms\Components\Toggle::make('is_read')
+                    ->label(__('models.is_read')),
                 Forms\Components\DatePicker::make('due_date')
                     ->label(__('models.due_date')),
             ]);
@@ -69,6 +71,8 @@ class EmployeeTaskResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->label(__('models.status')),
+                Tables\Columns\TextColumn::make('is_read')
+                    ->label(__('models.is_read')),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
                     ->label(__('models.due_date'))
@@ -117,11 +121,11 @@ class EmployeeTaskResource extends Resource
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    { 
+    {
         return __('models.tasks');
-    } 
- 
-    // Translate Navigation Group. 
+    }
+
+    // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.employees');

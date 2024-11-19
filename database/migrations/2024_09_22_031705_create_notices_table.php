@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->text('message')->nullable();
             $table->dateTime('date');
-            $table->timestamps(); 
+            $table->boolean('is_read')->default(false);
+            $table->timestamps();
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.

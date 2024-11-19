@@ -2,7 +2,7 @@
 
 use App\Enums\TaskStatus;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint; 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('additional_details')->nullable();
             $table->enum('status', array_map(fn($status) => $status->value, TaskStatus::cases()))->default('Pending');
             $table->date('due_date')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

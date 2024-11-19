@@ -46,6 +46,8 @@ class NoticeResource extends Resource
                 Forms\Components\MarkdownEditor::make('message')
                     ->columnSpanFull()
                     ->label(__('models.message')),
+                Forms\Components\Toggle::make('is_read')
+                    ->label(__('models.is_read')),
                 Forms\Components\DateTimePicker::make('date')
                     ->required()
                     ->label(__('models.date')),
@@ -66,6 +68,9 @@ class NoticeResource extends Resource
                 Tables\Columns\TextColumn::make('subject')
                     ->searchable()
                     ->label(__('models.subject')),
+                Tables\Columns\IconColumn::make('is_read')
+                    ->boolean()
+                    ->label(__('models.is_read')),
                 Tables\Columns\TextColumn::make('date')
                     ->dateTime()
                     ->label(__('models.date'))

@@ -21,6 +21,15 @@ return [
     "reservations_per_month" => "Reservaciones por Mes",
     "change_profile_image" => "Cambiar Imagen de Perfil",
     "upload_a_jpg,_png,_jpeg_file" => "Subir un archivo jpg, png, jpeg",
-    "save" => "Guardar"
+    "save" => "Guardar",
+    /* Employee panel */
+    // Notices Components
+    "employee_notices" => "Avisos del Empleado",
+    "employee_notifications" => "Notificaciones de Empleado",
+    "employee_tasks" => "Tareas del Empleado",
+    "employee_information" => "Información de Empleado",
+    "notification_details" => "Detalles de la Notificación",
+    "notice_details" => "Detalles del Aviso",
+    "task_details" => "Detalles de la Tarea"
 ];
 

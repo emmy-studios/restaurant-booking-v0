@@ -561,7 +561,7 @@ return [
     'notification' => 'Notificación',
     'message' => 'Mensaje',
     'notification_type' => 'Tipo de Notificación',
-    'is_read' => 'Está Leído?',
+    'is_read' => 'Visto?',
     'data' => 'Datos',
     'redirect_url' => 'URL de Redireccionamiento',
     // Pages
@@ -574,9 +574,6 @@ return [
     'stats' => 'Estadísticas',
     'number_of_users' => 'Numero de Usuarios',
     'total_sales' => 'Ventas Totales',
-    'total_orders_made' => 'Órdenes Totales Realizadas',
-    // Notice Modal
-    'notice_details' => 'Detalles del Aviso'
-
+    'total_orders_made' => 'Órdenes Totales Realizadas'
 ];
 

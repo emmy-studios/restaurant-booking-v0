@@ -19,8 +19,9 @@ class EmployeeTask extends Model
         'additional_details',
         'status',
         'due_date',
+        'is_read',
     ];
-    
+
     protected $casts = [
         'status',
     ];

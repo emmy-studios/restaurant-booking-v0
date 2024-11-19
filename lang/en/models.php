@@ -576,7 +576,5 @@ return [
     'number_of_users' => 'Number of Users',
     'total_sales' => 'Total Sales',
     'total_orders_made' => 'Total Orders Made',
-    // Notices Modal
-    'notice_details' => 'Notice Details'
 ];
 

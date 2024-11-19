@@ -21,5 +21,14 @@ return [
   "reservations_per_month" => "Reservations per Month",
   "change_profile_image" => "Change Profile Image",
   "upload_a_jpg,_png,_jpeg_file" => "Upload a jpg, png, jpeg file",
-  "save" => "Save"
+  "save" => "Save",
+  /* Employee Panels */
+  // Notices Component
+  "employee_notices" => "Employee Notices",
+  "employee_notifications" => "Employee Notifications",
+  "employee_tasks" => "Employee Tasks",
+  "employee_information" => "Employee Information",
+  "notification_details" => "Notification Details",
+  "notice_details" => "Notice Details",
+  "task_details" => "Task Details"
 ];

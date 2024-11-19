@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notice extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -18,6 +18,7 @@ class Notice extends Model
         'subject',
         'message',
         'date',
+        'is_read',
     ];
 
     protected $casts = [
