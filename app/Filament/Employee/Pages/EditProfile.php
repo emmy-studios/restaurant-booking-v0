@@ -8,6 +8,7 @@ use App\Enums\Gender;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Wizard;
 use Filament\Pages\Page;
@@ -47,6 +48,7 @@ class EditProfile extends Page
     public $city;
     public $address;
     public $postal_code;
+    public $birth;
 
     public function mount()
     {
@@ -59,6 +61,7 @@ class EditProfile extends Page
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
             'email' => $employee->email,
+            'birth' => $employee->birth,
             'country_code' => $employee->country_code,
             'phone_number' => $employee->phone_number,
             'country' => $employee->country,
@@ -92,6 +95,8 @@ class EditProfile extends Page
                             ->options(Gender::class)
                             ->searchable()
                             ->label(__('models.gender')),
+                        DatePicker::make('birth')
+                            ->label(__('models.date_of_birth')),
                     ]),
                 Wizard\Step::make(__('panels.contact_information'))
                     ->icon('heroicon-o-signal')
