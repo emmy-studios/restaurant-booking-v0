@@ -19,8 +19,11 @@ return new class extends Migration
             $table->text('description');
             $table->text('additional_details')->nullable();
             $table->enum('status', array_map(fn($status) => $status->value, TaskStatus::cases()))->default('Pending');
-            $table->date('due_date')->nullable();
+            $table->dateTime('due_date')->nullable();
             $table->boolean('is_read')->default(false);
+            $table->foreignId('supervisor_id')->nullable()->constrained('employees')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('supervisor_comment')->nullable();
+            $table->text('employee_notes')->nullable();
             $table->timestamps();
         });
     }

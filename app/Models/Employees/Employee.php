@@ -44,11 +44,11 @@ class Employee extends Model
         'emergency_contact_name',
         'emergency_contact_phone',
         'work_permit',
-        'tax_id_number', 
+        'tax_id_number',
         'status',
         'supervisor',
         'fire_date',
-        'termination_date', 
+        'termination_date',
         'last_promotion_date',
         'last_promotion_role',
         'role',
@@ -88,11 +88,11 @@ class Employee extends Model
     {
         return $this->hasMany(Vacation::class);
     }
- 
+
     public function employeeTasks(): HasMany
     {
         return $this->hasMany(EmployeeTask::class);
-    } 
+    }
 
     public function absences(): HasMany
     {
@@ -124,4 +124,8 @@ class Employee extends Model
         return $this->hasMany(ReturnRequest::class);
     }
 
+    public function supervisedTasks(): HasMany
+    {
+        return $this->hasMany(EmployeeTask::class, 'supervisor_id');
+    }
 }

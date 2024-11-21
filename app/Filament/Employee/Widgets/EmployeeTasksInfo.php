@@ -8,26 +8,36 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Support\Enums\IconPosition;
 use App\Models\Employees\Employee;
 use App\Models\Employees\EmployeeTask;
+use App\Enums\TaskStatus;
 
 class EmployeeTasksInfo extends BaseWidget
 {
     protected function getStats(): array
     {
+
         $employee = Employee::where('identification_code', Auth::user()->identification_code)->first();
         $employeeTasks = EmployeeTask::where('employee_id', $employee->id)->get();
-        $completedTasks = 10;
+        // Get Task Information
+        $totalTasks = $employeeTasks->count();
+        $approvedTasks = $employeeTasks->where('status', 'Approved')->count();
+        $cancelledTasks = $employeeTasks->where('status', 'Cancelled')->count();
+        $pendingTasks = $employeeTasks->where('status', 'Pending')->count();
+        $inprogressTasks = $employeeTasks->where('status', 'In Progress')->count();
+        $completedTasks = $employeeTasks->where('status', 'Completed')->count();
 
         return [
-            Stat::make('Tareas Totales', 90)
-                ->description('Tareas Aprovadas: 9')
-                ->descriptionIcon('heroicon-o-clipboard-document', IconPosition::Before)
+            Stat::make('Tareas Totales', $totalTasks)
+                ->description('Tareas Aprovadas: ' . $approvedTasks)
+                ->descriptionIcon('heroicon-o-check-circle', IconPosition::Before)
                 ->color('success'),
-            Stat::make('Tareas Pendientes', 10)
-                ->description('Tareas Completadas este Mes: ' . '20')
-                ->color('warning'),
-            Stat::make('Tareas no Completadas', 20)
-                ->description('Tareas Canceladas'. ' 10')
+            Stat::make('Tareas Pendientes', $pendingTasks)
+                ->description('Tareas Canceladas: ' . $cancelledTasks)
+                ->descriptionIcon('heroicon-o-x-circle', IconPosition::Before)
                 ->color('danger'),
+            Stat::make('Tareas Completadas', $completedTasks)
+                ->description('Tareas en Progreso: '. $inprogressTasks)
+                ->descriptionIcon('heroicon-o-ellipsis-horizontal-circle', IconPosition::Before)
+                ->color('warning'),
         ];
     }
 }

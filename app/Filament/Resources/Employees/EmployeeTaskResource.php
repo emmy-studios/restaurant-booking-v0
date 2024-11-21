@@ -37,6 +37,7 @@ class EmployeeTaskResource extends Resource
                 Forms\Components\TextInput::make('task_name')
                     ->required()
                     ->label(__('models.task_name'))
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\MarkdownEditor::make('description')
                     ->required()
@@ -52,8 +53,17 @@ class EmployeeTaskResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('is_read')
                     ->label(__('models.is_read')),
-                Forms\Components\DatePicker::make('due_date')
+                Forms\Components\DateTimePicker::make('due_date')
                     ->label(__('models.due_date')),
+                Forms\Components\Select::make('supervisor_id')
+                    ->relationship('supervisor', 'name')
+                    ->label(__('models.supervisor')),
+                Forms\Components\MarkdownEditor::make('supervisor_comment')
+                    ->columnSpanFull()
+                    ->label(__('models.supervisor_comment')),
+                Forms\Components\MarkdownEditor::make('employee_notes')
+                    ->label(__('models.employee_notes'))
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -67,6 +77,7 @@ class EmployeeTaskResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('task_name')
                     ->searchable()
+                    ->limit(30)
                     ->label(__('models.task_name')),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -77,6 +88,18 @@ class EmployeeTaskResource extends Resource
                     ->date()
                     ->label(__('models.due_date'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('supervisor_id')
+                    ->sortable()
+                    ->searchable()
+                    ->label(__('models.supervised_by')),
+                Tables\Columns\TextColumn::make('supervisor_comment')
+                    ->label(__('models.supervisor_comment'))
+                    ->limit(30)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('employee_notes')
+                    ->label(__('models.employee_notes'))
+                    ->searchable()
+                    ->limit(30),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

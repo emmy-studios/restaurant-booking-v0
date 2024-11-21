@@ -8,7 +8,9 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Support\Enums\ActionSize;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\Facades\Auth;
@@ -48,14 +50,19 @@ class EmployeeTasks extends BaseWidget
                         ->modalCancelAction(false)
                         ->color('info'),
                     EditAction::make('editAction')
+                        ->modalHeading(__('panels.edit_task_status'))
                         ->form([
                             Select::make('status')
-                                //->options(TaskStatus::class),
+                                //->options(TaskStatus::class)
                                 ->options([
-                                    'Pending' => 'Pending',
+                                    'In Progress' => 'In Progress',
                                     'Completed' => 'Completed',
                                     'Unfinished' => 'Unfinished',
-                                ]),
+                                ])
+                                ->searchable()
+                                ->label(__('panels.task_status')),
+                            MarkdownEditor::make('employee_notes')
+                                ->label(__('models.employee_notes')),
                         ])
                         ->color('warning')
                         ->successNotification(
@@ -68,7 +75,7 @@ class EmployeeTasks extends BaseWidget
                 ->tooltip('Options')
                 ->iconButton()
                 ->color('gray')
-            ])
+            ], position: ActionsPosition::BeforeCells)
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
                     ->numeric()
@@ -94,6 +101,14 @@ class EmployeeTasks extends BaseWidget
                     ->searchable()
                     ->label(__('models.due_date'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('supervisor.name')
+                    ->label(__('models.supervised_by')),
+                Tables\Columns\TextColumn::make('supervisor_comment')
+                    ->label(__('models.supervisor_comment'))
+                    ->limit(30),
+                Tables\Columns\TextColumn::make('employee_notes')
+                    ->label(__('models.employee_notes'))
+                    ->limit(30),
             ]);
     }
 }

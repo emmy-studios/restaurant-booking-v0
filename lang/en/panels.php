@@ -30,5 +30,7 @@ return [
   "employee_information" => "Employee Information",
   "notification_details" => "Notification Details",
   "notice_details" => "Notice Details",
-  "task_details" => "Task Details"
+  "task_details" => "Task Details",
+  "task_status" => "Task Status",
+  "edit_task_status" => "Edit Task Status"
 ];

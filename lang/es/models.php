@@ -552,6 +552,9 @@ return [
     'tasks' => 'Tareas',
     'task_name' => 'Nombre de la Tarea',
     'due_date' => 'Fecha de Vencimiento',
+    'supervised_by' => 'Supervisado Por',
+    'supervisor_comment' => 'Comentario del Supervisor',
+    'employee_notes' => 'Notas del Empleado',
     // Pages
     'create_task' => 'Crear Tarea',
     'edit_task' => 'Editar Tarea',

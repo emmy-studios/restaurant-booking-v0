@@ -553,6 +553,9 @@ return [
     'tasks' => 'Tasks',
     'task_name' => 'Task Name',
     'due_date' => 'Due Date',
+    'supervised_by' => 'Supervised By',
+    'supervisor_comment' => 'Supervisor Comment',
+    'employee_notes' => 'Employee Notes',
     // Pages
     'create_task' => 'Create Task',
     'edit_task' => 'Edit Task',
@@ -562,7 +565,7 @@ return [
     'notification' => 'Notification',
     'message' => 'Message',
     'notification_type' => 'Notification Type',
-    'is_read' => 'Is Read',
+    'is_read' => 'Is Read?',
     'data' => 'Data',
     'redirect_url' => 'Redirect Url',
     // Pages

@@ -20,6 +20,9 @@ class EmployeeTask extends Model
         'status',
         'due_date',
         'is_read',
+        'supervisor_id',
+        'supervisor_comment',
+        'employee_notes',
     ];
 
     protected $casts = [
@@ -29,6 +32,11 @@ class EmployeeTask extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'supervisor_id');
     }
 
 }

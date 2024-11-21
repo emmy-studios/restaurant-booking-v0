@@ -30,6 +30,8 @@ return [
     "employee_information" => "Información de Empleado",
     "notification_details" => "Detalles de la Notificación",
     "notice_details" => "Detalles del Aviso",
-    "task_details" => "Detalles de la Tarea"
+    "task_details" => "Detalles de la Tarea",
+    "task_status" => "Estado de la Tarea",
+    "edit_task_status" => "Editar el Estado de la Tarea"
 ];
 
