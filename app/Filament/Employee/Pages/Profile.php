@@ -6,6 +6,7 @@ use App\Models\User;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use App\Models\Employees\Employee;
 
 class Profile extends Page
 {
@@ -24,10 +25,13 @@ class Profile extends Page
 
     public $newImage;
 
+    public $employeeInfo;
+
     public function mount()
     {
         //$this->adminData = User::where('role', 'ADMIN')->first();
         $this->employee = Auth::user();
+        $this->employeeInfo = Employee::where('identification_code', $this->employee->identification_code)->first();
     }
 
     public function saveImage()

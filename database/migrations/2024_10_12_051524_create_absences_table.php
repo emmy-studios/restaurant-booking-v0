@@ -13,15 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('absences', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->foreignId('employee_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->date('start_date');
-            $table->date('end_date')->nullable();
+            $table->date('date');
             $table->boolean('justified')->default(false);
             $table->text('reason')->nullable();
             $table->text('details')->nullable();
             $table->enum('absence_type', array_map(fn($code) => $code->value, AbsenceType::cases()))->default('Illness');
-            $table->foreignId('approved_by')->constrained('employees')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('approved')->default(false);
+            $table->foreignId('approved_by')->nullable()->constrained('employees')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('approver_comment')->nullable();
+            $table->text('supporting_documents')->nullable();
             $table->timestamps();
         });
     }

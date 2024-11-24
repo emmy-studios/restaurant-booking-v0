@@ -14,13 +14,15 @@ class Absence extends Model
 
     protected $fillable = [
         'employee_id',
-        'start_date', 
-        'end_date',
+        'date',
         'justified',
         'reason',
         'details',
         'absence_type',
+        'approved',
         'approved_by',
+        'approver_comment',
+        'supporting_documents',
     ];
 
     protected $casts = [

@@ -25,6 +25,8 @@ return [
   /* Employee Panels */
   // Notices Component
   "employee_notices" => "Employee Notices",
+  "employee_absences" => "Employee Absences",
+  "employee_attendances" => "Employee Attendances",
   "employee_notifications" => "Employee Notifications",
   "employee_tasks" => "Employee Tasks",
   "employee_information" => "Employee Information",
@@ -32,5 +34,18 @@ return [
   "notice_details" => "Notice Details",
   "task_details" => "Task Details",
   "task_status" => "Task Status",
-  "edit_task_status" => "Edit Task Status"
-];
+  "edit_task_status" => "Edit Task Status",
+  "not_justified" => "Not Justified",
+  "not_approved" => "Not Approved",
+  "administration_information" => "Información de Administración",
+  "absences_this_month" => "Absences this Month",
+  "absences_by_month" => "Absences by Month",
+  "the_number_of_absences_made_per_month" => "The number of absences made per month",
+  "the_number_of_absences_in_this_month" => "The number of absences in this month",
+  "total_absences" => "Total Absences",
+  "justified_absences" => "Justified Absences",
+  "approved_absences" => "Approved Absences",
+  "not_approved_absences" => "Not Approved Absences",
+  "not_justified_absences" => "Not Justified Absences",
+  "work_activity" => "Work Activity"
+ ];

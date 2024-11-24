@@ -96,6 +96,10 @@ class Employee extends Model
 
     public function absences(): HasMany
     {
+        return $this->hasMany(Absence::class);
+    }
+    public function aprovedAbsences(): HasMany
+    {
         return $this->hasMany(Absence::class, 'approved_by');
     }
 

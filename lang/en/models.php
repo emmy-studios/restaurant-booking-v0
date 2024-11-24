@@ -529,6 +529,10 @@ return [
     'edit_overtime' => 'Edit Overtime',
     'view_overtime' => 'View Overtime',
     /** AbsenceResource Filament Translations */
+    'start_date' => 'Start Date',
+    'approved' => 'Approved',
+    'approver_comment' => 'Approver Comment',
+    'supporting_documents' => 'Supporting Documents',
     'absence' => 'absence',
     'absences' => 'Absences',
     'justified' => 'Justified',

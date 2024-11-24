@@ -528,6 +528,10 @@ return [
     'edit_overtime' => 'Editar Horas Extra',
     'view_overtime' => 'Ver Horas Extra',
     /** AbsenceResource Filament Translations */
+    'approver_comment' => 'Comentario del Aprobador',
+    'approved' => 'Aprobado',
+    'start_date' => 'Fecha de Inicio',
+    'supporting_documents' => 'Documentos Justificantes',
     'absence' => 'Ausencia',
     'absences' => 'Ausencias',
     'justified' => 'Justificada',

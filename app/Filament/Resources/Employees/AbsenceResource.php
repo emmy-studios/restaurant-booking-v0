@@ -19,26 +19,24 @@ class AbsenceResource extends Resource
     protected static ?string $model = Absence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
- 
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 7;  
+    protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
-    { 
+    {
         return $form
             ->schema([
                 Forms\Components\Select::make('employee_id')
                     ->relationship('employee', 'name')
                     ->label(__('models.employee'))
                     ->required(),
-                Forms\Components\DatePicker::make('start_date')
+                Forms\Components\DatePicker::make('date')
                     ->required()
-                    ->label(__('models.start_date')),
-                Forms\Components\DatePicker::make('end_date')
-                    ->label(__('models.end_date')),
+                    ->label(__('models.date')),
                 Forms\Components\Toggle::make('justified')
                     ->required()
                     ->label(__('models.justified')),
@@ -53,10 +51,17 @@ class AbsenceResource extends Resource
                     ->searchable()
                     ->label(__('models.absence_type'))
                     ->required(),
+                Forms\Components\Toggle::make('approved')
+                    ->label(__('models.approved')),
                 Forms\Components\Select::make('approved_by')
                     ->relationship('approver', 'name')
-                    ->required()
                     ->label(__('models.approved_by')),
+                Forms\Components\MarkdownEditor::make('approver_comment')
+                    ->label(__('models.approver_comment'))
+                    ->columnSpanFull(),
+                Forms\Components\MarkdownEditor::make('supporting_document')
+                    ->label(__('models.supporting_documents'))
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -68,23 +73,28 @@ class AbsenceResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->label(__('models.employee')),
-                Tables\Columns\TextColumn::make('start_date')
+                Tables\Columns\TextColumn::make('date')
                     ->date()
-                    ->label(__('models.start_date'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_date')
-                    ->date()
-                    ->label(__('models.end_date'))
+                    ->label(__('models.date'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('justified')
                     ->boolean()
                     ->label(__('models.justified')),
                 Tables\Columns\TextColumn::make('absence_type')
                     ->label(__('models.absence_type')),
+                Tables\Columns\IconColumn::make('approved')
+                    ->boolean()
+                    ->label(__('models.approved')),
                 Tables\Columns\TextColumn::make('approved_by')
                     ->numeric()
                     ->label(__('models.approved_by'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('approver_comment')
+                    ->label(__('models.approver_comment'))
+                    ->limit(30),
+                Tables\Columns\TextColumn::make('supporting_documents')
+                    ->label(__('models.supporting_documents'))
+                    ->limit(30),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
@@ -129,11 +139,11 @@ class AbsenceResource extends Resource
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    { 
+    {
         return __('models.absences');
     }
- 
-    // Translate Navigation Group. 
+
+    // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.employees');

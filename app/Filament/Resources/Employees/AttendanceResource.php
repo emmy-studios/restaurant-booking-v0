@@ -17,13 +17,13 @@ class AttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-hand-raised'; 
+    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
 
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 6; 
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
@@ -35,9 +35,9 @@ class AttendanceResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('date')
                     ->label(__('models.date')),
-                Forms\Components\TextInput::make('check_in_time')
+                Forms\Components\TimePicker::make('check_in_time')
                     ->label(__('models.check_in_time')),
-                Forms\Components\TextInput::make('check_out_time')
+                Forms\Components\TimePicker::make('check_out_time')
                     ->label(__('models.check_out_time')),
                 Forms\Components\TextInput::make('total_work_hours')
                     ->numeric()
@@ -57,7 +57,7 @@ class AttendanceResource extends Resource
                 Forms\Components\Toggle::make('is_weekend')
                     ->required()
                     ->label(__('models.is_weekend')),
-                Forms\Components\Textarea::make('notes')
+                Forms\Components\MarkdownEditor::make('notes')
                     ->columnSpanFull()
                     ->label(__('models.notes')),
             ]);
@@ -145,11 +145,11 @@ class AttendanceResource extends Resource
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    { 
+    {
         return __('models.attendances');
     }
- 
-    // Translate Navigation Group. 
+
+    // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.employees');

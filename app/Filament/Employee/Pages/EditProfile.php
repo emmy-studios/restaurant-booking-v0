@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Tabs;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 
@@ -71,7 +72,7 @@ class EditProfile extends Page
             'postal_code' => $employee->postal_code,
         ]);
     }
-
+    /*
     public function getFormSchema(): array
     {
         return [
@@ -79,7 +80,6 @@ class EditProfile extends Page
                 Wizard\Step::make(__('panels.personal_information'))
                     ->columns(2)
                     ->icon('heroicon-o-identification')
-                    //->description(__('panels.change_your_personal_information'))
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->schema([
                         TextInput::make('name')
@@ -100,7 +100,6 @@ class EditProfile extends Page
                     ]),
                 Wizard\Step::make(__('panels.contact_information'))
                     ->icon('heroicon-o-signal')
-                    //->description(__('panels.change_your_contact_information'))
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->columns(2)
                     ->schema([
@@ -118,7 +117,6 @@ class EditProfile extends Page
                     ]),
                 Wizard\Step::make(__('panels.address_information'))
                     ->icon('heroicon-o-map-pin')
-                    //->description('Change your address information')
                     ->completedIcon('heroicon-o-hand-thumb-up')
                     ->columns(2)
                     ->schema([
@@ -133,6 +131,67 @@ class EditProfile extends Page
                             ->label(__('models.address')),
                     ]),
             ])
+        ];
+    }*/
+
+    public function getFormSchema(): array
+    {
+        return [
+            Tabs::make('Tabs')
+                ->tabs([
+                    Tabs\Tab::make('Tab 1')
+                        ->label(__('panels.personal_information'))
+                        ->icon('heroicon-o-identification')
+                        ->schema([
+                            TextInput::make('name')
+                                ->label(__('models.name'))
+                                ->required(),
+                            TextInput::make('identification_number')
+                                ->label(__('models.identification_number')),
+                            TextInput::make('first_name')
+                                ->label(__('models.first_name')),
+                            TextInput::make('last_name')
+                                ->label(__('models.last_name')),
+                            Select::make('gender')
+                                ->options(Gender::class)
+                                ->searchable()
+                                ->label(__('models.gender')),
+                            DatePicker::make('birth')
+                                ->label(__('models.date_of_birth')),
+                        ])->columns(2),
+                    Tabs\Tab::make('Tab 2')
+                        ->label(__('panels.contact_information'))
+                        ->icon('heroicon-o-signal')
+                        ->schema([
+                            TextInput::make('email')
+                                ->label(__('models.email'))
+                                ->required(),
+                            TextInput::make('postal_code')
+                                ->label(__('models.postal_code')),
+                            Select::make('country_code')
+                                ->options(CountryCode::class)
+                                ->searchable()
+                                ->label(__('models.phone_code')),
+                            TextInput::make('phone_number')
+                                ->label(__('models.phone_number')),
+                        ])->columns(2),
+                    Tabs\Tab::make('Tab 3')
+                        ->label(__('panels.address_information'))
+                        ->icon('heroicon-o-map-pin')
+                        ->schema([
+                            Select::make('country')
+                                ->options(Countries::class)
+                                ->searchable()
+                                ->label(__('models.country')),
+                            TextInput::make('city')
+                                ->label(__('models.city')),
+                            MarkdownEditor::make('address')
+                                ->columnSpanFull()
+                                ->label(__('models.address')),
+                        ])->columns(2),
+                ])
+                ->activeTab(1)
+                ->contained(true)
         ];
     }
 
