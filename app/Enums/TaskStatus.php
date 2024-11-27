@@ -19,16 +19,7 @@ enum TaskStatus: string implements HasLabel, HasColor, HasIcon
 
     public function getLabel(): ?string
     {
-        return match($this){
-            self::PENDING => 'Pending',
-            self::IN_PROGRESS => 'In Progress',
-            self::COMPLETED => 'Completed',
-            self::CANCELLED => 'Cancelled',
-            self:: REVIEW_PENDING => 'Review Pending',
-            self::REVIEWED => 'Reviewed',
-            self::APPROVED => 'Approved',
-            self::UNFINISHED => 'Unfinished',
-        };
+        return __("enums.task_status.{$this->value}");
     }
 
     public function getColor(): string|array|null

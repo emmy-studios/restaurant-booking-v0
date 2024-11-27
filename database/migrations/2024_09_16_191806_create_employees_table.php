@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('job_title')->nullable();
             $table->string('department')->nullable();
             $table->enum('contract_type', array_map(fn($code) => $code->value, ContractType::cases()))->default('Permanent');
-            $table->string('secondary_email')->nullable();  
+            $table->string('secondary_email')->nullable();
             $table->string('emergency_contact_name')->nullable();
             $table->string('emergency_contact_phone')->nullable();
             $table->boolean('work_permit')->default(false);
@@ -49,7 +49,7 @@ return new class extends Migration
             $table->date('last_promotion_date')->nullable();
             $table->date('last_promotion_role')->nullable();
             $table->enum('role', array_map(fn($code) => $code->value, Roles::cases()))->default('Employee');
-            $table->string('bank_name')->nullable(); 
+            $table->string('bank_name')->nullable();
             $table->string('account_number')->nullable();
             $table->enum('account_type', array_map(fn($code) => $code->value, AccountType::cases()))->default('Savings');
             $table->string('bank_code')->nullable();

@@ -517,6 +517,7 @@ return [
     'edit_vacation' => 'Edit Vacation',
     'view_vacation' => 'View Vacation',
     /** OvertimeResource Filament Translations */
+    'number_of_hours' => 'Number of Hours',
     'overtime' => 'Overtime',
     'overtimes' => 'Overtimes',
     'overtime_date' => 'Overtime Date',

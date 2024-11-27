@@ -4,6 +4,7 @@ namespace App\Filament\Employee\Pages;
 
 use Filament\Pages\Page;
 use App\Filament\Employee\Widgets\EmployeeAttendancesTable;
+use App\Filament\Employee\Widgets\EmployeeOvertimeTable;
 
 class WorkActivity extends Page
 {
@@ -19,6 +20,14 @@ class WorkActivity extends Page
     public function getEmployeeAttendancesTable(): string
     {
         return EmployeeAttendancesTable::class;
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            EmployeeAttendancesTable::class,
+            EmployeeOvertimeTable::class,
+        ];
     }
 
     public static function getNavigationLabel(): string

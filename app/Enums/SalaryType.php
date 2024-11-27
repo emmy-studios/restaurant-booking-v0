@@ -19,7 +19,7 @@ enum SalaryType: string implements HasLabel
 
     public function getLabel(): ?string
     {
-        return $this->value;
+        return __("enums.salary_type.{$this->value}");
     }
 
 }

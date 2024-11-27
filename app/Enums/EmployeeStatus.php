@@ -15,7 +15,7 @@ enum EmployeeStatus: string implements HasLabel, HasColor
 
     public function getLabel(): ?string
     {
-        return $this->value;
+        return __("enums.employee_status.{$this->value}");
     }
 
     public function getColor(): string|array|null

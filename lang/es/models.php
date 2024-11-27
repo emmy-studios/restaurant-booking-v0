@@ -516,6 +516,7 @@ return [
     'edit_vacation' => 'Editar Vacaciones',
     'view_vacation' => 'Ver Vacaciones',
     /** OvertimeResource Filament Translations */
+    'number_of_hours' => 'Numero de Horas',
     'overtime' => 'Horas Extra',
     'overtimes' => 'Horas Extras',
     'overtime_date' => 'Fecha de Horas Extra',

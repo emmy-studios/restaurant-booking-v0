@@ -18,7 +18,7 @@ enum ContractType: string implements HasLabel, HasColor
 
     public function getLabel(): ?string
     {
-        return $this->value;
+        return __("enums.contract_type.{$this->value}");
     }
 
     public function getColor(): string|array|null

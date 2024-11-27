@@ -18,14 +18,14 @@ return new class extends Migration
             $table->time('check_in_time')->nullable();
             $table->time('check_out_time')->nullable();
             $table->decimal('total_work_hours', 5, 2)->nullable();
-            $table->decimal('overtime_hours', 5, 2)->nullable();
-            $table->decimal('overtime_rate', 5, 2)->nullable();
+            $table->time('break_start_time')->nullable();
+            $table->time('break_end_time')->nullable();
             $table->decimal('lunch_break_duration', 4, 2)->nullable();
-            $table->boolean('is_holiday')->default(false); 
+            $table->boolean('is_holiday')->default(false);
             $table->boolean('is_weekend')->default(false);
             $table->text('notes')->nullable();
             $table->timestamps();
-        }); 
+        });
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Filament\Resources\Employees\ScheduleResource\Pages;
 use App\Filament\Resources\Employees\ScheduleResource\RelationManagers;
 use App\Models\Employees\Schedule;
 use Filament\Forms;
-use Filament\Forms\Form; 
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,7 +25,7 @@ class ScheduleResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 2; 
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -35,10 +35,12 @@ class ScheduleResource extends Resource
                     ->relationship('employee', 'name')
                     ->label(__('models.employee'))
                     ->required(),
-                Forms\Components\TextInput::make('shift_start_time')
-                    ->label(__('models.shift_start_time')),
-                Forms\Components\TextInput::make('shift_end_time')
-                    ->label(__('models.shift_end_time')),
+                Forms\Components\TimePicker::make('shift_start_time')
+                    ->label(__('models.shift_start_time'))
+                    ->seconds(false),
+                Forms\Components\TimePicker::make('shift_end_time')
+                    ->label(__('models.shift_end_time'))
+                    ->seconds(false),
                 Forms\Components\Select::make('work_shift')
                     ->options(WorkShift::class)
                     ->searchable()
@@ -166,7 +168,7 @@ class ScheduleResource extends Resource
     {
         return __('models.schedules');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

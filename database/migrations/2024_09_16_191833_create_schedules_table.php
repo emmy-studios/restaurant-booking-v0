@@ -20,13 +20,10 @@ return new class extends Migration
             $table->time('shift_end_time')->nullable();
             $table->enum('work_shift', array_map(fn($code) => $code->value, WorkShift::cases()))->default('Morning');
             $table->enum('work_type', array_map(fn($code) => $code->value, WorkType::cases()))->default('On-site');
-            $table->decimal('total_work_hours', 5, 2)->nullable();
-            $table->decimal('lunch_break_duration', 4, 2)->nullable();
-            $table->decimal('overtime_hours', 5, 2)->nullable();
-            $table->decimal('overtime_rate', 5, 2)->nullable(); 
+            $table->boolean('is_recurring')->default(true);
             $table->date('schedule_start_date')->nullable();
             $table->date('schedule_end_date')->nullable();
-            $table->date('modified_date')->nullable();  
+            $table->date('modified_date')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

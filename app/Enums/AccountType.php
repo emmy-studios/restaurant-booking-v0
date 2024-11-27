@@ -25,7 +25,7 @@ enum AccountType: string implements HasLabel, HasColor, HasIcon
 
     public function getLabel(): ?string
     {
-        return $this->value;
+        return __("enums.account_type.{$this->value}");
     }
 
     public function getColor(): string|array|null

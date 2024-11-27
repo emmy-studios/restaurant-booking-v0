@@ -26,10 +26,12 @@ return new class extends Migration
             $table->enum('status', array_map(fn($code) => $code->value, OvertimeStatus::cases()))->default('Pending');
             $table->enum('overtime_type', array_map(fn($code) => $code->value, OvertimeType::cases()))->default('Daytime');
             $table->foreignId('approved_by')->constrained('employees')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('approver_comment')->nullable();
             $table->enum('payment_method', array_map(fn($code) => $code->value, PaymentMethod::cases()))->default('Credit Card');
             $table->enum('payment_currency', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('hourly_rate', 8, 2)->nullable();
             $table->decimal('total_payment', 10, 2)->nullable();
+            $table->boolean('is_paid')->default(false)->comment('Indicates if the overtime has been paid');
             $table->timestamps();
         });
     }
