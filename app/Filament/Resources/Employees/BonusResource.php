@@ -24,15 +24,15 @@ class BonusResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 5; 
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('salary_id')
-                    ->relationship('salary', 'id')
-                    ->label(__('models.salary'))
+                    ->relationship('salary.employee', 'name')
+                    ->label(__('models.employee'))
                     ->required(),
                 Forms\Components\Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
@@ -46,7 +46,7 @@ class BonusResource extends Resource
                 Forms\Components\TextInput::make('type')
                     ->maxLength(255)
                     ->label(__('models.type')),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
                     ->columnSpanFull()
                     ->label(__('models.description')),
                 Forms\Components\DatePicker::make('date_awarded')
@@ -58,21 +58,27 @@ class BonusResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('salary.id')
-                    ->numeric()
-                    ->label(__('models.salary'))
+                Tables\Columns\TextColumn::make('salary.employee.name')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
+                    ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->label(__('models.currency_symbol')),
+                    ->label(__('models.currency_symbol'))
+                    ->badge()
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
                     ->label(__('models.amount'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable()
+                    ->limit(30)
                     ->label(__('models.type')),
                 Tables\Columns\TextColumn::make('date_awarded')
                     ->date()
+                    ->icon('heroicon-o-calendar')
+                    ->iconColor('info')
                     ->label(__('models.date_awarded'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -122,7 +128,7 @@ class BonusResource extends Resource
     {
         return __('models.bonuses');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

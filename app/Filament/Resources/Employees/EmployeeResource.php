@@ -46,7 +46,7 @@ class EmployeeResource extends Resource
                     ->label(__('panels.system_information'))
                     ->schema([
                         TextInput::make('name')
-                            ->label(__('models.name'))
+                            ->label(__('models.username'))
                             ->required()
                             ->maxLength(255),
                         TextInput::make('identification_code')

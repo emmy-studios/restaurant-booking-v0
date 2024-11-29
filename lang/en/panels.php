@@ -21,6 +21,8 @@ return [
   "reservations_per_month" => "Reservations per Month",
   "change_profile_image" => "Change Profile Image",
   "upload_a_jpg,_png,_jpeg_file" => "Upload a jpg, png, jpeg file",
+  "print" => "Print",
+  "export_attendances" => "Export Attendances",
   "save" => "Save",
   /* Employee Panels */
   // Notices Component
@@ -47,5 +49,21 @@ return [
   "approved_absences" => "Approved Absences",
   "not_approved_absences" => "Not Approved Absences",
   "not_justified_absences" => "Not Justified Absences",
-  "work_activity" => "Work Activity"
+  "work_activity" => "Work Activity",
+  "options" => "Options",
+  "print_summary" => "Print Summary",
+  "duration_in_minute" => "Duration in Minute",
+  "month" => "Month",
+  "january" => "January",
+  "february" => "February",
+  "march" => "March",
+  "april" => "April",
+  "may" => "May",
+  "june" => "June",
+  "july" => "July",
+  "august" => "August",
+  "september" => "September",
+  "october" => "October",
+  "november" => "November",
+  "december" => "December",
  ];

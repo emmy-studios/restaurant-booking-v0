@@ -51,18 +51,9 @@ class ScheduleResource extends Resource
                     ->label(__('models.work_type'))
                     ->searchable()
                     ->required(),
-                Forms\Components\TextInput::make('total_work_hours')
-                    ->numeric()
-                    ->label(__('models.total_work_hours')),
-                Forms\Components\TextInput::make('lunch_break_duration')
-                    ->numeric()
-                    ->label(__('models.lunch_break_duration')),
-                Forms\Components\TextInput::make('overtime_hours')
-                    ->numeric()
-                    ->label(__('models.overtime_hours')),
-                Forms\Components\TextInput::make('overtime_rate')
-                    ->numeric()
-                    ->label(__('models.overtime_rate')),
+                Forms\Components\Toggle::make('is_recurring')
+                    ->default(true)
+                    ->label(__('models.is_recurring')),
                 Forms\Components\DatePicker::make('schedule_start_date')
                     ->label(__('models.schedule_start_date')),
                 Forms\Components\DatePicker::make('schedule_end_date')
@@ -80,13 +71,18 @@ class ScheduleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
                     ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shift_start_time')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('info')
                     ->label(__('models.shift_start_time')),
                 Tables\Columns\TextColumn::make('shift_end_time')
-                    ->label(__('models.shift_end_time')),
+                    ->label(__('models.shift_end_time'))
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('info'),
                 Tables\Columns\TextColumn::make('work_shift')
                     ->badge()
                     ->label(__('models.work_shift')),
@@ -100,27 +96,33 @@ class ScheduleResource extends Resource
                 Tables\Columns\TextColumn::make('lunch_break_duration')
                     ->numeric()
                     ->label(__('models.lunch_break_duration'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('overtime_hours')
                     ->numeric()
                     ->label(__('models.overtime_hours'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('overtime_rate')
                     ->numeric()
                     ->label(__('models.overtime_rate'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('schedule_start_date')
                     ->date()
                     ->label(__('models.schedule_start_date'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('schedule_end_date')
                     ->date()
                     ->label(__('models.schedule_end_date'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('modified_date')
                     ->date()
                     ->label(__('models.modified_date'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))

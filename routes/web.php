@@ -33,3 +33,4 @@ Route::prefix('{locale}')
         // Teams
         Route::get('/teams', [TeamsController::class, 'teams'])->name('teams');
     });
+

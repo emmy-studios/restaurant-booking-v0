@@ -12,7 +12,7 @@ class Deduction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'salary_id', 
+        'salary_id',
         'currency_symbol',
         'amount',
         'type',
@@ -26,6 +26,6 @@ class Deduction extends Model
 
     public function salary(): BelongsTo
     {
-        return $this->belongsTo(salary::class);
+        return $this->belongsTo(Salary::class);
     }
 }

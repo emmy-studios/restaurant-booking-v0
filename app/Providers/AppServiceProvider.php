@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Dynamic Timezone Settings
-        $timezone = Setting::query()->value('timezone') ?: 'America/Costa_Rica'; // By Default Costa Rica
-        config(['app.timezone' => $timezone]);
-        date_default_timezone_set($timezone);
-        Carbon::setLocale(app()->getLocale());
+        //$timezone = Setting::query()->value('timezone') ?: 'America/Costa_Rica'; // By Default Costa Rica
+        //config(['app.timezone' => $timezone]);
+        //date_default_timezone_set($timezone);
+        //Carbon::setLocale(app()->getLocale());
     }
 }

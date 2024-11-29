@@ -25,8 +25,8 @@ class SalaryResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 3; 
- 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,7 +40,7 @@ class SalaryResource extends Resource
                     ->searchable()
                     ->label(__('models.currency_symbol'))
                     ->default('USD $')
-                    ->required(), 
+                    ->required(),
                 Forms\Components\TextInput::make('base_salary')
                     ->required()
                     ->label(__('models.base_salary'))
@@ -66,11 +66,13 @@ class SalaryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
                     ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('currency_symbol')
                     ->badge()
+                    ->color('indo')
                     ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('base_salary')
                     ->numeric()
@@ -82,6 +84,7 @@ class SalaryResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('salary_type')
                     ->badge()
+                    ->color('info')
                     ->label(__('models.salary_type')),
                 Tables\Columns\TextColumn::make('effective_date')
                     ->dateTime()
@@ -132,13 +135,13 @@ class SalaryResource extends Resource
             'edit' => Pages\EditSalary::route('/{record}/edit'),
         ];
     }
-    
+
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
         return __('models.salaries');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

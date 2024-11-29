@@ -7,7 +7,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Notification;
+use App\Models\UserNotification;
 
 class EmployeeNotifications extends BaseWidget
 {
@@ -20,7 +20,7 @@ class EmployeeNotifications extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(Notification::where("user_id", Auth::id()))
+            ->query(UserNotification::where("user_id", Auth::id()))
             ->actions([
                 Action::make('viewDetails')
                     ->label(__('models.details'))

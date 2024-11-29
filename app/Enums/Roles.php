@@ -18,11 +18,11 @@ enum Roles: string implements HasLabel, HasIcon, HasColor
     public function getLabel(): ?string
     {
         return match($this){
-            self::ADMIN => 'Admin',
-            self::MANAGER => 'Manager',
-            self::CHEF => 'Chef',
-            self::EMPLOYEE => 'Employee',
-            self::CUSTOMER => 'Customer',
+            self::ADMIN => __('enums.Admin'),
+            self::MANAGER => __('enums.Manager'),
+            self::CHEF => __('enums.Chef'),
+            self::EMPLOYEE => __('enums.Employee'),
+            self::CUSTOMER => __('enums.Customer'),
         };
     }
 

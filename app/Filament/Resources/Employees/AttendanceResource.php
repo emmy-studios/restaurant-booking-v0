@@ -7,9 +7,17 @@ use App\Filament\Resources\Employees\AttendanceResource\RelationManagers;
 use App\Models\Employees\Attendance;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -29,35 +37,33 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_id')
+                Select::make('employee_id')
                     ->relationship('employee', 'name')
                     ->label(__('models.employee'))
                     ->required(),
-                Forms\Components\DatePicker::make('date')
+                DatePicker::make('date')
                     ->label(__('models.date')),
-                Forms\Components\TimePicker::make('check_in_time')
+                TimePicker::make('check_in_time')
                     ->label(__('models.check_in_time')),
-                Forms\Components\TimePicker::make('check_out_time')
+                TimePicker::make('check_out_time')
                     ->label(__('models.check_out_time')),
-                Forms\Components\TextInput::make('total_work_hours')
+                TextInput::make('total_work_hours')
                     ->numeric()
                     ->label(__('models.total_work_hours')),
-                Forms\Components\TextInput::make('overtime_hours')
-                    ->numeric()
-                    ->label(__('models.overtime_hours')),
-                Forms\Components\TextInput::make('overtime_rate')
-                    ->numeric()
-                    ->label(__('models.overtime_rate')),
-                Forms\Components\TextInput::make('lunch_break_duration')
+                TimePicker::make('break_start_time')
+                    ->label(__('models.break_start_time')),
+                TimePicker::make('break_end_time')
+                    ->label(__('models.break_end_time')),
+                TextInput::make('lunch_break_duration')
                     ->numeric()
                     ->label(__('models.lunch_break_duration')),
-                Forms\Components\Toggle::make('is_holiday')
+                Toggle::make('is_holiday')
                     ->required()
                     ->label(__('models.is_holiday')),
-                Forms\Components\Toggle::make('is_weekend')
+                Toggle::make('is_weekend')
                     ->required()
                     ->label(__('models.is_weekend')),
-                Forms\Components\MarkdownEditor::make('notes')
+                MarkdownEditor::make('notes')
                     ->columnSpanFull()
                     ->label(__('models.notes')),
             ]);
@@ -67,46 +73,63 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                TextColumn::make('employee.name')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
+                    ->searchable()
                     ->sortable()
                     ->label(__('models.employee')),
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
+                    ->icon('heroicon-o-calendar-days')
+                    ->iconColor('info')
                     ->date()
                     ->label(__('models.date'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('check_in_time')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('check_in_time')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('success')
                     ->label(__('models.check_in_time')),
-                Tables\Columns\TextColumn::make('check_out_time')
+                TextColumn::make('check_out_time')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('success')
                     ->label(__('models.check_out_time')),
-                Tables\Columns\TextColumn::make('total_work_hours')
+                TextColumn::make('total_work_hours')
                     ->numeric()
                     ->label(__('models.total_work_hours'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('overtime_hours')
-                    ->numeric()
-                    ->label(__('models.overtime_hours'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('overtime_rate')
-                    ->numeric()
-                    ->label(__('models.overtime_rate'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('lunch_break_duration')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('break_start_time')
+                    ->label(__('models.break_start_time'))
+                    ->searchable()
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('success')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('break_end_time')
+                    ->icon('heroicon-o-clock')
+                    ->iconColor('success')
+                    ->label(__('models.break_end_time'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('lunch_break_duration')
                     ->numeric()
                     ->label(__('models.lunch_break_duration'))
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_holiday')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_holiday')
                     ->boolean()
-                    ->label(__('models.is_holiday')),
-                Tables\Columns\IconColumn::make('is_weekend')
+                    ->label(__('models.is_holiday'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_weekend')
                     ->boolean()
-                    ->label(__('models.is_weekend')),
-                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('models.is_weekend'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()

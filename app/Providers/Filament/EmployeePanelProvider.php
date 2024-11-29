@@ -25,6 +25,7 @@ class EmployeePanelProvider extends PanelProvider
         return $panel
             ->id('employee')
             ->path('employee')
+            ->databaseNotifications()
             ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))

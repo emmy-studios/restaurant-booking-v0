@@ -70,11 +70,16 @@ class AbsenceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
                     ->sortable()
+                    ->searchable()
                     ->label(__('models.employee')),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
+                    ->searchable()
+                    ->icon('heroicon-o-calendar')
+                    ->iconColor('info')
                     ->label(__('models.date'))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('justified')
@@ -87,14 +92,20 @@ class AbsenceResource extends Resource
                     ->label(__('models.approved')),
                 Tables\Columns\TextColumn::make('approved_by')
                     ->numeric()
+                    ->searchable()
                     ->label(__('models.approved_by'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('approver_comment')
+                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->iconColor('gray')
+                    ->searchable()
                     ->label(__('models.approver_comment'))
                     ->limit(30),
                 Tables\Columns\TextColumn::make('supporting_documents')
                     ->label(__('models.supporting_documents'))
-                    ->limit(30),
+                    ->limit(30)
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))

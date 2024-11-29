@@ -72,7 +72,8 @@ class EmployeeTaskResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
                     ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('task_name')
@@ -81,8 +82,10 @@ class EmployeeTaskResource extends Resource
                     ->label(__('models.task_name')),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
+                    ->color('info')
                     ->label(__('models.status')),
-                Tables\Columns\TextColumn::make('is_read')
+                Tables\Columns\IconColumn::make('is_read')
+                    ->boolean()
                     ->label(__('models.is_read')),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
@@ -93,13 +96,17 @@ class EmployeeTaskResource extends Resource
                     ->searchable()
                     ->label(__('models.supervised_by')),
                 Tables\Columns\TextColumn::make('supervisor_comment')
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->iconColor('gray')
                     ->label(__('models.supervisor_comment'))
                     ->limit(30)
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('employee_notes')
                     ->label(__('models.employee_notes'))
                     ->searchable()
-                    ->limit(30),
+                    ->limit(30)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

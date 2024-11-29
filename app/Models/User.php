@@ -27,7 +27,7 @@ use App\Enums\Roles;
 use App\Models\Employees\Absence;
 use App\Models\Employees\Overtime;
 use App\Models\Reservations\Reservation;
-use App\Models\Notification;
+use App\Models\UserNotification;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -195,9 +195,9 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Absence::class, 'approved_by');
     }
 
-    public function notifications(): HasMany
+    public function userNotifications(): HasMany
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(UserNotification::class);
     }
 
 }

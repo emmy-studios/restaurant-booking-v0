@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "barryvdh/laravel-dompdf": "^3.0",
         "bezhansalleh/filament-language-switch": "^3.1",
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.3.0",

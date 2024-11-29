@@ -8,9 +8,14 @@ use App\Filament\Resources\Employees\DeductionResource\RelationManagers;
 use App\Models\Employees\Deduction;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,33 +29,33 @@ class DeductionResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 4; 
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('salary_id')
-                    ->label(__('models.salary'))
-                    ->relationship('salary', 'id')
+                Select::make('salary_id')
+                    ->label(__('models.employee'))
+                    ->relationship('salary.employee', 'name')
                     ->required(),
-                Forms\Components\Select::make('currency_symbol')
+                Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
-                    ->default('USD $') 
+                    ->default('USD $')
                     ->required()
-                    ->label(__('models.currency_symbol')), 
-                Forms\Components\TextInput::make('amount')
+                    ->label(__('models.currency_symbol')),
+                TextInput::make('amount')
                     ->required()
                     ->label(__('models.amount'))
                     ->numeric(),
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->label(__('models.type'))
                     ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('description')
+                MarkdownEditor::make('description')
                     ->columnSpanFull()
                     ->label(__('models.description')),
-                Forms\Components\DatePicker::make('date_applied')
+                DatePicker::make('date_applied')
                     ->label(__('models.date_applied')),
             ]);
     }
@@ -59,30 +64,40 @@ class DeductionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('salary.id')
+                TextColumn::make('salary.employee.name')
                     ->numeric()
-                    ->label(__('models.salary'))
+                    ->label(__('models.employee'))
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('currency_symbol')
+                TextColumn::make('currency_symbol')
                     ->badge()
+                    ->color('info')
                     ->label(__('models.currency_symbol')),
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->numeric()
                     ->label(__('models.amount'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable()
+                    ->limit(30)
                     ->label(__('models.type')),
-                Tables\Columns\TextColumn::make('date_applied')
+                TextColumn::make('description')
+                    ->limit(30)
+                    ->label(__('models.description'))
+                    ->icon('heroicon-o-document-text')
+                    ->iconColor('gray'),
+                TextColumn::make('date_applied')
                     ->date()
+                    ->icon('heroicon-o-calendar')
+                    ->iconColor('gray')
                     ->label(__('models.date_applied'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
@@ -121,10 +136,10 @@ class DeductionResource extends Resource
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    { 
+    {
         return __('models.deductions');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

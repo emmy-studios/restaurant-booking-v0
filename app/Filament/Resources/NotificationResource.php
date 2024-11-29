@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NotificationResource\Pages;
 use App\Filament\Resources\NotificationResource\RelationManagers;
-use App\Models\Notification;
+use App\Models\UserNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,7 +17,7 @@ use App\Enums\NotificationType;
 
 class NotificationResource extends Resource
 {
-    protected static ?string $model = Notification::class;
+    protected static ?string $model = UserNotification::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
 

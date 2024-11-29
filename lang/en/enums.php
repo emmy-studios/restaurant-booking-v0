@@ -80,16 +80,16 @@ return [
         'OnLeave' => 'On Leave',
         'On Vacation' => 'On Vacation',
     ],
-    // Overtime Status
-    'overtime_status' => [
-        'Approved' => 'Approved',
+    // Employee Confirmation
+    'employee_confirmation' => [
+        'Received' => 'Received',
         'Pending' => 'Pending',
+        'Cashed' => 'Cashed',
+        'Dispute' => 'Dispute',
+        'Reclaimed' => 'Reclaimed',
+        'Partially Received' => 'Partially Received',
         'Rejected' => 'Rejected',
-        'In Review' => 'In Review',
-        'Cancelled' => 'Cancelled',
-        'Paid' => 'Paid',
-        'Unpaid' => 'Unpaid',
-        'Expired' => 'Expired',
+        'Verified' => 'Verified',
     ],
     // Overtime Type
     'overtime_type' => [
@@ -123,6 +123,52 @@ return [
         'Email Payment' => 'Email Payment',
         'Cash on Delivery' => 'Cash on Delivery',
     ],
+    // Payment Status
+    'payment_status' => [
+        'Pending' => 'Pending',
+        'Processing' => 'Processing',
+        'Shipped' => 'Shipped',
+        'Cancelled' => 'Cancelled',
+        'Failed' => 'Failed',
+        'On Hold' => 'On Hold',
+        'Awaiting Payment' => 'Awaiting Payment',
+        'Completed' => 'Completed',
+        'Refunded' => 'Refunded',
+        'Partially Paid' => 'Partially Paid',
+        'Disputed' => 'Disputed',
+        'Reversed' => 'Reversed',
+        'Under Review' => 'Under Review',
+        'Authorized' => 'Authorized',
+        'Declined' => 'Declined',
+        'Expired' => 'Expired',
+        'Suspended' => 'Suspended',
+    ],
+    // Report Type
+    'report_type' => [
+        'Sales' => 'Sales',
+        'Inventory' => 'Inventory',
+        'Employees' => 'Employees',
+        'Chef' => 'Chef',
+        'Customer' => 'Customer',
+        'Return Request' => 'Return Request',
+        'Discounts' => 'Discounts',
+        'Products' => 'Products',
+        'Menus' => 'Menus',
+        'Ingredients' => 'Ingredients',
+        'Generic' => 'Generic',
+        'Absences' => 'Absences',
+        'Salary Payments' => 'Salary Payments',
+        'Deductions' => 'Deductions',
+        'Employee Tasks' => 'Employee Tasks',
+        'Schedules' => 'Schedules',
+        'Vacations' => 'Vacations',
+    ],
+    // Roles
+    'Admin' => 'Admin',
+    'Chef' => 'Chef',
+    'Customer' => 'Customer',
+    'Manager' => 'Manager',
+    'Employee' => 'Employee',
     // Task Status
     'task_status' => [
         'Pending' => 'Pending',

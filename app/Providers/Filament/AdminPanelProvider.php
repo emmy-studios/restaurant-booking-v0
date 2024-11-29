@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            //->databaseNotifications()
             ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))

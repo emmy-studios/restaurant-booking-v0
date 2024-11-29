@@ -17,7 +17,25 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
+    protected static ?string $navigationLabel = null;
+
+    protected static ?string $navigationGroup = null;
+
+    protected static ?int $navigationSort = 1;
+
+    // Translate Navigation Label.
+    public static function getNavigationLabel(): string
+    {
+        return __('models.settings');
+    }
+
+    // Translate Navigation Group.
+    public static function getNavigationGroup(): string
+    {
+        return __('models.system');
+    }
 
     public static function form(Form $form): Form
     {

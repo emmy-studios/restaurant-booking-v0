@@ -5,6 +5,8 @@ namespace App\Filament\Employee\Pages;
 use Filament\Pages\Page;
 use App\Filament\Employee\Widgets\EmployeeAttendancesTable;
 use App\Filament\Employee\Widgets\EmployeeOvertimeTable;
+use App\Filament\Employee\Widgets\EmployeeBonusesTable;
+use App\Filament\Employee\Widgets\EmployeeDeductionsTable;
 
 class WorkActivity extends Page
 {
@@ -27,6 +29,8 @@ class WorkActivity extends Page
         return [
             EmployeeAttendancesTable::class,
             EmployeeOvertimeTable::class,
+            EmployeeBonusesTable::class,
+            EmployeeDeductionsTable::class,
         ];
     }
 

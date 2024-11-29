@@ -25,6 +25,7 @@ class ManagerPanelProvider extends PanelProvider
         return $panel
             ->id('manager')
             ->path('manager')
+            //->databaseNotifications()
             ->brandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(asset('utils/logo/krosty_logo_dark_mode.png'))

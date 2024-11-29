@@ -25,6 +25,7 @@ class Overtime extends Model
         'payment_method',
         'payment_currency',
         'hourly_rate',
+        'is_paid',
         'total_payment',
     ];
 

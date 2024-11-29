@@ -18,12 +18,12 @@ class VacationResource extends Resource
     protected static ?string $model = Vacation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-sun';
-    
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 9; 
+    protected static ?int $navigationSort = 9;
 
     public static function form(Form $form): Form
     {
@@ -54,7 +54,8 @@ class VacationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('success')
                     ->label(__('models.employee'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number_of_days')
@@ -62,10 +63,14 @@ class VacationResource extends Resource
                     ->label(__('models.number_of_days'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
+                    ->icon('heroicon-o-calendar')
+                    ->iconColor('info')
                     ->date()
                     ->label(__('models.start_date'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
+                    ->icon('heroicon-o-calendar')
+                    ->iconColor('info')
                     ->date()
                     ->label(__('models.end_date'))
                     ->sortable(),
@@ -113,11 +118,11 @@ class VacationResource extends Resource
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
-    { 
+    {
         return __('models.vacations');
-    } 
- 
-    // Translate Navigation Group. 
+    }
+
+    // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.employees');

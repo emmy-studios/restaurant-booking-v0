@@ -26,19 +26,24 @@ class ReportResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form 
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->label(__('models.title'))
-                    ->maxLength(255),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label(__('models.employee'))
+                    ->required(),
                 Forms\Components\Select::make('report_type')
                     ->options(ReportType::class)
                     ->searchable()
-                    ->required() 
+                    ->required()
                     ->label(__('models.report_type')),
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->columnSpanFull()
+                    ->label(__('models.title'))
+                    ->maxLength(255),
                 Forms\Components\MarkdownEditor::make('content')
                     ->columnSpanFull()
                     ->label(__('models.content')),
@@ -48,10 +53,6 @@ class ReportResource extends Resource
                 Forms\Components\MarkdownEditor::make('additional_details')
                     ->columnSpanFull()
                     ->label(__('models.additional_details')),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name') 
-                    ->label(__('models.employee'))
-                    ->required(),
             ]);
     }
 
@@ -59,7 +60,7 @@ class ReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title') 
+                Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable()
                     ->label(__('models.title')),
@@ -125,10 +126,10 @@ class ReportResource extends Resource
     {
         return __('models.reports');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
-    { 
+    {
         return __('models.reports');
     }
 }

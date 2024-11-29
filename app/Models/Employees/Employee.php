@@ -9,6 +9,7 @@ use App\Models\Employees\Vacation;
 use App\Models\Employees\EmployeeTask;
 use App\Models\Employees\Absence;
 use App\Models\Employees\Overtime;
+use App\Models\Employees\SalaryPayment;
 use App\Models\Inventories\InventoryMovement;
 use App\Models\Purchases\Purchase;
 use App\Models\Returns\ReturnRequest;
@@ -131,5 +132,10 @@ class Employee extends Model
     public function supervisedTasks(): HasMany
     {
         return $this->hasMany(EmployeeTask::class, 'supervisor_id');
+    }
+
+    public function approvedSalaryPayments(): HasMany
+    {
+        return $this->hasMany(SalaryPayment::class, 'approved_by');
     }
 }

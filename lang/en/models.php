@@ -2,6 +2,7 @@
 
 return [
     /**  UserResource Filament Translations  */
+    'username' => 'Username',
     'name' => 'Name',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
@@ -480,6 +481,7 @@ return [
     'shift_start_time' => 'Shift Start Time',
     'shift_end_time' => 'Shift End Time',
     'work_shift' => 'Work Shift',
+    'is_recurring' => 'Is recurring?',
     'work_type' => 'Work Type',
     'total_work_hours' => 'Total Work Hours',
     'lunch_break_duration' => 'Lunch Break Duration',
@@ -519,6 +521,7 @@ return [
     /** OvertimeResource Filament Translations */
     'number_of_hours' => 'Number of Hours',
     'overtime' => 'Overtime',
+    'is_paid?' => 'Is Paid?',
     'overtimes' => 'Overtimes',
     'overtime_date' => 'Overtime Date',
     'overtime_type' => 'Overtime Type',
@@ -547,8 +550,12 @@ return [
     'attendances' => 'Attendances',
     'check_in_time' => 'Check in Time',
     'check_out_time' => 'Check out Time',
+    'break_start_time' => 'Break Start Time',
+    'break_end_time' => 'Break End Time',
     'is_holiday' => 'Is Holiday',
+    'is_not_holiday' => 'Is Not Holiday',
     'is_weekend' => 'Is Weekend',
+    'is_not_weekend' => 'Is Not Weekend',
     // Pages
     'create_attendance' => 'Create Attendance',
     'edit_attendance' => 'Edit Attendance',
@@ -577,6 +584,22 @@ return [
     'create_notification' => 'Create Notification',
     'edit_notification' => 'Edit Notification',
     'view_notification' => 'View Notification',
+    /** Salary Payment Filament Translations */
+    'salary_payments' => 'Salary Payments',
+    'salary_payment' => 'Salary Payment',
+    'payment_code' => 'Payment Code',
+    'payment_date' => 'Payment Date',
+    'overtime_payment' => 'Overtime Payment',
+    'bonus_payment' => 'Bonus Payment',
+    'tax_deductions' => 'Tax Deductions',
+    'insurance_deductions' => 'Insurance Deductions',
+    'other_deductions' => 'Other Deductions',
+    'deductions_total' => 'Total Deductions',
+    'total_overtime_hours' => 'Total Overtime Hours',
+    'total_absences' => 'Total Absences',
+    'total_hours_worked' => 'Total Hours Worked',
+    'employee_confirmation' => 'Employee Confirmation',
+    'approver_comment' => 'Approver Comment',
     /** Admin/Profile/Page/Widgets Filament Translations */
     'profile' => 'Profile',
     'settings' => 'Settings',

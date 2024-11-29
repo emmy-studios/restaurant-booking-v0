@@ -22,6 +22,8 @@ return [
     "change_profile_image" => "Cambiar Imagen de Perfil",
     "upload_a_jpg,_png,_jpeg_file" => "Subir un archivo jpg, png, jpeg",
     "save" => "Guardar",
+    "print" => "Imprimir",
+    "export_attendances" => "Exportar Asistencias",
     /* Employee panel */
     // Notices Components
     "employee_notices" => "Avisos del Empleado",
@@ -48,5 +50,21 @@ return [
     "not_approved_absences" => "Ausencias no Aprobadas",
     "not_justified_absences" => "Ausencias no Justificadas",
     "work_activity" => "Actividad Laboral",
+    "options" => "Opciones",
+    "print_summary" => "Imprimir Resumen",
+    "duration_in_minute" => "Duración en Minutos",
+    "month" => "Mes",
+    "january" => "Enero",
+    "february" => "Febrero",
+    "march" => "Marzo",
+    "april" => "Abril",
+    "may" => "Mayo",
+    "june" => "Junio",
+    "july" => "Julio",
+    "august" => "Agosto",
+    "september" => "Septiembre",
+    "october" => "Octubre",
+    "november" => "Noviembre",
+    "december" => "Diciembre",
 ];
 

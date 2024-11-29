@@ -2,6 +2,7 @@
 
 return [
     /**  UserResource Filament Translations  */
+    'username' => 'Nombre de Usuario',
     'name' => 'Nombre',
     'first_name' => 'Primer Nombre',
     'last_name' => 'Apellido',
@@ -480,6 +481,7 @@ return [
     'shift_end_time' => 'Hora de Fin del Turno',
     'work_shift' => 'Turno de Trabajo',
     'work_type' => 'Tipo de Trabajo',
+    'is_recurring' => 'Es recurrente?',
     'total_work_hours' => 'Total de Horas Trabajadas',
     'lunch_break_duration' => 'Duración del Almuerzo',
     'overtime_hours' => 'Horas Extras',
@@ -516,6 +518,7 @@ return [
     'edit_vacation' => 'Editar Vacaciones',
     'view_vacation' => 'Ver Vacaciones',
     /** OvertimeResource Filament Translations */
+    'is_paid?' => 'Está Pagado',
     'number_of_hours' => 'Numero de Horas',
     'overtime' => 'Horas Extra',
     'overtimes' => 'Horas Extras',
@@ -546,8 +549,12 @@ return [
     'attendances' => 'Asistencias',
     'check_in_time' => 'Hora de Entrada',
     'check_out_time' => 'Hora de Salida',
+    'break_start_time' => 'Hora de Inicio del Descanso',
+    'break_end_time' => 'Hora de Finalización del Descanso',
     'is_holiday' => 'Es Feriado',
+    'is_not_holiday' => 'No es Feriado',
     'is_weekend' => 'Es Fin de Semana',
+    'is_not_weekend' => 'No es Fin de Semana',
     // Pages
     'create_attendance' => 'Crear Asistencia',
     'edit_attendance' => 'Editar Asistencia',
@@ -576,6 +583,22 @@ return [
     'create_notification' => 'Crear Notificación',
     'edit_notification' => 'Editar Notificación',
     'view_notification' => 'Ver Notificación',
+    /** Salary Payment Filament Translations */
+    'salary_payments' => 'Pagos de Salarios',
+    'salary_payment' => 'Pago de Salario',
+    'payment_code' => 'Código de Pago',
+    'payment_date' => 'Fecha de Pago',
+    'overtime_payment' => 'Pago por Horas Extras',
+    'bonus_payment' => 'Pago de Bonos',
+    'tax_deductions' => 'Deducciones de Impuestos',
+    'insurance_deductions' => 'Deducciones de Seguro',
+    'other_deductions' => 'Otras Deducciones',
+    'deductions_total' => 'Total de Deducciones',
+    'total_overtime_hours' => 'Total de Horas Extras',
+    'total_absences' => 'Total de Ausencias',
+    'total_hours_worked' => 'Total de Horas Trabajadas',
+    'employee_confirmation' => 'Confirmación del Empleado',
+    'approver_comment' => 'Comentario del Aprobador',
     /** AdminProfilePage Filament Translations */
     'profile' => 'Perfil',
     'settings' => 'Ajustes',
