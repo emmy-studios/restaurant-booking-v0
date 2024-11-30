@@ -9,14 +9,19 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Employees\Employee;
 use App\Models\Employees\Deduction;
 use App\Models\Employees\Salary;
-
+use Illuminate\Database\Eloquent\Builder;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
 class EmployeeDeductionsTable extends BaseWidget
 {
     protected function getTableHeading(): string
@@ -72,6 +77,26 @@ class EmployeeDeductionsTable extends BaseWidget
                     ->label(__('models.date_applied'))
                     ->sortable(),
             ])
+            ->filters([
+                Filter::make('date_applied')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('date_applied', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('date_applied', '<=', $date),
+                            );
+    				}),
+            ])
             ->actions([
                 ActionGroup::make([
                     ViewAction::make('viewDetails')
@@ -85,7 +110,7 @@ class EmployeeDeductionsTable extends BaseWidget
                                 ->label(__('models.amount')),
                             TextInput::make('type')
                                 ->label(__('models.type')),
-                            MarkdownEditor::make('description')
+                            Textarea::make('description')
                                 ->label(__('models.description')),
                             TextInput::make('date_applied')
                                 ->label(__('models.date_applied')),
