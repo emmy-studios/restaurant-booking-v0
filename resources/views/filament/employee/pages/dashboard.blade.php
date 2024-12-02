@@ -1,41 +1,23 @@
 <x-filament-panels::page>
 
     {{-- Date Section --}}
-    <div
-        style="display:
-               flex; justify-content:
-               flex-end; margin-top: 10px;
-               margin-bottom: 10px;">
-        <p style="font-weight: bold; color: #E77917;">
+    <div class="emp_date-section">
+        <p>
             {{ $currentDate }}
         </p>
     </div>
 
     {{-- Hero Card --}}
-    <div
-        style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            align-items: center;
-            margin-bottom: 20px;">
-
+    <div class="emp_hero-container">
         {{-- Welcome Message Section --}}
-        <div
-            style="display: flex;
-                   flex-direction: column;
-                   gap: 15px;">
-            <h1 style="font-size: 2rem; font-weight: bold; color: #333;">
+        <div class="emp_hero-message">
+            <h1>
                 {{ __('Welcome Back') }}, {{ $employee->name }}!
             </h1>
-            <p style="color: gray;">
+            <p>
                 You have a {{ $employee->role }} role and permissions.
             </p>
-            <p style="color: gray;">
+            <p>
                 To see your new tasks and notices, go to the
                 notices page.
             </p>
@@ -57,16 +39,15 @@
         </div>
 
         {{-- Image Section --}}
-        <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="emp_hero-image">
             <img
-                src="{{ asset('assets/images/panels/background01.png') }}"
-                alt="Dashboard Illustration"
-                style="max-width: 100%; height: auto; border-radius: 15px;">
+                src="{{ asset('assets/images/panels/admin04_profile.png') }}"
+                alt="Dashboard Illustration">
         </div>
     </div>
 
     {{-- Filament Widget Section --}}
-    <div
+    {{--<div
         style="
             display: flex;
             flex-direction: column;
@@ -78,9 +59,60 @@
                 @livewire($widget)
             </div>
         @endforeach
-    </div>
+    </div>--}}
 
     <style>
+
+        .emp_date-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            margin-bottom: 100px;
+        }
+        .emp_date-section p {
+            font-weight: bold;
+            color: #E77917;
+        }
+        .emp_hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            /*background-color: #fff;*/
+            background-color: #cdb4db;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            /*align-items: center;*/
+            margin-bottom: 20px;
+            height: 50vh;
+        }
+        .emp_hero-message {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .emp_hero-message h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .emp_hero-message p {
+            color: #a2d2ff;
+        }
+        .emp_hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .emp_hero-image img {
+            position: relative;
+            top: -200px;
+            max-width: 100%;
+            height: auto;
+            /*height: 500px;*/
+            border-radius: 15px;
+        }
+
         @media (max-width: 768px) {
             div[style*="grid-template-columns: 1fr 1fr"] {
                 grid-template-columns: 1fr;

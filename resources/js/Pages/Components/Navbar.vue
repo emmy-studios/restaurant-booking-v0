@@ -155,8 +155,9 @@
             <div class="navbar-links">
                 <Link :href="`/${currentLocale}/`">INICIO</Link>
                 <Link :href="`/${currentLocale}/products`">PRODUCTS</Link>
-                <Link :href="`/${currentLocale}/teams`">TEAMS</Link>
-                <a>Reservation</a>
+                <Link :href="`/${currentLocale}/teams`">OUR MENU</Link>
+                <a>ABOUT US</a>
+                <n-button type="warning">BOOK A TABLE</n-button>
             </div>
 
             <div class="navbar-buttons">
@@ -272,7 +273,7 @@
 <style scoped>
 
     .navbar {
-        background-color: #000;
+        background-color: #0b090a;
         color: #fff;
         padding: 1rem;
         width: 100%;
@@ -286,6 +287,7 @@
         align-items: center;
         max-width: 100%;
         margin: 0 auto;
+        height: 50px;
     }
 
     .navbar-logo {
@@ -306,7 +308,11 @@
     .navbar-links {
         display: flex;
         flex-direction: row;
+        align-items: center;
         gap: 1.5rem;
+    }
+    .navbar-links a:hover {
+        color: gray;
     }
 
     .navbar-buttons {
