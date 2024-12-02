@@ -23,7 +23,7 @@ return [
     "upload_a_jpg,_png,_jpeg_file" => "Subir un archivo jpg, png, jpeg",
     "save" => "Guardar",
     "print" => "Imprimir",
-    "export_attendances" => "Exportar Asistencias",
+    "export_data" => "Exportar Datos",
     /* Employee panel */
     // Notices Components
     "employee_notices" => "Avisos del Empleado",
@@ -66,5 +66,17 @@ return [
     "october" => "Octubre",
     "november" => "Noviembre",
     "december" => "Diciembre",
+    "the_bonus_will_be_applied_to_the_employee's_net_salary" => "El bono será aplicado al salario neto del empleado",
+    "the_deduction_will_be_applied_to_the_employee's_net_salary" => "La deducción será aplicada al salario neto del empleado",
+    // Stats
+    "stats" => [
+        "total_overtime" => "Horas Extras Totales",
+        "bonuses_earned" => "Bonos Ganados",
+        "bonuses_this_month" => "Bonos este Mes",
+        "overtime_this_month" => "Horas Extras este Mes",
+        "hours_worked_this_month" => "Horas Trabajadas este Mes",
+        "current_salary" => "Salario Actual",
+        "current_schedule" => "Horario Actual",
+    ],
 ];
 

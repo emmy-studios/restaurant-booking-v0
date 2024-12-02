@@ -7,7 +7,7 @@
         	{{-- Profile Image --}}
         	<div class="emp_profile-photo">
             	<img
-                	src="{{ $employee->image_url ? asset('storage/' . $employee->image_url) : asset('assets/images/panels/admin_profile.png') }}"
+                	src="{{ $employee->image_url ? asset('storage/' . $employee->image_url) : asset('assets/images/panels/admin.svg') }}"
                 	alt="Profile Image">
         	</div>
 
@@ -28,7 +28,7 @@
                     	<x-slot name="trigger">
                         	<x-heroicon-o-pencil-square
                             	class="w-5 h-5"
-                            	style="color: #E77917;"
+                            	style="color: #5fad56;"
                         	/>
                     	</x-slot>
 
@@ -73,15 +73,15 @@
     	</div>
 
         <div class="emp_aside-container">
-            <p>{{ $employeeInfo->identification_code }}</p>
+            @livewire($this->getCalendarWidget())
         </div>
 
     </div>
 
     {{-- Profile Information --}}
-    <div class="emp_personal-information">
+    <div class="emp_info-section">
         <h3>{{ __('panels.personal_information') }}</h3>
-        <div class="emp_personal-information-container">
+        <div class="emp_info-container">
             <div>
                 <p class="emp_item-title">{{ __('models.identification_number') }}:</p>
                 <p class="emp_item-subtitle">{{ $employee->identification_number }}</p>
@@ -110,9 +110,9 @@
     </div>
 
     {{-- Address Information --}}
-    <div class="emp_address-info">
+    <div class="emp_info-section">
         <h3>{{ __('panels.address_information') }}</h3>
-        <div class="emp_address-info-container">
+        <div class="emp_info-container">
             <div>
                 <p class="emp_address-title">{{ __('models.country') }}:</p>
                 <p class="emp_address-subtitle">{{ $employee->country }}</p>
@@ -133,9 +133,9 @@
     </div>
 
     {{-- Job Information --}}
-    <div class="emp_job-info">
+    <div class="emp_info-section">
         <h3>{{ __('panels.employee_information') }}</h3>
-        <div class="emp_job-container">
+        <div class="emp_info-container">
             <div>
                 <p class="emp_item-title">{{ __('models.hire_date') }}</p>
                 <p class="emp_item-subtitle">{{ $employeeInfo->hire_date }}</p>
@@ -149,8 +149,19 @@
                 <p class="emp_item-subtitle">{{ $employeeInfo->contract_type }}</p>
             </div>
             <div>
-                <p class="emp_item-title">{{ __('models.work_permit') }}</p>
-                <p class="emp_item-subtitle">{{ $employeeInfo->work_permit }}</p>
+                <p class="emp_item-title">
+                    {{ __('models.work_permit') }}
+                </p>
+                @if ($employee->work_permit === 1)
+                    <p class="emp_item-subtitle">
+                        Si posee.
+                    </p>
+                @else
+                    <p class="emp_item-subtitle">
+                        No posee.
+                    </p>
+                @endif
+
             </div>
             <div>
                 <p class="emp_item-title">{{ __('models.supervisor') }}</p>
@@ -164,55 +175,98 @@
     </div>
 
     {{-- Bank Information --}}
-    <div class="emp_bank-info">
+    <div class="emp_info-section">
         <h3>Bank Information</h3>
-        <div>
+        <div class="emp_info-container">
+            <div>
+                <p class="emp_item-title">{{ __('models.bank_name') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->bank_name }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.bank_code') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->bank_code }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.account_type') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->account_type }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.account_number') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->account_number }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.routing_number') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->routing_number }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.iban') }}</p>
+                <p class="emp_item-subtitle">{{ $employeeInfo->iban }}</p>
+            </div>
         </div>
     </div>
 
     {{-- Salary Info --}}
-    <div class="emp_salary-info">
+    <div class="emp_info-section">
         <h3>Salary Information</h3>
+        <div class="emp_info-container">
+            <div>
+                <p class="emp_item-title">{{ __('models.currency_symbol') }}</p>
+                <p class="emp_item-subtitle">{{ $salary->currency_symbol }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.base_salary') }}</p>
+                <p class="emp_item-subtitle">{{ $salary->base_salary }}</p>
+            </div>
+            <div>
+                <p class="emp_item-title">{{ __('models.salary_type') }}</p>
+                <p class="emp_item-subtitle">{{ $salary->salary_type }}</p>
+            </div>
+        </div>
     </div>
 
     <style>
 
         .emp_first-row {
-            display: flex;
-            max-width: 1000px;
-            gap: 15px;
-            justify-content: space-between;
+            /*display: flex;*/
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            /*max-width: 1000px;*/
+            max-width: 100%;
+            /*gap: 15px;*/
+            /*justify-content: space-between;*/
         }
         .emp_aside-container {
             display: flex;
-            background-color: #fcac5d;
             border-radius: 20px;
-            padding: 10px 10px;
-            flex-grow: 1;
+            width: 100%;
+            /*padding: 10px 10px;*/
+            /*flex-grow: 1;*/
         }
         /* Profile Header */
         .emp_profile-header {
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: center;
-            background-color: #ffeee4;
+            /*background-color: #ffeee4;*/
+            background-color: #fff;
             border-radius: 20px;
-            max-width: 600px;
+            margin-right: 15px;
+            /*max-width: 600px;*/
             /*max-height: 600px;*/
             /*max-width: 1000px;*/
             /*padding: 20px;*/
             padding: 40px 40px;
-            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);*/
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
         .emp_profile-photo {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            width: 300px;
-            height: 300px;
-            border-radius: 10px;
-            background-color: white;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            /*background-color: white;*/
             overflow: hidden;
         }
         .emp_profile-photo img {
@@ -245,22 +299,21 @@
             align-items: center;
             justify-content: flex-end;
         }
-        /* Personal Information */
-        .emp_personal-information {
-            /*background-color: #fff;*/
-            background-color: #ffe69e;
+        /* Information Styles */
+        .emp_info-section {
+            background-color: #fff;
             border-radius: 15px;
             padding: 30px;
-            max-width: 1000px;
-            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+            max-width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .emp_personal-information h3 {
+        .emp_info-section h3 {
             font-size: 1.5rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 20px;
         }
-        .emp_personal-information-container {
+        .emp_info-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -272,25 +325,6 @@
         .emp_item-subtitle {
             color: #555;
         }
-        /* Address Information */
-        .emp_address-info {
-            background-color: #ffe69e;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 1000px;
-            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-        }
-        .emp_address-info h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .emp_address-info-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
         .emp_address-title {
             font-weight: bold;
             color: #333;
@@ -298,59 +332,24 @@
         .emp_address-subtitle {
             color: #555;
         }
-
-        /* Job Information */
-        .emp_job-info {
-            background-color: #ffe69e;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 1000px;
+        @media(max-width: 1235px){
+            .emp_aside-container {
+                display: none;
+            }
         }
-        .emp_job-info h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
+        @media(max-width: 535px) {
+            .emp_aside-container {
+                display: flex;
+            }
         }
-        .emp_job-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        /* Bank Information */
-        .emp_bank-info {
-            background-color: #ffe69e;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 1000px;
-        }
-        .emp_bank-info h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* Salary Information */
-        .emp_salary-info {
-            background-color: #ffe69e;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 1000px;
-        }
-        .emp_salary-info h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
         /* Responsive Media Queries */
         @media (max-width: 768px) {
             .emp_first-row {
                 display: flex;
                 flex-direction: column;
+            }
+            .emp_aside-container {
+                display: none;
             }
             .emp_profile-header {
                 display: flex;
@@ -359,6 +358,7 @@
                 flex-direction: column;
                 gap: 10px;
                 max-width: 100%;
+                margin-right: 0px;
             }
             .emp_profile-photo {
                 border-radius: 50%;
@@ -367,11 +367,11 @@
                 justify-content: center;
                 align-items: center;
             }
-            .emp_personal-information-container {
+            .emp_info-section {
                 display: grid;
                 grid-template-columns: 1fr;
             }
-            .emp_address-info-container {
+            .emp_info-container {
                 display: grid;
                 grid-template-columns: 1fr;
             }

@@ -7,6 +7,8 @@ use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use App\Models\Employees\Employee;
+use App\Models\Employees\Salary;
+use App\FIlament\Employee\Widgets\PanelCurrentCalendar;
 
 class Profile extends Page
 {
@@ -22,16 +24,16 @@ class Profile extends Page
     }
 
     public $employee;
-
     public $newImage;
-
     public $employeeInfo;
+    public $salary;
 
     public function mount()
     {
         //$this->adminData = User::where('role', 'ADMIN')->first();
         $this->employee = Auth::user();
         $this->employeeInfo = Employee::where('identification_code', $this->employee->identification_code)->first();
+        $this->salary = Salary::where('employee_id', $this->employeeInfo->id)->first();
     }
 
     public function saveImage()
@@ -55,6 +57,11 @@ class Profile extends Page
         // Redirect the Page
         return redirect()->route('filament.employee.pages.profile');
 
+    }
+
+    public function getCalendarWidget(): string
+    {
+        return PanelCurrentCalendar::class;
     }
 
     public static function getNavigationLabel(): string

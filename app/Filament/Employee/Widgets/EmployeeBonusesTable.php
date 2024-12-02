@@ -16,6 +16,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\DatePicker;
+use App\Filament\Exports\Employees\BonusExporter;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -96,6 +97,12 @@ class EmployeeBonusesTable extends BaseWidget
                             );
     				}),
             ])
+            ->headerActions([
+                ExportAction::make('export')
+                    ->color('warning')
+                    ->label(__('panels.export_data'))
+                    ->exporter(BonusExporter::class),
+            ])
             ->actions([
                 ActionGroup::make([
                     ViewAction::make('viewDetails')
@@ -120,7 +127,7 @@ class EmployeeBonusesTable extends BaseWidget
                                     ->columnSpanFull(),
                             ])
                                 ->columns(2)
-                                ->description('The items you have selected for purchase')
+                                ->description(__("panels.the_bonus_will_be_applied_to_the_employee's_net_salary"))
                                 ->icon('heroicon-o-gift')
                                 ->iconColor('danger')
                                 ->aside(),

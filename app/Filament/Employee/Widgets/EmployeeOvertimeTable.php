@@ -24,6 +24,7 @@ use App\Models\Employees\Overtime;
 use App\Enums\OvertimeStatus;
 use App\Enums\OvertimeType;
 use App\Enums\PaymentMethod;
+use App\Filament\Exports\Employees\OvertimeExporter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -158,6 +159,12 @@ class EmployeeOvertimeTable extends BaseWidget
                 				fn (Builder $query, $date): Builder => $query->whereDate('overtime_date', '<=', $date),
                             );
     				})
+            ])
+            ->headerActions([
+                ExportAction::make('export')
+                    ->color('warning')
+                    ->label(__('panels.export_data'))
+                    ->exporter(OvertimeExporter::class),
             ])
             ->actions([
                 ActionGroup::make([

@@ -98,7 +98,7 @@ class EmployeeAttendancesTable extends BaseWidget
             ->headerActions([
                 ExportAction::make('export')
                     ->color('warning')
-                    ->label(__('panels.export_attendances'))
+                    ->label(__('panels.export_data'))
                     ->exporter(AttendanceExporter::class),
             ])
             ->actions([
