@@ -10,7 +10,12 @@
 
     import Navbar from "./Components/Navbar.vue";
     import Footer from "./Components/Footer.vue";
-    import CategoryBadgeSection from './Components/CategoryBadgeSection.vue';
+    import CategoryBadgeSection from './Components/Sections/Home/CategoryBadgeSection.vue';
+    import DiscountsSection from './Components/Sections/Home/DiscountsSection.vue';
+    import OurMenuSection from './Components/Sections/Home/OurMenuSection.vue';
+    import AboutUsSection from './Components/Sections/Home/AboutUsSection.vue';
+    import CustomerReviewsSection from './Components/Sections/Home/CustomerReviewsSection.vue';
+    import SubscribeSection from './Components/Sections/Home/SubscribeSection.vue';
 
     // Translation Props
     const { translations } = usePage().props;
@@ -90,11 +95,35 @@
 
     <main>
 
+        <!-- Category Section -->
         <section class="category-section">
             <CategoryBadgeSection/>
         </section>
 
-        <section style="height: 100vh; background-color: #000;"></section>
+        <!-- Discounts Section -->
+        <section class="discount-section">
+            <DiscountsSection/>
+        </section>
+
+        <!-- Our Products -->
+        <section class="our-products-section">
+            <OurMenuSection/>
+        </section>
+
+        <!-- About Us Section -->
+        <section>
+            <AboutUsSection/>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section>
+            <CustomerReviewsSection/>
+        </section>
+
+        <!-- Subscribe Section -->
+        <section>
+            <SubscribeSection/>
+        </section>
 
     </main>
 
@@ -113,9 +142,9 @@
     }
     .slider-item {
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        align-items: center;
+        grid-template-columns: 1fr 1fr;
     }
-    /* First Slider */
     .slider-image {
         display: flex;
         justify-content: center;
@@ -127,7 +156,9 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 30px 10px;
+        /*padding: 30px 10px;*/
+        padding-left: 30px;
+        padding-right: 30px;
         gap: 4px;
     }
     .slider-text h1 {
@@ -138,10 +169,14 @@
     .slider-text p {
         color: gray;
     }
-    /* Second Slider */
+    /* Discounts Section */
+    .discount-section {
+        background-color: #000;
+        /*height: 100vh;*/
+    }
 
 
-    @media(max-width: 768px) {
+    @media(max-width: 900px) {
         .slider-item {
             display: flex;
             flex-direction: column;
@@ -162,17 +197,22 @@
     }
 
     /* Main Section */
-    .main-section {
+    /*.main-section {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 400px;
-    }
+    }*/
     /* Category Badges Section */
     .category-section {
-        background-color: #000;
-        border-bottom: 1px solid orange;
+        background-color: #242423;
+        border-bottom: 1px solid #fff;
         padding-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+        .our-products-menu {
+            padding-top: 10px;
+        }
     }
 
 </style>

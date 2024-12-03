@@ -49,10 +49,12 @@
         display: flex;
         justify-content: center;
         gap: 30px;
-        padding: 80px 30px;
-        align-items: center;
+        padding-top: 60px;
+        padding-bottom: 60px;
+        flex-wrap: wrap;
+        /*align-items: center;*/
         width: 100%;
-        height: 50vh;
+        /*height: 50vh;*/
     }
     .badge-container {
         display: grid;
@@ -63,12 +65,15 @@
     }
     .badge-image {
         display: flex;
-        align-items: flex-end;
-        justify-content: flex-start;
+        align-items: center;
+        /*justify-content: flex-start;*/
     }
     .badge-image img {
-        max-width: 70px;
-        max-height: 70px;
+        /*max-width: 70px;
+        max-height: 70px;*/
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
     }
     .badge-text {
         display: flex;
@@ -86,6 +91,19 @@
     .badge-text a {
         color: orange;
         padding-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+        .badge-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .badge-container {
+
+        }
     }
 
 </style>
