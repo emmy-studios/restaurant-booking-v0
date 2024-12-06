@@ -17,8 +17,8 @@
     import CustomerReviewsSection from './Components/Sections/Home/CustomerReviewsSection.vue';
     import SubscribeSection from './Components/Sections/Home/SubscribeSection.vue';
 
-    // Translation Props
-    const { translations } = usePage().props;
+    // Get Data Props
+    const { translations, products } = usePage().props;
 
 </script>
 
@@ -107,7 +107,7 @@
 
         <!-- Our Products -->
         <section class="our-products-section">
-            <OurMenuSection/>
+            <OurMenuSection :products="products"/>
         </section>
 
         <!-- About Us Section -->

@@ -11,7 +11,7 @@
 
         <div class="social-items">
             <div class="logo-container">
-                <img src="assets/images/logo/krosty_logo_dark_mode.png">
+                <img src="/assets/images/logo/krosty_logo_dark_mode.png">
             </div>
             <div class="social-links">
                 <p>Follow Us:</p>

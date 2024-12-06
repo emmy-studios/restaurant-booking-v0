@@ -148,7 +148,7 @@
 
             <div class="navbar-logo">
                 <div class="logo-image">
-                    <img src="assets/images/logo/krosty_logo_dark_mode.png"/>
+                    <img src="/assets/images/logo/krosty_logo_dark_mode.png"/>
                 </div>
             </div>
 
@@ -217,7 +217,13 @@
                             <!-- header -->
                             <template #header>
                                 <div class="drawer-header">
-                                    <span>Shopping Cart</span>
+                                    <!--<span>Shopping Cart</span>-->
+                                    <span>
+                                        <img
+                                            style="width: 100px;"
+                                            src="/assets/images/logo/krusty_logo_transparent.png"
+                                        >
+                                    </span>
                                     <n-button ghost size="small" @click="active = false">
                                         <n-icon>
                                             <CloseFilled/>
@@ -226,8 +232,19 @@
                                 </div>
                             </template>
                             <!-- content -->
-                            <div class="drawer-content">
+                            <div
+                                class="drawer-content"
+                                v-if="$page.props.auth.isLoggedIn"
+                            >
+
                                 <p>Lorem ipsum opem unoi...</p>
+
+                            </div>
+                            <div
+                                class="drawer-content"
+                                v-else
+                            >
+                                <p>No products available</p>
                             </div>
                             <!-- footer -->
                             <template #footer>
@@ -332,6 +349,7 @@
         justify-content: space-between;
         align-items: center;
     }
+
 
     .drawer-content {
         display: flex;

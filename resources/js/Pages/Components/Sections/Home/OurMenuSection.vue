@@ -3,8 +3,30 @@
     import { ref } from 'vue';
     import { NButton, NModal, NCard, NIcon } from 'naive-ui';
     import { CancelFilled, AddShoppingCartFilled } from '@vicons/material';
+    import { Link, usePage } from '@inertiajs/vue3';
 
+    // Get Products Props from Home Controller
+    defineProps({
+        products: Array,
+        required: true,
+    });
+
+    // Truncate Description Text
+    function truncateText(text, length = 30) {
+        return text.length > length ? text.substring(0, length) + '...' : text;
+    };
+
+    // Modal SetUp
     const showModal = ref(false);
+    const selectedProduct = ref(null);
+    const openModal = (product) => {
+        selectedProduct.value = product;
+        showModal.value = true;
+    };
+
+    // Get Locale
+    const { locale } = usePage().props;
+    const currentLocale = locale || 'en';
 
 </script>
 
@@ -23,181 +45,83 @@
 
         <div class="products-grid">
 
-            <div class="product-card">
+            <div v-for="product in products" class="product-card" :key="product.id">
                 <div class="product-img-container">
-                    <img src="assets/images/products/camarones.jpg"
+                    <img
+                        :src="product.image_url ? `/storage/${product.image_url}` : '/assets/images/products/hamburger.png'"
+                    >
                 </div>
-                <h3>Arroz con camarones.</h3>
+                <h3>{{ product.name }}</h3>
                 <p>
-                    Some description of the product right here.
+                    {{ truncateText(product.description, 30) }}
                 </p>
-                <span>$30</span>
+                <!--<span>$60</span>-->
+
+                <div style="display: flex; color: #fff; gap: 10px; justify-content: space-between;">
+
+                    <label for="cars">30</label>
+                    <select name="cars" id="cars" v-for="price in product.prices" :key="price.id">
+
+                        <option value="nose">{{ price.currency_id }}</option>
+                    </select>
+
+                </div>
+
+
+
                 <!-- Modal -->
                 <n-button
-                    @click="showModal = true"
+                    @click="openModal(product)"
                     color="#E77917"
                 >
                     Details
                 </n-button>
-                <n-modal v-model:show="showModal">
-                    <n-card
-                        style="width: 600px"
-                        title=" "
-                        :bordered="false"
-                        size="huge"
-                        role="dialog"
-                        aria-modal="true"
-                    >
-                        <template #header-extra>
-                            <div class="header-actions">
-                                <n-button color="#E77917">
-                                    <n-icon><AddShoppingCartFilled/></n-icon>
-                                    Add to Cart
-                                </n-button>
-                                <n-button
-                                    type="secondary"
-                                    @click="showModal = false"
-                                >
-                                    close
-                                </n-button>
-                            </div>
-                        </template>
-
-                        <div class="modal-container">
-                            <div class="modal-image">
-                                <img src="assets/images/products/camarones.jpg">
-                            </div>
-                            <div class="modal-description">
-                                <h1>Brochetas de Camarones </h1>
-                                <p>
-                                    Un platillo de camarones acompañado de unas brochetas
-                                    y distintos aderezos especiales para los paladares
-                                    más exquisitos de nuestros clientes.
-                                </p>
-                            </div>
+            </div>
+            <n-modal v-model:show="showModal">
+                <n-card
+                    style="width: 600px"
+                    title=" "
+                    :bordered="false"
+                    size="huge"
+                    role="dialog"
+                    aria-modal="true"
+                >
+                    <template #header-extra>
+                        <div class="header-actions">
+                            <n-button color="#E77917">
+                                <n-icon><AddShoppingCartFilled/></n-icon>
+                                Add to Cart
+                            </n-button>
+                            <n-button
+                                type="secondary"
+                                @click="showModal = false"
+                            >
+                                close
+                            </n-button>
                         </div>
+                    </template>
 
-                    </n-card>
-                </n-modal>
-                <!-- End Modal -->
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/mojito.jpg"
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/malteada-fresa.jpg"
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/pie-manazana.jpg"
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/vegan-pizza.jpg">
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/pizza-hawaina.jpg">
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/capuccino.jpg">
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-container">
-                    <img src="assets/images/products/friedchicken.jpg">
-                </div>
-                <h3>Title of the product</h3>
-                <p>
-                    Some description of the product right here.
-                </p>
-                <span>$100</span>
-                <n-button
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
-            </div>
-
+                    <div class="modal-container">
+                        <div class="modal-image">
+                            <img
+                                :src="selectedProduct.image_url ? `/storage/${selectedProduct.image_url}` : '/assets/images/products/hamburger.png'"
+                            >
+                        </div>
+                        <div class="modal-description">
+                            <h1>{{ selectedProduct.name }}</h1>
+                            <p>
+                                {{ selectedProduct.description }}
+                            </p>
+                        </div>
+                    </div>
+                </n-card>
+            </n-modal>
+            <!-- End Modal -->
         </div>
 
         <div class="grid-footer">
-            <a href="#">Explore More</a>
+            <!--<a href="#">Explore More</a>-->
+            <Link :href="`/${currentLocale}/products`">Explore More</Link>
         </div>
 
     </div>

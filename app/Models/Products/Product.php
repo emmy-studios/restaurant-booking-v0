@@ -23,7 +23,7 @@ class Product extends Model
         'name',
         'description',
         'quantity',
-        'image_url', 
+        'image_url',
         'portion',
     ];
 
@@ -45,7 +45,7 @@ class Product extends Model
     public function recipes(): HasMany
     {
         return $this->hasMany(Recipe::class);
-    } 
+    }
 
     public function menuItems(): HasMany
     {
@@ -66,4 +66,5 @@ class Product extends Model
     {
         return $this->hasMany(Price::class);
     }
+
 }
