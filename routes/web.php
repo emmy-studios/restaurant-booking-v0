@@ -9,6 +9,7 @@ use App\Http\Controllers\Accounts\AuthenticationController;
 use App\Http\Controllers\Teams\TeamsController;
 use App\Http\Controllers\Accounts\DashboardController;
 use App\Http\Controllers\Products\ProductController;
+use App\Http\Controllers\Products\ShoppingcartController;
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
@@ -21,6 +22,8 @@ Route::prefix('{locale}')
         // Core Routes
         Route::get('/', [CoreController::class, 'index'])->name('home');
         Route::get('/products', [ProductController::class, 'index'])->name('products');
+        // Add Product to Shoppingcart
+        Route::post('/shoppingcart/add', [ShoppingcartController::class, 'addProduct'])->name('shoppingcart.add');
         // Authentication Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');

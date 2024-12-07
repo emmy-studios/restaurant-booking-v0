@@ -28,6 +28,14 @@ return [
     'create_user' => 'Crear usuario',
     'edit_user' => 'Editar usuario',
     'view_user' => 'Ver usuario',
+    /* Shoppingcarts Resources */
+    'shoppingcart' => 'Carrito de Compra',
+    'shoppingcarts' => 'Carritos de Compra',
+    'products_related_to_the_shoppingcart' => 'Productos relacionados al Carrito de Compras',
+    // Pages
+    'create_shoppingcart' => 'Crear Carrito',
+    'edit_shoppingcart' => 'Editar Carrito',
+    'view_shoppingcart' => 'Ver Carrito',
     /**  ProductsResource Filament Translations  */
     'description' => 'Descripción',
     'portion' => 'Porción',

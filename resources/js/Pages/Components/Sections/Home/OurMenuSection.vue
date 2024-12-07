@@ -28,6 +28,11 @@
     const { locale } = usePage().props;
     const currentLocale = locale || 'en';
 
+    // Add To Cart Product
+    const addToCart = (productID) => {
+        alert(productID);
+    };
+
 </script>
 
 <template>
@@ -66,16 +71,31 @@
                     </select>
 
                 </div>
+                <div class="footer-card">
+                    <!-- Modal -->
+                    <n-button
+                        @click="openModal(product)"
+                        color="#E77917"
+                    >
+                        Details
+                    </n-button>
+                    <!-- Add to Cart  -->
+                    <!--<n-button type="primary" @click="addToCart(product.id)">
+                        <n-icon><AddShoppingCartFilled/></n-icon>
+                    </n-button>-->
+
+                    <Link
+                        style="background-color: red; color: #fff;"
+                        :href="`/${currentLocale}/shoppingcart/add`"
+                        method="post"
+                        as="button"
+                        :data="{ 'product_id': product.id }"
+                    >
+                        Add to Cart
+                    </Link>
 
 
-
-                <!-- Modal -->
-                <n-button
-                    @click="openModal(product)"
-                    color="#E77917"
-                >
-                    Details
-                </n-button>
+                </div>
             </div>
             <n-modal v-model:show="showModal">
                 <n-card
@@ -88,10 +108,10 @@
                 >
                     <template #header-extra>
                         <div class="header-actions">
-                            <n-button color="#E77917">
+                            <!--<n-button color="#E77917">
                                 <n-icon><AddShoppingCartFilled/></n-icon>
                                 Add to Cart
-                            </n-button>
+                            </n-button>-->
                             <n-button
                                 type="secondary"
                                 @click="showModal = false"
@@ -197,6 +217,11 @@
     }
     .product-card span {
         color: orange;
+    }
+    .footer-card {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
     }
     .grid-footer {
         display: flex;

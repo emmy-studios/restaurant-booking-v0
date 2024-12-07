@@ -18,6 +18,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -28,6 +29,7 @@ use App\Models\Employees\Absence;
 use App\Models\Employees\Overtime;
 use App\Models\Reservations\Reservation;
 use App\Models\UserNotification;
+use App\Models\Shoppingcarts\Shoppingcart;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -181,6 +183,11 @@ class User extends Authenticatable implements FilamentUser
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function shoppingcarts(): HasOne
+    {
+        return $this->hasOne(Shoppingcart::class);
     }
 
     // Overtime Relationships

@@ -2,6 +2,7 @@
 
     // Translation Setup
     import { usePage } from "@inertiajs/vue3";
+    import { reactive } from 'vue';
 
     import {
         NButton,
@@ -19,12 +20,16 @@
 
     // Get Data Props
     const { translations, products } = usePage().props;
+    const { shoppingcartProducts } = usePage().props;
+    /*const shoppingcart = reactive({
+        shoppingcart: shoppingcartProducts || [],
+    });*/
 
 </script>
 
 <template>
 
-    <Navbar/>
+    <Navbar :customerProducts="shoppingcartProducts"/>
 
     <header>
 
@@ -126,6 +131,8 @@
         </section>
 
     </main>
+
+    <p style="font-size: 40px; color: #fff;">{{ user }}</p>
 
     <Footer/>
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Products\Category;
 use App\Models\Recipes\Recipe;
 use App\Models\Sales\SaleItem;
+use App\Models\Shoppingcarts\Shoppingcart;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -65,6 +66,11 @@ class Product extends Model
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function shoppingcarts(): BelongsToMany
+    {
+        return $this->belongsToMany(Shoppingcart::class);
     }
 
 }

@@ -13,8 +13,6 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-
-
         // Translation Helper
         $translations = getTranslations(['home']);
 

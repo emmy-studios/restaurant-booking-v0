@@ -2,6 +2,8 @@
 
     import { ref, h, onMounted, onBeforeUnmount } from "vue";
 
+    import ShoppingcartDrawer from './ShoppingcartDrawer.vue';
+
     import { Link, usePage } from "@inertiajs/vue3";
     import { router } from "@inertiajs/vue3";
 
@@ -9,8 +11,6 @@
         NButton,
         NIcon,
         NDropdown,
-        NDrawer,
-        NDrawerContent,
         NFloatButton,
         NBadge
     } from "naive-ui";
@@ -18,14 +18,12 @@
     // xicons
     import {
         AccountBoxTwotone,
-        ShoppingCartRound,
         AccountCircleFilled,
         AccountCircleOutlined,
         GroupAddFilled,
         MenuFilled,
         EditFilled,
         LogInFilled,
-        CloseFilled,
         ExitToAppTwotone,
         LanguageFilled,
         AddBusinessFilled,
@@ -101,17 +99,6 @@
         {label: "English", key: "en"},
     ]);
 
-    // Shoppingcart Drawer
-    const active = ref(false);
-    const placement = ref("right");
-    const activate = (place) => {
-        active.value = true;
-        placement.value = place;
-    };
-
-    // Shoppingcart Items
-    const shoppingcartNumber = ref(0);
-
     // ############# Account Logic #################
 
     // Inertia Router - NaiveUI Dropdown
@@ -138,12 +125,17 @@
         }
     };
 
+    // Get Products from Home
+    defineProps({
+        customerProducts: Object,
+        required: true,
+    });
+
 </script>
 
 <template>
 
     <nav class="navbar">
-
         <div class="navbar-container">
 
             <div class="navbar-logo">
@@ -194,66 +186,7 @@
 
                 <!-- Shoppingcart Button -->
                 <div class="navbar-shoppingcart">
-                    <n-float-button
-                        position="relative"
-                        height="25"
-                        width="25"
-                        @click="activate('right')"
-                    >
-                        <n-badge
-                            type="warning"
-                            :value="shoppingcartNumber"
-                            show-zero
-                            :offset="[6, -8]"
-                        >
-                            <n-icon>
-                                <ShoppingCartRound />
-                            </n-icon>
-                        </n-badge>
-                    </n-float-button>
-                    <!-- Shoppingcart Drawer -->
-                    <n-drawer v-model:show="active" :width="400" :placement="placement">
-                        <n-drawer-content>
-                            <!-- header -->
-                            <template #header>
-                                <div class="drawer-header">
-                                    <!--<span>Shopping Cart</span>-->
-                                    <span>
-                                        <img
-                                            style="width: 100px;"
-                                            src="/assets/images/logo/krusty_logo_transparent.png"
-                                        >
-                                    </span>
-                                    <n-button ghost size="small" @click="active = false">
-                                        <n-icon>
-                                            <CloseFilled/>
-                                        </n-icon>
-                                    </n-button>
-                                </div>
-                            </template>
-                            <!-- content -->
-                            <div
-                                class="drawer-content"
-                                v-if="$page.props.auth.isLoggedIn"
-                            >
-
-                                <p>Lorem ipsum opem unoi...</p>
-
-                            </div>
-                            <div
-                                class="drawer-content"
-                                v-else
-                            >
-                                <p>No products available</p>
-                            </div>
-                            <!-- footer -->
-                            <template #footer>
-                                <n-button type="warning" block>
-                                    Make Order
-                                </n-button>
-                            </template>
-                        </n-drawer-content>
-                    </n-drawer>
+                    <ShoppingcartDrawer :shoppingcartProducts="customerProducts"/>
                 </div>
 
                 <!-- Bars Menu Button -->
@@ -282,6 +215,7 @@
         <div class="responsive-items">
             <a>CONTACT</a>
         </div>
+
     </div>
 
 
@@ -342,20 +276,6 @@
         display: flex;
         align-items: center;
     }
-
-    /* Shoppingcart Drawer */
-    .drawer-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-
-    .drawer-content {
-        display: flex;
-        justify-content: space-around;
-    }
-
     /* Responsive Navbar */
     .navbar-menu {
         display: flex;
@@ -399,10 +319,6 @@
     .responsive-items a:hover {
         color: #000;
     }
-
-    /*.responsive-navbar.active {
-        display: flex;
-    }*/
 
     /* Media Queries */
     @media (max-width: 768px) {

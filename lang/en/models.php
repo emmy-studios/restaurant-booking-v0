@@ -28,6 +28,14 @@ return [
     'create_user' => 'Create User',
     'edit_user' => 'Edit User',
     'view_user' => 'View User',
+    /* Shoppingcarts Resources */
+    'shoppingcart' => 'Shoppingcart',
+    'shoppingcarts' => 'Shoppingcarts',
+    'products_related_to_the_shoppingcart' => 'Products related to the Shoppingcart',
+    // Pages
+    'create_shoppingcart' => 'Create Shoppingcart',
+    'edit_shoppingcart' => 'Edit Shoppingcart',
+    'view_shoppingcart' => 'View Shoppingcart',
     /**  ProductResource Filament Translations  */
     'description' => 'Description',
     'portion' => 'Portion',
