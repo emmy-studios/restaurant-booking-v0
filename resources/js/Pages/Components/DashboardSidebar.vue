@@ -8,9 +8,7 @@
         TagFacesSharp,
         DashboardCustomizeFilled,
         ShopifyOutlined,
-        DonutSmallFilled,
         MessageSharp,
-        SupervisedUserCircleFilled,
         SettingsFilled,
         ArrowCircleLeftFilled,
         SearchFilled,
@@ -22,7 +20,15 @@
         MonetizationOnOutlined,
         FilterAltSharp,
         PlusFilled,
-        MoreVertSharp
+        MoreVertSharp,
+        HomeFilled,
+        CoPresentFilled,
+        EditFilled,
+        RamenDiningFilled,
+        InsertChartFilled,
+        AssignmentRound,
+        PaymentsFilled,
+        AutoStoriesFilled,
     } from "@vicons/material";
 
     // Get Current Locale
@@ -61,47 +67,75 @@
         id="sidebar"
         :class="['sidebar', { hide: isSidebarHidden }]"
     >
-
         <Link :href="`/${locale}/dashboard`" class="brand">
             <n-icon class="bx"><TagFacesSharp/></n-icon>
             <span class="text">Customer</span>
 		</Link>
+
         <ul class="side-menu top">
-			<li :class="{ active: activePage === 'Dashboard' }">
+
+            <li>
+                <Link :href="`/${locale}/`">
+                    <n-icon class="bx"><HomeFilled/></n-icon>
+                    <span class="text">Home</span>
+				</Link>
+			</li>
+
+            <li :class="{ active: activePage === 'Dashboard' }">
                 <Link :href="`/${locale}/dashboard`">
                     <n-icon class="bx"><DashboardCustomizeFilled/></n-icon>
                     <span class="text">Dashboard</span>
 				</Link>
 			</li>
-			<li :class="{ active: activePage === 'Profile' }">
+
+            <li :class="{ active: activePage === 'Profile' }">
                 <Link :href="`/${locale}/profile`">
-                    <n-icon class="bx"><ShopifyOutlined/></n-icon>
+                    <n-icon class="bx"><CoPresentFilled/></n-icon>
                     <span class="text">Profile</span>
 				</Link>
 			</li>
-			<li :class="{ active: activePage === 'Edit Profile' }">
+
+            <li :class="{ active: activePage === 'Edit Profile' }">
                 <Link :href="`/${locale}/edit-profile`">
-                    <n-icon class="bx"><DonutSmallFilled/></n-icon>
+                    <n-icon class="bx"><EditFilled/></n-icon>
                     <span class="text">Edit Profile</span>
 				</Link>
 			</li>
-			<li :class="{ active: activePage === 'Analytics' }">
+
+            <li :class="{ active: activePage === 'Order' }">
+                <Link :href="`/${locale}/order`">
+                    <n-icon class="bx"><RamenDiningFilled/></n-icon>
+                    <span class="text">Order</span>
+				</Link>
+			</li>
+
+            <li :class="{ active: activePage === 'Orders' }">
+                <Link :href="`/${locale}/orders`">
+                    <n-icon class="bx"><AssignmentRound/></n-icon>
+                    <span class="text">Orders</span>
+				</Link>
+			</li>
+
+            <li :class="{ active: activePage === 'Analytics' }">
 				<a href="#">
-                    <n-icon class="bx"><MessageSharp/></n-icon>
+                    <n-icon class="bx"><InsertChartFilled/></n-icon>
                     <span class="text">Analytics</span>
 				</a>
 			</li>
-			<li :class="{ active: activePage === 'Invoices' }">
+
+            <li :class="{ active: activePage === 'Invoices' }">
 				<a href="#">
-                    <n-icon class="bx"><SupervisedUserCircleFilled/></n-icon>
+                    <n-icon class="bx"><PaymentsFilled/></n-icon>
                     <span class="text">Invoices</span>
 				</a>
 			</li>
+
 		</ul>
+
         <ul class="side-menu">
 			<li :class="{ active: activePage === 'Reservations' }">
 				<a href="#">
-                    <n-icon class="bx"><SettingsFilled/></n-icon>
+                    <n-icon class="bx"><AutoStoriesFilled/></n-icon>
 					<span class="text">Reservations</span>
 				</a>
 			</li>

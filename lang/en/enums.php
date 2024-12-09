@@ -59,6 +59,33 @@ return [
         'Consultant' => 'Consultant',
         'Seasonal' => 'Seasonal',
     ],
+    // Order Status
+    'order_status' => [
+        'Pending' => 'Pending',
+        'Processing' => 'Processing',
+        'Shipped' => 'Shipped',
+        'Delivered' => 'Delivered',
+        'Cancelled' => 'Cancelled',
+        'Refunded' => 'Refunded',
+        'On Hold' => 'On Hold',
+        'Awaiting Payment' => 'Awaiting Payment',
+        'Completed' => 'Completed',
+        'Failed' => 'Failed',
+    ],
+    // Order Source
+    'order_source' => [
+        'Online' => 'Online',
+        'Email' => 'Email',
+        'WhatsApp' => 'WhatsApp',
+        'Social Media' => 'Social Media',
+        'Phone Call' => 'Phone Call',
+        'Walk-in' => 'Walk-in',
+        'SMS' => 'SMS',
+        'Mobile App' => 'Mobile App',
+        'Marketplace' => 'Marketplace',
+        'Other' => 'Other',
+        'Partner Portal' => 'Partner Portal',
+    ],
     // Salary Type
     'salary_type' => [
         'Hourly' => 'Hourly',

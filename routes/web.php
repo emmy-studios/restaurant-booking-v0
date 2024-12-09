@@ -10,6 +10,7 @@ use App\Http\Controllers\Teams\TeamsController;
 use App\Http\Controllers\Accounts\DashboardController;
 use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Products\ShoppingcartController;
+use App\Http\Controllers\Orders\OrderController;
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
@@ -24,6 +25,13 @@ Route::prefix('{locale}')
         Route::get('/products', [ProductController::class, 'index'])->name('products');
         // Add Product to Shoppingcart
         Route::post('/shoppingcart/add', [ShoppingcartController::class, 'addProduct'])->name('shoppingcart.add');
+        // Remove Product to Shoppingcart
+        Route::post('/shoppingcart/remove', [ShoppingcartController::class, 'removeProduct'])->name('shoppingcart.remove');
+        // Orders Routes
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+        Route::get('/order', [OrderController::class, 'order'])->name('order');
+        // Create Order
+        Route::post('/order/create', [OrderController::class, 'createOrder'])->name('order.create');
         // Authentication Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');

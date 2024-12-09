@@ -77,11 +77,11 @@
             <!-- Orders Table -->
 			<div class="table-data">
 				<div class="order">
-					<!--<div class="head">
+					<div class="head">
 						<h3>Recent Orders</h3>
                         <n-icon class="bx"><SearchFilled/></n-icon>
 					    <n-icon class="bx"><FilterAltSharp/></n-icon>
-                    </div>-->
+                    </div>
 					<table>
 						<thead>
 							<tr>

@@ -7,16 +7,16 @@ use Filament\Support\Contracts\HasLabel;
 
 enum OrderStatus: string implements HasLabel, HasColor
 {
-    case PENDING = 'Pending';        
-    case PROCESSING = 'Processing';      
-    case SHIPPED = 'Shipped';            
-    case DELIVERED = 'Delivered';        
-    case CANCELLED = 'Cancelled';      
-    case REFUNDED = 'Refunded';         
-    case FAILED = 'Failed';              
-    case ON_HOLD = 'On Hold';           
-    case AWAITING_PAYMENT = 'Awaiting Payment'; 
-    case COMPLETED = 'Completed';       
+    case PENDING = 'Pending';
+    case PROCESSING = 'Processing';
+    case SHIPPED = 'Shipped';
+    case DELIVERED = 'Delivered';
+    case CANCELLED = 'Cancelled';
+    case REFUNDED = 'Refunded';
+    case FAILED = 'Failed';
+    case ON_HOLD = 'On Hold';
+    case AWAITING_PAYMENT = 'Awaiting Payment';
+    case COMPLETED = 'Completed';
 
     public function getLabel(): ?string
     {
@@ -32,7 +32,8 @@ enum OrderStatus: string implements HasLabel, HasColor
             self::COMPLETED => 'Completed',
         }; */
 
-        return $this->value;
+        //return $this->value;
+        return __("enums.order_status.{$this->value}");
 
     }
 
@@ -46,6 +47,7 @@ enum OrderStatus: string implements HasLabel, HasColor
             self::CANCELLED => 'danger',
             self::REFUNDED => 'warning',
             self::ON_HOLD => 'info',
+            self::FAILED => 'danger',
             self::AWAITING_PAYMENT => 'info',
             self::COMPLETED => 'success',
         };

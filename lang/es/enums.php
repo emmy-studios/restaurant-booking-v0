@@ -48,6 +48,33 @@ return [
         'Money Market Account' => 'Cuenta de Mercado Monetario',
         'Certificate of Deposit' => 'Certificado de Depósito',
     ],
+    // Order Status
+    'order_status' => [
+        'Pending' => 'Pendiente',
+        'Processing' => 'Procesando',
+        'Shipped' => 'Enviado',
+        'Delivered' => 'Entregado',
+        'Cancelled' => 'Cancelado',
+        'Refunded' => 'Reembolsado',
+        'On Hold' => 'En Espera',
+        'Awaiting Payment' => 'Pendiente de Pago',
+        'Completed' => 'Completado',
+        'Failed' => 'Fallido',
+    ],
+    // Order Source
+    'order_source' => [
+        'Online' => 'En Línea',
+        'Email' => 'Correo Electrónico',
+        'WhatsApp' => 'WhatsApp',
+        'Social Media' => 'Redes Sociales',
+        'Phone Call' => 'Llamada Telefónica',
+        'Walk-in' => 'Cliente Presencial',
+        'SMS' => 'Mensaje de Textos',
+        'Mobile App' => 'Aplicación Móvil',
+        'Marketplace' => 'Marketplace',
+        'Other' => 'Otro',
+        'Partner Portal' => 'Portal de Socios',
+    ],
     // Contract Type Translations
     'contract_type' => [
         'Permanent' => 'Permanente',

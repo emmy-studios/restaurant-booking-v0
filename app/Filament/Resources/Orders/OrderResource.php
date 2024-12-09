@@ -13,6 +13,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -26,7 +29,7 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 1; 
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -37,10 +40,10 @@ class OrderResource extends Resource
                     ->label(__('models.order_code'))
                     ->maxLength(255),
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')  
+                    ->relationship('user', 'name')
                     ->label(__('models.user'))
                     ->required(),
-                Forms\Components\Select::make('order_status')  
+                Forms\Components\Select::make('order_status')
                     ->options(OrderStatus::class)
                     ->searchable()
                     ->default('Processing')
@@ -70,25 +73,32 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_code') 
+                Tables\Columns\TextColumn::make('order_code')
                     ->label(__('models.order_code'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user.id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->label(__('models.user')) 
-                    ->sortable(), 
+                    ->searchable()
+                    ->label(__('models.user'))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge()
+                    ->color(fn ($record) => OrderStatus::from($record->order_status)->getColor())
+                    ->searchable()
                     ->label(__('models.order_status')),
                 Tables\Columns\TextColumn::make('order_source')
                     ->badge()
+                    ->color('warning')
+                    ->searchable()
+                    ->sortable()
                     ->label(__('models.order_source')),
                 Tables\Columns\TextColumn::make('currency_symbol')
                     ->badge()
+                    ->color('info')
                     ->label(__('models.currency_symbol'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('subtotal')
-                    ->numeric() 
+                    ->numeric()
                     ->label(__('models.subtotal'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
@@ -107,7 +117,42 @@ class OrderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('order_status')
+                    ->label(__('models.status'))
+                    ->options([
+                        collect(OrderStatus::cases())
+                            ->mapWithKeys(fn(OrderStatus $status) => [$status->value => $status->getLabel()])
+                            ->filter(fn($label, $key) => !is_numeric($key))
+                            ->toArray()
+                    ]),
+                SelectFilter::make('order_source')
+                    ->label(__('models.order_source'))
+                    ->options([
+                        ['' => __('Todos')] +
+                        collect(OrderSource::cases())
+                            ->mapWithKeys(fn(OrderSource $source) => [$source->value => $source->getLabel()])
+                            ->filter(fn($label, $key) => !is_numeric($key))
+                            ->toArray()
+                    ]),
+
+                Filter::make('date_applied')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+    				}),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -131,7 +176,7 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'), 
+            'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
@@ -142,11 +187,11 @@ class OrderResource extends Resource
     {
         return __('models.orders');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.orders');
     }
 }
- 
+

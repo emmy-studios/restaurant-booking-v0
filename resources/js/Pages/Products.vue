@@ -6,7 +6,7 @@
     import { usePage, useForm, Link, router } from '@inertiajs/vue3';
     import { NButton } from 'naive-ui';
 
-    const { products, categories, locale, tag } = usePage().props;
+    const { products, categories, locale, shoppingcartProducts } = usePage().props;
     const currentLocale = locale || 'en';
     // Search Bar
     const searchTerm = ref('');
@@ -21,7 +21,7 @@
 
 <template>
 
-    <Navbar/>
+    <Navbar :customerProducts="shoppingcartProducts"/>
 
     <section class="main-container">
 

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
+use App\Models\Shoppingcarts\Shoppingcart;
 
 class ProductController extends Controller
 {
@@ -23,23 +25,6 @@ class ProductController extends Controller
         $categories = Category::all();
 
         $products = Product::paginate(2);
-        /*
-        $searchTerm = request('searchTerm');
-        $tag = request('tagChoose', null);
-        */
-        // Search by Name
-        /*if ($searchTerm !== '') {
-            $products = Product::where('name', 'like', '%' . $searchTerm . '%')->get();
-        } else {
-            $products = Product::all();
-        }*/
-
-        // Search by Category Tag
-        /*if (!is_null($tag) && $tag !== '') {
-             $products = Product::whereHas('categories', function ($query) use ($tag) {
-                $query->where('name', $tag);
-            })->get();
-        }*/
 
         // Filters Here -----------------------------------------------------------------
         $searchTerm = $request->input('searchTerm', '');
@@ -59,12 +44,25 @@ class ProductController extends Controller
 
         $products = $productsQuery->paginate(2);
 
+        // Shoppingcart ++++++++++++++++++++++++++++++++++++++++++++++
+        $user = Auth::user();
+        $shoppingcart = $user ? Shoppingcart::with('products')->where('user_id', $user->id)->first() : null;
+
+        $shoppingcartProducts = $shoppingcart ? $shoppingcart->products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'image_url' => $product->image_url,
+            ];
+        })->toArray()
+        : [];
 
         return Inertia::render('Products',
             [
                 'products' => $products,
                 'locale' => $locale,
                 'categories' => $categories,
+                'shoppingcartProducts' => $shoppingcartProducts,
             ]);
     }
 

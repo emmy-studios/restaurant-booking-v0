@@ -27,7 +27,7 @@
         ExitToAppTwotone,
         LanguageFilled,
         AddBusinessFilled,
-        CancelFilled,
+        DeleteForeverFilled,
     } from "@vicons/material";
 
     // Localization Setup
@@ -51,7 +51,7 @@
     defineProps({
         shoppingcartProducts: Array,
     });
-    const shoppingcartNumber = ref(0);
+    //const productsNumber = ref(shoppingcartProducts.length);
 
 </script>
 
@@ -65,7 +65,7 @@
     >
         <n-badge
             type="warning"
-            :value="shoppingcartNumber"
+            :value="shoppingcartProducts.length"
             show-zero
             :offset="[6, -8]"
         >
@@ -116,7 +116,14 @@
 
                         <p>{{ product.name }}</p>
 
-                        <Link href=""><n-icon><CancelFilled/></n-icon></Link>
+                        <Link
+                            :href="`/${currentLocale}/shoppingcart/remove`"
+                            method="post"
+                            as="button"
+                            :data="{ 'product_id': product.id }"
+                        >
+                            <n-icon><DeleteForeverFilled/></n-icon>
+                        </Link>
 
                     </div>
 
@@ -136,10 +143,16 @@
             </div>
 
             <!-- footer -->
-            <template #footer>
-                <n-button type="warning" block>
+            <template #footer v-if="shoppingcartProducts.length > 0">
+                <!--<n-button type="warning" block>
                     Make Order
-                </n-button>
+                </n-button>-->
+                <Link
+                    :href="`/${currentLocale}/order/create`"
+                    method="post"
+                >
+                    Make Order
+                </Link>
             </template>
 
         </n-drawer-content>
