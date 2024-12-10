@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Orders\Order;
+use App\Models\Shoppingcarts\Shoppingcart;
 
 class OrderController extends Controller
 {
@@ -22,14 +23,20 @@ class OrderController extends Controller
             ]);
     }
 
-    public function order()
+    public function order(Request $request)
     {
         $user = Auth::user();
         $lastOrderCreated = Order::where('user_id', $user->id)->latest()->first();
+        $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)->with('products')->first();
+
+        // Change Order Status
+
 
         return Inertia::render('Order',
             [
                 'lastOrderCreated' => $lastOrderCreated,
+                'user' => $user,
+                'shoppingcartProducts' => $shoppingcartProducts,
             ]);
     }
 
@@ -48,6 +55,16 @@ class OrderController extends Controller
         $order->subtotal = 0;
         $order->total = 0;
         $order->order_status = 'Pending';
+        $order->save();
+
+        return redirect()->route('order');
+    }
+
+    public function addOrderItem(Request $request)
+    {
+        $user = Auth::user();
+        $order = Order::where('user_id', $user->id)->latest()->first();
+        $order->order_status = 'Processing';
         $order->save();
 
         return redirect()->route('order');

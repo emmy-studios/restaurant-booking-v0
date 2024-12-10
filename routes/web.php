@@ -32,6 +32,7 @@ Route::prefix('{locale}')
         Route::get('/order', [OrderController::class, 'order'])->name('order');
         // Create Order
         Route::post('/order/create', [OrderController::class, 'createOrder'])->name('order.create');
+        Route::post('/order/add-items', [OrderController::class, 'addOrderItem'])->name('add.order.items');
         // Authentication Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');
