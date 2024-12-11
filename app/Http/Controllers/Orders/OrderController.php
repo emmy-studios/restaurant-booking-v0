@@ -27,7 +27,9 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $lastOrderCreated = Order::where('user_id', $user->id)->latest()->first();
-        $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)->with('products')->first();
+        $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)
+            ->with(['products.prices.currency'])
+            ->first();
 
         // Change Order Status
 

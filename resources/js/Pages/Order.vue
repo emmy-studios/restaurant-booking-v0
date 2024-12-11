@@ -17,6 +17,8 @@
         ArrowCircleLeftTwotone,
         ShoppingBagRound,
         KeyboardArrowDownOutlined,
+        DeleteOutlineTwotone,
+        ShoppingBasketRound,
     } from '@vicons/material';
 
     // Get Current Locale
@@ -24,10 +26,15 @@
     const currentLocale = locale || 'en';
 
     // User Order
-    const { lastOrderCreated, user, shoppingcartProducts } = usePage().props;
+    const { lastOrderCreated, user } = usePage().props;
     const status = ref(lastOrderCreated.order_status) || ref('Pending');
     // Shoppingcart Products
-    //const products = reactive(shoppingcartProducts);
+    //const products = ref(shoppingcartProducts);
+    const products = usePage().props.shoppingcartProducts.products;
+    const orderSubtotal = ref(0);
+    const orderTotal = ref(0);
+
+
     // Address Information
     const userCountry = ref(user.country) || ref('Costa Rica');
     const userCity = ref(user.city);
@@ -97,18 +104,52 @@
 
                         <div class="products-container">
 
-                            <div class="cart-header">
-                                <span>Product</span>
-                                <span>Currency</span>
-                                <span>Price</span>
-                                <span>Quantity</span>
-                                <span>Subtotal</span>
-                            </div>
-                            <div class="product-row">
-                                <div>
+                            <table class="product-table">
 
-                                </div>
-                            </div>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Name</th>
+                                        <th>Currency</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr v-for="product in products" :key="product.id">
+                                        <td>
+                                            <span class="product-image">
+                                                <img
+                                                    src="/assets/images/products/camarones.jpg">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ product.name }}
+                                        </td>
+                                        <td>
+                                            <select name="currency" v-if="product.prices.length > 0">
+                                                <option v-for="price in product.prices" :key="price.currency.id">
+                                                    {{ price.currency.currency_symbol }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            {{ product.prices.length > 0 ? product.prices[0].unit_price : 'N/A' }}
+                                        </td>
+                                        <td><input type="number" style="width: 80px;"></td>
+                                        <td>
+                                            {{ product.prices.length > 0 ? product.prices[0].unit_price : 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <n-icon><DeleteOutlineTwotone/></n-icon>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
 
                         </div>
 
@@ -119,7 +160,7 @@
                             </div>
                             <div class="resume-item">
                                 <span>Subtotal</span>
-                                <p>9000.00</p>
+                                <p>{{ orderSubtotal }}</p>
                             </div>
                             <div class="resume-item">
                                 <span>Total Discounts</span>
@@ -127,7 +168,7 @@
                             </div>
                             <div class="resume-item">
                                 <span>Total</span>
-                                <p>10000.00</p>
+                                <p>{{ orderTotal }}</p>
                             </div>
                             <Link
                                 id="checkout-btn"
@@ -136,6 +177,10 @@
                             >
                                 Proceed To Checkout
                             </Link>
+                        </div>
+
+                        <div>
+                            <p>{{ products }}</p>
                         </div>
 
                     </div>
@@ -258,20 +303,42 @@
         font-size: 28px;
     }
     .products-container {
-        display: flex;
-        flex-direction: column;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        /*border: 1px solid #ddd;*/
+        border: 1px solid #f7b267;
+        border-radius: 8px;
+        background-color: #fff;
     }
-    .cart-header {
-        display: flex;
-        justify-content: space-between;
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        min-width: 600px;
+    }
+    .product-table th,
+    .product-table td {
+        padding: 12px 15px;
+        text-align: left;
+        /*border: 1px solid #ddd;*/
+    }
+    .product-table th {
+        /*background-color: #f4f4f4;*/
         background-color: #f7b267;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        color: #fff;
+        font-weight: bold;
+    }
+    .product-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+        /*background-color: #f7b267;*/
+    }
+    .product-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    .product-image img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
     }
     .order-resume {
         display: flex;
