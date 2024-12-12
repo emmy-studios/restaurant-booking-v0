@@ -1,7 +1,7 @@
 <script setup>
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
-    import { ref, defineProps, reactive, computed } from 'vue';
+    import { ref, defineProps, reactive, computed, watch } from 'vue';
     import { usePage, Link } from '@inertiajs/vue3';
     import {
         NTimeline,
@@ -37,7 +37,9 @@
     // Extract Products Information
     const orderProducts = reactive(props.shoppingcartProducts.products);
     // Order Sumary
+    const orderItemSubtotal = ref(0);
     const orderSubtotal = ref(0);
+    const discountTotal = ref(0);
     const orderTotal = ref(0);
 
     // Currencies Array
@@ -62,31 +64,62 @@
     };
     // Create Order Items
     const orderItems = computed(() => {
-        return orderProducts.map((product) => {
-            // Obtener el precio más bajo de los precios disponibles
-            const selectedPrice = product.prices[0];
-            // Convertir la cantidad a un número si es necesario
-            const quantity = parseFloat(product.quantity) || 1;
-            const unitPrice = parseFloat(selectedPrice.unit_price);
-            // Calcular subtotal y total
-            const subtotal = unitPrice;
-            const total = unitPrice * quantity;
+    	return orderProducts.map((product) => {
+        	// Convertir la cantidad a un número si es necesario
+        	const quantity = parseFloat(product.quantity) || 1;
 
-            return {
-                id: product.id,
-                name: product.name,
-                description: product.description,
-                image_url: product.image_url,
-                quantity: quantity,
-                prices: product.prices.map((price) => ({
-                    currency: price.currency.currency_symbol,
-                    unit_price: parseFloat(price.unit_price),
-                })),
-                subtotal: subtotal,
-                total: total,
-            };
-        });
+        	// Crear un array de subtotales y totales basado en los precios y monedas
+        	const itemSubtotal = product.prices.map((price) => ({
+            	currency: price.currency.currency_symbol,
+            	number: parseFloat(price.unit_price) * quantity,
+        	}));
+
+        	const itemTotal = product.prices.map((price) => ({
+            	currency: price.currency.currency_symbol,
+            	number: parseFloat(price.unit_price) * quantity,
+        	}));
+
+            // Crear un array de descuentos basado en alguna lógica específica
+            const itemDiscounts = product.prices.map((price) => ({
+                currency: price.currency.currency_symbol,
+                //amount: calculateDiscount(parseFloat(price.unit_price), quantity),
+                amount: 0,
+            }));
+
+        	return {
+            	id: product.id,
+            	name: product.name,
+            	description: product.description,
+            	image_url: product.image_url,
+            	quantity: quantity,
+            	prices: product.prices.map((price) => ({
+                	currency: price.currency.currency_symbol,
+                	unit_price: parseFloat(price.unit_price),
+            	})),
+            	itemSubtotal: itemSubtotal,
+            	itemTotal: itemTotal,
+                itemDiscounts: itemDiscounts,
+        	};
+    	});
     });
+
+    // Update Subtotal
+    const updateProductSubtotal = (productID, inputValue) => {
+    const productToUpdate = orderItems.find(product => product.id === productID);
+
+    if (productToUpdate) {
+        const newSubtotal = parseFloat(inputValue); // Convertir el valor del input a número
+        if (!isNaN(newSubtotal) && newSubtotal >= 0) { // Validar que el valor es válido
+            productToUpdate.subtotal = newSubtotal;
+            console.log(`Subtotal updated successfully for product ID ${productID}: ${newSubtotal}`);
+        } else {
+            console.log("Invalid input value.");
+        }
+    } else {
+        console.log("Product not found.");
+    }
+};
+
 
     // Address Information
     const userCountry = ref(user.country) || ref('Costa Rica');
@@ -219,11 +252,20 @@
                                                 Not Available
                                             </span>
                                         </td>
-                                        <td><input type="number" style="width: 80px;"></td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                :value="product.subtotal"
+                                                @change="updateProductSubtotal(product.id, $event.target.value)"
+                                                placeholder="Enter new subtotal"
+                                                style="width: 80px;"
+                                            >
+
+                                        </td>
                                         <td>
                                             {{ product.subtotal }}
                                         </td>
-                                        <td>0</td>
+                                        <td>{{ product.total }}</td>
                                         <td>
                                             <n-icon @click="removeProduct(product.id)">
                                                 <DeleteOutlineTwotone/>
@@ -239,7 +281,7 @@
                         <div class="order-resume">
                             <div class="resume-item">
                                 <span>Currency</span>
-                                <p>USD $</p>
+                                <p>{{ selectedCurrency }}</p>
                             </div>
                             <div class="resume-item">
                                 <span>Subtotal</span>
@@ -264,6 +306,9 @@
 
                         <div>
                             <p>{{ orderItems }}</p>
+
+                            <p>---------------------------------------------</p>
+                            <p>{{ orderProducts }}</p>
                         </div>
 
                     </div>
