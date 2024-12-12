@@ -40,6 +40,7 @@
                 class="search-btn"
                 :href="`/${currentLocale}/products`"
                 :data="{ 'searchTerm': searchTerm }"
+                preserve-scroll
             >
                 Search
             </Link>
@@ -53,6 +54,7 @@
                     :href="`/${currentLocale}/products`"
                     :data="{ 'tagChoose': category.name }"
                     class="search-btn"
+                    preserve-scroll
                 >
                     {{ category.name }}
                 </Link>

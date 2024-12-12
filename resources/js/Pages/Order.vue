@@ -1,7 +1,7 @@
 <script setup>
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
-    import { ref, reactive } from 'vue';
+    import { ref, defineProps, reactive, computed } from 'vue';
     import { usePage, Link } from '@inertiajs/vue3';
     import {
         NTimeline,
@@ -29,11 +29,64 @@
     const { lastOrderCreated, user } = usePage().props;
     const status = ref(lastOrderCreated.order_status) || ref('Pending');
     // Shoppingcart Products
-    //const products = ref(shoppingcartProducts);
-    const products = usePage().props.shoppingcartProducts.products;
+    const props = defineProps(
+        [
+            'shoppingcartProducts',
+        ]
+    );
+    // Extract Products Information
+    const orderProducts = reactive(props.shoppingcartProducts.products);
+    // Order Sumary
     const orderSubtotal = ref(0);
     const orderTotal = ref(0);
 
+    // Currencies Array
+    const currencies = computed(() => {
+        const allCurrencies = orderProducts.flatMap(product =>
+            product.prices.map(price => price.currency.currency_symbol)
+        );
+        return [...new Set(allCurrencies)];
+    });
+    const selectedCurrency = ref('USD $');
+
+    // Remove Product From orderItems
+    const removeProduct = (productID) => {
+        const indexToRemove = orderProducts.findIndex(product => product.id === productID);
+
+        if (indexToRemove !== -1) {
+            orderProducts.splice(indexToRemove, 1);
+            console.log("Product removed successfully.");
+        } else {
+            console.log("Product not found.");
+        }
+    };
+    // Create Order Items
+    const orderItems = computed(() => {
+        return orderProducts.map((product) => {
+            // Obtener el precio más bajo de los precios disponibles
+            const selectedPrice = product.prices[0];
+            // Convertir la cantidad a un número si es necesario
+            const quantity = parseFloat(product.quantity) || 1;
+            const unitPrice = parseFloat(selectedPrice.unit_price);
+            // Calcular subtotal y total
+            const subtotal = unitPrice;
+            const total = unitPrice * quantity;
+
+            return {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                image_url: product.image_url,
+                quantity: quantity,
+                prices: product.prices.map((price) => ({
+                    currency: price.currency.currency_symbol,
+                    unit_price: parseFloat(price.unit_price),
+                })),
+                subtotal: subtotal,
+                total: total,
+            };
+        });
+    });
 
     // Address Information
     const userCountry = ref(user.country) || ref('Costa Rica');
@@ -102,6 +155,18 @@
                             </n-icon>
                         </div>
 
+                        <div class="currency-container">
+                            <span>Currency: </span>
+                            <select v-model="selectedCurrency">
+                                <option
+                                    v-for="(currency, index) in currencies"
+                                    :key="index"
+                                    :value="currency">
+                                    {{ currency }}
+                                </option>
+                            </select>
+                        </div>
+
                         <div class="products-container">
 
                             <table class="product-table">
@@ -114,37 +179,55 @@
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Subtotal</th>
+                                        <th>Total</th>
                                         <th></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr v-for="product in products" :key="product.id">
+                                    <tr v-for="product in orderItems" :key="product.id">
                                         <td>
                                             <span class="product-image">
                                                 <img
-                                                    src="/assets/images/products/camarones.jpg">
+                        :src="product.image_url ? `/storage/${product.image_url}` : '/assets/images/products/hamburger.png'">
                                             </span>
                                         </td>
                                         <td>
                                             {{ product.name }}
                                         </td>
                                         <td>
-                                            <select name="currency" v-if="product.prices.length > 0">
-                                                <option v-for="price in product.prices" :key="price.currency.id">
-                                                    {{ price.currency.currency_symbol }}
-                                                </option>
-                                            </select>
+                                            <span v-for="price in product.prices" :key="price.currency">
+                                                <span v-if="price.currency === selectedCurrency">
+                                                    {{ selectedCurrency }}
+                                                </span>
+                                            </span>
+                                            <span
+                                                v-if="!product.prices.some(price => price.currency === selectedCurrency)"
+                                            >
+                                                Not Available
+                                            </span>
                                         </td>
                                         <td>
-                                            {{ product.prices.length > 0 ? product.prices[0].unit_price : 'N/A' }}
+                                            <span v-for="price in product.prices" :key="price.currency">
+                                                <span v-if="price.currency === selectedCurrency">
+                                                    {{ price.unit_price }}
+                                                </span>
+                                            </span>
+                                            <span
+                                                v-if="!product.prices.some(price => price.currency === selectedCurrency)"
+                                            >
+                                                Not Available
+                                            </span>
                                         </td>
                                         <td><input type="number" style="width: 80px;"></td>
                                         <td>
-                                            {{ product.prices.length > 0 ? product.prices[0].unit_price : 'N/A' }}
+                                            {{ product.subtotal }}
                                         </td>
+                                        <td>0</td>
                                         <td>
-                                            <n-icon><DeleteOutlineTwotone/></n-icon>
+                                            <n-icon @click="removeProduct(product.id)">
+                                                <DeleteOutlineTwotone/>
+                                            </n-icon>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -180,7 +263,7 @@
                         </div>
 
                         <div>
-                            <p>{{ products }}</p>
+                            <p>{{ orderItems }}</p>
                         </div>
 
                     </div>
@@ -301,6 +384,10 @@
     .header-title h2 {
         font-weight: bold;
         font-size: 28px;
+    }
+    .currency-container {
+        display: flex;
+        gap: 10px;
     }
     .products-container {
         max-width: 100%;

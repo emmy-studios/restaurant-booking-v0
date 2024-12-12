@@ -89,11 +89,11 @@
                         :href="`/${currentLocale}/shoppingcart/add`"
                         method="post"
                         as="button"
+                        preserve-scroll
                         :data="{ 'product_id': product.id }"
                     >
                         Add to Cart
                     </Link>
-
 
                 </div>
             </div>

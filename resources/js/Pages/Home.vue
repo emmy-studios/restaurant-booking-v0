@@ -2,7 +2,7 @@
 
     // Translation Setup
     import { usePage } from "@inertiajs/vue3";
-    import { reactive } from 'vue';
+    import { reactive, defineProps } from 'vue';
 
     import {
         NButton,
@@ -20,10 +20,10 @@
 
     // Get Data Props
     const { translations, products } = usePage().props;
-    const { shoppingcartProducts } = usePage().props;
-    /*const shoppingcart = reactive({
-        shoppingcart: shoppingcartProducts || [],
-    });*/
+    //const { shoppingcartProducts } = usePage().props;
+
+    const props = defineProps(['shoppingcartProducts']);
+
 
 </script>
 
