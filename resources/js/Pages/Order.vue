@@ -77,7 +77,7 @@
             }));
 
             const itemTotal = product.prices.map((price) => ({
-                currency: price.currency.currency_symbol,
+                currency: price.currency,
                 number: parseFloat(price.unit_price) * quantity,
             }));
 
@@ -111,9 +111,20 @@
             }))
         })
     }
+
+    const updateTotals = () => {
+        orderItems.value.forEach(item => {
+            item.itemTotal = item.prices.map((price) => ({
+                currency: price.currency,
+                number: parseFloat(price.unit_price) * item.quantity,
+            }))
+        })
+    }
+
     watch(() => orderProducts.map(prod => prod.quantity), (newQuantities) => {
-        updateSubtotals()
-    })
+        updateSubtotals();
+        updateTotals();
+    });
 
     // --------------------------------------------------------------------
 
@@ -220,9 +231,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <!--<tr v-for="product in orderItems" :key="product.id">-->
                                     <tr v-for="(item, index) in orderItems" :key="item.id">
-
                                         <td>
                                             <span class="product-image">
                                                 <img
@@ -257,15 +266,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <!--<input
-                                                type="number"
-                                                v-model.number="product.quantity"
-                                                @input="calculateItemSubtotal(product)"
-                                                min="0"
-                                                placeholder="Enter quantity"
-                                                style="width: 80px;"
-                                            >-->
-
                                             <input
                                                 type="number"
                                                 v-model.number="orderProducts[index].quantity"
@@ -274,25 +274,21 @@
                                                 placeholder="Enter quantity"
                                                 style="width: 80px;"
                                             >
-
-
                                         </td>
                                         <td>
-                                            <!--<span v-for="(subtotal, key) in item.itemSubtotal" :key="key">
-                                                <span v-if="subtotal.currency === selectedCurrency">
-                                                    {{ subtotal.number }}
-                                                </span>
-                                            </span>-->
-
                                             <span v-for="(subtotal, key) in item.itemSubtotal" :key="key">
                                                 <span v-if="subtotal.currency === selectedCurrency">
                                                     {{ subtotal.number }} {{subtotal.symbol}}
                                                 </span>
                                             </span>
-
-
                                         </td>
-                                        <td>{{ item.total }}</td>
+                                        <td>
+                                            <span v-for="(total, key) in item.itemTotal" :key="key">
+                                                <span v-if="total.currency === selectedCurrency">
+                                                    {{ total.number }} {{total.symbol}}
+                                                </span>
+                                            </span>
+                                        </td>
                                         <td>
                                             <n-icon @click="removeProduct(item.id)">
                                                 <DeleteOutlineTwotone/>
