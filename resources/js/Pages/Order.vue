@@ -1,7 +1,7 @@
 <script setup>
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
-    import { ref, defineProps, reactive, computed, watch } from 'vue';
+    import { ref, defineProps, reactive, computed, onMounted, watch } from 'vue';
     import { usePage, Link } from '@inertiajs/vue3';
     import {
         NTimeline,
@@ -28,14 +28,11 @@
     // User Order
     const { lastOrderCreated, user } = usePage().props;
     const status = ref(lastOrderCreated.order_status) || ref('Pending');
+
     // Shoppingcart Products
-    const props = defineProps(
-        [
-            'shoppingcartProducts',
-        ]
-    );
-    // Extract Products Information
-    const orderProducts = reactive(props.shoppingcartProducts.products);
+    const props = defineProps(['shoppingcartProducts']);
+    const orderProducts = reactive([]);
+
     // Order Sumary
     const orderItemSubtotal = ref(0);
     const orderSubtotal = ref(0);
@@ -63,62 +60,62 @@
         }
     };
     // Create Order Items
+    onMounted(() => {
+        // Clonar el array de productos de las props y hacerlo reactivo
+        props.shoppingcartProducts.products.forEach(product => {
+            orderProducts.push(reactive({ ...product, quantity: product.quantity || 1, itemSubtotal: []}));
+        });
+    });
+
     const orderItems = computed(() => {
-    	return orderProducts.map((product) => {
-        	// Convertir la cantidad a un número si es necesario
-        	const quantity = parseFloat(product.quantity) || 1;
+        return orderProducts.map((product) => {
+            const quantity = parseFloat(product.quantity) || 1;
 
-        	// Crear un array de subtotales y totales basado en los precios y monedas
-        	const itemSubtotal = product.prices.map((price) => ({
-            	currency: price.currency.currency_symbol,
-            	number: parseFloat(price.unit_price) * quantity,
-        	}));
+            const itemSubtotal = product.prices.map((price) => ({
+                currency: price.currency,
+                number: parseFloat(price.unit_price) * quantity,
+            }));
 
-        	const itemTotal = product.prices.map((price) => ({
-            	currency: price.currency.currency_symbol,
-            	number: parseFloat(price.unit_price) * quantity,
-        	}));
+            const itemTotal = product.prices.map((price) => ({
+                currency: price.currency.currency_symbol,
+                number: parseFloat(price.unit_price) * quantity,
+            }));
 
-            // Crear un array de descuentos basado en alguna lógica específica
             const itemDiscounts = product.prices.map((price) => ({
                 currency: price.currency.currency_symbol,
-                //amount: calculateDiscount(parseFloat(price.unit_price), quantity),
                 amount: 0,
             }));
 
-        	return {
-            	id: product.id,
-            	name: product.name,
-            	description: product.description,
-            	image_url: product.image_url,
-            	quantity: quantity,
-            	prices: product.prices.map((price) => ({
-                	currency: price.currency.currency_symbol,
-                	unit_price: parseFloat(price.unit_price),
-            	})),
-            	itemSubtotal: itemSubtotal,
-            	itemTotal: itemTotal,
+            return {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                image_url: product.image_url,
+                quantity: quantity,
+                prices: product.prices.map((price) => ({
+                    currency: price.currency.currency_symbol,
+                    unit_price: parseFloat(price.unit_price),
+                })),
+                itemSubtotal: itemSubtotal,
+                itemTotal: itemTotal,
                 itemDiscounts: itemDiscounts,
-        	};
-    	});
+            };
+        });
     });
 
-    // Update Subtotal
-    const updateProductSubtotal = (productID, inputValue) => {
-    const productToUpdate = orderItems.find(product => product.id === productID);
-
-    if (productToUpdate) {
-        const newSubtotal = parseFloat(inputValue); // Convertir el valor del input a número
-        if (!isNaN(newSubtotal) && newSubtotal >= 0) { // Validar que el valor es válido
-            productToUpdate.subtotal = newSubtotal;
-            console.log(`Subtotal updated successfully for product ID ${productID}: ${newSubtotal}`);
-        } else {
-            console.log("Invalid input value.");
-        }
-    } else {
-        console.log("Product not found.");
+    const updateSubtotals = () => {
+        orderItems.value.forEach(item => {
+            item.itemSubtotal = item.prices.map((price) => ({
+                currency: price.currency,
+                number: parseFloat(price.unit_price) * item.quantity,
+            }))
+        })
     }
-};
+    watch(() => orderProducts.map(prod => prod.quantity), (newQuantities) => {
+        updateSubtotals()
+    })
+
+    // --------------------------------------------------------------------
 
 
     // Address Information
@@ -131,6 +128,11 @@
 
     const changeStatus = (data) => {
         data = 'Completed';
+    };
+
+    const quantity = ref(0);
+    const getQuantity = () => {
+        alert(quantity.value);
     };
 
 </script>
@@ -218,56 +220,81 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr v-for="product in orderItems" :key="product.id">
+                                    <!--<tr v-for="product in orderItems" :key="product.id">-->
+                                    <tr v-for="(item, index) in orderItems" :key="item.id">
+
                                         <td>
                                             <span class="product-image">
                                                 <img
-                        :src="product.image_url ? `/storage/${product.image_url}` : '/assets/images/products/hamburger.png'">
+                        :src="item.image_url ? `/storage/${item.image_url}` : '/assets/images/products/hamburger.png'">
                                             </span>
                                         </td>
                                         <td>
-                                            {{ product.name }}
+                                            {{ item.name }}
                                         </td>
                                         <td>
-                                            <span v-for="price in product.prices" :key="price.currency">
+                                            <span v-for="price in item.prices" :key="price.currency">
                                                 <span v-if="price.currency === selectedCurrency">
                                                     {{ selectedCurrency }}
                                                 </span>
                                             </span>
                                             <span
-                                                v-if="!product.prices.some(price => price.currency === selectedCurrency)"
+                                                v-if="!item.prices.some(price => price.currency === selectedCurrency)"
                                             >
                                                 Not Available
                                             </span>
                                         </td>
                                         <td>
-                                            <span v-for="price in product.prices" :key="price.currency">
+                                            <span v-for="price in item.prices" :key="price.currency">
                                                 <span v-if="price.currency === selectedCurrency">
                                                     {{ price.unit_price }}
                                                 </span>
                                             </span>
                                             <span
-                                                v-if="!product.prices.some(price => price.currency === selectedCurrency)"
+                                                v-if="!item.prices.some(price => price.currency === selectedCurrency)"
                                             >
                                                 Not Available
                                             </span>
                                         </td>
                                         <td>
+                                            <!--<input
+                                                type="number"
+                                                v-model.number="product.quantity"
+                                                @input="calculateItemSubtotal(product)"
+                                                min="0"
+                                                placeholder="Enter quantity"
+                                                style="width: 80px;"
+                                            >-->
+
                                             <input
                                                 type="number"
-                                                :value="product.subtotal"
-                                                @change="updateProductSubtotal(product.id, $event.target.value)"
-                                                placeholder="Enter new subtotal"
+                                                v-model.number="orderProducts[index].quantity"
+                                                @input="updateSubtotals"
+                                                min="0"
+                                                placeholder="Enter quantity"
                                                 style="width: 80px;"
                                             >
 
+
                                         </td>
                                         <td>
-                                            {{ product.subtotal }}
+                                            <!--<span v-for="(subtotal, key) in item.itemSubtotal" :key="key">
+                                                <span v-if="subtotal.currency === selectedCurrency">
+                                                    {{ subtotal.number }}
+                                                </span>
+                                            </span>-->
+
+                                            <span v-for="(subtotal, key) in item.itemSubtotal" :key="key">
+                                                <span v-if="subtotal.currency === selectedCurrency">
+                                                    {{ subtotal.number }} {{subtotal.symbol}}
+                                                </span>
+                                            </span>
+
+
                                         </td>
-                                        <td>{{ product.total }}</td>
+                                        <td>{{ item.total }}</td>
                                         <td>
-                                            <n-icon @click="removeProduct(product.id)">
+                                            <n-icon @click="removeProduct(item.id)">
                                                 <DeleteOutlineTwotone/>
                                             </n-icon>
                                         </td>
