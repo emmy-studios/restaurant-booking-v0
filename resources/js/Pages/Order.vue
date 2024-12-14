@@ -30,14 +30,10 @@
     const status = ref(lastOrderCreated.order_status) || ref('Pending');
 
     // Shoppingcart Products
-    const props = defineProps(['shoppingcartProducts']);
+    const props = defineProps(['shoppingcartProducts', 'productDiscounts']);
     const orderProducts = reactive([]);
 
-    // Order Sumary
-    const orderItemSubtotal = ref(0);
-    const orderSubtotal = ref(0);
-    const discountTotal = ref(0);
-    const orderTotal = ref(0);
+
 
     // Currencies Array
     const currencies = computed(() => {
@@ -59,6 +55,30 @@
             console.log("Product not found.");
         }
     };
+
+    // Get Discounts
+    const itemsDiscounts = computed(() => { // itemsDiscounts se define PRIMERO
+        return props.productDiscounts.flatMap(discount => {
+            return discount.products.map(product => ({
+                id: discount.id,
+                product_id: product.id,
+                discount_code: discount.discount_code,
+                discount_percentage: parseFloat(discount.discount_percentage) / 100,
+            }));
+        });
+    });
+
+    const productDiscountsMap = computed(() => { // productDiscountsMap se define DESPUÉS
+        const discountsMap = {};
+        itemsDiscounts.value.forEach(discount => { // Ahora itemsDiscounts.value está definido
+            if (!discountsMap[discount.product_id]) {
+                discountsMap[discount.product_id] = [];
+            }
+            discountsMap[discount.product_id].push(discount);
+        });
+        return discountsMap;
+    });
+
     // Create Order Items
     onMounted(() => {
         // Clonar el array de productos de las props y hacerlo reactivo
@@ -76,15 +96,21 @@
                 number: parseFloat(price.unit_price) * quantity,
             }));
 
-            const itemTotal = product.prices.map((price) => ({
-                currency: price.currency,
-                number: parseFloat(price.unit_price) * quantity,
-            }));
+            const productDiscounts = productDiscountsMap.value[product.id] || [];
+            let totalDiscountPercentage = 0;
 
-            const itemDiscounts = product.prices.map((price) => ({
-                currency: price.currency.currency_symbol,
-                amount: 0,
-            }));
+            productDiscounts.forEach(discount => {
+                totalDiscountPercentage += discount.discount_percentage;
+            });
+
+            const itemTotal = product.prices.map((price) => {
+                let finalPrice = parseFloat(price.unit_price) * quantity;
+                finalPrice -= finalPrice * totalDiscountPercentage; // Aplicar el descuento total
+                return {
+                    currency: price.currency,
+                    number: finalPrice,
+                };
+            });
 
             return {
                 id: product.id,
@@ -98,7 +124,6 @@
                 })),
                 itemSubtotal: itemSubtotal,
                 itemTotal: itemTotal,
-                itemDiscounts: itemDiscounts,
             };
         });
     });
@@ -114,20 +139,74 @@
 
     const updateTotals = () => {
         orderItems.value.forEach(item => {
-            item.itemTotal = item.prices.map((price) => ({
-                currency: price.currency,
-                number: parseFloat(price.unit_price) * item.quantity,
-            }))
-        })
-    }
+            const productDiscounts = productDiscountsMap.value[item.id] || [];
+            let totalDiscountPercentage = 0;
+
+            productDiscounts.forEach(discount => {
+                totalDiscountPercentage += discount.discount_percentage;
+            });
+
+            item.itemTotal = item.prices.map((price) => {
+                let finalPrice = parseFloat(price.unit_price) * item.quantity;
+                finalPrice -= finalPrice * totalDiscountPercentage;
+                return {
+                    currency: price.currency,
+                    number: finalPrice,
+                };
+            });
+        });
+    };
 
     watch(() => orderProducts.map(prod => prod.quantity), (newQuantities) => {
         updateSubtotals();
         updateTotals();
     });
 
-    // --------------------------------------------------------------------
+    // Order Summary
+    const orderSummary = computed(() => {
+        const summary = {
+            subtotal: [],
+            total: [],
+            totalDiscounts: [],
+        };
 
+        orderItems.value.forEach(item => {
+            item.itemSubtotal.forEach(subtotal => {
+                const existingSubtotal = summary.subtotal.find(s => s.currency === subtotal.currency);
+                if (existingSubtotal) {
+                    existingSubtotal.amount += subtotal.number;
+                } else {
+                    summary.subtotal.push({ currency: subtotal.currency, amount: subtotal.number });
+                }
+            });
+
+            item.itemTotal.forEach(total => {
+                const existingTotal = summary.total.find(t => t.currency === total.currency);
+                if (existingTotal) {
+                    existingTotal.amount += total.number;
+                } else {
+                    summary.total.push({ currency: total.currency, amount: total.number });
+                }
+            });
+
+            item.prices.forEach(price => {
+                const originalPrice = parseFloat(price.unit_price) * item.quantity;
+                const discountedPrice = item.itemTotal.find(total => total.currency === price.currency).number;
+                const discountAmount = originalPrice - discountedPrice;
+
+                const existingDiscount = summary.totalDiscounts.find(d => d.currency === price.currency);
+
+                if(existingDiscount){
+                    existingDiscount.amount += discountAmount;
+                }else{
+                    summary.totalDiscounts.push({currency: price.currency, amount: discountAmount})
+                }
+            })
+
+        });
+
+        return summary;
+    });
 
     // Address Information
     const userCountry = ref(user.country) || ref('Costa Rica');
@@ -308,15 +387,21 @@
                             </div>
                             <div class="resume-item">
                                 <span>Subtotal</span>
-                                <p>{{ orderSubtotal }}</p>
+                                <template v-for="(subtotal, index) in orderSummary.subtotal" :key="index">
+                                    <p v-if="subtotal.currency === selectedCurrency">{{ subtotal.amount }}</p>
+                                </template>
                             </div>
                             <div class="resume-item">
                                 <span>Total Discounts</span>
-                                <p>890.00</p>
+                                <template v-for="(discount, index) in orderSummary.totalDiscounts" :key="index">
+                                    <p v-if="discount.currency === selectedCurrency">{{ discount.amount }}</p>
+                                </template>
                             </div>
                             <div class="resume-item">
                                 <span>Total</span>
-                                <p>{{ orderTotal }}</p>
+                                <template v-for="(total, index) in orderSummary.total" :key="index">
+                                    <p v-if="total.currency === selectedCurrency">{{ total.amount }}</p>
+                                </template>
                             </div>
                             <Link
                                 id="checkout-btn"
@@ -325,13 +410,6 @@
                             >
                                 Proceed To Checkout
                             </Link>
-                        </div>
-
-                        <div>
-                            <p>{{ orderItems }}</p>
-
-                            <p>---------------------------------------------</p>
-                            <p>{{ orderProducts }}</p>
                         </div>
 
                     </div>

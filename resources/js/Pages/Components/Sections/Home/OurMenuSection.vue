@@ -60,7 +60,6 @@
                 <p>
                     {{ truncateText(product.description, 30) }}
                 </p>
-                <!--<span>$60</span>-->
 
                 <div style="display: flex; color: #fff; gap: 10px; justify-content: space-between;">
 
@@ -79,12 +78,9 @@
                     >
                         Details
                     </n-button>
-                    <!-- Add to Cart  -->
-                    <!--<n-button type="primary" @click="addToCart(product.id)">
-                        <n-icon><AddShoppingCartFilled/></n-icon>
-                    </n-button>-->
 
                     <Link
+                        v-if="$page.props.auth.isLoggedIn"
                         style="background-color: red; color: #fff;"
                         :href="`/${currentLocale}/shoppingcart/add`"
                         method="post"
@@ -108,10 +104,6 @@
                 >
                     <template #header-extra>
                         <div class="header-actions">
-                            <!--<n-button color="#E77917">
-                                <n-icon><AddShoppingCartFilled/></n-icon>
-                                Add to Cart
-                            </n-button>-->
                             <n-button
                                 type="secondary"
                                 @click="showModal = false"
@@ -140,7 +132,6 @@
         </div>
 
         <div class="grid-footer">
-            <!--<a href="#">Explore More</a>-->
             <Link :href="`/${currentLocale}/products`">Explore More</Link>
         </div>
 

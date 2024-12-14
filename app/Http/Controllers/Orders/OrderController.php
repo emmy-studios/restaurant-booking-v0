@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Orders\Order;
 use App\Models\Shoppingcarts\Shoppingcart;
+use App\Models\Discounts\Discount;
 
 class OrderController extends Controller
 {
@@ -31,14 +32,15 @@ class OrderController extends Controller
             ->with(['products.prices.currency'])
             ->first();
 
-        // Change Order Status
-
+        // Get Products Discounts
+        $productDiscounts = Discount::with('products')->get();
 
         return Inertia::render('Order',
             [
                 'lastOrderCreated' => $lastOrderCreated,
                 'user' => $user,
                 'shoppingcartProducts' => $shoppingcartProducts,
+                'productDiscounts' => $productDiscounts,
             ]);
     }
 

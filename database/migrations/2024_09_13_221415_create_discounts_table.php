@@ -6,9 +6,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration 
+return new class extends Migration
 {
-    /**  
+    /**
      * Run the migrations.
      */
     public function up(): void
@@ -23,10 +23,8 @@ return new class extends Migration
             $table->string('banner_image')->nullable();
             $table->text('description')->nullable();
             $table->text('additional_details')->nullable();
-            $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
-            $table->decimal('amount', 10, 2)->nullable();
             $table->timestamps();
-        }); 
+        });
     }
 
     /**

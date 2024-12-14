@@ -124,14 +124,14 @@ class DiscountResource extends Resource
             'view' => Pages\ViewDiscount::route('/{record}'),
             'edit' => Pages\EditDiscount::route('/{record}/edit'),
         ];
-    } 
+    }
 
     // Translate Navigation Label.
     public static function getNavigationLabel(): string
     {
         return __('models.discounts');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
