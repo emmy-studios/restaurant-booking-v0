@@ -412,6 +412,13 @@
                             </Link>
                         </div>
 
+
+                        <div>
+                            <p>{{ orderItems }}</p>
+                            <p>------------------------------------------</p>
+                            <p>{{ orderSummary }}</p>
+                        </div>
+
                     </div>
 
                     <div class="pending-actions">

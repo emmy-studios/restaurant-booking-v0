@@ -1,8 +1,16 @@
 <script setup>
 
-    import { ref } from "vue";
+    import { ref, reactive } from "vue";
     import { Link, usePage } from "@inertiajs/vue3";
-    import { NIcon } from "naive-ui";
+    import {
+        NIcon,
+        NButton,
+        NTooltip,
+        NDrawer,
+        NDrawerContent,
+        NModal,
+        NCard,
+    } from "naive-ui";
     import {
         MenuOutlined,
         TagFacesSharp,
@@ -29,10 +37,13 @@
         AssignmentRound,
         PaymentsFilled,
         AutoStoriesFilled,
+        CircleNotificationsFilled
     } from "@vicons/material";
 
     // Get Current Locale
     const { locale } = usePage().props;
+    const notifications = ref(usePage().props.notifications.length);
+    const userNotifications = reactive(usePage().props.notifications);
 
     // Sidebar Reactive Variable
     const isSidebarHidden = ref(window.innerWidth < 768);
@@ -57,6 +68,27 @@
             default: 0
         }
     });
+    // Notifications Drawer
+    const active = ref(false);
+    const placement = ref("left");
+    const activate = (place) => {
+      active.value = true;
+      placement.value = place;
+    };
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
+    // Notification Modal
+    const showModal = ref(false);
+    const selectedNotification = ref(null);
+    const openModal = (notification) => {
+        selectedNotification.value = notification;
+        showModal.value = true;
+    };
 
 </script>
 
@@ -69,51 +101,93 @@
     >
         <Link :href="`/${locale}/dashboard`" class="brand">
             <n-icon class="bx"><TagFacesSharp/></n-icon>
-            <span class="text">Customer</span>
+            <span class="text">Admin</span>
 		</Link>
 
         <ul class="side-menu top">
 
             <li>
-                <Link :href="`/${locale}/`">
-                    <n-icon class="bx"><HomeFilled/></n-icon>
-                    <span class="text">Home</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/`">
+                            <n-icon class="bx"><HomeFilled/></n-icon>
+                            <span class="text">Home</span>
+				        </Link>
+                    </template>
+                    Home
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Dashboard' }">
-                <Link :href="`/${locale}/dashboard`">
-                    <n-icon class="bx"><DashboardCustomizeFilled/></n-icon>
-                    <span class="text">Dashboard</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/dashboard`">
+                            <n-icon class="bx"><DashboardCustomizeFilled/></n-icon>
+                            <span class="text">Dashboard</span>
+				        </Link>
+                    </template>
+                    Dashboard
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Profile' }">
-                <Link :href="`/${locale}/profile`">
-                    <n-icon class="bx"><CoPresentFilled/></n-icon>
-                    <span class="text">Profile</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/profile`">
+                            <n-icon class="bx"><CoPresentFilled/></n-icon>
+                            <span class="text">Profile</span>
+				        </Link>
+                    </template>
+                    Profile
+                </n-tooltip>
+			</li>
+
+            <li :class="{ active: activePage === 'Notifications' }">
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/notifications`">
+                            <n-icon class="bx"><CircleNotificationsFilled/></n-icon>
+                            <span class="text">Notifications</span>
+				        </Link>
+                    </template>
+                    Notifications
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Edit Profile' }">
-                <Link :href="`/${locale}/edit-profile`">
-                    <n-icon class="bx"><EditFilled/></n-icon>
-                    <span class="text">Edit Profile</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/edit-profile`">
+                            <n-icon class="bx"><EditFilled/></n-icon>
+                            <span class="text">Edit Profile</span>
+				        </Link>
+                    </template>
+                    Edit Profile
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Order' }">
-                <Link :href="`/${locale}/order`">
-                    <n-icon class="bx"><RamenDiningFilled/></n-icon>
-                    <span class="text">Order</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/order`">
+                            <n-icon class="bx"><RamenDiningFilled/></n-icon>
+                            <span class="text">Order</span>
+				        </Link>
+                    </template>
+                    Order
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Orders' }">
-                <Link :href="`/${locale}/orders`">
-                    <n-icon class="bx"><AssignmentRound/></n-icon>
-                    <span class="text">Orders</span>
-				</Link>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/orders`">
+                            <n-icon class="bx"><AssignmentRound/></n-icon>
+                            <span class="text">Orders</span>
+				        </Link>
+                    </template>
+                    Orders
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Analytics' }">
@@ -140,10 +214,15 @@
 				</a>
 			</li>
 			<li>
-				<a href="#" class="logout">
-                    <n-icon class="bx"><ArrowCircleLeftFilled/></n-icon>
-                    <Link class="text" :href="`/${locale}/logout`">Logout</Link>
-				</a>
+				<n-tooltip trigger="hover">
+                    <template #trigger>
+                        <a href="#" class="logout">
+                            <n-icon class="bx"><ArrowCircleLeftFilled/></n-icon>
+                            <Link class="text" :href="`/${locale}/logout`">Logout</Link>
+				        </a>
+                    </template>
+                    Logout
+                </n-tooltip>
 			</li>
 		</ul>
 	</section>
@@ -154,27 +233,95 @@
 
         <!-- NAVBAR -->
 		<nav>
-            <n-icon @click="toggleSidebar">
+
+            <n-icon @click="toggleSidebar" class="bx">
                 <MenuOutlined/>
             </n-icon>
-			<input
-                type="checkbox"
-                id="switch-mode"
-                hidden
-            >
-            <label for="switch-mode" class="switch-mode"></label>
-            <a href="#" class="profile">
-                <img src="/assets/images/panels/admin_profile.png">
-            </a>
-            <a href="#" class="notification">
+
+            <a class="notification" @click="activate('left')" style="cursor: pointer;">
                 <n-icon class="bx">
                     <NotificationsActiveFilled/>
                 </n-icon>
                 <span class="num">{{ notifications }}</span>
-			</a>
-			<!--<a href="#" class="profile">
-                <img src="/assets/images/panels/admin_profile.png">
-            </a>-->
+
+                <!-- Notifications Drawer -->
+                <n-drawer
+                    v-model:show="active"
+                    :width="300"
+                    :default-width="502"
+                    :placement="placement"
+                    resizable
+                >
+                    <n-drawer-content title="Notifications" closable>
+                        <div
+                            v-if="notifications === 0"
+                            class="notifications-empty"
+                        >
+                            <div class="notifications-image">
+                                <img src="/assets/images/system/notification.svg">
+                            </div>
+                            <div class="empty-text">
+                                <p>No notifications right now!</p>
+                            </div>
+                        </div>
+
+                        <div
+                            v-else
+                            v-for="notification in userNotifications"
+                            :key="notification.id"
+                            class="notifications-container"
+                        >
+                            <div class="notification-icon">
+                                <img src="/assets/images/system/notification_icon.svg">
+                            </div>
+                            <div class="notification-message">
+                                <h2>{{ notification.title }}</h2>
+                                <p>{{ notification.message }}</p>
+                            </div>
+                            <div class="notification-actions">
+                                <p>Date: {{ formatDate(notification.created_at) }}</p>
+                                <!--<n-button
+                                    color="#8a2be2"
+                                    type=primary
+                                    @click="openModal(notification)"
+                                >
+                                    Details
+                                </n-button>-->
+                                <Link @click="openModal(notification)" :href="`/${locale}/notifications`">
+                                    Details
+                                </Link>
+                                <!-- Modal -->
+                                <n-modal v-model:show="showModal">
+                                    <n-card
+                                        style="width: 600px"
+                                        title="Modal"
+                                        :bordered="false"
+                                        size="huge"
+                                        role="dialog"
+                                        aria-modal="true"
+                                    >
+                                        <template #header-extra>
+                                            Oops!
+                                        </template>
+                                        <p>{{ selectedNotification.message }}</p>
+                                        <template #footer>
+                                            Footer
+                                        </template>
+                                    </n-card>
+                                </n-modal>
+                                <!-- Modal -->
+                            </div>
+                        </div>
+                        <div class="link-container">
+                            <Link :href="`/${locale}/notifications`">
+                                View All
+                            </Link>
+                        </div>
+                    </n-drawer-content>
+                </n-drawer>
+
+            </a>
+
 		</nav>
 		<!-- NAVBAR -->
 
@@ -372,15 +519,10 @@
 		cursor: pointer;
 		color: #342E37;
 	}
-	#content nav .nav-link {
-		font-size: 16px;
-		transition: .3s ease;
-	}
-	#content nav .nav-link:hover {
-		color: #3C91E6;
-	}
 	#content nav .notification {
-		font-size: 20px;
+		font-size: 24px;
+        display: flex;
+        align-items: center;
 		position: relative;
 	}
 	#content nav .notification .num {
@@ -404,29 +546,6 @@
 		height: 36px;
 		object-fit: cover;
 		border-radius: 50%;
-	}
-	#content nav .switch-mode {
-		display: block;
-		min-width: 50px;
-		height: 25px;
-		border-radius: 25px;
-		background: #eee;
-		cursor: pointer;
-		position: relative;
-	}
-	#content nav .switch-mode::before {
-		content: '';
-		position: absolute;
-		top: 2px;
-		left: 2px;
-		bottom: 2px;
-		width: calc(25px - 4px);
-		background: #3C91E6;
-		border-radius: 50%;
-		transition: all .3s ease;
-	}
-	#content nav #switch-mode:checked + .switch-mode::before {
-		left: calc(100% - (25px - 4px) - 2px);
 	}
 	/* NAVBAR */
 
@@ -480,6 +599,74 @@
 		font-weight: 500;
 	}
     /* MAIN SECTION */
+
+    /* NOTIFICATIONS SECTION */
+    .notifications-empty {
+        display: flex;
+        flex-direction: column;
+    }
+    .notifications-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .notifications-image img {
+        width: 50%;
+        height: 50%;
+    }
+    .empty-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .empty-text p {
+        font-weight: bold;
+        text-transform: capitalize;
+        padding-top: 20px;
+    }
+    .notifications-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #d8e2dc;
+        padding: 10px 10px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+    .notification-icon {
+        display: flex;
+        padding-bottom: 10px;
+    }
+    .notification-icon img {
+        width: 10%;
+        height: 10%;
+    }
+    .notification-message {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .notification-message h2 {
+        font-weight: bold;
+    }
+    .notification-actions {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        align-items: center;
+    }
+    .notification-actions p {
+        color: gray;
+        font-size: 13px;
+    }
+    .link-container {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 10px;
+    }
+    .link-container a {
+        font-weight: bold;
+    }
+    /* NOTIFICATIONS SECTION */
 
     /* RESPONSIVE DESIGN */
     @media screen and (max-width: 768px) {

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\UserNotification;
 
 class DashboardController extends Controller
 {
@@ -32,6 +33,16 @@ class DashboardController extends Controller
     {
 
         return Inertia::render('Accounts/EditProfile');
+    }
+
+    public function notifications()
+    {
+        $user = Auth::user();
+        $notifications = UserNotification::where('user_id', $user->id)->get();
+
+        return Inertia::render('Accounts/Notifications', [
+            'notifications' => $notifications,
+        ]);
     }
 
 }

@@ -17,13 +17,13 @@ class PriceResource extends Resource
 {
     protected static ?string $model = Price::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar'; 
+    protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar';
 
     protected static ?string $navigationLabel = null;
- 
+
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -37,7 +37,7 @@ class PriceResource extends Resource
                     ->relationship('currency', 'currency_symbol')
                     ->label(__('models.currency'))
                     ->required(),
-                Forms\Components\TextInput::make('unit_price') 
+                Forms\Components\TextInput::make('unit_price')
                     ->required()
                     ->label(__('models.unit_price'))
                     ->numeric(),
@@ -107,7 +107,7 @@ class PriceResource extends Resource
     {
         return __('models.prices');
     }
-  
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

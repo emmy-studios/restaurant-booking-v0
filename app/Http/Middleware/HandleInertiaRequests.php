@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use App\Models\User;
+use App\Models\UserNotification;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -41,6 +43,9 @@ class HandleInertiaRequests extends Middleware
                 'isLoggedIn' => auth()->check(),
             ],
             'locale' => app()->getLocale(),
+            'notifications' => auth()->check()
+                ? UserNotification::where('user_id', Auth::user()->id)->get()
+                : [],
         ]);
     }
 }

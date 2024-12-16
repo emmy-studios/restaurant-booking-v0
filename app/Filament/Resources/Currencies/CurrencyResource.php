@@ -25,7 +25,7 @@ class CurrencyResource extends Resource
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -64,7 +64,7 @@ class CurrencyResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime() 
+                    ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -115,10 +115,10 @@ class CurrencyResource extends Resource
     {
         return __('models.currencies');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.currencies');
+        return __('models.products');
     }
 }

@@ -4,7 +4,6 @@ use App\Http\Controllers\Core\CoreController;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 use App\Http\Controllers\Accounts\AuthenticationController;
 use App\Http\Controllers\Teams\TeamsController;
 use App\Http\Controllers\Accounts\DashboardController;
@@ -43,6 +42,7 @@ Route::prefix('{locale}')
        	// Dashboard Routes
        	Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+        Route::get('/notifications', [DashboardController::class, 'notifications'])->name('user.notifications');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         // Teams
         Route::get('/teams', [TeamsController::class, 'teams'])->name('teams');
