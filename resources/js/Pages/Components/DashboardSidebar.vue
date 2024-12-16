@@ -8,8 +8,6 @@
         NTooltip,
         NDrawer,
         NDrawerContent,
-        NModal,
-        NCard,
     } from "naive-ui";
     import {
         MenuOutlined,
@@ -81,6 +79,14 @@
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const year = d.getFullYear();
         return `${day}-${month}-${year}`;
+    };
+    // Truncate Notification Text
+    function truncateMessage(text, length = 70) {
+        return text.length > length ? text.substring(0, length) + '...' : text;
+    };
+    // Truncate Notification Title
+    function truncateTitle(text, length = 70) {
+        return text.length > length ? text.substring(0, length) + '...' : text;
     };
     // Notification Modal
     const showModal = ref(false);
@@ -275,41 +281,11 @@
                                 <img src="/assets/images/system/notification_icon.svg">
                             </div>
                             <div class="notification-message">
-                                <h2>{{ notification.title }}</h2>
-                                <p>{{ notification.message }}</p>
+                                <h2>{{ truncateTitle(notification.title) }}</h2>
+                                <p>{{ truncateMessage(notification.message) }}</p>
                             </div>
-                            <div class="notification-actions">
+                            <div class="notification-date">
                                 <p>Date: {{ formatDate(notification.created_at) }}</p>
-                                <!--<n-button
-                                    color="#8a2be2"
-                                    type=primary
-                                    @click="openModal(notification)"
-                                >
-                                    Details
-                                </n-button>-->
-                                <Link @click="openModal(notification)" :href="`/${locale}/notifications`">
-                                    Details
-                                </Link>
-                                <!-- Modal -->
-                                <n-modal v-model:show="showModal">
-                                    <n-card
-                                        style="width: 600px"
-                                        title="Modal"
-                                        :bordered="false"
-                                        size="huge"
-                                        role="dialog"
-                                        aria-modal="true"
-                                    >
-                                        <template #header-extra>
-                                            Oops!
-                                        </template>
-                                        <p>{{ selectedNotification.message }}</p>
-                                        <template #footer>
-                                            Footer
-                                        </template>
-                                    </n-card>
-                                </n-modal>
-                                <!-- Modal -->
                             </div>
                         </div>
                         <div class="link-container">
@@ -648,13 +624,11 @@
     .notification-message h2 {
         font-weight: bold;
     }
-    .notification-actions {
+    .notification-date {
         display: flex;
-        justify-content: space-between;
         padding-top: 10px;
-        align-items: center;
     }
-    .notification-actions p {
+    .notification-date p {
         color: gray;
         font-size: 13px;
     }
