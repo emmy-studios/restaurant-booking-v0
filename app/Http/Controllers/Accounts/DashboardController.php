@@ -14,13 +14,11 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-
         return Inertia::render('Accounts/Dashboard');
     }
 
     public function profile()
     {
-
         // Get User Info
         $user = Auth::user();
 
@@ -31,7 +29,6 @@ class DashboardController extends Controller
 
     public function editProfile()
     {
-
         return Inertia::render('Accounts/EditProfile');
     }
 
@@ -42,6 +39,17 @@ class DashboardController extends Controller
 
         return Inertia::render('Accounts/Notifications', [
             'notifications' => $notifications,
+        ]);
+    }
+
+    public function notification(Request $request)
+    {
+        $notificationId = request()->route()->parameter('notificationId');
+        $notificationId = (int) $notificationId;
+        $notificationDetails = UserNotification::where('id', $notificationId)->firstOrFail();
+
+        return Inertia::render('Accounts/Notification', [
+            'notificationDetails' => $notificationDetails,
         ]);
     }
 

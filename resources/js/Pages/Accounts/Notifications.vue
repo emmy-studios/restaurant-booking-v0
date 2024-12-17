@@ -1,12 +1,15 @@
 <script setup>
 
-    import { ref, reactive } from "vue";
+    //import { ref, reactive } from "vue";
     import { Link, usePage } from "@inertiajs/vue3";
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
-    import { NIcon, NModal, NCard, NButton } from 'naive-ui';
+    import { NIcon, NButton } from 'naive-ui';
     import { RemoveRedEyeFilled } from '@vicons/material';
 
     // Notification Information
+    // Get Current Locale
+    const { locale } = usePage().props;
+    const currentLocale = locale || 'en';
     const { notifications } = usePage().props;
     const formatDate = (date) => {
         const d = new Date(date);
@@ -22,16 +25,6 @@
     // Truncate Notification Title
     function truncateTitle(text, length = 70) {
         return text.length > length ? text.substring(0, length) + '...' : text;
-    };
-    // Notification Modal
-    const showModal = ref(false)
-    const selectedNotification = ref(null);
-    const openModal = (notification) => {
-        selectedNotification.value = notification;
-        showModal.value = true;
-    };
-    const changeReadStatus = () => {
-        console.log('status changed' + selectedNotification.id);
     };
 
 </script>
@@ -52,6 +45,9 @@
                     :key="notification.id"
                     class="notification-card"
                 >
+                    <div class="card-icon">
+                        <img src="/assets/images/system/chat_bubble.svg">
+                    </div>
                     <div class="card-title">
                         <h2>{{ truncateTitle(notification.title) }}</h2>
                     </div>
@@ -62,35 +58,18 @@
                         <p>{{ truncateMessage(notification.message) }}</p>
                     </div>
                     <div class="card-action">
-                        <n-icon @click="openModal(notification)" size=25 class="view-icon" color="#457b9d">
+                        <!--<n-icon size=25 class="view-icon" color="#457b9d">
                             <RemoveRedEyeFilled />
-                        </n-icon>
-                        <!-- Modal -->
-                        <n-modal
-                            v-model:show="showModal"
-                            :on-after-leave="changeReadStatus"
+                        </n-icon>-->
+                        <Link
+                            :href="route('notification.show', { notificationId: notification.id })"
                         >
-                            <n-card
-                                style="width: 600px"
-                                title="Details"
-                                :bordered="false"
-                                size="huge"
-                                role="dialog"
-                                aria-modal="true"
-                            >
-                                <template #header-extra>
-                                    <h3>{{ formatDate(selectedNotification.created_at) }}</h3>
-                                </template>
-                                <div class="notification-modal">
-                                    <h3>{{ selectedNotification.title }}</h3>
-                                    <p>{{ selectedNotification.message }}</p>
-                                </div>
-                                <template #footer>
-                                    <n-button type=primary @click="showModal = false">close</n-button>
-                                </template>
-                            </n-card>
-                        </n-modal>
-                        <!-- Modal -->
+                            Details
+                        </Link>
+
+                        <!--<Link :href="`/${currentLocale}/notifications/${notification.id}`">
+                            Details
+                        </Link>-->
                     </div>
                 </div>
 
@@ -119,6 +98,13 @@
         margin: 10px 10px;
         padding: 15px 15px;
         border: 1px solid gray;
+    }
+    .card-icon {
+        display: flex;
+    }
+    .card-icon img {
+        width: 5%;
+        height: 5%;
     }
     .card-title {
         display: flex;
@@ -150,16 +136,5 @@
     .view-icon {
         cursor: pointer;
     }
-    /* MODAL */
-    .notification-modal {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .notification-modal h3 {
-        font-weight: bold;
-        font-size: 18px;
-    }
-    /* Modal */
 
 </style>

@@ -42,6 +42,7 @@ Route::prefix('{locale}')
        	// Dashboard Routes
        	Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+        Route::get('/notifications/{notificationId}', [DashboardController::class, 'notification'])->name('notification.show');
         Route::get('/notifications', [DashboardController::class, 'notifications'])->name('user.notifications');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         // Teams
