@@ -26,6 +26,13 @@
     function truncateTitle(text, length = 70) {
         return text.length > length ? text.substring(0, length) + '...' : text;
     };
+    const convertBoolean = (number) => {
+        if (number === 1) {
+            return true;
+        } else {
+            return false;
+        };
+    };
 
 </script>
 
@@ -57,6 +64,10 @@
                     <div class="card-container">
                         <p>{{ truncateMessage(notification.message) }}</p>
                     </div>
+                    <!--<span
+                        style="color: red;">
+                        {{ convertBoolean(notification.is_read) }}
+                    </span>-->
                     <div class="card-action">
                         <!--<n-icon size=25 class="view-icon" color="#457b9d">
                             <RemoveRedEyeFilled />
@@ -66,10 +77,6 @@
                         >
                             Details
                         </Link>
-
-                        <!--<Link :href="`/${currentLocale}/notifications/${notification.id}`">
-                            Details
-                        </Link>-->
                     </div>
                 </div>
 

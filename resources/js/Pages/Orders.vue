@@ -7,7 +7,13 @@
         NButton,
         NModal,
         NCard,
+        NIcon,
     } from 'naive-ui';
+    import {
+        StickyNote2Filled,
+        CheckCircleOutlineFilled,
+        DeliveryDiningFilled,
+    } from '@vicons/material';
 
     // Get Current Locale
     const { locale } = usePage().props;
@@ -17,8 +23,10 @@
     const { orders } = usePage().props;
     // Get User Information
     const notifications = ref(4);
-    // Total Orders
-    const totalOrders = ref(orders.length) || ref(0);
+    // Orders Stats
+    const totalOrders = ref(orders.length);
+    const ordersConfirmed = ref(9);
+    const ordersDelivered = ref(2);
     // Format Created at Date
     const formatDate = (date) => {
         const d = new Date(date);
@@ -45,19 +53,40 @@
 
             <div class="stats-container">
 
-                <div class="stat-card">
-                    <h2>Total Orders</h2>
-                    <p>{{ totalOrders }}</p>
+                <div class="stat-card" id="stat-one">
+                    <div class="card-icon">
+                        <n-icon size=45 color="#fff">
+                            <StickyNote2Filled />
+                        </n-icon>
+                    </div>
+                    <div class="card-container">
+                        <p>{{ totalOrders }}</p>
+                        <h2>Total Orders</h2>
+                    </div>
                 </div>
 
-                <div class="stat-card">
-                    <h2>Total Products</h2>
-                    <p>90</p>
+                <div class="stat-card" id="stat-two">
+                    <div class="card-icon">
+                        <n-icon size=45 color="#fff">
+                            <CheckCircleOutlineFilled />
+                        </n-icon>
+                    </div>
+                    <div class="card-container">
+                        <p>{{ ordersConfirmed }}</p>
+                        <h2>Orders Completed</h2>
+                    </div>
                 </div>
 
-                <div class="stat-card">
-                    <h2>Total Invoices</h2>
-                    <p>23</p>
+                <div class="stat-card" id="stat-three">
+                    <div class="card-icon">
+                        <n-icon size=45 color="#fff">
+                            <DeliveryDiningFilled />
+                        </n-icon>
+                    </div>
+                    <div class="card-container">
+                        <p>{{ ordersDelivered }}</p>
+                        <h2>Orders Delivered</h2>
+                    </div>
                 </div>
 
             </div>
@@ -80,7 +109,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="order in orders" :key="order.id">
-                            <td>{{ order.order_code }}</td>
+                            <td id="order-code">{{ order.order_code }}</td>
                             <td>{{ formatDate(order.created_at) }}</td>
                             <td>
                                 <span v-if="order.order_status === 'Pending'" class="pending-order">
@@ -150,26 +179,58 @@
 
 <style scoped>
 
-    /* Stats */
+    /* STATS */
     .stats-container {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        margin-top: 60px;
+        margin-bottom: 100px;
     }
     .stat-card {
         display: flex;
         justify-content: center;
+        align-items: center;
         background-color: red;
+        padding: 20px 20px;
         border-radius: 10px;
+        gap: 20px;
     }
+    #stat-one {
+        background-color: #a7c957;
+    }
+    #stat-two {
+        background-color: #eaac8b;
+    }
+    #stat-three {
+        background-color: #fb6f92;
+    }
+    .card-icon {
+        display: flex;
+    }
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    .card-container h2 {
+        font-size: 16px;
+        color: #fff;
+    }
+    .card-container p {
+        color: #fff;
+        font-weight: bold;
+        font-size: 30px;
+    }
+    /* STATS */
     /* Orders Table */
     .orders-container {
         max-width: 100%;
         overflow-x: auto; /* Scroll horizontal */
         overflow-y: hidden; /* Opcional: evita el scroll vertical */
-        border: 1px solid #ddd; /* Para visibilidad */
+        /*border: 1px solid #ddd;*/ /* Para visibilidad */
+        border: 1px solid #a7c957;
         border-radius: 8px;
         background-color: #fff;
     }
@@ -183,10 +244,15 @@
     .table-container td {
         padding: 12px 15px;
         text-align: left;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
     }
     .table-container th {
-        background-color: #f4f4f4;
+        /*background-color: #f4f4f4;*/
+        background-color: #a7c957;
+        font-weight: bold;
+        color: #fff;
+    }
+    #order-code {
         font-weight: bold;
     }
     .table-container tr:nth-child(even) {
@@ -195,9 +261,6 @@
     .table-container tr:hover {
         background-color: #f1f1f1;
     }
-    /*.pending-order {
-        display: flex;
-    }*/
     .pending-order {
         padding: 3px 6px;
         background-color: #f7b267;
@@ -248,6 +311,9 @@
     }
     /* Responsive */
     @media (max-width: 768px) {
+        .stats-container {
+            grid-template-columns: 1fr;
+        }
         .table-container {
             font-size: 14px;
         }

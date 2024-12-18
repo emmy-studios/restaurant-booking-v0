@@ -106,7 +106,7 @@
         :class="['sidebar', { hide: isSidebarHidden }]"
     >
         <Link :href="`/${locale}/dashboard`" class="brand">
-            <n-icon class="bx"><TagFacesSharp/></n-icon>
+            <n-icon class="bx" color="#db7c26"><TagFacesSharp/></n-icon>
             <span class="text">Admin</span>
 		</Link>
 
@@ -369,8 +369,9 @@
 	    height: 56px;
 	    display: flex;
 	    align-items: center;
-	    color: #3C91E6;
-	    position: sticky;
+	    /*color: #3C91E6;*/
+	    color: #db7c26;
+        position: sticky;
 	    top: 0;
 	    left: 0;
 	    background: #F9F9F9;
@@ -424,7 +425,7 @@
 	    width: 100%;
 	    height: 100%;
 	    background: #F9F9F9;
-	    display: flex;
+        display: flex;
 	    align-items: center;
 	    border-radius: 48px;
 	    font-size: 16px;
@@ -433,7 +434,8 @@
 	    overflow-x: hidden;
     }
     #sidebar .side-menu.top li.active a {
-	    color: #3C91E6;
+	    /*color: #3C91E6;*/
+        color: #db7c26;
     }
     #sidebar.hide .side-menu li a {
 	    width: calc(48px - (4px * 2));
@@ -443,7 +445,8 @@
 	    color: #DB504A;
     }
     #sidebar .side-menu.top li a:hover {
-	    color: #3C91E6;
+	    /*color: #3C91E6;*/
+        color: #db7c26;
     }
     #sidebar .side-menu li a .bx {
 	    min-width: calc(60px  - ((4px + 6px) * 2));
@@ -552,15 +555,17 @@
 		grid-gap: 16px;
 	}
 	#content main .head-title .left .breadcrumb li {
-		color: #342E37;
+		/*color: #342E37;*/
+        color: #bd632f;
 	}
 	#content main .head-title .left .breadcrumb li a {
 		color: #AAAAAA;
 		pointer-events: none;
 	}
 	#content main .head-title .left .breadcrumb li a.active {
-		color: #3C91E6;
-		pointer-events: unset;
+		/*color: #3C91E6;*/
+		color: #bd632f;
+        pointer-events: unset;
 	}
 	#content main .head-title .btn-download {
 		height: 36px;

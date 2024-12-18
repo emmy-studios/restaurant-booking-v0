@@ -47,6 +47,8 @@ class DashboardController extends Controller
         $notificationId = request()->route()->parameter('notificationId');
         $notificationId = (int) $notificationId;
         $notificationDetails = UserNotification::where('id', $notificationId)->firstOrFail();
+        $notificationDetails->is_read = true;
+        $notificationDetails->save();
 
         return Inertia::render('Accounts/Notification', [
             'notificationDetails' => $notificationDetails,
