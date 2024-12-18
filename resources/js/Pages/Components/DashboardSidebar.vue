@@ -197,27 +197,42 @@
 			</li>
 
             <li :class="{ active: activePage === 'Analytics' }">
-				<a href="#">
-                    <n-icon class="bx"><InsertChartFilled/></n-icon>
-                    <span class="text">Analytics</span>
-				</a>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/analytics`">
+                            <n-icon class="bx"><InsertChartFilled/></n-icon>
+                            <span class="text">Analytics</span>
+				        </Link>
+                    </template>
+                    Analytics
+                </n-tooltip>
 			</li>
 
             <li :class="{ active: activePage === 'Invoices' }">
-				<a href="#">
-                    <n-icon class="bx"><PaymentsFilled/></n-icon>
-                    <span class="text">Invoices</span>
-				</a>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/invoices`">
+                            <n-icon class="bx"><PaymentsFilled/></n-icon>
+                            <span class="text">Invoices</span>
+				        </Link>
+                    </template>
+                    Invoices
+                </n-tooltip>
 			</li>
 
 		</ul>
 
         <ul class="side-menu">
 			<li :class="{ active: activePage === 'Reservations' }">
-				<a href="#">
-                    <n-icon class="bx"><AutoStoriesFilled/></n-icon>
-					<span class="text">Reservations</span>
-				</a>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <Link :href="`/${locale}/reservations`">
+                            <n-icon class="bx"><AutoStoriesFilled/></n-icon>
+					        <span class="text">Reservations</span>
+				        </Link>
+                    </template>
+                    Reservations
+                </n-tooltip>
 			</li>
 			<li>
 				<n-tooltip trigger="hover">

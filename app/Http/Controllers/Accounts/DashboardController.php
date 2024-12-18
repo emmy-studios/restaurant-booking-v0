@@ -21,7 +21,6 @@ class DashboardController extends Controller
     {
         // Get User Info
         $user = Auth::user();
-
         return Inertia::render('Accounts/Profile', [
             'user' => $user,
         ]);
@@ -53,6 +52,21 @@ class DashboardController extends Controller
         return Inertia::render('Accounts/Notification', [
             'notificationDetails' => $notificationDetails,
         ]);
+    }
+
+    public function analytics()
+    {
+        return Inertia::render('Accounts/Analytics');
+    }
+
+    public function invoices()
+    {
+        return Inertia::render('Accounts/Invoices');
+    }
+
+    public function reservations()
+    {
+        return Inertia::render('Accounts/Reservations');
     }
 
 }

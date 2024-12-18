@@ -44,6 +44,9 @@ Route::prefix('{locale}')
         Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
         Route::get('/notifications/{notificationId}', [DashboardController::class, 'notification'])->name('notification.show');
         Route::get('/notifications', [DashboardController::class, 'notifications'])->name('user.notifications');
+        Route::get('/analytics', [DashboardController::class, 'analytics'])->name('analytics');
+        Route::get('/invoices', [DashboardController::class, 'invoices'])->name('invoices');
+        Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         // Teams
         Route::get('/teams', [TeamsController::class, 'teams'])->name('teams');
