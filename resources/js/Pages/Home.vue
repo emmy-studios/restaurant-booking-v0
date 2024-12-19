@@ -18,9 +18,8 @@
     import CustomerReviewsSection from './Components/Sections/Home/CustomerReviewsSection.vue';
     import SubscribeSection from './Components/Sections/Home/SubscribeSection.vue';
 
-    // Get Data Props
+    // Get Translations
     const { translations, products } = usePage().props;
-    //const { shoppingcartProducts } = usePage().props;
 
     const props = defineProps(['shoppingcartProducts']);
 
@@ -131,6 +130,8 @@
         </section>
 
     </main>
+
+    <p>{{ translations.home }}</p>
 
     <p style="font-size: 40px; color: #fff;">{{ user }}</p>
 

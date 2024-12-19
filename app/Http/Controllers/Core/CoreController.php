@@ -17,7 +17,6 @@ class CoreController extends Controller
     {
         // Translation Helper
         $translations = getTranslations(['home']);
-
         // Get Current Language
         $locale = app()->getLocale();
         // Products
