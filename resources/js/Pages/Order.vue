@@ -14,26 +14,42 @@
         EditLocationSharp,
         Inventory2Filled,
         ArrowCircleRightSharp,
-        ArrowCircleLeftTwotone,
         ShoppingBagRound,
         KeyboardArrowDownOutlined,
         DeleteOutlineTwotone,
         ShoppingBasketRound,
+        CreditCardTwotone,
+        AddCardFilled,
+        ArticleFilled,
+        DeliveryDiningFilled,
     } from '@vicons/material';
 
-    // Get Current Locale
+    // Get Data From Controllers
+    const props = defineProps(
+        [
+            'shoppingcartProducts',
+            'productDiscounts',
+            'lastOrderCreated',
+            'user',
+            'locale',
+        ]
+    );
     const { locale } = usePage().props;
     const currentLocale = locale || 'en';
 
-    // User Order
-    const { lastOrderCreated, user } = usePage().props;
-    const status = ref(lastOrderCreated.order_status) || ref('Pending');
+    const userData = computed(() => {
+        return props.user ? props.user : null;
+    });
 
-    // Shoppingcart Products
-    const props = defineProps(['shoppingcartProducts', 'productDiscounts']);
+    const orderCode = computed(() => {
+        return props.lastOrderCreated ? props.lastOrderCreated.order_code : null;
+    });
+
+    const status = computed(() => {
+        return props.lastOrderCreated ? props.lastOrderCreated.order_status : null;
+    });
+
     const orderProducts = reactive([]);
-
-
 
     // Currencies Array
     const currencies = computed(() => {
@@ -208,10 +224,11 @@
         return summary;
     });
 
-    // Address Information
-    const userCountry = ref(user.country) || ref('Costa Rica');
-    const userCity = ref(user.city);
-    const userAddress = ref(user.address) || ref('Some Address Here');
+    // Send Data to Controller
+    const orderData = {
+        'orderCode': orderCode,
+        'orderStatus': status,
+    };
 
     // Get User Information
     const notifications = ref(4);
@@ -225,6 +242,7 @@
         alert(quantity.value);
     };
 
+
 </script>
 
 <template>
@@ -237,13 +255,18 @@
 
         <template v-slot:mainContentSlot>
 
-            <div
+            <section
                 class="order-container"
-                v-if="status === 'Pending' || status === 'Processing' || status === 'Completed'"
+                v-if="
+                    status === 'Pending' ||
+                    status === 'Processing' ||
+                    status === 'Completed' ||
+                    status === 'Awaiting Payment' ||
+                    status === 'Delivered'"
             >
 
                 <!-- Status = Pending -->
-                <div v-if="status === 'Pending'">
+                <article v-if="status === 'Pending'">
                     <div class="timeline-container">
                         <n-timeline horizontal>
       						<n-timeline-item
@@ -264,9 +287,14 @@
                                         <EditLocationSharp />
                                     </n-icon>
                                 </template>
+
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
-                                <n-icon size=30><Inventory2Filled/></n-icon>
+                            <n-timeline-item
+                                color="gray"
+                                title="Payment Method"
+                                content="Choose your order payments"
+                            >
+                                <n-icon size=30><CreditCardTwotone/></n-icon>
                             </n-timeline-item>
     					</n-timeline>
                     </div>
@@ -406,6 +434,15 @@
                             <Link
                                 id="checkout-btn"
                                 method="post"
+                                :data="{
+                                    orderCode: lastOrderCreated.order_code,
+                                    orderStatus: status,
+                                    orderSubtotal: 300,
+                                    orderDiscounts: 200,
+                                    orderTotal: 100,
+                                    orderCurrency: 'CRC ₡',
+                                    orderItems: orderItems,
+                                }"
                                 :href="`/${currentLocale}/order/add-items`"
                             >
                                 Proceed To Checkout
@@ -429,19 +466,18 @@
                             <ArrowCircleRightSharp/>
                         </n-icon>
                     </div>
-                </div>
+                </article>
 
 
                 <!-- Status = Processing -->
-                <div v-if="status === 'Processing'">
+                <article v-else-if="status === 'Processing'" class="processing-container">
                     <div class="timeline-container">
                         <n-timeline horizontal>
       						<n-timeline-item
         						type="success"
                                 color="success"
-        						title="Order Created"
-        						content="Your order is processing"
-        						time="2018-04-03 20:46">
+        						title="ORDER CREATED"
+                            >
                                 <template #icon>
                                     <n-icon size=30>
                                         <CheckCircleFilled />
@@ -460,43 +496,167 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
-                                <n-icon size=30><Inventory2Filled/></n-icon>
+                            <n-timeline-item
+                                color="gray"
+                                title="PAYMENT"
+                            >
+                                <n-icon size=30><CreditCardTwotone/></n-icon>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="gray"
+                                title="INVOICE"
+                            >
+                                <n-icon size=30><ArticleFilled/></n-icon>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="gray"
+                                title="DELIVEREY"
+                            >
+                                <n-icon size=30><DeliveryDiningFilled/></n-icon>
                             </n-timeline-item>
     					</n-timeline>
                     </div>
-                    <div class="processing-order-container">
-                        <p>{{ userCountry }}</p>
-                        <p>{{ userCity }}</p>
-                        <input v-model="userCity"/>
-                        <p>{{ userAddress }}</p>
+                    <div class="address-header">
+                        <div class="header-image">
+                            <img src="/assets/images/system/house.svg">
+                        </div>
+                        <div class="header-text">
+                            <span>Address</span>
+                            <p>Shipping Details</p>
+                        </div>
+                    </div>
+                    <div class="address-container">
+                        <div class="country-item">
+                            <span>Country:</span>
+                            <input v-model="userData.country">
+                        </div>
+                        <div class="city-item">
+                            <span>City</span>
+                            <input v-model="userData.city">
+                        </div>
+                        <div class="contact-item">
+                            <div class="phone-code">
+                                <span>Phone Code:</span>
+                                <input v-model="userData.country_code">
+                            </div>
+                            <div class="phone-number">
+                                <span>Phone Number:</span>
+                                <input v-model="userData.phone_number">
+                            </div>
+                        </div>
+                        <div class="address-item">
+                            <textarea rows="4" cols="50" v-model="userData.address"></textarea>
+                        </div>
                     </div>
                     <div class="processing-actions">
-                        <n-icon size=40
-                            @click="status = 'Pending'"
+                        <Link
+                            method="post"
+                            :data="{
+                                userOrderCode: lastOrderCreated.order_code,
+                                userCity: userData.city,
+                                userCountry: userData.country,
+                                userAddress: userData.address,
+                                userCountryCode: userData.country_code,
+                                userPhoneNumber: userData.phone_number
+                            }"
+                            :href="`/${currentLocal}/update-customer-address`"
+                            style="padding: 5px 7px; background-color: red; color: #fff; border-radius: 8px;"
                         >
-                            <ArrowCircleLeftTwotone/>
-                        </n-icon>
-                        <n-icon
-                            size=40
-                            @click="status = 'Completed'"
-                        >
-                            <ArrowCircleRightSharp/>
-                        </n-icon>
+                            CONTINUE
+                        </Link>
                     </div>
-                </div>
+                </article>
+                <!-- Status = Processing -->
+
+                <!-- Status = Awaiting Payment -->
+                <article v-else-if="status === 'Awaiting Payment'">
+                    <div class="timeline-container">
+                        <n-timeline horizontal>
+      						<n-timeline-item
+        						type="success"
+                                color="success"
+        						title="CREATED"
+                            >
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                type="success"
+                                color="success"
+                                title="ADDRESS"
+                            >
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                type="info"
+                                title="Payment Information"
+                                content="Choose your payment information"
+                                time="2018-04-03 20:46"
+                            >
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <AddCardFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="gray"
+                                title="INVOICE"
+                            >
+                                <n-icon size=30><ArticleFilled/></n-icon>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="gray"
+                                title="DELIVERY"
+                            >
+                                <n-icon size=30><DeliveryDiningFilled/></n-icon>
+                            </n-timeline-item>
+    					</n-timeline>
+                    </div>
+                    <div class="payment-container">
+                        <p>Choose Payment Method</p>
+                    </div>
+                    <div class="payment-actions">
+                        <Link
+                            :href="`/${currentLocale}/billing/create`"
+                            method="post"
+                            :data="{
+                                userOrderCode: lastOrderCreated.order_code
+                            }"
+                        >
+                            NEXT
+                        </Link>
+                    </div>
+                </article>
 
                 <!-- Status = Completed -->
-                <div v-if="status === 'Completed'">
-                    <p>Order Created Successfully</p>
-                    <button>Generate Invoice</button>
-                </div>
+                <article v-else-if="status === 'Completed'" class="invoice-container">
+                    <p>Order Completed</p>
+                    <p>Generate Invoice</p>
+                </article>
 
-            </div>
+                <!-- Status = Delivered -->
+                <article v-else-if="status === 'Delivered'" class="voucher-container">
+                    <p>
+                        Your order has been delivered,
+                        if you want a proof of purchase
+                        you can print it below
+                    </p>
+                    <button type=primary>Generate</button>
+                </article>
 
-            <div v-else>
+            </section>
+
+            <section v-else class="empty-container">
                 <p>Not Order in Process</p>
-            </div>
+            </section>
 
          </template>
 
@@ -610,18 +770,103 @@
     }
 
 
-    /* Processing Order */
-    .processing-order-container {
+    /* SHIPPING INFORMATION */
+    .address-header {
         display: flex;
+        align-items: flex-end;
+        padding-top: 30px;
+        gap: 30px;
+    }
+    .header-image {
+        display: flex;
+    }
+    .header-image img {
+        width: 100px;
+        height: 100px;
+    }
+    .header-text {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .header-text span {
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .header-text p {
+        text-transform: uppercase;
+    }
+    .processing-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .address-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        padding: 60px 60px;
+        gap: 20px;
         background-color: red;
-        margin-top: 60px;
+        border-radius: 10px;
+    }
+    .country-item,
+    .city-item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .country-item span, .city-item span, .contact-item span {
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .country-item input, .city-item input, .contact-item input {
+        padding: 10px 10px;
+        border: 1px solid orange;
+    }
+    .address-item textarea {
+        padding: 10px 10px;
+    }
+    .contact-item {
+        display: flex;
+        gap: 10px;
     }
     .processing-actions {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         padding-top: 10px;
         padding-bottom: 10px;
     }
+    /* SHIPPING INFORMATION */
 
+    /* PAYMENT INFORMATION */
+    .payment-container {
+        display: flex;
+        padding: 60px 60px;
+        margin-top: 60px;
+        background-color: red;
+    }
+    .payment-actions {
+        display: flex;
+        align-items: center;
+        padding: 20px 20px;
+        justify-content: flex-end;
+    }
+    /* PAYMENT INFORMATION */
+
+    /* GENERATE INVOICE */
+    /* GENERATE INVOICE */
+
+    /* GENERATE VOUCHER */
+    /* GENERATE VOUCHER */
+
+    /* EMPTY CONTAINER */
+    .empty-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px 40px;
+    }
+    /* EMPTY CONTAINER */
 </style>

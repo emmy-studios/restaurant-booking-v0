@@ -10,6 +10,7 @@ use App\Http\Controllers\Accounts\DashboardController;
 use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Products\ShoppingcartController;
 use App\Http\Controllers\Orders\OrderController;
+use App\Http\Controllers\Orders\PaymentController;
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
@@ -22,17 +23,18 @@ Route::prefix('{locale}')
         // Core Routes
         Route::get('/', [CoreController::class, 'index'])->name('home');
         Route::get('/products', [ProductController::class, 'index'])->name('products');
-        // Add Product to Shoppingcart
+        // Shoppingcart Options
         Route::post('/shoppingcart/add', [ShoppingcartController::class, 'addProduct'])->name('shoppingcart.add');
-        // Remove Product to Shoppingcart
         Route::post('/shoppingcart/remove', [ShoppingcartController::class, 'removeProduct'])->name('shoppingcart.remove');
         // Orders Routes
+        Route::post('/update-customer-address', [OrderController::class, 'updateCustomerAddress'])->name('update.customer.address');
+        Route::post('/order/add-items', [OrderController::class, 'addOrderItems'])->name('add.order.items');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders');
         Route::get('/order', [OrderController::class, 'order'])->name('order');
         // Create Order
         Route::post('/order/create', [OrderController::class, 'createOrder'])->name('order.create');
-        Route::post('/order/add-items', [OrderController::class, 'addOrderItem'])->name('add.order.items');
-        //Route::post()->name('remove.order.item');
+        // Create Billing
+        Route::post('/billing/create', [PaymentController::class, 'createPayment'])->name('billing.create');
         // Authentication Routes
         Route::get('/signup', [AuthenticationController::class, 'signup'])->name('signup');
         Route::get('/login', [AuthenticationController::class, 'login'])->name('login');

@@ -15,12 +15,18 @@ class OrderController extends Controller
 
     public function index()
     {
+        $translations = [
+            'orders' => __('orders.orders'),
+        ];
+        $locale = app()->getLocale();
         $user = Auth::user();
         $orders = Order::where('user_id', $user->id)->get();
 
         return Inertia::render('Orders',
             [
                 'orders' => $orders,
+                'translations' => $translations,
+                'locale' => $locale,
             ]);
     }
 
@@ -31,7 +37,7 @@ class OrderController extends Controller
         $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)
             ->with(['products.prices.currency'])
             ->first();
-
+        $locale = app()->getLocale();
         // Get Products Discounts
         $productDiscounts = Discount::with('products')->get();
 
@@ -41,6 +47,7 @@ class OrderController extends Controller
                 'user' => $user,
                 'shoppingcartProducts' => $shoppingcartProducts,
                 'productDiscounts' => $productDiscounts,
+                'locale' => $locale,
             ]);
     }
 
@@ -64,11 +71,38 @@ class OrderController extends Controller
         return redirect()->route('order');
     }
 
-    public function addOrderItem(Request $request)
+    public function addOrderItems(Request $request)
     {
         $user = Auth::user();
-        $order = Order::where('user_id', $user->id)->latest()->first();
+        $order = Order::where('order_code', $request->orderCode)->first();
         $order->order_status = 'Processing';
+        $order->subtotal = $request->orderSubtotal;
+        $order->total = $request->orderTotal;
+        $order->currency_symbol = $request->orderCurrency;
+        $order->save();
+
+        return redirect()->route('order');
+    }
+
+    public function updateCustomerAddress(Request $request)
+    {
+        $user = Auth::user();
+        // Validate Data
+        $validated = $request->validate([
+            'userCity' => 'required|string|max:255',
+            'userCountry' => 'required|string|max:255',
+            'userAddress' => 'required|string|max:500',
+            'userOrderCode' => 'required|string|exists:orders,order_code',
+        ]);
+        // Updated Data
+        $user->city = $validated['userCity'];
+        $user->country = $validated['userCountry'];
+        $user->address = $validated['userAddress'];
+        $orderCode = $validated['userOrderCode'];
+        $user->save();
+
+        $order = Order::where('order_code', $orderCode)->first();
+        $order->order_status = 'Awaiting Payment';
         $order->save();
 
         return redirect()->route('order');

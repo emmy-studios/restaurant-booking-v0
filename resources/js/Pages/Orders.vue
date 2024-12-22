@@ -8,6 +8,7 @@
         NModal,
         NCard,
         NIcon,
+        NDropdown
     } from 'naive-ui';
     import {
         StickyNote2Filled,
@@ -36,8 +37,17 @@
         return `${day}-${month}-${year}`;
     };
 
-    // Order Info Modal
-    const showModal = ref(false);
+    // Orders Actions
+    const options = [
+        {
+          label: "Details",
+          key: "details"
+        },
+        {
+          label: "Continue",
+          key: "continue"
+        },
+    ];
 
 </script>
 
@@ -141,28 +151,14 @@
                             <td>{{ order.subtotal }}</td>
                             <td>{{ order.total }}</td>
                             <td>
-
-                                <n-button tertiary type="primary" @click="showModal=true">:</n-button>
-
-                                <n-modal v-model:show="showModal">
-    								<n-card
-      								    style="width: 600px"
-      								    title="Modal"
-      								    :bordered="false"
-      								    size="huge"
-      								    role="dialog"
-      								    aria-modal="true"
-    								>
-      								    <template #header-extra>
-                                            <n-button @click="showModal = false">X</n-button>
-      								    </template>
-      								    Content
-      								    <template #footer>
-        								    Footer
-      								    </template>
-    							    </n-card>
-  								</n-modal>
-
+                                <n-dropdown
+                                    trigger="click"
+                                    :options="options"
+                                >
+                                    <n-button tertiary type="primary">
+                                        :
+                                    </n-button>
+                                </n-dropdown>
                             </td>
                         </tr>
                     </tbody>
