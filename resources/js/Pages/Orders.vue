@@ -2,7 +2,7 @@
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
     import { ref } from 'vue';
-    import { usePage } from '@inertiajs/vue3';
+    import { usePage, router, Link } from '@inertiajs/vue3';
     import {
         NButton,
         NModal,
@@ -43,12 +43,18 @@
           label: "Details",
           key: "details"
         },
-        {
-          label: "Continue",
-          key: "continue"
-        },
     ];
-
+    // Pending Orders Actions
+    const pendingOptions = [
+        {
+            label: "Continue Process",
+            key: "continue",
+        }
+    ];
+    // Pagination
+    const navigate = (url) => {
+        router.get(url);
+    };
 </script>
 
 <template>
@@ -102,9 +108,7 @@
             </div>
 
             <div class="orders-container">
-
                 <table class="table-container">
-
                     <thead>
                         <tr>
                             <th>Order Code</th>
@@ -118,7 +122,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="order in orders" :key="order.id">
+                        <tr v-for="order in orders.data" :key="order.id">
                             <td id="order-code">{{ order.order_code }}</td>
                             <td>{{ formatDate(order.created_at) }}</td>
                             <td>
@@ -151,22 +155,41 @@
                             <td>{{ order.subtotal }}</td>
                             <td>{{ order.total }}</td>
                             <td>
-                                <n-dropdown
-                                    trigger="click"
-                                    :options="options"
+                                <Link
+                                    :href="`/${currentLocale}/order`"
+                                    :data="{ orderCode: order.order_code }"
+                                    v-if="
+                                        order.order_status === 'Pending' ||
+                                        order.order_status === 'Processing' ||
+                                        order.order_status === 'Awaiting Payment'"
                                 >
                                     <n-button tertiary type="primary">
                                         :
                                     </n-button>
-                                </n-dropdown>
+                                </Link>
+                                <Link
+                                    v-else
+                                    :href="`/${currentLocale}/order`"
+                                    :data="{ orderCode: order.order_code }"
+                                >
+                                    <n-button tertiary type="primary">:</n-button>
+                                </Link>
                             </td>
                         </tr>
                     </tbody>
-
                 </table>
-
             </div>
-
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <button
+                    v-for="link in orders.links"
+                    :key="link.url"
+                    :disabled="!link.url"
+                    @click="navigate(link.url)"
+                    v-html="link.label"
+                    :class="{ 'active': link.active }"
+                ></button>
+            </div>
         </template>
 
     </DashboardSidebar>
@@ -220,12 +243,11 @@
         font-size: 30px;
     }
     /* STATS */
-    /* Orders Table */
+    /* ORDERS TABLE */
     .orders-container {
         max-width: 100%;
-        overflow-x: auto; /* Scroll horizontal */
-        overflow-y: hidden; /* Opcional: evita el scroll vertical */
-        /*border: 1px solid #ddd;*/ /* Para visibilidad */
+        overflow-x: auto;
+        overflow-y: hidden;
         border: 1px solid #a7c957;
         border-radius: 8px;
         background-color: #fff;
@@ -246,6 +268,8 @@
         /*background-color: #f4f4f4;*/
         background-color: #a7c957;
         font-weight: bold;
+        padding-top: 20px;
+        padding-bottom: 20px;
         color: #fff;
     }
     #order-code {
@@ -257,6 +281,9 @@
     .table-container tr:hover {
         background-color: #f1f1f1;
     }
+    /* ORDERS TABLE */
+
+    /* STATUS BADGE */
     .pending-order {
         padding: 3px 6px;
         background-color: #f7b267;
@@ -305,6 +332,19 @@
         color: #fff;
         border-radius: 5px;
     }
+    /* STATUS BADGE */
+
+    /* PAGINATION */
+    .pagination-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+    /* PAGINATION */
+
     /* Responsive */
     @media (max-width: 768px) {
         .stats-container {

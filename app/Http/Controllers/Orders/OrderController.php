@@ -20,7 +20,9 @@ class OrderController extends Controller
         ];
         $locale = app()->getLocale();
         $user = Auth::user();
-        $orders = Order::where('user_id', $user->id)->get();
+        $orders = Order::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return Inertia::render('Orders',
             [
@@ -33,7 +35,21 @@ class OrderController extends Controller
     public function order(Request $request)
     {
         $user = Auth::user();
-        $lastOrderCreated = Order::where('user_id', $user->id)->latest()->first();
+        //$orderCode = $request->orderCode;
+        //$lastOrderCreated = Order::where('order_code', $orderCode)->first();
+
+
+        // Verificar si se pasó el 'orderCode' en la solicitud
+        if ($request->filled('orderCode')) { // Revisa si el campo no es nulo o vacío
+            $orderCode = $request->orderCode;
+            $lastOrderCreated = Order::where('order_code', $orderCode)->first();
+        } else {
+            // Si no se pasa 'orderCode', obtener la última orden creada para el usuario
+            $lastOrderCreated = Order::where('user_id', $user->id)->latest()->first();
+        }
+
+
+
         $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)
             ->with(['products.prices.currency'])
             ->first();
@@ -43,11 +59,12 @@ class OrderController extends Controller
 
         return Inertia::render('Order',
             [
-                'lastOrderCreated' => $lastOrderCreated,
+                //'lastOrderCreated' => $lastOrderCreated,
                 'user' => $user,
                 'shoppingcartProducts' => $shoppingcartProducts,
                 'productDiscounts' => $productDiscounts,
                 'locale' => $locale,
+                'lastOrderCreated' => $lastOrderCreated,
             ]);
     }
 

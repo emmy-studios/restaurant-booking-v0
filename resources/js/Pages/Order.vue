@@ -254,7 +254,7 @@
     >
 
         <template v-slot:mainContentSlot>
-
+            <p>{{ code }}</p>
             <section
                 class="order-container"
                 v-if="
