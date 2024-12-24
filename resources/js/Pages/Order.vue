@@ -431,22 +431,23 @@
                                     <p v-if="total.currency === selectedCurrency">{{ total.amount }}</p>
                                 </template>
                             </div>
-                            <Link
-                                id="checkout-btn"
-                                method="post"
-                                :data="{
-                                    orderCode: lastOrderCreated.order_code,
-                                    orderStatus: status,
-                                    orderSubtotal: 300,
-                                    orderDiscounts: 200,
-                                    orderTotal: 100,
-                                    orderCurrency: 'CRC ₡',
-                                    orderItems: orderItems,
-                                }"
-                                :href="`/${currentLocale}/order/add-items`"
-                            >
-                                Proceed To Checkout
-                            </Link>
+                            <div class="checkout-container">
+                                <Link
+                                    id="checkout-btn"
+                                    method="post"
+                                    :data="{
+                                        orderCode: lastOrderCreated.order_code,
+                                        orderSubtotal: orderSummary.subtotal,
+                                        orderDiscounts: 200,
+                                        orderTotal: orderSummary.total,
+                                        orderCurrency: selectedCurrency,
+                                        orderItems: orderItems,
+                                    }"
+                                    :href="`/${currentLocale}/order/add-items`"
+                                >
+                                    Proceed To Checkout
+                                </Link>
+                            </div>
                         </div>
 
 
@@ -456,15 +457,6 @@
                             <p>{{ orderSummary }}</p>
                         </div>
 
-                    </div>
-
-                    <div class="pending-actions">
-                        <n-icon
-                            size=40
-                            @click="status = 'Processing'"
-                        >
-                            <ArrowCircleRightSharp/>
-                        </n-icon>
                     </div>
                 </article>
 
@@ -666,20 +658,22 @@
 
 <style scoped>
 
+    /* MAIN CONTAINER */
     .order-container {
         display: flex;
         flex-direction: column;
         margin-top: 60px;
     }
+    /* MAIN CONTAINER */
+    /* TIMELINE CONTAINER */
     .timeline-container {
         display: flex;
         justify-content: center;
         padding: 20px 20px;
         overflow: auto;
     }
-
-
-    /* Create Order */
+    /* TIMELINE CONTAINER */
+    /* ORDER STATUS = PENDING */
     .create-order-container {
         display: flex;
         flex-direction: column;
@@ -740,10 +734,15 @@
         height: 50px;
         border-radius: 5px;
     }
+    /* ORDER STATUS = PENDING */
+    /* ORDER RESUME */
     .order-resume {
         display: flex;
+        width: 50%;
+        gap: 10px;
         flex-direction: column;
-        background-color: pink;
+        background-color: #fff;
+        border: 1px solid black;
         margin-top: 20px;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -760,15 +759,28 @@
         font-weight: bold;
         font-size: 14px;
     }
+    .checkout-container {
+        display: flex;
+        align-items: center;
+    }
     #checkout-btn {
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
         padding-left: 5px;
         padding-right: 5px;
         color: #fff;
+        width: 100%;
+        text-align: center;
+        background-color: #f79d65;
+        font-weight: bold;
+        text-transform: uppercase;
+        border-radius: 4px;
+    }
+    #checkout-btn:hover {
+        cursor: pointer;
         background-color: #f7b267;
     }
-
+    /* ORDER RESUME */
 
     /* SHIPPING INFORMATION */
     .address-header {
@@ -869,4 +881,12 @@
         margin: 40px 40px;
     }
     /* EMPTY CONTAINER */
+
+    /* RESPONSIVE MEDIA QUERIES */
+    @media (max-width: 896px) {
+        .order-resume {
+            width: 100%;
+        }
+    }
+
 </style>

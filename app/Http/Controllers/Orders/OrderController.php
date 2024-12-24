@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderItem;
 use App\Models\Shoppingcarts\Shoppingcart;
 use App\Models\Discounts\Discount;
 
@@ -35,20 +36,13 @@ class OrderController extends Controller
     public function order(Request $request)
     {
         $user = Auth::user();
-        //$orderCode = $request->orderCode;
-        //$lastOrderCreated = Order::where('order_code', $orderCode)->first();
 
-
-        // Verificar si se pasó el 'orderCode' en la solicitud
-        if ($request->filled('orderCode')) { // Revisa si el campo no es nulo o vacío
+        if ($request->filled('orderCode')) {
             $orderCode = $request->orderCode;
             $lastOrderCreated = Order::where('order_code', $orderCode)->first();
         } else {
-            // Si no se pasa 'orderCode', obtener la última orden creada para el usuario
             $lastOrderCreated = Order::where('user_id', $user->id)->latest()->first();
         }
-
-
 
         $shoppingcartProducts = Shoppingcart::where('user_id', $user->id)
             ->with(['products.prices.currency'])
@@ -59,7 +53,6 @@ class OrderController extends Controller
 
         return Inertia::render('Order',
             [
-                //'lastOrderCreated' => $lastOrderCreated,
                 'user' => $user,
                 'shoppingcartProducts' => $shoppingcartProducts,
                 'productDiscounts' => $productDiscounts,
@@ -90,13 +83,56 @@ class OrderController extends Controller
 
     public function addOrderItems(Request $request)
     {
+        // RECEIVE DATA
+        $orderData = $request->all();
+        $currency = $orderData['orderCurrency'];
+        $orderSubtotal = $orderData['orderSubtotal'];
+        $orderTotal = $orderData['orderTotal'];
+        $orderItemsData = $orderData['orderItems'];
+
         $user = Auth::user();
         $order = Order::where('order_code', $request->orderCode)->first();
+
+        // UPDATE ORDER DATA
+        // Order Subtotal
+        $filteredSubtotal = null;
+        foreach ($orderSubtotal as $subtotal) {
+            if ($subtotal['currency'] === $currency) {
+                $filteredSubtotal = $subtotal['amount'];
+                break;
+            }
+        }
+        // Order Total
+        $filteredTotal = null;
+        foreach ($orderTotal as $total) {
+            if ($total['currency'] === $currency) {
+                $filteredTotal = $total['amount'];
+                break;
+            }
+        }
+
         $order->order_status = 'Processing';
-        $order->subtotal = $request->orderSubtotal;
-        $order->total = $request->orderTotal;
-        $order->currency_symbol = $request->orderCurrency;
+        $order->subtotal = $filteredSubtotal;
+        $order->total = $filteredTotal;
+        $order->currency_symbol = $currency;
         $order->save();
+
+        // CREATE ORDERITEMS
+        $orderId = $order->id;
+
+        foreach ($orderItemsData as $itemData) {
+
+            $subtotal = collect($itemData['itemSubtotal'])->firstWhere('currency', $currency)['number'] ?? 0;
+            $total = collect($itemData['itemTotal'])->firstWhere('currency', $currency)['number'] ?? 0;
+
+            OrderItem::create([
+                'order_id' => $orderId,
+                'product_id' => $itemData['id'],
+                'quantity' => $itemData['quantity'],
+                'subtotal' => $subtotal,
+                'total' => $total,
+            ]);
+        }
 
         return redirect()->route('order');
     }

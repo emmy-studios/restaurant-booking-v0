@@ -11,9 +11,7 @@
         NDropdown
     } from 'naive-ui';
     import {
-        StickyNote2Filled,
-        CheckCircleOutlineFilled,
-        DeliveryDiningFilled,
+        ShoppingBagOutlined,
     } from '@vicons/material';
 
     // Get Current Locale
@@ -25,7 +23,7 @@
     // Get User Information
     const notifications = ref(4);
     // Orders Stats
-    const totalOrders = ref(orders.length);
+    const totalOrders = ref(90);
     const ordersConfirmed = ref(9);
     const ordersDelivered = ref(2);
     // Format Created at Date
@@ -68,45 +66,38 @@
         <template v-slot:mainContentSlot>
 
             <div class="stats-container">
-
                 <div class="stat-card" id="stat-one">
                     <div class="card-icon">
-                        <n-icon size=45 color="#fff">
-                            <StickyNote2Filled />
-                        </n-icon>
+                        <img src="/assets/images/system/orders_list.svg">
                     </div>
                     <div class="card-container">
                         <p>{{ totalOrders }}</p>
                         <h2>Total Orders</h2>
                     </div>
                 </div>
-
                 <div class="stat-card" id="stat-two">
                     <div class="card-icon">
-                        <n-icon size=45 color="#fff">
-                            <CheckCircleOutlineFilled />
-                        </n-icon>
+                        <img src="/assets/images/system/pending_status.svg">
                     </div>
                     <div class="card-container">
                         <p>{{ ordersConfirmed }}</p>
-                        <h2>Orders Completed</h2>
+                        <h2>Orders Pending</h2>
                     </div>
                 </div>
-
                 <div class="stat-card" id="stat-three">
                     <div class="card-icon">
-                        <n-icon size=45 color="#fff">
-                            <DeliveryDiningFilled />
-                        </n-icon>
+                        <img src="/assets/images/system/delivery_status.svg">
                     </div>
                     <div class="card-container">
                         <p>{{ ordersDelivered }}</p>
                         <h2>Orders Delivered</h2>
                     </div>
                 </div>
-
             </div>
-
+            <div class="container-header">
+                <span>All Orders Made</span>
+                <p>This is the information of all your orders</p>
+            </div>
             <div class="orders-container">
                 <table class="table-container">
                     <thead>
@@ -123,7 +114,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="order in orders.data" :key="order.id">
-                            <td id="order-code">{{ order.order_code }}</td>
+                            <td>
+                                <div id="order-code">
+                                    <n-icon color="#bc6c25" size=20><ShoppingBagOutlined/></n-icon>{{ order.order_code }}
+                                </div>
+                            </td>
                             <td>{{ formatDate(order.created_at) }}</td>
                             <td>
                                 <span v-if="order.order_status === 'Pending'" class="pending-order">
@@ -158,21 +153,8 @@
                                 <Link
                                     :href="`/${currentLocale}/order`"
                                     :data="{ orderCode: order.order_code }"
-                                    v-if="
-                                        order.order_status === 'Pending' ||
-                                        order.order_status === 'Processing' ||
-                                        order.order_status === 'Awaiting Payment'"
                                 >
-                                    <n-button tertiary type="primary">
-                                        :
-                                    </n-button>
-                                </Link>
-                                <Link
-                                    v-else
-                                    :href="`/${currentLocale}/order`"
-                                    :data="{ orderCode: order.order_code }"
-                                >
-                                    <n-button tertiary type="primary">:</n-button>
+                                    <n-button tertiary type="primary">Details</n-button>
                                 </Link>
                             </td>
                         </tr>
@@ -200,57 +182,72 @@
 
     /* STATS */
     .stats-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 20px;
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
         margin-top: 60px;
         margin-bottom: 100px;
     }
     .stat-card {
+        width: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: red;
-        padding: 20px 20px;
+        padding: 30px 15px;
         border-radius: 10px;
-        gap: 20px;
     }
     #stat-one {
-        background-color: #a7c957;
+        background-color: #eb5e28;
     }
     #stat-two {
-        background-color: #eaac8b;
-    }
-    #stat-three {
         background-color: #fb6f92;
     }
-    .card-icon {
-        display: flex;
+    #stat-three {
+        background-color: #adc178;
     }
     .card-container {
         display: flex;
+        justify-content: center;
+        padding-left: 20px;
         flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-    .card-container h2 {
-        font-size: 16px;
-        color: #fff;
     }
     .card-container p {
-        color: #fff;
         font-weight: bold;
-        font-size: 30px;
+        font-size: 2rem;
+        color: #fff;
+    }
+    .card-container h2 {
+        font-weight: bold;
+        color: #fff;
+    }
+    .card-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-icon img {
+        width: 70px;
     }
     /* STATS */
+
     /* ORDERS TABLE */
     .orders-container {
         max-width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
-        border: 1px solid #a7c957;
-        border-radius: 8px;
         background-color: #fff;
+        padding-top: 20px;
+    }
+    .container-header {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 10px;
+    }
+    .container-header span {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .container-header p {
+        color: gray;
     }
     .table-container {
         width: 100%;
@@ -262,18 +259,19 @@
     .table-container td {
         padding: 12px 15px;
         text-align: left;
-        /*border: 1px solid #ddd;*/
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
     }
     .table-container th {
-        /*background-color: #f4f4f4;*/
-        background-color: #a7c957;
         font-weight: bold;
         padding-top: 20px;
         padding-bottom: 20px;
-        color: #fff;
+        color: #000;
     }
     #order-code {
-        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 3px;
     }
     .table-container tr:nth-child(even) {
         background-color: #f9f9f9;
@@ -347,14 +345,16 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-        .stats-container {
-            grid-template-columns: 1fr;
-        }
         .table-container {
             font-size: 14px;
         }
         .table-container th, .table-container td {
             padding: 10px;
+        }
+    }
+    @media (max-width: 900px) {
+        .stats-container {
+            flex-wrap: wrap;
         }
     }
 
