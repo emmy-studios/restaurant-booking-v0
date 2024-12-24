@@ -1,7 +1,7 @@
 <script setup>
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
-    import { ref, defineProps, reactive, computed, onMounted, watch } from 'vue';
+    import { ref, defineProps, reactive, computed, onMounted, watch, onUnmounted } from 'vue';
     import { usePage, Link } from '@inertiajs/vue3';
     import {
         NTimeline,
@@ -36,6 +36,22 @@
     );
     const { locale } = usePage().props;
     const currentLocale = locale || 'en';
+
+    // Timeline Orientation
+    const isHorizontal = ref(true);
+    const updateTimelineOrientation = () => {
+        isHorizontal.value = window.innerWidth >= 768;
+    };
+
+    onMounted(() => {
+        updateTimelineOrientation();
+        window.addEventListener('resize', updateTimelineOrientation);
+    });
+
+    onUnmounted(() => {
+        window.removeEventListener('resize', updateTimelineOrientation);
+    });
+    // Timeline Orientation
 
     const userData = computed(() => {
         return props.user ? props.user : null;
@@ -249,7 +265,6 @@
     >
 
         <template v-slot:mainContentSlot>
-            <p>{{ code }}</p>
             <section
                 class="order-container"
                 v-if="
@@ -261,9 +276,9 @@
             >
 
                 <!-- Status = Pending -->
-                <article v-if="status === 'Pending'">
+                <article v-if="status === 'Pending'" class="main-container">
                     <div class="timeline-container">
-                        <n-timeline horizontal>
+                        <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item
         						type="info"
         						title="Creating Order"
@@ -274,28 +289,28 @@
                                     <n-icon size=30><ShoppingBagRound/></n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="ADDRESS">
                                 <template #icon>
                                     <n-icon size=30>
                                         <EditLocationSharp/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="PAYMENT">
                                 <template #icon>
                                     <n-icon size=30>
                                         <CreditCardTwotone/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="INVOICE">
                                 <template #icon>
                                     <n-icon size=30>
                                         <ArticleFilled/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="DELIVERY">
                                 <template #icon>
                                     <n-icon size=30>
                                         <DeliveryDiningFilled/>
@@ -462,7 +477,7 @@
                 <!-- Status = Processing -->
                 <article v-else-if="status === 'Processing'" class="processing-container">
                     <div class="timeline-container">
-                        <n-timeline horizontal>
+                        <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="ORDER CREATED">
                                 <template #icon>
                                     <n-icon size=30>
@@ -482,21 +497,21 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="PAYMENT">
                                 <template #icon>
                                     <n-icon size=30>
                                         <CreditCardTwotone/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="INVOICE">
                                 <template #icon>
                                     <n-icon size=30>
                                         <ArticleFilled/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" line-type="dashed" title="DELIVERY">
                                 <template #icon>
                                     <n-icon size=30>
                                         <DeliveryDiningFilled/>
@@ -562,7 +577,7 @@
                 <!-- Status = Awaiting Payment -->
                 <article v-else-if="status === 'Awaiting Payment'">
                     <div class="timeline-container">
-                        <n-timeline horizontal>
+                        <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
                                 <template #icon>
                                     <n-icon size=30>
@@ -580,6 +595,7 @@
                             <n-timeline-item
                                 type="info"
                                 title="PAYMENT INFORMATION"
+                                line-type="dashed"
                                 content="Choose your payment information"
                                 :time=getCurrentDateTime()
                             >
@@ -589,14 +605,14 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" title="INVOICE" line-type="dashed">
                                 <template #icon>
                                     <n-icon size=30>
                                         <ArticleFilled/>
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" title="DELIVERY" line-type="dashed">
                                 <template #icon>
                                     <n-icon size=30>
                                         <DeliveryDiningFilled/>
@@ -624,7 +640,7 @@
                 <!-- Status = Completed -->
                 <article v-else-if="status === 'Completed'" class="invoice-container">
                     <div class="timeline-container">
-                        <n-timeline horizontal>
+                        <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
                                 <template #icon>
                                     <n-icon size=30>
@@ -649,6 +665,7 @@
                             <n-timeline-item
                                 color="info"
                                 type="info"
+                                line-type="dashed"
                                 title="GENERATE INVOICE"
                                 content="Print your invoice"
                                 :time=getCurrentDateTime()
@@ -660,7 +677,7 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item color="gray">
+                            <n-timeline-item color="gray" title="DELIVERY" line-type="dashed">
                                 <template #icon>
                                     <n-icon size=30>
                                         <DeliveryDiningFilled/>
@@ -670,15 +687,28 @@
     					</n-timeline>
                     </div>
                     <div class="print-invoice">
-                        <p>Order Completed</p>
-                        <p>Generate Invoice</p>
+                        <div class="invoice-card">
+                            <div class="card-icon">
+                                <img src="/assets/images/system/success_tick.svg">
+                            </div>
+                            <div class="card-text">
+                                <span>Order Successfully</span>
+                                <p>
+                                    Your order has been created, if you want an invoice,
+                                    click below to print it.
+                                </p>
+                            </div>
+                            <div class="card-actions">
+                                <n-button type=primary>PRINT</n-button>
+                            </div>
+                        </div>
                     </div>
                 </article>
 
                 <!-- Status = Delivered -->
                 <article v-else-if="status === 'Delivered'" class="voucher-container">
                     <div class="timeline-container">
-                        <n-timeline horizontal>
+                        <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
                                 <template #icon>
                                     <n-icon size=30>
@@ -716,11 +746,21 @@
     					</n-timeline>
                     </div>
                     <div class="print-voucher">
-                        <p>
-                            Your order has been delivered,
-                            if you want a proof of purchase
-                            you can print it below
-                        </p>
+                        <div class="voucher-card">
+                            <div class="card-icon">
+                                <img src="/assets/images/system/delivery_truck.svg">
+                            </div>
+                            <div class="card-text">
+                                <span>Your order has been placed</span>
+                                <p>
+                                    if you want a proof of purchase
+                                    you can print it below.
+                                </p>
+                            </div>
+                            <div class="card-actions">
+                                <n-button type=primary>GENERATE</n-button>
+                            </div>
+                        </div>
                     </div>
                 </article>
 
@@ -744,13 +784,20 @@
         flex-direction: column;
         margin-top: 60px;
     }
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
     /* MAIN CONTAINER */
     /* TIMELINE CONTAINER */
     .timeline-container {
         display: flex;
         justify-content: center;
+        align-items: center;
         padding: 20px 20px;
         overflow: auto;
+        max-width: 100%;
     }
     /* TIMELINE CONTAINER */
     /* ORDER STATUS = PENDING */
@@ -953,11 +1000,24 @@
     /* PAYMENT INFORMATION */
 
     /* GENERATE INVOICE */
+    .voucher-container {
+        display: flex;
+        flex-direction: column;
+    }
     .print-invoice {
         display: flex;
         align-items: center;
         justify-content: center;
         margin-top: 60px;
+    }
+    .invoice-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        background-color: #f9f9f9;
+        padding: 30px 30px;
+        border-radius: 10px;
     }
     /* GENERATE INVOICE */
 
@@ -967,6 +1027,43 @@
         align-items: center;
         justify-content: center;
         margin-top: 60px;
+    }
+    .voucher-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        background-color: #f9f9f9;
+        padding: 30px 30px;
+        border-radius: 10px;
+    }
+    .card-icon {
+        display: flex;
+        padding: 10px 10px;
+        justify-content: center;
+    }
+    .card-icon img {
+        width: 100px;
+        height: 100px;
+    }
+    .card-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 10px;
+        gap: 10px;
+    }
+    .card-text span {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .card-text p {
+        color: gray;
+    }
+    .card-actions {
+        display: flex;
+        justify-content: center;
     }
     /* GENERATE VOUCHER */
 
