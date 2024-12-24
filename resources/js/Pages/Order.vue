@@ -224,24 +224,19 @@
         return summary;
     });
 
-    // Send Data to Controller
-    const orderData = {
-        'orderCode': orderCode,
-        'orderStatus': status,
+    // GET CURRENT DATETIME
+    const getCurrentDateTime = () => {
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
     };
-
-    // Get User Information
-    const notifications = ref(4);
-
-    const changeStatus = (data) => {
-        data = 'Completed';
-    };
-
-    const quantity = ref(0);
-    const getQuantity = () => {
-        alert(quantity.value);
-    };
-
 
 </script>
 
@@ -272,29 +267,40 @@
       						<n-timeline-item
         						type="info"
         						title="Creating Order"
-        						content="Choose your orders items">
+        						content="Choose your orders items"
+                                :time=getCurrentDateTime()
+                            >
                                 <template #icon>
                                     <n-icon size=30><ShoppingBagRound/></n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="Shipping Address"
-                                content="Verify your delivered address"
-                            >
+                            <n-timeline-item color="gray">
                                 <template #icon>
                                     <n-icon size=30>
-                                        <EditLocationSharp />
+                                        <EditLocationSharp/>
                                     </n-icon>
                                 </template>
-
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="Payment Method"
-                                content="Choose your order payments"
-                            >
-                                <n-icon size=30><CreditCardTwotone/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CreditCardTwotone/>
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <ArticleFilled/>
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <DeliveryDiningFilled/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
     					</n-timeline>
                     </div>
@@ -449,14 +455,6 @@
                                 </Link>
                             </div>
                         </div>
-
-
-                        <div>
-                            <p>{{ orderItems }}</p>
-                            <p>------------------------------------------</p>
-                            <p>{{ orderSummary }}</p>
-                        </div>
-
                     </div>
                 </article>
 
@@ -465,11 +463,7 @@
                 <article v-else-if="status === 'Processing'" class="processing-container">
                     <div class="timeline-container">
                         <n-timeline horizontal>
-      						<n-timeline-item
-        						type="success"
-                                color="success"
-        						title="ORDER CREATED"
-                            >
+      						<n-timeline-item type="success" color="success" title="ORDER CREATED">
                                 <template #icon>
                                     <n-icon size=30>
                                         <CheckCircleFilled />
@@ -478,9 +472,9 @@
                             </n-timeline-item>
                             <n-timeline-item
                                 type="info"
-                                title="Shipping Address"
-                                content="Verify your delivered address"
-                                time="2018-04-03 20:46"
+                                title="SHIPPING ADDRESS"
+                                content="Verify your shipping address"
+                                :time=getCurrentDateTime()
                             >
                                 <template #icon>
                                     <n-icon size=30>
@@ -488,23 +482,26 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="PAYMENT"
-                            >
-                                <n-icon size=30><CreditCardTwotone/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CreditCardTwotone/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="INVOICE"
-                            >
-                                <n-icon size=30><ArticleFilled/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <ArticleFilled/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="DELIVEREY"
-                            >
-                                <n-icon size=30><DeliveryDiningFilled/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <DeliveryDiningFilled/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
     					</n-timeline>
                     </div>
@@ -518,20 +515,22 @@
                         </div>
                     </div>
                     <div class="address-container">
-                        <div class="country-item">
-                            <span>Country:</span>
-                            <input v-model="userData.country">
+                        <div class="address-item">
+                            <div class="country-item">
+                                <span>Country:</span>
+                                <input v-model="userData.country">
+                            </div>
+                            <div class="city-item">
+                                <span>City</span>
+                                <input v-model="userData.city">
+                            </div>
                         </div>
-                        <div class="city-item">
-                            <span>City</span>
-                            <input v-model="userData.city">
-                        </div>
-                        <div class="contact-item">
-                            <div class="phone-code">
+                        <div class="address-item">
+                            <div class="code-item">
                                 <span>Phone Code:</span>
                                 <input v-model="userData.country_code">
                             </div>
-                            <div class="phone-number">
+                            <div class="phone-item">
                                 <span>Phone Number:</span>
                                 <input v-model="userData.phone_number">
                             </div>
@@ -564,22 +563,14 @@
                 <article v-else-if="status === 'Awaiting Payment'">
                     <div class="timeline-container">
                         <n-timeline horizontal>
-      						<n-timeline-item
-        						type="success"
-                                color="success"
-        						title="CREATED"
-                            >
+      						<n-timeline-item type="success" color="success" title="CREATED">
                                 <template #icon>
                                     <n-icon size=30>
                                         <CheckCircleFilled />
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                type="success"
-                                color="success"
-                                title="ADDRESS"
-                            >
+                            <n-timeline-item type="success" color="success"title="ADDRESS">
                                 <template #icon>
                                     <n-icon size=30>
                                         <CheckCircleFilled />
@@ -588,9 +579,9 @@
                             </n-timeline-item>
                             <n-timeline-item
                                 type="info"
-                                title="Payment Information"
+                                title="PAYMENT INFORMATION"
                                 content="Choose your payment information"
-                                time="2018-04-03 20:46"
+                                :time=getCurrentDateTime()
                             >
                                 <template #icon>
                                     <n-icon size=30>
@@ -598,17 +589,19 @@
                                     </n-icon>
                                 </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="INVOICE"
-                            >
-                                <n-icon size=30><ArticleFilled/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <ArticleFilled/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
-                            <n-timeline-item
-                                color="gray"
-                                title="DELIVERY"
-                            >
-                                <n-icon size=30><DeliveryDiningFilled/></n-icon>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <DeliveryDiningFilled/>
+                                    </n-icon>
+                                </template>
                             </n-timeline-item>
     					</n-timeline>
                     </div>
@@ -630,18 +623,105 @@
 
                 <!-- Status = Completed -->
                 <article v-else-if="status === 'Completed'" class="invoice-container">
-                    <p>Order Completed</p>
-                    <p>Generate Invoice</p>
+                    <div class="timeline-container">
+                        <n-timeline horizontal>
+      						<n-timeline-item type="success" color="success" title="CREATED">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item type="success" color="success" title="ADDRESS">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item type="success" color="success" title="PAYMENT">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="info"
+                                type="info"
+                                title="GENERATE INVOICE"
+                                content="Print your invoice"
+                                :time=getCurrentDateTime()
+
+                            >
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <ArticleFilled/>
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item color="gray">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <DeliveryDiningFilled/>
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+    					</n-timeline>
+                    </div>
+                    <div class="print-invoice">
+                        <p>Order Completed</p>
+                        <p>Generate Invoice</p>
+                    </div>
                 </article>
 
                 <!-- Status = Delivered -->
                 <article v-else-if="status === 'Delivered'" class="voucher-container">
-                    <p>
-                        Your order has been delivered,
-                        if you want a proof of purchase
-                        you can print it below
-                    </p>
-                    <button type=primary>Generate</button>
+                    <div class="timeline-container">
+                        <n-timeline horizontal>
+      						<n-timeline-item type="success" color="success" title="CREATED">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item type="success" color="success" title="ADDRESS">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item type="success" color="success" title="PAYMENT">
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <CheckCircleFilled />
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+                            <n-timeline-item
+                                color="info"
+                                type="info"
+                                title="DELIVERY VOUCHER"
+                                content="Generate a delivered voucher"
+                                :time=getCurrentDateTime()
+                            >
+                                <template #icon>
+                                    <n-icon size=30>
+                                        <DeliveryDiningFilled/>
+                                    </n-icon>
+                                </template>
+                            </n-timeline-item>
+    					</n-timeline>
+                    </div>
+                    <div class="print-voucher">
+                        <p>
+                            Your order has been delivered,
+                            if you want a proof of purchase
+                            you can print it below
+                        </p>
+                    </div>
                 </article>
 
             </section>
@@ -782,7 +862,7 @@
     }
     /* ORDER RESUME */
 
-    /* SHIPPING INFORMATION */
+    /* STATUS = PROCESSING */
     .address-header {
         display: flex;
         align-items: flex-end;
@@ -808,40 +888,45 @@
     .header-text p {
         text-transform: uppercase;
     }
-    .processing-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
     .address-container {
         display: flex;
         flex-direction: column;
         margin-top: 30px;
         padding: 60px 60px;
         gap: 20px;
-        background-color: red;
+        background-color: #eae4e9;
         border-radius: 10px;
     }
-    .country-item,
-    .city-item {
+    .address-item {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        align-items: center;
+    }
+    .country-item, .city-item,
+    .code-item, .phone-item {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 4px;
+        width: 100%;
     }
-    .country-item span, .city-item span, .contact-item span {
+    .country-item span, .city-item span,
+    .code-item span, .phone-item span {
         font-weight: bold;
-        font-size: 16px;
+        font-zise: 2rem;
     }
-    .country-item input, .city-item input, .contact-item input {
+    .country-item input, .city-item input,
+    .code-item input, .phone-item input {
         padding: 10px 10px;
-        border: 1px solid orange;
+        border-radius: 5px;
     }
     .address-item textarea {
         padding: 10px 10px;
+        width: 100%;
+        border-radius: 5px;
     }
-    .contact-item {
-        display: flex;
-        gap: 10px;
+    .address-item textarea:focus {
+        border: 1px solid #a2d2ff;
     }
     .processing-actions {
         display: flex;
@@ -850,7 +935,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    /* SHIPPING INFORMATION */
+    /* STATUS = PROCESSING */
 
     /* PAYMENT INFORMATION */
     .payment-container {
@@ -868,9 +953,21 @@
     /* PAYMENT INFORMATION */
 
     /* GENERATE INVOICE */
+    .print-invoice {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 60px;
+    }
     /* GENERATE INVOICE */
 
     /* GENERATE VOUCHER */
+    .print-voucher {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 60px;
+    }
     /* GENERATE VOUCHER */
 
     /* EMPTY CONTAINER */

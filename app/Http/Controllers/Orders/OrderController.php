@@ -25,9 +25,16 @@ class OrderController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
+        $totalOrders = Order::where('user_id', $user->id)->get()->count();
+        $pendingOrders = Order::where('user_id', $user->id)->get()->where('order_status', 'Pending')->count();
+        $deliveredOrders = Order::where('user_id', $user->id)->get()->where('order_status', 'Delivered')->count();
+
         return Inertia::render('Orders',
             [
                 'orders' => $orders,
+                'totalOrders' => $totalOrders,
+                'pendingOrders' => $pendingOrders,
+                'deliveredOrders' => $deliveredOrders,
                 'translations' => $translations,
                 'locale' => $locale,
             ]);

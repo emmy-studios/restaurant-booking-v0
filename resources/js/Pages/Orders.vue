@@ -1,31 +1,42 @@
 <script setup>
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
-    import { ref } from 'vue';
+    import { ref, defineProps, computed } from 'vue';
     import { usePage, router, Link } from '@inertiajs/vue3';
     import {
         NButton,
-        NModal,
-        NCard,
         NIcon,
-        NDropdown
     } from 'naive-ui';
+
     import {
         ShoppingBagOutlined,
     } from '@vicons/material';
 
-    // Get Current Locale
-    const { locale } = usePage().props;
-    const currentLocale = locale || 'en';
-
     // User Orders
-    const { orders } = usePage().props;
-    // Get User Information
-    const notifications = ref(4);
+    const props = defineProps([
+        'orders',
+        'totalOrders',
+        'pendingOrders',
+        'deliveredOrders',
+        'locale',
+        'translations',
+    ]);
+
+    const currentLocale = computed(() => {
+        return props.locale ? props.locale : 'en';
+    });
+
     // Orders Stats
-    const totalOrders = ref(90);
-    const ordersConfirmed = ref(9);
-    const ordersDelivered = ref(2);
+    const totalOrders = computed(() => {
+        return props.totalOrders ? props.totalOrders : 0;
+    });
+    const pendingOrders = computed(() => {
+        return props.pendingOrders ? props.pendingOrders : 0;
+    });
+    const deliveredOrders = computed(() => {
+        return props.deliveredOrders ? props.deliveredOrders : 0;
+    });
+
     // Format Created at Date
     const formatDate = (date) => {
         const d = new Date(date);
@@ -35,24 +46,11 @@
         return `${day}-${month}-${year}`;
     };
 
-    // Orders Actions
-    const options = [
-        {
-          label: "Details",
-          key: "details"
-        },
-    ];
-    // Pending Orders Actions
-    const pendingOptions = [
-        {
-            label: "Continue Process",
-            key: "continue",
-        }
-    ];
     // Pagination
     const navigate = (url) => {
         router.get(url);
     };
+
 </script>
 
 <template>
@@ -80,7 +78,7 @@
                         <img src="/assets/images/system/pending_status.svg">
                     </div>
                     <div class="card-container">
-                        <p>{{ ordersConfirmed }}</p>
+                        <p>{{ pendingOrders }}</p>
                         <h2>Orders Pending</h2>
                     </div>
                 </div>
@@ -89,7 +87,7 @@
                         <img src="/assets/images/system/delivery_status.svg">
                     </div>
                     <div class="card-container">
-                        <p>{{ ordersDelivered }}</p>
+                        <p>{{ deliveredOrders }}</p>
                         <h2>Orders Delivered</h2>
                     </div>
                 </div>

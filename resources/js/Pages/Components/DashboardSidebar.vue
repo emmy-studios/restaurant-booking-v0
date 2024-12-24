@@ -44,8 +44,8 @@
     const userNotifications = reactive(usePage().props.notifications);
 
     // Sidebar Reactive Variable
-    const isSidebarHidden = ref(window.innerWidth < 768);
-
+    //const isSidebarHidden = ref(window.innerWidth < 768);
+    const isSidebarHidden = ref(true);
     // Toggle Sidebar
     const toggleSidebar = () => {
         isSidebarHidden.value = !isSidebarHidden.value;
@@ -107,7 +107,7 @@
     >
         <Link :href="`/${locale}/dashboard`" class="brand">
             <n-icon class="bx" color="#db7c26"><TagFacesSharp/></n-icon>
-            <span class="text">Admin</span>
+            <span class="text">Krosty</span>
 		</Link>
 
         <ul class="side-menu top">
@@ -366,7 +366,8 @@
 	    width: 280px;
 	    height: 100%;
 	    background: #F9F9F9;
-	    z-index: 2000;
+	    /*background: #cdb4db;*/
+        z-index: 2000;
 	    /*font-family: var(--lato);*/
 	    transition: .3s ease;
 	    overflow-x: hidden;
@@ -384,13 +385,13 @@
 	    height: 56px;
 	    display: flex;
 	    align-items: center;
-	    /*color: #3C91E6;*/
 	    color: #db7c26;
         position: sticky;
 	    top: 0;
 	    left: 0;
 	    background: #F9F9F9;
-	    z-index: 500;
+	    /*background: #cdb4db;*/
+        z-index: 500;
 	    padding-bottom: 20px;
 	    box-sizing: content-box;
     }
@@ -440,6 +441,7 @@
 	    width: 100%;
 	    height: 100%;
 	    background: #F9F9F9;
+        /*background: #cdb4db;*/
         display: flex;
 	    align-items: center;
 	    border-radius: 48px;
@@ -449,7 +451,6 @@
 	    overflow-x: hidden;
     }
     #sidebar .side-menu.top li.active a {
-	    /*color: #3C91E6;*/
         color: #db7c26;
     }
     #sidebar.hide .side-menu li a {
@@ -460,7 +461,6 @@
 	    color: #DB504A;
     }
     #sidebar .side-menu.top li a:hover {
-	    /*color: #3C91E6;*/
         color: #db7c26;
     }
     #sidebar .side-menu li a .bx {
@@ -485,7 +485,8 @@
 	#content nav {
 		height: 56px;
 		background: #F9F9F9;
-		padding: 0 24px;
+		/*background: #cdb4db;*/
+        padding: 0 24px;
 		display: flex;
         /*justify-content: flex-end;*/
 		align-items: center;
@@ -527,7 +528,8 @@
 		height: 20px;
 		border-radius: 50%;
 		border: 2px solid #F9F9F9;
-		background: #DB504A;
+		/*border: 2px solid #cdb4db;*/
+        background: #DB504A;
 		color: #F9F9F9;
 		font-weight: 700;
 		font-size: 12px;
@@ -570,7 +572,6 @@
 		grid-gap: 16px;
 	}
 	#content main .head-title .left .breadcrumb li {
-		/*color: #342E37;*/
         color: #bd632f;
 	}
 	#content main .head-title .left .breadcrumb li a {
@@ -578,7 +579,6 @@
 		pointer-events: none;
 	}
 	#content main .head-title .left .breadcrumb li a.active {
-		/*color: #3C91E6;*/
 		color: #bd632f;
         pointer-events: unset;
 	}
@@ -588,7 +588,8 @@
 		border-radius: 36px;
 		background: #3C91E6;
 		color: #F9F9F9;
-		display: flex;
+		/*color: #cdb4db;*/
+        display: flex;
 		justify-content: center;
 		align-items: center;
 		grid-gap: 10px;
