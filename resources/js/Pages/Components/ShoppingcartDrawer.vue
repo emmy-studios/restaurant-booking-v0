@@ -51,7 +51,6 @@
     defineProps({
         shoppingcartProducts: Array,
     });
-    //const productsNumber = ref(shoppingcartProducts.length);
 
 </script>
 
@@ -75,10 +74,9 @@
         </n-badge>
     </n-float-button>
     <!-- Shoppingcart Drawer -->
-    <n-drawer v-model:show="active" :width="400" :placement="placement">
+    <n-drawer v-model:show="active" :width="300" :placement="placement">
 
         <n-drawer-content>
-
             <!-- header -->
             <template #header>
                 <div class="drawer-header">
@@ -89,44 +87,40 @@
                             src="/assets/images/logo/krusty_logo_transparent.png"
                         >
                     </span>
-                    <n-button ghost size="small" @click="active = false">
-                        <n-icon>
+                    <n-button ghost color="#E77917" size="small" @click="active = false">
+                        <n-icon color="#E77917">
                             <CloseFilled/>
                         </n-icon>
                     </n-button>
                 </div>
             </template>
-
             <!-- content -->
-            <div
-                class="drawer-content"
-                v-if="$page.props.auth.isLoggedIn"
-            >
+            <div class="drawer-content" v-if="$page.props.auth.isLoggedIn">
 
                 <div v-if="shoppingcartProducts.length > 0">
-
-                    <div
-                        v-for="product in shoppingcartProducts"
-                        class="product-grid"
-                    >
-
+                    <div v-for="product in shoppingcartProducts" class="product-grid">
                         <img
                             :src="product.image_url ? `/storage/${product.image_url}` : '/assets/images/products/hamburger.png'"
                         >
-
                         <p>{{ product.name }}</p>
-
                         <Link
                             :href="`/${currentLocale}/shoppingcart/remove`"
                             method="post"
                             as="button"
                             :data="{ 'product_id': product.id }"
                         >
-                            <n-icon><DeleteForeverFilled/></n-icon>
+                            <n-icon size=20 color="#f02d3a"><DeleteForeverFilled/></n-icon>
                         </Link>
-
                     </div>
-
+                    <div class="order-actions">
+                        <Link
+                            id="order-btn"
+                            :href="`/${currentLocale}/order/create`"
+                            method="post"
+                        >
+                            Make Order
+                        </Link>
+                    </div>
                 </div>
 
                 <div v-else>
@@ -141,19 +135,6 @@
             >
                 <p>No products available</p>
             </div>
-
-            <!-- footer -->
-            <template #footer v-if="shoppingcartProducts.length > 0">
-                <!--<n-button type="warning" block>
-                    Make Order
-                </n-button>-->
-                <Link
-                    :href="`/${currentLocale}/order/create`"
-                    method="post"
-                >
-                    Make Order
-                </Link>
-            </template>
 
         </n-drawer-content>
 
@@ -179,12 +160,30 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         align-items: center;
-        gap: 10px;
+        gap: 20px;
+        padding-bottom: 10px;
     }
     .product-grid img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+    }
+    .order-actions {
+        display: flex;
+        padding-top: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+    #order-btn {
+        width: 100%;
+        color: #fff;
+        padding: 4px 4px;
+        background-color: #E77917;
+        text-align: center;
+        border-radius: 4px;
+    }
+    #order-btn:hover {
+        background-color: #f1b559;
     }
 
 </style>

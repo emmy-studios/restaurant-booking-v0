@@ -3,8 +3,6 @@
     import { reactive, computed } from "vue";
     import { usePage } from "@inertiajs/vue3";
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
-    import { NIcon } from 'naive-ui';
-    import { CheckCircleFilled } from '@vicons/material';
 
     const props = defineProps({
         translations: {
@@ -46,17 +44,12 @@
             <section class="profile-container">
                 <article class="profile-card">
                     <div class="card-image">
-                        <img
-                            :src="user.image_url ? `/storage/${user.image_url}` : '/assets/images/panels/admin.svg'"
-                        >
+                        <img src="/assets/images/panels/admin.svg">
                     </div>
                     <div class="card-container">
                         <div class="name-container">
                             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                             <span>{{ user.role }}</span>
-                            <n-icon size=20 color="green">
-                                <CheckCircleFilled/>
-                            </n-icon>
                         </div>
                         <div class="container-item">
                             <h3>Email: </h3>
@@ -67,36 +60,20 @@
                             <p>{{ user.country_code }} {{ user.phone_number }}</p>
                         </div>
                         <div class="container-item">
-                            <h3>Identification Number: </h3>
-                            <p>{{ user.identification_number }}</p>
+                            <h3>City: </h3>
+                            <p>{{ user.city }}</p>
                         </div>
                         <div class="container-item">
-                            <h3>Birth: </h3>
-                            <p>{{ user.birth }}</p>
-                        </div>
-                        <div class="container-item">
-                            <h3>Gender: </h3>
-                            <p>{{ user.gender }}</p>
+                            <h3>Country: </h3>
+                            <p>{{ user.country }}</p>
                         </div>
                     </div>
                 </article>
                 <article class="address-card">
-                    <div class="address-information">
-                        <h2>Shipping Address</h2>
-                        <div class="info-item">
-                            <p>{{ user.city }} |</p>
-                            <p>{{ user.country }}</p>
-                        </div>
-                        <div class="info-item">
-                            <span>Postal Code:</span>
-                                <p>{{ user.postal_code }}</p>
-                        </div>
-                        <div class="info-item">
-                            <p>{{ user.address }}</p>
-                        </div>
-                    </div>
+                    <p>SOme text here</p>
                 </article>
             </section>
+
         </template>
 
     </DashboardSidebar>
@@ -105,30 +82,26 @@
 
 <style scoped>
 
-    /* FIRST ROW */
     .profile-container {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
+        display: flex;
         gap: 10px;
     }
-    /* FIRST ROW */
     /* PROFILE CARD */
     .profile-card {
         margin-top: 60px;
         display: flex;
+        width: 60%;
         padding: 20px 20px;
         border-radius: 10px;
-        background-color: #f9f9f9;
+        background-color: red;
     }
     .card-image {
         display: flex;
         align-items: center;
-        justify-content: center;
     }
     .card-image img {
         width: 150px;
         height: 150px;
-        border-radius: 50%;
     }
     .card-container {
         display: flex;
@@ -150,22 +123,17 @@
         font-size: 12px;
         color: #fff;
         padding: 4px 4px;
-        background-color: #ef8354;
+        background-color: green;
         border-radius: 5px;
     }
     .container-item {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
         padding-left: 20px;
         align-items: center;
     }
     .container-item h3 {
-        font-weight: bold;
-        color: #432818;
-    }
-    .container-item p {
-        color: #262a10;
+        color: gray;
     }
     /* PROFILE CARD */
 
@@ -173,57 +141,17 @@
     .address-card {
         margin-top: 60px;
         display: flex;
-        /*width: 60%;*/
-        padding: 30px 30px;
+        width: 60%;
+        padding: 20px 20px;
         border-radius: 10px;
-        background-color: #f3d5b5;
-    }
-    .address-information {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        width: 100%;
-    }
-    .address-information h2 {
-        font-weight: bold;
-        font-size: 16px;
-        padding-bottom: 4px;
-        border-bottom: 1px solid #ddb892;
-    }
-    .info-item {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        padding-top: 6px;
-        align-items: center;
-    }
-    .info-item p {
-        color: #432818;
+        background-color: red;
     }
     /* ADDRESS CARD */
 
-    @media (max-width: 1041px) {
+    @media (max-width: 768px) {
         .profile-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2px;
-        }
-        .profile-card {
             display: flex;
             flex-direction: column;
-        }
-        .card-image {
-            padding-bottom: 10px;
-        }
-        .name-container {
-            display: flex;
-            flex-direction: column;
-        }
-        .container-item {
-            padding-left:0px;
-        }
-        .address-card {
-            margin-top: 2px;
         }
     }
 

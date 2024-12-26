@@ -1,16 +1,35 @@
 <script setup>
 
-    import { reactive } from "vue";
+    import { computed, defineProps } from "vue";
     import { usePage, Link } from "@inertiajs/vue3";
     import { NIcon } from "naive-ui";
     import { ArrowCircleLeftFilled } from "@vicons/material";
 
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
 
-    //const user = reactive(usePage().props.user);
-    //const currentLocale = reactive(usePage().props.locale);
+    const props = defineProps([
+        'locale',
+        'user',
+        'countries',
+        'countryCodes',
+        'genderOptions',
+    ]);
+    const user = computed(() => {
+        return props.user ? props.user : [];
+    });
 
-
+    const countries = computed(() => {
+        return props.countries ? props.countries : [];
+    });
+    const genderOptions = computed(() => {
+        return props.genderOptions ? props.genderOptions : [];
+    });
+    const countriyCodes = computed(() => {
+        return props.countryCodes ? props.countryCodes : [];
+    });
+    const currentLocale = computed(() => {
+        return props.locale ? props.locale : 'en';
+    });
 
 </script>
 
@@ -28,8 +47,10 @@
         		<section class="form-container">
 
             		<div class="image-container">
-                		<img src="https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png"/>
-                		<input type="file"/>
+                	    <img
+                            :src="user.image_url ? `/storage/${user.image_url}` : '/assets/images/panels/admin.svg'"
+                        >
+                        <input type="file"/>
             		</div>
 
             		<div class="user-information">
@@ -39,25 +60,52 @@
                 		<div class="personal-information">
                     		<div class="form-item">
                         		<label>NAME</label>
-                        		<input type="text"/>
+                                <input type="text" v-model="user.name"/>
                     		</div>
                     		<div class="form-item">
                         		<label>FIRST NAME</label>
-                        		<input type="text"/>
+                        		<input type="text" v-model="user.first_name"/>
                     		</div>
                     		<div class="form-item">
                         		<label>LAST NAME</label>
-                        		<input type="text"/>
+                        		<input type="text" v-model="user.last_name"/>
                     		</div>
                     		<div class="form-item">
                         		<label>IDENTIFICATION NUMBER</label>
-                        		<input type="text"/>
+                        		<input type="text" v-model="user.identification_number"/>
                     		</div>
-                		</div>
-
-                		<div class="email-information">
-                    		<label for="email">EMAIL ADDRESS</label>
-                    		<input type="email"/>
+                            <div class="form-item">
+                        		<label>PHONE CODE</label>
+                            	<select v-model="user.country_code">
+                                    <option v-for="(code, index) in countryCodes" :key="index" :value="code">
+                                        {{ code }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-item">
+                        		<label>PHONE NUMBER</label>
+                        		<input type="text" v-model="user.phone_number"/>
+                    		</div>
+                            <div class="form-item">
+                        		<label>POSTAL CODE</label>
+                        		<input type="text" v-model="user.postal_code"/>
+                    		</div>
+                            <div class="form-item">
+                        		<label>EMAIL</label>
+                        		<input type="email" v-model="user.email"/>
+                    		</div>
+                            <div class="form-item">
+                        		<label>BIRTH</label>
+                        		<input type="date" v-model="user.birth"/>
+                    		</div>
+                            <div class="form-item">
+                        		<label>GENDER</label>
+                            	<select v-model="user.gender">
+                                    <option v-for="(gender, index) in genderOptions" :key="index" :value="gender">
+                                        {{ gender }}
+                                    </option>
+                                </select>
+                            </div>
                 		</div>
 
                 		<div class="address-information">
@@ -67,18 +115,19 @@
                     		<div class="address-items">
                         		<div class="address-item">
                             		<label>COUNTRY</label>
-                            		<select>
-                                		<option value="us">United States</option>
-                                		<option value="cr">Costa Rica</option>
-                            		</select>
+                            	    <select v-model="user.country">
+                                        <option v-for="country in countries" :key="country" :value="country">
+                                            {{ country }}
+                                        </option>
+                                    </select>
                         		</div>
                         		<div class="address-item">
                             		<label>CITY</label>
-                            		<input type="text"/>
+                            		<input type="text" v-model="user.city"/>
                         		</div>
-                        		<div class="address-item">
-                            		<label>Address</label>
-                            		<textarea/>
+                        		<div class="address-item-info">
+                            		<label>ADDRESS</label>
+                                    <textarea rows="6" v-model="user.address"></textarea>
                         		</div>
                     		</div>
                 		</div>
@@ -88,17 +137,36 @@
         		</section>
 
         		<aside class="form-actions">
-            		<!--<button type="button">Back</button>-->
             		<Link :href="`/${currentLocale}/dashboard`">
                 		<n-icon size="40" color="#000">
                     		<ArrowCircleLeftFilled/>
                 		</n-icon>
             		</Link>
-            		<button type="submit">Change</button>
+            		<Link
+                        id="save-btn"
+                        :href="`/${currentLocale}/edit-profile/save`"
+                        method="post"
+                        :data="{
+                            username: user.name,
+                            firstName: user.first_name,
+                            lastName: user.last_name,
+                            idNumber: user.identification_number,
+                            email: user.email,
+                            birth: user.birth,
+                            gender: user.gender,
+                            phoneCode: user.country_code,
+                            phoneNumber: user.phone_number,
+                            postalCode: user.postal_code,
+                            city: user.city,
+                            country: user.country,
+                            address: user.address,
+                        }"
+                    >
+                        SAVE
+                    </Link>
         		</aside>
 
     		</form>
-
 
         </template>
 
@@ -109,59 +177,51 @@
 <style scoped>
 
     .main-container {
-        max-width: 1200px;
-        margin: 40px auto;
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
         padding: 20px;
-        background-color: white;
+        background-color: #f9f9f9;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
     .form-container {
         display: grid;
         grid-template-columns: 1fr 2fr;
-        background-color: #fff;
+        background-color: #f9f9f9;
         gap: 20px;
     }
-
     .image-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
     }
-
     .image-container img {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
         object-fit: cover;
     }
-
     .user-information {
         display: flex;
         flex-direction: column;
         gap: 10px;
     }
-
     .user-information h1 {
         font-weight: bold;
         font-size: 24px;
         margin-bottom: 10px;
         padding-top: 30px;
     }
-
     .personal-information {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
     }
-
     .form-item {
         display: flex;
         flex-direction: column;
     }
-
     /* Inputs and Forms */
     input,
     textarea,
@@ -173,72 +233,64 @@
         font-size: 16px;
         transition: border-color 0.3s;
     }
-
     input:focus,
     textarea:focus,
     select:focus {
-        border-color: #007bff;
+        border-color: #E77917;
         outline: none;
     }
-
     .form-item label {
         margin-bottom: 5px;
         font-weight: bold;
     }
-
-    .email-information {
-        display: flex;
-        flex-direction: column;
-    }
-
     .address-information {
         margin-top: 20px;
         display: flex;
         flex-direction: column;
     }
-
     .address-information h2 {
         font-weight: bold;
     }
-
     .address-information p {
         padding-bottom: 20px;
     }
-
     /* Address Section */
     .address-items {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
     }
-
     .address-item {
         display: flex;
         flex-direction: column;
         margin-top: 10px;
     }
-
-    /* Buttons */
+    .address-item-info {
+        grid-column-start: 1;
+        grid-column-end: span 2;
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        width: 100%;
+    }
+     /* Form Actions */
     .form-actions {
         margin-top: 30px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 20px;
         gap: 20px;
     }
-
-    button {
-        background-color: orange;
-        color: white;
-        border: none;
+    #save-btn {
+        background-color: #E77917;
         padding: 10px 20px;
+        color: #fff;
+        font-weight: bold;
         border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
     }
-
-    button:hover {
-        background-color: #0056b3;
+    #save-btn:hover {
+        background-color: #f1b559;
     }
 
     /* Responsive Design */
@@ -246,7 +298,9 @@
         .form-container {
             grid-template-columns: 1fr;
         }
-
+        .personal-information {
+            grid-template-columns: 1fr;
+        }
         .address-items {
             grid-template-columns: 1fr;
         }

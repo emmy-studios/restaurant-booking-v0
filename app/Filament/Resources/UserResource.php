@@ -100,7 +100,7 @@ class UserResource extends Resource
                     ->label(__('models.image_url'))
                     ->disk('public')
                     ->directory('users-image')
-                    ->imageEditor()
+                    ->previewable(false)
                     ->image()
             ]);
     }

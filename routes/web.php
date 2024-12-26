@@ -50,6 +50,7 @@ Route::prefix('{locale}')
         Route::get('/invoices', [DashboardController::class, 'invoices'])->name('invoices');
         Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
+        Route::post('/edit-profile/save', [DashboardController::class, 'editProfilePost'])->name('edit.profile.post');
         // Teams
         Route::get('/teams', [TeamsController::class, 'teams'])->name('teams');
     });
