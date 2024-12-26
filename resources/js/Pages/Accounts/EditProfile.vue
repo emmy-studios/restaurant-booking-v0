@@ -1,7 +1,7 @@
 <script setup>
 
-    import { computed, defineProps } from "vue";
-    import { usePage, Link } from "@inertiajs/vue3";
+    import { computed, defineProps, reactive } from "vue";
+    import { usePage, Link, useForm } from "@inertiajs/vue3";
     import { NIcon } from "naive-ui";
     import { ArrowCircleLeftFilled } from "@vicons/material";
 
@@ -13,6 +13,7 @@
         'countries',
         'countryCodes',
         'genderOptions',
+        'errors',
     ]);
     const user = computed(() => {
         return props.user ? props.user : [];
@@ -30,6 +31,24 @@
     const currentLocale = computed(() => {
         return props.locale ? props.locale : 'en';
     });
+    const errors = computed(() => props.errors ?? {});
+
+    // Form Test
+    const form = useForm({
+        username: user.value.name,
+        firstName: user.value.first_name,
+        lastName: user.value.last_name,
+        email: user.value.email,
+        birth: user.value.birth,
+        gender: user.value.gender,
+        identificationNumber: user.value.identification_number,
+        phoneCode: user.value.country_code,
+        phoneNumber: user.value.phone_number,
+        postalCode: user.value.postal_code,
+        city: user.value.city,
+        country: user.value.country,
+        address: user.value.address,
+    });
 
 </script>
 
@@ -42,8 +61,7 @@
 
         <template v-slot:mainContentSlot>
 
-            <form class="main-container">
-
+            <form class="main-container" @submit.prevent="form.post(`/${currentLocale}/edit-profile/save`)">
         		<section class="form-container">
 
             		<div class="image-container">
@@ -60,23 +78,26 @@
                 		<div class="personal-information">
                     		<div class="form-item">
                         		<label>NAME</label>
-                                <input type="text" v-model="user.name"/>
+                                <input type="text" v-model="form.username"/>
+                                <div class="error-message" v-if="form.errors.username">
+                                    {{ form.errors.username }}
+                                </div>
                     		</div>
                     		<div class="form-item">
                         		<label>FIRST NAME</label>
-                        		<input type="text" v-model="user.first_name"/>
+                        		<input type="text" v-model="form.firstName"/>
                     		</div>
                     		<div class="form-item">
                         		<label>LAST NAME</label>
-                        		<input type="text" v-model="user.last_name"/>
+                        		<input type="text" v-model="form.lastName"/>
                     		</div>
                     		<div class="form-item">
                         		<label>IDENTIFICATION NUMBER</label>
-                        		<input type="text" v-model="user.identification_number"/>
+                        		<input type="text" v-model="form.identificationNumber"/>
                     		</div>
                             <div class="form-item">
                         		<label>PHONE CODE</label>
-                            	<select v-model="user.country_code">
+                            	<select v-model="form.phoneCode">
                                     <option v-for="(code, index) in countryCodes" :key="index" :value="code">
                                         {{ code }}
                                     </option>
@@ -84,23 +105,29 @@
                             </div>
                             <div class="form-item">
                         		<label>PHONE NUMBER</label>
-                        		<input type="text" v-model="user.phone_number"/>
+                        		<input type="text" v-model="form.phoneNumber"/>
+                                <div class="error-message" v-if="form.errors.phoneNumber">
+                                    {{ form.errors.phoneNumber }}
+                                </div>
                     		</div>
                             <div class="form-item">
                         		<label>POSTAL CODE</label>
-                        		<input type="text" v-model="user.postal_code"/>
+                        		<input type="text" v-model="form.postalCode"/>
                     		</div>
                             <div class="form-item">
                         		<label>EMAIL</label>
-                        		<input type="email" v-model="user.email"/>
+                        		<input type="email" v-model="form.email"/>
+                                <div class="error-message" v-if="form.errors.email">
+                                    {{ form.errors.email }}
+                                </div>
                     		</div>
                             <div class="form-item">
                         		<label>BIRTH</label>
-                        		<input type="date" v-model="user.birth"/>
+                        		<input type="date" v-model="form.Birth"/>
                     		</div>
                             <div class="form-item">
                         		<label>GENDER</label>
-                            	<select v-model="user.gender">
+                            	<select v-model="form.gender">
                                     <option v-for="(gender, index) in genderOptions" :key="index" :value="gender">
                                         {{ gender }}
                                     </option>
@@ -115,7 +142,7 @@
                     		<div class="address-items">
                         		<div class="address-item">
                             		<label>COUNTRY</label>
-                            	    <select v-model="user.country">
+                            	    <select v-model="form.country">
                                         <option v-for="country in countries" :key="country" :value="country">
                                             {{ country }}
                                         </option>
@@ -123,11 +150,17 @@
                         		</div>
                         		<div class="address-item">
                             		<label>CITY</label>
-                            		<input type="text" v-model="user.city"/>
+                            		<input type="text" v-model="form.city"/>
+                                    <div class="error-message" v-if="form.errors.city">
+                                        {{ form.errors.city }}
+                                    </div>
                         		</div>
                         		<div class="address-item-info">
                             		<label>ADDRESS</label>
-                                    <textarea rows="6" v-model="user.address"></textarea>
+                                    <textarea rows="6" v-model="form.address"></textarea>
+                                    <div class="error-message" v-if="form.errors.address">
+                                        {{ form.errors.address }}
+                                    </div>
                         		</div>
                     		</div>
                 		</div>
@@ -142,30 +175,11 @@
                     		<ArrowCircleLeftFilled/>
                 		</n-icon>
             		</Link>
-            		<Link
-                        id="save-btn"
-                        :href="`/${currentLocale}/edit-profile/save`"
-                        method="post"
-                        :data="{
-                            username: user.name,
-                            firstName: user.first_name,
-                            lastName: user.last_name,
-                            idNumber: user.identification_number,
-                            email: user.email,
-                            birth: user.birth,
-                            gender: user.gender,
-                            phoneCode: user.country_code,
-                            phoneNumber: user.phone_number,
-                            postalCode: user.postal_code,
-                            city: user.city,
-                            country: user.country,
-                            address: user.address,
-                        }"
-                    >
-                        SAVE
-                    </Link>
-        		</aside>
 
+                    <button id="save-btn" type="submit" :disabled="form.processing">
+                        SAVE
+                    </button>
+        		</aside>
     		</form>
 
         </template>
@@ -291,6 +305,10 @@
     }
     #save-btn:hover {
         background-color: #f1b559;
+    }
+    .error-message {
+        padding-top: 2px;
+        color: red;
     }
 
     /* Responsive Design */
