@@ -33,7 +33,7 @@
     });
     const errors = computed(() => props.errors ?? {});
 
-    // Form Test
+    // Form
     const form = useForm({
         username: user.value.name,
         firstName: user.value.first_name,
@@ -48,6 +48,7 @@
         city: user.value.city,
         country: user.value.country,
         address: user.value.address,
+        imageUrl: user.value.image_url || '',
     });
 
 </script>
@@ -61,14 +62,20 @@
 
         <template v-slot:mainContentSlot>
 
-            <form class="main-container" @submit.prevent="form.post(`/${currentLocale}/edit-profile/save`)">
+            <form
+                class="main-container"
+                @submit.prevent="form.post(`/${currentLocale}/edit-profile/save`)"
+            >
         		<section class="form-container">
 
             		<div class="image-container">
                 	    <img
                             :src="user.image_url ? `/storage/${user.image_url}` : '/assets/images/panels/admin.svg'"
                         >
-                        <input type="file"/>
+                        <input type="file" @input="form.imageUrl = $event.target.files[0]"/>
+                        <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                            {{ form.progress.percentage }}%
+                        </progress>
             		</div>
 
             		<div class="user-information">

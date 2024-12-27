@@ -17,7 +17,11 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        return Inertia::render('Accounts/Dashboard');
+        $user = Auth::user();
+
+        return Inertia::render('Accounts/Dashboard', [
+            'user' => $user,
+        ]);
     }
 
     public function profile()
@@ -54,11 +58,9 @@ class DashboardController extends Controller
 
     public function editProfilePost(Request $request)
     {
-       //dd($request);
-
         $user = Auth::user();
-        // Validate Data
-        $validated = $request->validate([
+        // Validate Rules
+        $rules = [
             'username' => 'required|string|max:255|min:6',
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
@@ -72,7 +74,19 @@ class DashboardController extends Controller
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'address' => 'required|string',
-        ]);
+        ];
+
+        if ($request->hasFile('imageUrl')) {
+            $rules['imageUrl'] = 'image|mimes:jpeg,png,jpg|max:2048';
+        }
+
+        $validated = $request->validate($rules);
+
+        if ($request->hasFile('imageUrl')) {
+            $path = $request->file('imageUrl')->storeAs('users-image', $user->id . '.' . $request->file('imageUrl')->getClientOriginalExtension(), 'public');
+            $user->image_url = $path;
+        }
+
         // Update User
         $user->name = $validated['username'];
         $user->first_name = $validated['firstName'];

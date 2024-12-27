@@ -1,10 +1,18 @@
 <script setup>
 
-    import { reactive, computed } from "vue";
+    import { reactive, computed, ref } from "vue";
     import { usePage } from "@inertiajs/vue3";
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
     import { NIcon } from 'naive-ui';
     import { CheckCircleFilled } from '@vicons/material';
+    import { Doughnut } from 'vue-chartjs';
+    import {
+        Chart as ChartJS,
+        Title,
+        Tooltip,
+        Legend,
+        ArcElement,
+    } from 'chart.js';
 
     const props = defineProps({
         translations: {
@@ -30,6 +38,49 @@
 
     const localizedPageTitle = computed(() => {
         return props.translations.profile.profile || 'Dashboard';
+    });
+
+    // Charts
+    ChartJS.register(Title, Tooltip, Legend, ArcElement);
+
+    const chartData = ref({
+        //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [
+            {
+                label: 'Orders',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }
+        ]
+    });
+
+    const chartOptions = ref({
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            },
+            title: {
+                display: true,
+                text: 'Total Orders Made'
+            }
+        },
+        cutout: '30%',
+        maintainAspectRatio: false,
     });
 
 </script>
@@ -97,6 +148,28 @@
                     </div>
                 </article>
             </section>
+
+            <section class="charts-row">
+                <article class="first-chart">
+
+                    <!--<Doughnut
+                        id="my-chart-id"
+                        :options="chartOptions"
+                        :data="chartData"
+                    />-->
+
+                </article>
+                <article class="second-chart">
+
+                    <!--<Doughnut
+                        id="my-chart-id"
+                        :options="chartOptions"
+                        :data="chartData"
+                    />-->
+
+                </article>
+            </section>
+
         </template>
 
     </DashboardSidebar>
@@ -176,7 +249,7 @@
         /*width: 60%;*/
         padding: 30px 30px;
         border-radius: 10px;
-        background-color: #f3d5b5;
+        background-color: #f5ebe0;
     }
     .address-information {
         display: flex;
@@ -202,6 +275,25 @@
     }
     /* ADDRESS CARD */
 
+    /* CHARTS ROW */
+    .charts-row {
+        display: flex;
+        margin-top: 60px;
+        /*grid-template-columns: 1fr 1fr;*/
+    }
+    .first-chart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*max-width: 30%;*/
+    }
+    .second-chart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* CHARTS ROW */
+
     @media (max-width: 1041px) {
         .profile-container {
             display: grid;
@@ -224,6 +316,11 @@
         }
         .address-card {
             margin-top: 2px;
+        }
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
     }
 

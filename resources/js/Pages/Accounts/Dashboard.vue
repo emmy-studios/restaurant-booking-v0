@@ -30,7 +30,12 @@
     const currentLocale = locale || 'en';
 
     // Get User Information
-    const user = reactive(usePage().props.user);
+    const props = defineProps({
+        user: {
+            type: Object,
+            required: true,
+        }
+    });
     const notifications = ref(4);
     //const imageProfile = ref("/assets/images/panels/admin_profile.png");
 
@@ -48,23 +53,39 @@
 
         <template v-slot:mainContentSlot>
 
+            <!-- Dashboard Banner -->
+            <div class="banner-container">
+                <div class="card-container">
+                    <div class="card-content">
+                        <span>Welcome Back, {{ user.name }}!</span>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="/assets/images/system/online_shop.svg">
+                    </div>
+                </div>
+            </div>
+
             <!-- Stats -->
 			<ul class="box-info">
-				<li>
+				<li style="background-color: #ffafcc;">
                     <n-icon class="bx"><CalendarMonthFilled/></n-icon>
                     <span class="text">
 						<h3>1020</h3>
 						<p>New Order</p>
 					</span>
 				</li>
-				<li>
+				<li style="background-color: #a3b18a;">
                     <n-icon class="bx"><SupervisedUserCircleOutlined/></n-icon>
                     <span class="text">
 						<h3>2834</h3>
 						<p>Visitors</p>
 					</span>
 				</li>
-				<li>
+				<li style="background-color: #ffe6a7;">
                     <n-icon class="bx"><MonetizationOnOutlined/></n-icon>
                     <span class="text">
 						<h3>$2543</h3>
@@ -152,6 +173,50 @@
     li {
 	    list-style: none;
     }
+
+    /* DASHBOARD BANNER */
+    .banner-container {
+        display: flex;
+        margin-top: 60px;
+        margin-bottom: 100px;
+    }
+    .card-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        background-color: #ffb5a7;
+        width: 100%;
+        border-radius: 10px;
+    }
+    .card-content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .card-content span {
+        font-weight: bold;
+        font-size: 1.7rem;
+        color: #fff;
+    }
+    .card-content p {
+        font-size: 14px;
+    }
+    .card-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 20px;
+        width: 100%;
+        height: 100%;
+    }
+    .card-image img {
+        /*width: 200px;
+        height: 150px;*/
+    }
+    /* DASHBOARD BANNER */
 
 	/* MAIN */
 	#content main .head-title {
@@ -343,6 +408,10 @@
 		    width: calc(100% - 60px);
 		    left: 200px;
 	    }
+        .card-container {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
     }
 
     @media screen and (max-width: 576px) {
