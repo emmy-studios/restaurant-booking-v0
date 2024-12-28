@@ -33,6 +33,8 @@
             'user',
             'locale',
             'paymentMethods',
+            'countries',
+            'countryCodes',
         ]
     );
     const { locale } = usePage().props;
@@ -71,6 +73,14 @@
         return props.paymentMethods ? props.paymentMethods : [];
     });
     const paymentMethod = ref('Cash');
+
+    // Get Country Codes - Country
+    const countries = computed(() => {
+        return props.countries ? props.countries : [];
+    });
+    const countryCodes = computed(() => {
+        return props.countryCodes ? props.countryCodes : [];
+    });
 
     const orderProducts = reactive([]);
 
@@ -540,7 +550,11 @@
                         <div class="address-item">
                             <div class="country-item">
                                 <span>Country:</span>
-                                <input v-model="userData.country">
+                                <select v-model="userData.country">
+                                    <option v-for="(country, index) in countries" :key="index" :value="country">
+                                        {{ country }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="city-item">
                                 <span>City</span>
@@ -550,7 +564,11 @@
                         <div class="address-item">
                             <div class="code-item">
                                 <span>Phone Code:</span>
-                                <input v-model="userData.country_code">
+                                <select v-model="userData.country_code">
+                                    <option v-for="(code, index) in countryCodes" :key="index" :value="code">
+                                        {{ code }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="phone-item">
                                 <span>Phone Number:</span>
@@ -640,19 +658,29 @@
                     <div class="payment-content">
                         <div class="payment-card">
                             <h3>Order Code:</h3>
-                            <p style="background-color: #e7e7e7; padding: 4px 4px; color: #000;">
+                            <p>
                                 {{ lastOrderCreated.order_code }}
                             </p>
-                            <h4>Currency:</h4>
-                            <p style="background-color: #e7e7e7; padding: 4px 4px; color: #000;">
+                            <h3>Currency:</h3>
+                            <p>
                                 {{ lastOrderCreated.currency_symbol }}
                             </p>
-                            <p>Payment Method:</p>
-                            <select v-model="paymentMethod"  style="padding: 4px 4px;">
+                            <h3>Payment Method:</h3>
+                            <select v-model="paymentMethod">
                                 <option v-for="(payment, index) in paymentMethods" :key="index" :value="payment">
                                     {{ payment }}
                                 </option>
                             </select>
+                            <div class="card-aside">
+                                <div class="aside-item">
+                                    <h3>Subtotal:</h3>
+                                    <p>{{ lastOrderCreated.subtotal }}</p>
+                                </div>
+                                <div class="aside-item">
+                                    <h3>Total:</h3>
+                                    <p>{{ lastOrderCreated.total }}</p>
+                                </div>
+                            </div>
                             <div class="payment-actions">
                                 <Link
                                     id="next-button"
@@ -663,7 +691,7 @@
                                         paymentMethod: paymentMethod,
                                     }"
                                 >
-                                    NEXT
+                                    CONTINUE
                                 </Link>
                             </div>
                         </div>
@@ -996,10 +1024,13 @@
         font-weight: bold;
         font-zise: 2rem;
     }
-    .country-item input, .city-item input,
-    .code-item input, .phone-item input {
+    .country-item select, .city-item input,
+    .code-item select, .phone-item input {
         padding: 10px 10px;
         border-radius: 5px;
+    }
+    .country-item select, .code-item select {
+        background-color: #fff;
     }
     .address-item textarea {
         padding: 10px 10px;
@@ -1040,19 +1071,21 @@
     .payment-actions {
         display: flex;
         align-items: center;
-        padding: 20px 20px;
+        padding-top: 20px;
         width: 100%;
     }
     #next-button {
         padding: 10px 10px;
         width: 100%;
-        background-color: #e36414;
+        background-color: #E77917;
+        border-radius: 5px;
         text-align: center;
         color: #fff;
         font-weight: bold;
     }
-    .#next-button:hover {
+    #next-button:hover {
         cursor: pointer;
+        background-color: #f1b559;
     }
     .payment-content {
         display: flex;
@@ -1063,15 +1096,38 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        /*background-color: blue;*/
-        border: 1px solid #e36414;
+        border: 1px solid #E77917;
+        background-color: #faedcd;
         width: 50%;
         padding: 20px 20px;
         border-radius: 10px;
     }
-    .payment-card h3, h4, p {
+    .payment-card h3 {
         color: #000;
         font-weight: bold;
+        padding: 4px 4px;
+    }
+    .payment-card p, select {
+        background-color: #fff;
+        border-radius: 5px;
+        color: #000;
+        padding: 8px 8px;
+    }
+    .card-aside {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    .aside-item {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .aside-item h3 {
+    }
+    .aside-item p {
     }
     /* PAYMENT INFORMATION */
 
@@ -1159,6 +1215,10 @@
         }
         .payment-card {
             width: 100%;
+        }
+        .card-aside {
+            display: flex;
+            flex-direction: column;
         }
     }
 

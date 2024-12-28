@@ -135,11 +135,6 @@ class DashboardController extends Controller
         return Inertia::render('Accounts/Analytics');
     }
 
-    public function invoices()
-    {
-        return Inertia::render('Accounts/Invoices');
-    }
-
     public function reservations()
     {
         return Inertia::render('Accounts/Reservations');

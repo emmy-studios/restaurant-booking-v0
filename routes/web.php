@@ -11,6 +11,7 @@ use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Products\ShoppingcartController;
 use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Orders\PaymentController;
+use App\Http\Controllers\Orders\InvoiceController;
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
@@ -47,7 +48,7 @@ Route::prefix('{locale}')
         Route::get('/notifications/{notificationId}', [DashboardController::class, 'notification'])->name('notification.show');
         Route::get('/notifications', [DashboardController::class, 'notifications'])->name('user.notifications');
         Route::get('/analytics', [DashboardController::class, 'analytics'])->name('analytics');
-        Route::get('/invoices', [DashboardController::class, 'invoices'])->name('invoices');
+        Route::get('/invoices', [InvoiceController::class, 'invoices'])->name('invoices');
         Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         Route::post('/edit-profile/save', [DashboardController::class, 'editProfilePost'])->name('edit.profile.post');

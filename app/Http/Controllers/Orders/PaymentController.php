@@ -13,7 +13,6 @@ class PaymentController extends Controller
 
     public function createPayment(Request $request)
     {
-        //dd($request);
         // Validate Data
         $validated = $request->validate([
             'userOrderCode' => 'required|string|exists:orders,order_code',
