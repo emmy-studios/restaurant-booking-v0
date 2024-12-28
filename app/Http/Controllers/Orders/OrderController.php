@@ -10,6 +10,7 @@ use App\Models\Orders\Order;
 use App\Models\Orders\OrderItem;
 use App\Models\Shoppingcarts\Shoppingcart;
 use App\Models\Discounts\Discount;
+use App\Enums\PaymentMethod;
 
 class OrderController extends Controller
 {
@@ -57,6 +58,8 @@ class OrderController extends Controller
         $locale = app()->getLocale();
         // Get Products Discounts
         $productDiscounts = Discount::with('products')->get();
+        // Get Payment Method
+        $paymentMethods = PaymentMethod::getValues();
 
         return Inertia::render('Order',
             [
@@ -65,6 +68,7 @@ class OrderController extends Controller
                 'productDiscounts' => $productDiscounts,
                 'locale' => $locale,
                 'lastOrderCreated' => $lastOrderCreated,
+                'paymentMethods' => $paymentMethods,
             ]);
     }
 

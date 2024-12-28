@@ -21,7 +21,7 @@ enum NotificationType: string implements HasLabel, HasColor
 
     public function getLabel(): ?string
     {
-        return match($this){
+        /*return match($this){
             self::ORDER => 'Order',
             self::INFORMATION => 'Information',
             self::ADVICE => 'Advice',
@@ -33,7 +33,8 @@ enum NotificationType: string implements HasLabel, HasColor
             self::RESERVATION => 'Reservation',
             self::REMINDER => 'Reminder',
             self::WARNING => 'Warning'
-        };
+        };*/
+        return __("enums.notification_type.{$this->value}");
     }
 
     public function getColor(): string|array|null

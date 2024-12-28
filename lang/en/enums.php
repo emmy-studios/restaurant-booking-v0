@@ -59,6 +59,20 @@ return [
         'Consultant' => 'Consultant',
         'Seasonal' => 'Seasonal',
     ],
+    // Notifiation Type
+    'notification_type' => [
+        'Order' => 'Order',
+        'Information' => 'Information',
+        'Advice' => 'Advice',
+        'Advertisement' => 'Advertisement',
+        'Promotion' => 'Promotion',
+        'System' => 'System',
+        'Employee' => 'Employee',
+        'Feedback' => 'Feedback',
+        'Reservation' => 'Reservation',
+        'Reminder' => 'Reminder',
+        'Warning' => 'Warning',
+    ],
     // Order Status
     'order_status' => [
         'Pending' => 'Pending',

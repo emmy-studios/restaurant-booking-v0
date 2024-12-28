@@ -32,6 +32,7 @@
             'lastOrderCreated',
             'user',
             'locale',
+            'paymentMethods',
         ]
     );
     const { locale } = usePage().props;
@@ -64,6 +65,12 @@
     const status = computed(() => {
         return props.lastOrderCreated ? props.lastOrderCreated.order_status : null;
     });
+
+    // Payment Methods
+    const paymentMethods = computed(() => {
+        return props.paymentMethods ? props.paymentMethods : [];
+    });
+    const paymentMethod = ref('Cash');
 
     const orderProducts = reactive([]);
 
@@ -575,7 +582,7 @@
                 <!-- Status = Processing -->
 
                 <!-- Status = Awaiting Payment -->
-                <article v-else-if="status === 'Awaiting Payment'">
+                <article v-else-if="status === 'Awaiting Payment'" class="payment-container">
                     <div class="timeline-container">
                         <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
@@ -621,19 +628,45 @@
                             </n-timeline-item>
     					</n-timeline>
                     </div>
-                    <div class="payment-container">
-                        <p>Choose Payment Method</p>
+                    <div class="payment-header">
+                        <div class="payment-icon">
+                            <img src="/assets/images/system/credit_card01.svg">
+                        </div>
+                        <div class="header-text">
+                            <span>Payment</span>
+                            <p>Update your payment information</p>
+                        </div>
                     </div>
-                    <div class="payment-actions">
-                        <Link
-                            :href="`/${currentLocale}/billing/create`"
-                            method="post"
-                            :data="{
-                                userOrderCode: lastOrderCreated.order_code
-                            }"
-                        >
-                            NEXT
-                        </Link>
+                    <div class="payment-content">
+                        <div class="payment-card">
+                            <h3>Order Code:</h3>
+                            <p style="background-color: #e7e7e7; padding: 4px 4px; color: #000;">
+                                {{ lastOrderCreated.order_code }}
+                            </p>
+                            <h4>Currency:</h4>
+                            <p style="background-color: #e7e7e7; padding: 4px 4px; color: #000;">
+                                {{ lastOrderCreated.currency_symbol }}
+                            </p>
+                            <p>Payment Method:</p>
+                            <select v-model="paymentMethod"  style="padding: 4px 4px;">
+                                <option v-for="(payment, index) in paymentMethods" :key="index" :value="payment">
+                                    {{ payment }}
+                                </option>
+                            </select>
+                            <div class="payment-actions">
+                                <Link
+                                    id="next-button"
+                                    :href="`/${currentLocale}/billing/create`"
+                                    method="post"
+                                    :data="{
+                                        userOrderCode: lastOrderCreated.order_code,
+                                        paymentMethod: paymentMethod,
+                                    }"
+                                >
+                                    NEXT
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </article>
 
@@ -790,6 +823,7 @@
         gap: 20px;
     }
     /* MAIN CONTAINER */
+
     /* TIMELINE CONTAINER */
     .timeline-container {
         display: flex;
@@ -987,15 +1021,57 @@
     /* PAYMENT INFORMATION */
     .payment-container {
         display: flex;
-        padding: 60px 60px;
-        margin-top: 60px;
-        background-color: red;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .payment-header {
+        display: flex;
+        align-items: center;
+        padding-top: 30px;
+        gap: 30px;
+    }
+    .payment-icon {
+        display: flex;
+    }
+    .payment-icon img {
+        width: 100px;
+        height: 100px;
     }
     .payment-actions {
         display: flex;
         align-items: center;
         padding: 20px 20px;
-        justify-content: flex-end;
+        width: 100%;
+    }
+    #next-button {
+        padding: 10px 10px;
+        width: 100%;
+        background-color: #e36414;
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+    }
+    .#next-button:hover {
+        cursor: pointer;
+    }
+    .payment-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .payment-card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        /*background-color: blue;*/
+        border: 1px solid #e36414;
+        width: 50%;
+        padding: 20px 20px;
+        border-radius: 10px;
+    }
+    .payment-card h3, h4, p {
+        color: #000;
+        font-weight: bold;
     }
     /* PAYMENT INFORMATION */
 
@@ -1079,6 +1155,9 @@
     /* RESPONSIVE MEDIA QUERIES */
     @media (max-width: 896px) {
         .order-resume {
+            width: 100%;
+        }
+        .payment-card {
             width: 100%;
         }
     }

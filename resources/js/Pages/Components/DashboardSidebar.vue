@@ -268,7 +268,7 @@
                 <!-- Notifications Drawer -->
                 <n-drawer
                     v-model:show="active"
-                    :width="300"
+                    :width="400"
                     :default-width="502"
                     :placement="placement"
                     resizable
@@ -292,9 +292,9 @@
                             :key="notification.id"
                             class="notifications-container"
                         >
-                            <div class="notification-icon">
+                            <!--<div class="notification-icon">
                                 <img src="/assets/images/system/notification_icon.svg">
-                            </div>
+</div>-->
                             <div class="notification-message">
                                 <h2>{{ truncateTitle(notification.title) }}</h2>
                                 <p>{{ truncateMessage(notification.message) }}</p>
@@ -624,7 +624,7 @@
     .notifications-container {
         display: flex;
         flex-direction: column;
-        background-color: #d8e2dc;
+        background-image: linear-gradient(to right top, #deecc2, #dfedbc, #dfeeb7, #e1efb1, #e2f0ab);
         padding: 10px 10px;
         border-radius: 10px;
         margin-bottom: 5px;
@@ -640,14 +640,14 @@
     .notification-message {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 4px;
     }
     .notification-message h2 {
         font-weight: bold;
     }
     .notification-date {
         display: flex;
-        padding-top: 10px;
+        padding-top: 6px;
     }
     .notification-date p {
         color: gray;

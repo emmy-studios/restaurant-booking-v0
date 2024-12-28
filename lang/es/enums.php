@@ -48,6 +48,20 @@ return [
         'Money Market Account' => 'Cuenta de Mercado Monetario',
         'Certificate of Deposit' => 'Certificado de Depósito',
     ],
+    // Notifiation Type
+    'notification_type' => [
+        'Order' => 'Orden',
+        'Information' => 'Información',
+        'Advice' => 'Aviso',
+        'Advertisement' => 'Anuncio',
+        'Promotion' => 'Promoción',
+        'System' => 'Sistema',
+        'Employee' => 'Empleado',
+        'Feedback' => 'Comentario',
+        'Reservation' => 'Reservación',
+        'Reminder' => 'Recordatorio',
+        'Warning' => 'Advertencia',
+    ],
     // Order Status
     'order_status' => [
         'Pending' => 'Pendiente',

@@ -64,28 +64,28 @@
                         </p>
                     </div>
                     <div class="card-image">
-                        <img src="/assets/images/system/online_shop.svg">
+                        <img src="/assets/images/system/store01.svg">
                     </div>
                 </div>
             </div>
 
             <!-- Stats -->
 			<ul class="box-info">
-				<li style="background-color: #ffafcc;">
+				<li id="total-orders-stats">
                     <n-icon class="bx"><CalendarMonthFilled/></n-icon>
                     <span class="text">
 						<h3>1020</h3>
-						<p>New Order</p>
+						<p>Total Orders</p>
 					</span>
 				</li>
-				<li style="background-color: #a3b18a;">
+				<li>
                     <n-icon class="bx"><SupervisedUserCircleOutlined/></n-icon>
                     <span class="text">
 						<h3>2834</h3>
 						<p>Visitors</p>
 					</span>
 				</li>
-				<li style="background-color: #ffe6a7;">
+				<li>
                     <n-icon class="bx"><MonetizationOnOutlined/></n-icon>
                     <span class="text">
 						<h3>$2543</h3>
@@ -183,7 +183,7 @@
     .card-container {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        background-color: #ffb5a7;
+        background-image: linear-gradient(to right top, #f0c6f4, #ddbbe4, #cab0d4, #b9a5c4, #a89ab3);
         width: 100%;
         border-radius: 10px;
     }
@@ -212,57 +212,27 @@
         width: 100%;
         height: 100%;
     }
-    .card-image img {
-        /*width: 200px;
-        height: 150px;*/
-    }
     /* DASHBOARD BANNER */
 
-	/* MAIN */
-	#content main .head-title {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		grid-gap: 16px;
-		flex-wrap: wrap;
-	}
-	#content main .head-title .left h1 {
-		font-size: 36px;
-		font-weight: 600;
-		margin-bottom: 10px;
-		color: #342E37;
-	}
-	#content main .head-title .left .breadcrumb {
-		display: flex;
-		align-items: center;
-		grid-gap: 16px;
-	}
-	#content main .head-title .left .breadcrumb li {
-		color: #342E37;
-	}
-	#content main .head-title .left .breadcrumb li a {
-		color: #AAAAAA;
-		pointer-events: none;
-	}
-	 .head-title .left .breadcrumb li a.active {
-		color: #3C91E6;
-		pointer-events: unset;
-	}
-	#content main .box-info {
+	/* STATS */
+	.box-info {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 		grid-gap: 24px;
 		margin-top: 36px;
 	}
-	#content main .box-info li {
+	.box-info li {
 		padding: 24px;
-		background: #F9F9F9;
+		/*background: #F9F9F9;*/
 		border-radius: 20px;
 		display: flex;
 		align-items: center;
 		grid-gap: 24px;
 	}
-	#content main .box-info li .bx {
+    .box-info #total-orders-stats {
+        background-image: linear-gradient(to right top, #2ceeb1, #1aed9a, #1feb7f, #33e860, #48e538);
+    }
+	.box-info li .bx {
 		width: 80px;
 		height: 80px;
 		border-radius: 10px;
@@ -271,28 +241,30 @@
 		justify-content: center;
 		align-items: center;
 	}
-	#content main .box-info li:nth-child(1) .bx {
+	.box-info li:nth-child(1) .bx {
 		background: #CFE8FF;
 		color: #3C91E6;
 	}
-	#content main .box-info li:nth-child(2) .bx {
+	.box-info li:nth-child(2) .bx {
 		background: #FFF2C6;
 		color: #FFCE26;
 	}
-	#content main .box-info li:nth-child(3) .bx {
+	.box-info li:nth-child(3) .bx {
 		background: #FFE0D3;
-		color: #FD7238;
+        color: #FD7238;
 	}
-	#content main .box-info li .text h3 {
+	.box-info li .text h3 {
 		font-size: 24px;
 		font-weight: 600;
 		color: #342E37;
 	}
-	#content main .box-info li .text p {
+	.box-info li .text p {
 		color: #342E37;
 	}
+    /* STATS */
 
-	#content main .table-data {
+    /* TABLE */
+	.table-data {
 		display: flex;
 		flex-wrap: wrap;
 		grid-gap: 24px;
@@ -300,161 +272,94 @@
 		width: 100%;
 		color: #342E37;
 	}
-	#content main .table-data > div {
+	.table-data > div {
 		border-radius: 20px;
 		background: #F9F9F9;
 		padding: 24px;
 		overflow-x: auto;
 	}
-	#content main .table-data .head {
+	.table-data .head {
 		display: flex;
 		align-items: center;
 		grid-gap: 16px;
 		margin-bottom: 24px;
 	}
-	#content main .table-data .head h3 {
+	.table-data .head h3 {
 		margin-right: auto;
 		font-size: 24px;
 		font-weight: 600;
 	}
-	#content main .table-data .head .bx {
+	.table-data .head .bx {
 		cursor: pointer;
 	}
-
-	#content main .table-data .order {
+	.table-data .order {
 		flex-grow: 1;
 		flex-basis: 500px;
 	}
-	#content main .table-data .order table {
+	.table-data .order table {
 		width: 100%;
 		border-collapse: collapse;
 	}
-	#content main .table-data .order table th {
+	.table-data .order table th {
 		padding-bottom: 12px;
 		font-size: 13px;
 		text-align: left;
 		border-bottom: 1px solid #eee;
 	}
-	#content main .table-data .order table td {
+	.table-data .order table td {
 		padding: 16px 0;
 	}
-	#content main .table-data .order table tr td:first-child {
+	.table-data .order table tr td:first-child {
 		display: flex;
 		align-items: center;
 		grid-gap: 12px;
 		padding-left: 6px;
 	}
-	#content main .table-data .order table td img {
+	.table-data .order table td img {
 		width: 36px;
 		height: 36px;
 		border-radius: 50%;
 		object-fit: cover;
 	}
-	#content main .table-data .order table tbody tr:hover {
+	.table-data .order table tbody tr:hover {
 		background: #eee;
 	}
-	#content main .table-data .order table tr td .status {
+	.table-data .order table tr td .status {
 		font-size: 10px;
 		padding: 6px 16px;
 		color: #F9F9F9;
 		border-radius: 20px;
 		font-weight: 700;
 	}
-	#content main .table-data .order table tr td .status.completed {
+	.table-data .order table tr td .status.completed {
 		background: #3C91E6;
 	}
-	#content main .table-data .order table tr td .status.process {
+	.table-data .order table tr td .status.process {
 		background: #FFCE26;
 	}
-	#content main .table-data .order table tr td .status.pending {
+	.table-data .order table tr td .status.pending {
 		background: #FD7238;
 	}
-
-	#content main .table-data .todo {
-		flex-grow: 1;
-		flex-basis: 300px;
-	}
-	#content main .table-data .todo .todo-list {
-		width: 100%;
-	}
-	#content main .table-data .todo .todo-list li {
-		width: 100%;
-		margin-bottom: 16px;
-		background: #eee;
-		border-radius: 10px;
-		padding: 14px 20px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	#content main .table-data .todo .todo-list li .bx {
-		cursor: pointer;
-	}
-	#content main .table-data .todo .todo-list li.completed {
-		border-left: 10px solid #3C91E6;
-	}
-	#content main .table-data .todo .todo-list li.not-completed {
-		border-left: 10px solid #FD7238;
-	}
-	#content main .table-data .todo .todo-list li:last-child {
-		margin-bottom: 0;
-	}
-	/* MAIN */
-	/* CONTENT */
+	/* TABLE */
 
     /* RESPONSIVE DESIGN */
     @media screen and (max-width: 768px) {
-	    #content {
-		    width: calc(100% - 60px);
-		    left: 200px;
-	    }
         .card-container {
             display: grid;
             grid-template-columns: 1fr;
         }
     }
-
     @media screen and (max-width: 576px) {
-	    #content nav form .form-input input {
-		    display: none;
-	    }
-
-	    #content nav form .form-input button {
-		    width: auto;
-		    height: auto;
-		    background: transparent;
-		    border-radius: none;
-		    color: #342E37;
-	    }
-
-	    #content nav form.show .form-input input {
-		    display: block;
-		    width: 100%;
-	    }
-	    #content nav form.show .form-input button {
-		    width: 36px;
-		    height: 100%;
-		    border-radius: 0 36px 36px 0;
-		    color: #F9F9F9;
-		    background: #DB504A;
-	    }
-
-	    #content nav form.show ~ .notification,
-    	#content nav form.show ~ .profile {
-	    	display: none;
-	    }
-
-	    #content main .box-info {
+	    .box-info {
 		    grid-template-columns: 1fr;
 	    }
-
-	    #content main .table-data .head {
+	    .table-data .head {
 		    min-width: 420px;
 	    }
-    	#content main .table-data .order table {
+    	.table-data .order table {
 	    	min-width: 420px;
 	    }
-	    #content main .table-data .todo .todo-list {
+	    .table-data .todo .todo-list {
 		    min-width: 420px;
 	    }
     }
