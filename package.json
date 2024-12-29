@@ -19,6 +19,7 @@
         "@inertiajs/vue3": "^1.2.0",
         "@vitejs/plugin-vue": "^5.1.4",
         "chart.js": "^4.4.7",
+        "html2pdf.js": "^0.10.2",
         "vue": "^3.5.10",
         "vue-chartjs": "^5.3.2",
         "ziggy-js": "^2.4.1"

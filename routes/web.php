@@ -49,6 +49,7 @@ Route::prefix('{locale}')
         Route::get('/notifications', [DashboardController::class, 'notifications'])->name('user.notifications');
         Route::get('/analytics', [DashboardController::class, 'analytics'])->name('analytics');
         Route::get('/invoices', [InvoiceController::class, 'invoices'])->name('invoices');
+        Route::get('/invoice/{invoiceId}', [InvoiceController::class, 'invoice'])->name('invoice.show');
         Route::get('/reservations', [DashboardController::class, 'reservations'])->name('reservations');
         Route::get('/edit-profile', [DashboardController::class, 'editProfile'])->name('edit.profile');
         Route::post('/edit-profile/save', [DashboardController::class, 'editProfilePost'])->name('edit.profile.post');

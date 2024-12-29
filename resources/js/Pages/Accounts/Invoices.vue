@@ -1,10 +1,12 @@
 <script setup>
 
     import DashboardSidebar from '../Components/DashboardSidebar.vue';
-    import { usePage, router } from '@inertiajs/vue3';
-    import { NButton } from 'naive-ui';
+    import { usePage, router, Link } from '@inertiajs/vue3';
+    import { NIcon } from 'naive-ui';
+    import { LocalPrintshopFilled } from '@vicons/material';
 
-    const { invoices, user } = usePage().props;
+    const { invoices, user, locale } = usePage().props;
+    const currentLocale = locale || 'en';
 
     // Pagination
     const navigate = (url) => {
@@ -34,14 +36,26 @@
                 <article class="invoice-card" v-for="invoice in invoices.data" :key="invoice.id">
                     <header class="card-header">
                         <h2>{{ invoice.billing_code }}</h2>
-                        <span>...</span>
+                        <Link
+                            :href="route('invoice.show', { invoiceId: invoice.id })"
+                        >
+                            <n-icon id="print-icon" color="#e36414" size=20><LocalPrintshopFilled/></n-icon>
+                        </Link>
                     </header>
                     <div class="card-content">
                         <h3>{{ invoice.currency_symbol }} {{ invoice.total }}</h3>
                         <span>Subtotal: {{ invoice.subtotal }}</span>
-                        <p>{{ formatDate(invoice.created_at) }}</p>
+                        <div class="date-item">
+                            <h4>Date:</h4>
+                            <p>{{ formatDate(invoice.created_at) }}</p>
+                        </div>
                     </div>
                     <footer class="card-footer">
+                        <div class="user-image">
+                            <img
+                                :src="user.image_url ? `/storage/${user.image_url}` : '/assets/images/panels/admin.svg'"
+                            >
+                        </div>
                         <p>{{ user.first_name }} {{ user.last_name }}</p>
                     </footer>
                 </article>
@@ -86,24 +100,51 @@
     }
     .card-header {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
     }
     .card-header h2 {
         font-weight: bold;
     }
+    #print-icon {
+        cursor: pointer;
+    }
     .card-content {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        padding: 10px 10px;
+        padding: 30px 10px;
         border: 1px dotted black;
     }
     .card-content h3 {
         font-weight: bold;
         font-size: 20px;
     }
+    .date-item {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        align-items: center;
+    }
+    .date-item h4 {
+        color: gray;
+    }
+    .date-item p {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
     .card-footer {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .user-image {
+        display: flex;
+    }
+    .user-image img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
     }
     /* Pagination */
     .pagination-container {

@@ -19,7 +19,7 @@
     import SubscribeSection from './Components/Sections/Home/SubscribeSection.vue';
 
     // Get Translations
-    const { translations, products } = usePage().props;
+    const { translations, products, locale } = usePage().props;
 
     const props = defineProps(['shoppingcartProducts']);
 
@@ -132,7 +132,7 @@
     </main>
 
     <p>{{ translations.home }}</p>
-
+    <p>{{ locale }}</p>
     <p style="font-size: 40px; color: #fff;">{{ user }}</p>
 
     <Footer/>

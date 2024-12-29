@@ -16,13 +16,13 @@ class Localization
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //app()->setLocale($request->segment(1));
-        //URL::defaults(['locale' => $request->segment(1)]);
+        app()->setLocale($request->segment(1));
+        URL::defaults(['locale' => $request->segment(1)]);
 
-        if ($request->segment(1) !== 'notifications') { // Verifica si el primer segmento es 'notifications'
+        /*if ($request->segment(1) !== 'notifications') { // Verifica si el primer segmento es 'notifications'
             app()->setLocale($request->segment(1));
             URL::defaults(['locale' => $request->segment(1)]);
-        }
+        }*/
 
         return $next($request);
     }
