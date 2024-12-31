@@ -12,4 +12,7 @@ return [
         "address" => "Dirección",
         "dashboard" => "Dashboard",
     ],
+    "invoices" => [
+        "invoices" => "Facturas",
+    ],
 ];

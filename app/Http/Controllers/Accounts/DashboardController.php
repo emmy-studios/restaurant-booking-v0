@@ -27,9 +27,7 @@ class DashboardController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $translations = [
-            'profile' => __('accounts.profile'),
-        ];
+        $translations = getTranslations(['profile']);
         $locale = app()->getLocale();
 
         return Inertia::render('Accounts/Profile', [

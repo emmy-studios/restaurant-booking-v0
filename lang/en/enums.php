@@ -100,6 +100,11 @@ return [
         'Other' => 'Other',
         'Partner Portal' => 'Partner Portal',
     ],
+    'order_cancellation_status' => [
+        'Processing' => 'Processing',
+        'Canceled' => 'Canceled',
+        'Approved' => 'Approved',
+    ],
     // Salary Type
     'salary_type' => [
         'Hourly' => 'Hourly',

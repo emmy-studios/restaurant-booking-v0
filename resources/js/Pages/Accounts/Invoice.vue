@@ -1,20 +1,36 @@
 <script setup>
 
+    import { computed } from "vue";
     import { usePage, Link } from "@inertiajs/vue3";
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
     import { NButton } from 'naive-ui';
     import html2pdf from 'html2pdf.js';
 
-    const { locale, invoiceDetails, orderItems, invoiceItems } = usePage().props;
+    const { locale, invoiceDetails, orderItems, invoiceItems, user, translations } = usePage().props;
     const currentLocale = locale || 'en';
 
-    const formatDate = (date) => {
-        const d = new Date(date);
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const year = d.getFullYear();
-        return `${day}-${month}-${year}`;
+    // Translate Slot Props
+    const localizedActivePage = computed(() => {
+        return props.translations.profile.dashboard || 'Profile';
+    });
+
+    const localizedPageTitle = computed(() => {
+        return props.translations.profile.profile || 'Dashboard';
+    });
+
+    const formatDate = (dateString, locale) => {
+        const date = new Date(dateString);
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        return new Intl.DateTimeFormat(locale, options).format(date);
     };
+
+    function formatValue(value) {
+        return value.replace(/\.00$/, "");
+    }
 
     const exportToPdf = () => {
         var element = document.getElementById('invoice-printable');
@@ -37,16 +53,10 @@
         :pageTitle="'Invoice Details'">
 
         <template v-slot:mainContentSlot>
-            <div>{{ orderItems }}</div>
-            <p>+++++++++++++++++++++++++++++</p>
-            <div>
-                <p>{{ invoiceItems }}</p>
-            </div>
-
 
             <section class="print-btn">
-                <n-button @click="exportToPdf()">
-                    Export to PDF
+                <n-button @click="exportToPdf()" type=primary color="#E77917">
+                    {{ translations.invoices.export_to_pdf }}
                 </n-button>
             </section>
 
@@ -58,9 +68,9 @@
           				        <p>Krosty</p>
         				    </div>
         				    <div class="i_title">
-          				        <h2>INVOICE</h2>
+                                <h2>{{ translations.invoices.INVOICE }}</h2>
           				        <p class="p_title text_right">
-            				        April 20, 2023
+            				        {{ formatDate(invoiceDetails.created_at, currentLocale) }}
           				        </p>
         				    </div>
       				    </div>
@@ -71,9 +81,8 @@
         				    <div class="i_address text_right">
           				        <p>TO</p>
           				        <p class="p_title">
-            				        Facebook <br />
-            				        <span>Menlo Park, California</span><br />
-            				        <span>United States</span>
+                                    {{ user.first_name }} {{ user.last_name }} <br />
+                                    <span>{{ user.city }}, {{ user.country }}</span><br />
           				        </p>
         				    </div>
       				    </div>
@@ -83,10 +92,10 @@
         				    <div class="i_table_head">
           				        <div class="i_row">
             				        <div class="i_col w_15">
-              				            <p class="p_title">Quantity</p>
+              				            <p class="p_title">{{ translations.invoices.quantity }}</p>
             				        </div>
             				        <div class="i_col w_55">
-              				            <p class="p_title">Product</p>
+              				            <p class="p_title">{{ translations.invoices.product }}</p>
             				        </div>
             				        <div class="i_col w_15">
               				            <p class="p_title">
@@ -104,51 +113,39 @@
                                         <p>{{ item.quantity }}</p>
             				        </div>
             				        <div class="i_col w_55">
-                                        <!--<p>Lorem, ipsum.</p>-->
                                         <span>{{ item.product_name }}</span>
             				        </div>
             				        <div class="i_col w_15">
-                                        <p>{{ item.subtotal }}</p>
+                                        <p>{{ formatValue(item.subtotal) }}</p>
             				        </div>
             				        <div class="i_col w_15">
-                                        <p>{{ item.total }}</p>
+                                        <p>{{ formatValue(item.total) }}</p>
             				        </div>
           				        </div>
         				    </div>
         				    <div class="i_table_foot">
-          				        <!--<div class="i_row">
-            				        <div class="i_col w_15">
-              				            <p></p>
-            				        </div>
-            				        <div class="i_col w_55">
-              				            <p></p>
-            				        </div>
-            				        <div class="i_col w_15">
-              				            <p>Sub Total</p>
-              				            <p>Tax 10%</p>
-            				        </div>
-            				        <div class="i_col w_15">
-                                        <p>{{ invoiceDetails.currency_symbol }}{{ invoiceDetails.subtotal }}</p>
-                                        <p>{{ invoiceDetails.currency_symbol }}{{ invoiceDetails.total }}</p>
-            				        </div>
-                                </div>-->
-
-                                <div style="display: flex; justify-content: space-between">
-                                    <p>Subtotal</p>
-                                    <p>{{ invoiceDetails.subtotal }}</p>
+                                <div class="invoice-resume">
+                                    <div class="resume-item">
+                                        <h4>Subtotal</h4>
+                                        <p>{{ invoiceDetails.subtotal }}</p>
+                                    </div>
+                                    <div class="resume-item">
+                                        <h4>Total Discounts</h4>
+                                        <p>{{ invoiceDetails.subtotal - invoiceDetails.total }}</p>
+                                    </div>
+                                    <div class="resume-item">
+                                        <h4>Total</h4>
+                                        <p>{{ invoiceDetails.total }}</p>
+                                    </div>
                                 </div>
-
-                                <div style="display: flex; justify-content: space-between">
-                                    <p>Total</p>
-                                    <p>{{ invoiceDetails.total }}</p>
-                                </div>
-
           				        <div class="i_row grand_total_wrap">
             				        <div class="i_col w_50">
             				        </div>
             				        <div class="i_col w_50 grand_total">
               				            <p><span>TOTAL:</span>
-                                            <span>{{ invoiceDetails.currency_symbol }}{{ invoiceDetails.total }}</span>
+                                            <span>
+                                                {{ invoiceDetails.currency_symbol }}{{ formatValue(invoiceDetails.total) }}
+                                            </span>
               				            </p>
             				        </div>
           				        </div>
@@ -158,15 +155,15 @@
     				<div class="footer">
       				    <div class="i_row">
         				    <div class="i_col w_50">
-          				        <p class="p_title">Payment Method</p>
+          				        <p class="p_title">{{ translations.invoices.payment_method }}</p>
           				        <p>
                                     {{ invoiceDetails.payment_method }}
                                 </p>
         				    </div>
         				    <div class="i_col w_50 text_right">
-          				        <p class="p_title">Terms and Conditions</p>
+          				        <p class="p_title">{{ translations.invoices.shipping_address }}</p>
           				        <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    {{ user.address }}
                                 </p>
         				    </div>
       				    </div>
@@ -184,7 +181,7 @@
 
     .print-btn {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         margin-top: 60px;
     }
 
@@ -230,7 +227,7 @@
     .invoice .header .i_row .i_title h2 {
         font-size: 32px;
         line-height: 38px;
-        color: #5265a7;
+        color: #E77917;
     }
     .invoice .header .i_row .i_address .p_title span {
         font-weight: 400;
@@ -253,7 +250,7 @@
         margin-top: 20px;
     }
     .invoice .body .i_table .i_table_foot .grand_total_wrap .grand_total {
-        background: #5265a7;
+        background: #E77917;
         color: #fff;
         padding: 10px 15px;
     }
@@ -263,6 +260,18 @@
     }
     .invoice .footer {
         margin-top: 30px;
+    }
+    .invoice-resume {
+        display: flex;
+        flex-direction: column;
+    }
+    .resume-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .resume-item h4 {
+        font-weight: bold;
     }
 
 </style>

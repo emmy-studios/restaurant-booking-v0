@@ -89,6 +89,11 @@ return [
         'Other' => 'Otro',
         'Partner Portal' => 'Portal de Socios',
     ],
+    'order_cancellation_status' => [
+        'Processing' => 'Procesando',
+        'Canceled' => 'Cancelada',
+        'Approved' => 'Aprobada',
+    ],
     // Contract Type Translations
     'contract_type' => [
         'Permanent' => 'Permanente',

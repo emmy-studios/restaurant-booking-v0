@@ -28,7 +28,9 @@ class InvoiceController extends Controller
 
     public function invoice(Request $request)
     {
+        $user = Auth::user();
         $locale = app()->getLocale();
+        $translations = getTranslations(['invoices']);
         $invoiceId = request()->route()->parameter('invoiceId');
         $invoiceId = (int) $invoiceId;
         $invoiceDetails = Billing::where('id', $invoiceId)->first();
@@ -54,8 +56,10 @@ class InvoiceController extends Controller
         return Inertia::render('Accounts/Invoice', [
             'invoiceDetails' => $invoiceDetails,
             'locale' => $locale,
+            'translations' => $translations,
             'orderItems' => $orderItems,
             'invoiceItems' => $invoiceItems,
+            'user' => $user,
         ]);
     }
 

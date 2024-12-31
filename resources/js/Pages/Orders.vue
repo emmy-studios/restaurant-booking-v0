@@ -2,10 +2,12 @@
 
     import DashboardSidebar from './Components/DashboardSidebar.vue';
     import { ref, defineProps, computed } from 'vue';
-    import { usePage, router, Link } from '@inertiajs/vue3';
+    import { usePage, router, Link, useForm } from '@inertiajs/vue3';
     import {
         NButton,
         NIcon,
+        NModal,
+        NCard,
     } from 'naive-ui';
 
     import {
@@ -50,6 +52,14 @@
     const navigate = (url) => {
         router.get(url);
     };
+    // Cancel Order Modal
+    const showModal = ref(false);
+
+    // Order Cancellation Request Form
+    const form = useForm({
+        'orderCode': '',
+        'reason': '',
+    });
 
 </script>
 
@@ -92,9 +102,44 @@
                     </div>
                 </div>
             </div>
-            <div class="container-header">
-                <span>All Orders Made</span>
-                <p>This is the information of all your orders</p>
+            <div class="actions-container">
+                <div class="container-header">
+                    <span>All Orders Made</span>
+                    <p>This is the information of all your orders</p>
+                </div>
+                <!-- Cancel Order Modal -->
+                <div class="actions-form">
+                    <n-button type=primary color="#E77917" @click="showModal = true">
+                        Cancel an Order
+                    </n-button>
+                    <n-modal v-model:show="showModal">
+                        <n-card
+                            style="width: 600px"
+                            title="Cancel Order Form"
+                            :bordered="false"
+                            size="huge"
+                            role="dialog"
+                            aria-modal="true"
+                        >
+                            <template #header-extra>
+                                <n-button @click="showModal = false" color="red">close</n-button>
+                            </template>
+                            <form
+                                class="cancel-form"
+                                @submit.prevent="form.post(`/${currentLocale}/order/cancel`)"
+                            >
+                                <label for="orderCode">Order Code:</label>
+                                <input v-model="form.orderCode" type="text" name="orderCode">
+                                <label for="reason">Reason:</label>
+                                <textarea v-model="form.reason" name="reason"></textarea>
+                                <button id="send-btn" type="submit" :disabled="form.processing">
+                                    Send Request
+                                </button>
+                            </form>
+                        </n-card>
+                    </n-modal>
+                </div>
+                <!-- Cancel Order Modal -->
             </div>
             <div class="orders-container">
                 <table class="table-container">
@@ -227,6 +272,43 @@
     /* STATS */
 
     /* ORDERS TABLE */
+    .actions-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cancel-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .cancel-form input,
+    .cancel-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+    .cancel-form input:focus,
+    textarea:focus {
+        border-color: #E77917;
+        outline: none;
+    }
+    .cancel-form label {
+        font-weight: bold;
+    }
+    #send-btn {
+        width: 100%;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        color: #fff;
+        background-color: #E77917;
+    }
+    #send-btn:hover {
+        background-color: #f1b559;
+    }
     .orders-container {
         max-width: 100%;
         overflow-x: auto;
@@ -343,6 +425,10 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+        .actions-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
         .table-container {
             font-size: 14px;
         }

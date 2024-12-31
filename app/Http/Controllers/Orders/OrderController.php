@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderItem;
+use App\Models\Orders\OrderCancellationRequest;
 use App\Models\Shoppingcarts\Shoppingcart;
 use App\Models\Discounts\Discount;
 use App\Enums\PaymentMethod;
@@ -176,6 +177,30 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->route('order');
+    }
+
+    public function cancelOrderRequest(Request $request)
+    {
+        ($request);
+        $validated = $request->validate([
+            'orderCode' => 'required|string|max:255',
+            'reason' => 'string',
+        ]);
+        $orderCode = $validated['orderCode'];
+        $user = Auth::user();
+
+        $orderCancellationRequest = new OrderCancellationRequest();
+        $orderCancellationRequest->order_code = $orderCode;
+        $orderCancellationRequest->reason = $validated['reason'];
+        $orderCancellationRequest->status = 'Processing';
+        $orderCancellationRequest->additional_details = 'None';
+        $orderCancellationRequest->save();
+
+        $order = Order::where('order_code', $orderCode)->first();
+        $order->order_status = 'On Hold';
+        $order->save();
+
+        return redirect()->route('orders');
     }
 
 }

@@ -85,6 +85,13 @@ return [
     'create_order' => 'Create Order',
     'edit_order' => 'Edit Order',
     'view_order' => 'View Order',
+    /* OrderCancellationRquest */
+    'cancellation_request' => 'Cancellation Request',
+    'cancellation_requests' => 'Cancellation Requests',
+    // Pages
+    'create_cancellation' => 'Create Cancellation',
+    'edit_cancellation' => 'Edit Cancellation',
+    'view_cancellation' => 'View Cancellation',
     /**  OrderItemResource Filament Translations  */
     'quantity' => 'Quantity',
     'order_items' => 'Order Items',

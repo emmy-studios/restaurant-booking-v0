@@ -289,7 +289,12 @@
                     status === 'Processing' ||
                     status === 'Completed' ||
                     status === 'Awaiting Payment' ||
-                    status === 'Delivered'"
+                    status === 'Delivered' ||
+                    status === 'Failed' ||
+                    status === 'On Hold' ||
+                    status === 'Refunded' ||
+                    status === 'Shipped' ||
+                    status === 'Cancelled'"
             >
 
                 <!-- Status = Pending -->
@@ -825,6 +830,31 @@
                     </div>
                 </article>
 
+                <!-- Status = Failed -->
+                <article v-else-if="status === 'Failed'">
+                    <p>Order Failed</p>
+                </article>
+
+                <!-- Status = Shipped -->
+                <article v-else-if="status === 'Shipped'">
+                    <p>Order Shipped</p>
+                </article>
+
+                <!-- Status = Refunded -->
+                <article v-else-if="status === 'Refunded'">
+                    <p>Order Refunded</p>
+                </article>
+
+                <!-- Status = On Hold -->
+                <article v-else-if="status === 'On Hold'">
+                    <p>Order On Hold</p>
+                </article>
+
+                <!-- Status = Cancelled -->
+                <article v-else-if="status === 'Cancelled'">
+                    <p>Order Cancelled</p>
+                </article>
+
             </section>
 
             <section v-else class="empty-container">
@@ -883,7 +913,14 @@
     }
     .currency-container {
         display: flex;
-        gap: 10px;
+        align-items: center;
+        gap: 4px;
+    }
+    .currency-container span {
+        font-weight: bold;
+    }
+    .currency-container select {
+        background-color: #f9f9f9;
     }
     .products-container {
         max-width: 100%;

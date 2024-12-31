@@ -34,6 +34,7 @@ Route::prefix('{locale}')
         Route::get('/order', [OrderController::class, 'order'])->name('order');
         // Create Order
         Route::post('/order/create', [OrderController::class, 'createOrder'])->name('order.create');
+        Route::post('/order/cancel', [OrderController::class, 'cancelOrderRequest'])->name('cancel.order');
         // Create Billing
         Route::post('/billing/create', [PaymentController::class, 'createPayment'])->name('billing.create');
         // Authentication Routes
