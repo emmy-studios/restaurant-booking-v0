@@ -19,8 +19,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class BillingResource extends Resource
 {
     protected static ?string $model = Billing::class;
- 
+
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
 
     protected static ?string $navigationLabel = null;
 
@@ -28,7 +30,7 @@ class BillingResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form 
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -77,7 +79,7 @@ class BillingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('models.name')) 
+                    ->label(__('models.name'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('order.id')
@@ -168,7 +170,7 @@ class BillingResource extends Resource
     {
         return __('models.billings');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

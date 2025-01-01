@@ -19,6 +19,8 @@ class IngredientResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cake';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
@@ -26,7 +28,7 @@ class IngredientResource extends Resource
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
-    { 
+    {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
@@ -103,10 +105,10 @@ class IngredientResource extends Resource
     {
         return __('models.ingredients');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.recipes'); 
+        return __('models.recipes');
     }
 }

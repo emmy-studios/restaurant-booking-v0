@@ -12,18 +12,26 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
- 
+
 class OrderItemResource extends Resource
 {
     protected static ?string $model = OrderItem::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-numbered-list';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationBadge(): ?string
+    {
+        //return 'NEW' . ' 0';
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -68,7 +76,7 @@ class OrderItemResource extends Resource
                     ->label(__('models.quantity'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subtotal') 
+                Tables\Columns\TextColumn::make('subtotal')
                     ->label(__('models.subtotal'))
                     ->numeric()
                     ->sortable(),
@@ -123,7 +131,7 @@ class OrderItemResource extends Resource
     {
         return __('models.order_items');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

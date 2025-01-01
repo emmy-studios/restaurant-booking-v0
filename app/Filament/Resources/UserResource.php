@@ -10,9 +10,20 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Split;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
@@ -34,74 +45,94 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__('models.name'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('first_name')
-                    ->label(__('models.first_name'))
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('last_name')
-                    ->label(__('models.last_name'))
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('identification_code')
-                    ->label(__('models.identification_code'))
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('identification_number')
-                    ->label(__('models.identification_number'))
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label(__('models.email'))
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('gender')
-                    ->options(Gender::class)
-                    ->label(__('models.gender'))
-                    ->default('Other')
-                    ->searchable(),
-                Forms\Components\Select::make('country_code')
-                    ->label(__('models.country_code'))
-                    ->options(CountryCode::class)
-                    ->searchable()
-                    ->default('+506'),
-                Forms\Components\TextInput::make('phone_number')
-                    ->label(__('models.phone_number'))
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\Select::make('country')
-                    ->label(__('models.country'))
-                    ->options(Countries::class)
-                    ->searchable()
-                    ->default('Costa Rica'),
-                Forms\Components\TextInput::make('postal_code')
-                    ->label(__('models.postal_code'))
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->label(__('models.city'))
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('address')
-                    ->label(__('models.address'))
-                    ->columnSpanFull(),
-                Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label(__('models.email_verified_at')),
-                Forms\Components\TextInput::make('password')
-                    ->label(__('models.password'))
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('role')
-                    ->label(__('models.role'))
-                    ->required()
-                    //->options(USER::ROLES)
-                    ->options(Roles::class)
-                    ->default('CUSTOMER'),
-                Forms\Components\FileUpload::make('image_url')
-                    ->label(__('models.image_url'))
-                    ->disk('public')
-                    ->directory('users-image')
-                    ->previewable(false)
-                    ->image()
+                Split::make([
+                    Section::make()
+                        ->icon('heroicon-o-user-plus')
+                        ->schema([
+                            TextInput::make('name')
+                                ->label(__('models.username'))
+                                ->required()
+                                ->maxLength(255),
+                            TextInput::make('identification_code')
+                                ->label(__('models.identification_code'))
+                                ->maxLength(255),
+                            TextInput::make('first_name')
+                                ->label(__('models.first_name'))
+                                ->maxLength(255),
+                            TextInput::make('last_name')
+                                ->label(__('models.last_name'))
+                                ->maxLength(255),
+                        ]),
+                    Section::make([
+                        FileUpload::make('image_url')
+                            ->label(__('models.image_url'))
+                            ->disk('public')
+                            ->directory('users-image')
+                            ->previewable(false)
+                            ->image(),
+                        DateTimePicker::make('email_verified_at')
+                            ->label(__('models.email_verified_at')),
+                        TextInput::make('password')
+                            ->label(__('models.password'))
+                            ->password()
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                        ->icon('heroicon-o-photo'),
+                ])
+                    ->columnSpanFull()
+                    ->from('md'),
+                Section::make()
+                    ->icon('heroicon-o-identification')
+                    ->schema([
+                        TextInput::make('identification_number')
+                            ->label(__('models.identification_number'))
+                            ->maxLength(255),
+                        TextInput::make('email')
+                            ->label(__('models.email'))
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('gender')
+                            ->options(Gender::class)
+                            ->label(__('models.gender'))
+                            ->default('Other')
+                            ->searchable(),
+                        Select::make('role')
+                            ->label(__('models.role'))
+                            ->required()
+                            ->options(Roles::class)
+                            ->default('CUSTOMER'),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->icon('heroicon-o-map-pin')
+                    ->schema([
+                        Select::make('country')
+                            ->label(__('models.country'))
+                            ->options(Countries::class)
+                            ->searchable()
+                            ->default('Costa Rica'),
+                        TextInput::make('city')
+                            ->label(__('models.city'))
+                            ->maxLength(255),
+                        Select::make('country_code')
+                            ->label(__('models.country_code'))
+                            ->options(CountryCode::class)
+                            ->searchable()
+                            ->default('+506'),
+                        TextInput::make('phone_number')
+                            ->label(__('models.phone_number'))
+                            ->tel()
+                            ->maxLength(255),
+                        TextInput::make('postal_code')
+                            ->label(__('models.postal_code'))
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        MarkdownEditor::make('address')
+                            ->label(__('models.address'))
+                            ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 
@@ -127,37 +158,51 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('identification_number')
-                    ->label(__('models.identification_number')),
+                    ->label(__('models.identification_number'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('models.email'))
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('gender')
                     ->label(__('models.gender'))
-                    ->badge(),
+                    ->badge()
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\ImageColumn::make('image_url')
                     ->circular()
-                    ->label(__('models.image_url')),
+                    ->label(__('models.image_url'))
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('country_code')
-                    ->label(__('models.country_code')),
+                    ->label(__('models.country_code'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('phone_number')
                     ->label(__('models.phone_number'))
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('country')
                     ->sortable()
                     ->badge()
                     ->label(__('models.country'))
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('postal_code')
                     ->label(__('models.postal_code'))
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('city')
                     ->label(__('models.city'))
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label(__('models.email_verified_at'))
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('models.created_at'))
                     ->dateTime()
@@ -172,14 +217,58 @@ class UserResource extends Resource
                     ->label(__('models.role'))
                     ->sortable()
                     ->badge()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+    				}),
+                SelectFilter::make('role')
+                    ->label(__('models.role'))
+                    ->options([
+                        collect(Roles::cases())
+                            ->mapWithKeys(fn(Roles $role) => [$role->value => $role->getLabel()])
+                            ->filter(fn($label, $key) => !is_numeric($key))
+                            ->toArray()
+                    ]),
+                SelectFilter::make('country')
+                    ->label(__('models.country'))
+                    ->options([
+                        collect(Countries::cases())
+                            ->mapWithKeys(fn(Countries $country) => [$country->value => $country->getLabel()])
+                            ->filter(fn($label, $key) => !is_numeric($key))
+                            ->toArray()
+                    ]),
+                SelectFilter::make('country_code')
+                    ->label(__('models.country_code'))
+                    ->options([
+                        collect(CountryCode::cases())
+                            ->mapWithKeys(fn(CountryCode $code) => [$code->value => $code->getLabel()])
+                            ->filter(fn($label, $key) => !is_numeric($key))
+                            ->toArray()
+                    ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

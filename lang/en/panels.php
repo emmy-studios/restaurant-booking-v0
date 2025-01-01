@@ -2,6 +2,7 @@
 
 return [
   /**  Admin Panel */
+    "actions" => "Actions",
     "total_users" => "Total Users",
     "new_users" => "New Users",
     "new_orders" => "New Orders",

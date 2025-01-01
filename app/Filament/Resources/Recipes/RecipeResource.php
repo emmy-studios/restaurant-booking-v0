@@ -14,10 +14,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RecipeResource extends Resource
-{ 
+{
     protected static ?string $model = Recipe::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
 
     protected static ?string $navigationLabel = null;
 
@@ -107,10 +109,10 @@ class RecipeResource extends Resource
     {
         return __('models.recipes');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
-        return __('models.recipes'); 
+        return __('models.recipes');
     }
 }

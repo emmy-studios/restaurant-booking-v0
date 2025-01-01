@@ -9,10 +9,15 @@ use App\Filament\Resources\Orders\OrderResource\Pages;
 use App\Filament\Resources\Orders\OrderResource\RelationManagers;
 use App\Models\Orders\Order;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\DatePicker;
@@ -25,44 +30,65 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
 
+    /*public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('order_status', '=', 'Pending')->count();
+    }*/
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('order_status', '=', 'Pending')
+            ->whereDate('created_at', now()->toDateString())
+            ->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::where('order_status', '=', 'Pending')->count() < 2
+            ? 'danger'
+            : 'info';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('order_code')
+                TextInput::make('order_code')
                     ->required()
                     ->label(__('models.order_code'))
                     ->maxLength(255),
-                Forms\Components\Select::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->label(__('models.user'))
                     ->required(),
-                Forms\Components\Select::make('order_status')
+                Select::make('order_status')
                     ->options(OrderStatus::class)
                     ->searchable()
                     ->default('Processing')
                     ->label(__('models.order_status')),
-                Forms\Components\Select::make('order_source')
+                Select::make('order_source')
                     ->options(OrderSource::class)
                     ->default('Online')
                     ->searchable()
                     ->label(__('models.order_source')),
-                Forms\Components\Select::make('currency_symbol')
+                Select::make('currency_symbol')
                     ->options(CurrencySymbol::class)
                     ->searchable()
                     ->default('USD $')
                     ->label(__('models.currency_symbol')),
-                Forms\Components\TextInput::make('subtotal')
+                TextInput::make('subtotal')
                     ->required()
                     ->label(__('models.subtotal'))
                     ->numeric(),
-                Forms\Components\TextInput::make('total')
+                TextInput::make('total')
                     ->required()
                     ->label(__('models.total'))
                     ->numeric(),
@@ -73,44 +99,44 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_code')
+                TextColumn::make('order_code')
                     ->label(__('models.order_code'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->numeric()
                     ->searchable()
                     ->label(__('models.user'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order_status')
+                TextColumn::make('order_status')
                     ->badge()
                     ->color(fn ($record) => OrderStatus::from($record->order_status)->getColor())
                     ->searchable()
                     ->label(__('models.order_status')),
-                Tables\Columns\TextColumn::make('order_source')
+                TextColumn::make('order_source')
                     ->badge()
                     ->color('warning')
                     ->searchable()
                     ->sortable()
                     ->label(__('models.order_source')),
-                Tables\Columns\TextColumn::make('currency_symbol')
+                TextColumn::make('currency_symbol')
                     ->badge()
                     ->color('info')
                     ->label(__('models.currency_symbol'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('subtotal')
+                TextColumn::make('subtotal')
                     ->numeric()
                     ->label(__('models.subtotal'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total')
+                TextColumn::make('total')
                     ->numeric()
                     ->label(__('models.total'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
@@ -155,9 +181,12 @@ class OrderResource extends Resource
     				}),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->tooltip(__('panels.actions'))
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

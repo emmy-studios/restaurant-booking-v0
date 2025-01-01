@@ -29,6 +29,7 @@ return [
     'edit_user' => 'Edit User',
     'view_user' => 'View User',
     /* Shoppingcarts Resources */
+    'customer' => 'Customer',
     'shoppingcart' => 'Shoppingcart',
     'shoppingcarts' => 'Shoppingcarts',
     'products_related_to_the_shoppingcart' => 'Products related to the Shoppingcart',

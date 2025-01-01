@@ -20,11 +20,18 @@ class OrderCancellationRequestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'Processing')->count();
+    }
 
     public static function form(Form $form): Form
     {

@@ -20,6 +20,8 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
@@ -36,8 +38,8 @@ class ProductResource extends Resource
                     ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
-                    ->label(__('models.quantity')) 
-                    ->numeric(), 
+                    ->label(__('models.quantity'))
+                    ->numeric(),
                 Forms\Components\TextInput::make('portion')
                     ->required()
                     ->label(__('models.portion'))
@@ -51,10 +53,10 @@ class ProductResource extends Resource
                     ->directory('product-images')
                     ->image()
                     ->imageEditor()
-                    ->label(__('models.image_url')) 
+                    ->label(__('models.image_url'))
                     ->required(),
             ]);
-    } 
+    }
 
     public static function table(Table $table): Table
     {
@@ -119,11 +121,11 @@ class ProductResource extends Resource
     {
         return __('models.products');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
         return __('models.products');
     }
 }
- 
+

@@ -19,6 +19,8 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
@@ -45,7 +47,7 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('models.name'))
-                    ->searchable(), 
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->label(__('models.description')),
                 Tables\Columns\TextColumn::make('created_at')
@@ -95,7 +97,7 @@ class CategoryResource extends Resource
     {
         return __('models.categories');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {
