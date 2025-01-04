@@ -33,8 +33,8 @@ enum BillingStatus: string implements HasLabel, HasColor
     public function getColor(): string|array|null
     {
         return match($this){
-            self::PENDING => 'warning',
-            self::PROCESSING => 'warning',
+            self::PENDING => 'info',
+            self::PROCESSING => 'info',
             self::CANCELLED => 'danger',
             self::REFUNDED => 'warning',
             self::FAILED => 'danger',

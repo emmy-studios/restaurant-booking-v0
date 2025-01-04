@@ -9,6 +9,7 @@ use App\Models\Notice;
 use App\Models\Events\Event;
 use App\Models\Orders\Billing;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderCancellationRequest;
 use App\Models\Reports\InventoryReport;
 use App\Models\Reports\Report;
 use App\Models\Reviews\Review;
@@ -148,6 +149,11 @@ class User extends Authenticatable implements FilamentUser
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function orderCancellationRequests(): HasMany
+    {
+        return $this->hasMany(OrderCancellationRequest::class);
     }
 
     public function billings(): HasMany

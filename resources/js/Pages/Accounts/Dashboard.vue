@@ -2,44 +2,25 @@
 
     import { ref, reactive } from "vue";
     import { Link, usePage } from "@inertiajs/vue3";
-    import { NIcon } from "naive-ui";
-    import {
-        MenuOutlined,
-        TagFacesSharp,
-        DashboardCustomizeFilled,
-        ShopifyOutlined,
-        DonutSmallFilled,
-        MessageSharp,
-        SupervisedUserCircleFilled,
-        SettingsFilled,
-        ArrowCircleLeftFilled,
-        SearchFilled,
-        NotificationsActiveFilled,
-        KeyboardArrowRightRound,
-        CloudUploadSharp,
-        CalendarMonthFilled,
-        SupervisedUserCircleOutlined,
-        MonetizationOnOutlined,
-        FilterAltSharp,
-        PlusFilled,
-        MoreVertSharp
-    } from "@vicons/material";
+    import { NIcon, NButton } from "naive-ui";
+    import { AssignmentReturnFilled, MenuBookFilled, ShoppingCartFilled } from "@vicons/material";
+    import DashboardSidebar from "../Components/DashboardSidebar.vue";
 
     // Get Current Locale
-    const { locale } = usePage().props;
+    const { locale, user, translations, lastOrderMade, orderItems, totalOrders, totalReservations } = usePage().props;
     const currentLocale = locale || 'en';
 
-    // Get User Information
-    const props = defineProps({
-        user: {
-            type: Object,
-            required: true,
-        }
-    });
-    const notifications = ref(4);
-    //const imageProfile = ref("/assets/images/panels/admin_profile.png");
+    //const notifications = ref(4);
 
-    import DashboardSidebar from "../Components/DashboardSidebar.vue";
+    const formatDate = (dateString, locale) => {
+        const date = new Date(dateString);
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        return new Intl.DateTimeFormat(locale, options).format(date);
+    };
 
 </script>
 
@@ -57,7 +38,7 @@
             <div class="banner-container">
                 <div class="card-container">
                     <div class="card-content">
-                        <span>Welcome Back, {{ user.name }}!</span>
+                        <span>{{ translations.dashboard.welcome_back }}, {{ user.name }}!</span>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur
                             adipiscing elit.
@@ -72,24 +53,25 @@
             <!-- Stats -->
 			<ul class="box-info">
 				<li id="total-orders-stats">
-                    <n-icon class="bx"><CalendarMonthFilled/></n-icon>
+                    <n-icon class="bx"><ShoppingCartFilled/></n-icon>
                     <span class="text">
-						<h3>1020</h3>
-						<p>Total Orders</p>
+                        <h3>{{ totalOrders }}</h3>
+                        <p>{{ translations.dashboard.total_orders }}</p>
 					</span>
 				</li>
-				<li>
-                    <n-icon class="bx"><SupervisedUserCircleOutlined/></n-icon>
+				<li id="total-reservations-stats">
+                    <n-icon class="bx"><MenuBookFilled/></n-icon>
                     <span class="text">
-						<h3>2834</h3>
-						<p>Visitors</p>
+                        <!--<h3>{{ totalReservations }}</h3>-->
+                        <h3>90</h3>
+                        <p>{{ translations.dashboard.total_reservations }}</p>
 					</span>
 				</li>
-				<li>
-                    <n-icon class="bx"><MonetizationOnOutlined/></n-icon>
+				<li id="total-returns-stats">
+                    <n-icon class="bx"><AssignmentReturnFilled/></n-icon>
                     <span class="text">
-						<h3>$2543</h3>
-						<p>Total Sales</p>
+						<h3>2</h3>
+                        <p>{{ translations.dashboard.returns }}</p>
 					</span>
 				</li>
             </ul>
@@ -99,59 +81,30 @@
 			<div class="table-data">
 				<div class="order">
 					<div class="head">
-						<h3>Recent Orders</h3>
-                        <n-icon class="bx"><SearchFilled/></n-icon>
-					    <n-icon class="bx"><FilterAltSharp/></n-icon>
+                        <h3>{{ translations.dashboard.recent_products_purchased }}</h3>
+                        <n-button type=primary color="#EC6BDC">
+                            <Link :href="`/${currentLocale}/orders`">View All</Link>
+                        </n-button>
                     </div>
 					<table>
 						<thead>
 							<tr>
-								<th>User</th>
-								<th>Date Order</th>
-								<th>Status</th>
+                                <th>{{ translations.dashboard.customer }}</th>
+                                <th>{{ translations.dashboard.order_date }}</th>
+                                <th>{{ translations.dashboard.status }}</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									<img src="/assets/images/products/pizza.jpg">
-									<p>Pizza Slice</p>
+                            <tr v-for="item in orderItems" :key="item.id">
+                                <td>
+								    <img
+                                        :src="`/storage/${item.product.image_url}`"
+                                    >
+                                    <p>{{ item.product.name }}</p>
 								</td>
-								<td>01-10-2021</td>
-								<td><span class="status completed">Completed</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="/assets/images/products/hamburger.jpg">
-									<p>Hamburger Order</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status process">Process</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<img src="img/people.png">
-									<p>John Doe</p>
-								</td>
-								<td>01-10-2021</td>
-								<td><span class="status completed">Completed</span></td>
-							</tr>
+                                <td>{{ formatDate(item.created_at, currentLocale) }}</td>
+                                <td><span class="status completed">{{ lastOrderMade.order_status }}</span></td>
+                            </tr>
 						</tbody>
 					</table>
 				</div>
@@ -231,6 +184,12 @@
 	}
     .box-info #total-orders-stats {
         background-image: linear-gradient(to right top, #2ceeb1, #1aed9a, #1feb7f, #33e860, #48e538);
+    }
+    .box-info #total-reservations-stats {
+        background-image: linear-gradient(to right top, #f9a0f6, #e88cf3, #d579f0, #be67ef, #a457ee);
+    }
+    .box-info #total-returns-stats {
+        background-image: linear-gradient(to right top, #f485a3, #f77cad, #f874ba, #f46eca, #ec6bdc);
     }
 	.box-info li .bx {
 		width: 80px;
@@ -347,6 +306,14 @@
         .card-container {
             display: grid;
             grid-template-columns: 1fr;
+        }
+        .table-data .head {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .table-data .head h3 {
+            font-size: 16px;
         }
     }
     @media screen and (max-width: 576px) {

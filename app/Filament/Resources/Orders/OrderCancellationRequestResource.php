@@ -7,9 +7,15 @@ use App\Filament\Resources\Orders\OrderCancellationRequestResource\RelationManag
 use App\Models\Orders\OrderCancellationRequest;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Enums\OrderCancellationStatus;
@@ -37,21 +43,29 @@ class OrderCancellationRequestResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('order_code')
-                    ->required()
-                    ->label(__('models.order_code'))
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('reason')
-                    ->columnSpanFull()
-                    ->label(__('models.reason')),
-                Forms\Components\MarkdownEditor::make('additional_details')
-                    ->columnSpanFull()
-                    ->label(__('models.additional_details')),
-                Forms\Components\Select::make('status')
-                    ->options(OrderCancellationStatus::class)
-                    ->searchable()
-                    ->default('Processing')
-                    ->label(__('models.status')),
+                Section::make([
+                    Select::make('user_id')
+                        ->relationship('user', 'name')
+                        ->label(__('models.user'))
+                        ->required(),
+                    TextInput::make('order_code')
+                        ->required()
+                        ->label(__('models.order_code'))
+                        ->maxLength(255),
+                    Select::make('status')
+                        ->options(OrderCancellationStatus::class)
+                        ->searchable()
+                        ->default('Processing')
+                        ->label(__('models.status')),
+                ])->columns(2),
+                Section::make([
+                    MarkdownEditor::make('reason')
+                        ->columnSpanFull()
+                        ->label(__('models.reason')),
+                    MarkdownEditor::make('additional_details')
+                        ->columnSpanFull()
+                        ->label(__('models.additional_details'))
+                ])
             ]);
     }
 
@@ -59,17 +73,20 @@ class OrderCancellationRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_code')
+                TextColumn::make('user.name')
+                    ->label(__('models.user'))
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('order_code')
                     ->label(__('models.order_code'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label(__('models.status')),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable(),
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
@@ -79,8 +96,11 @@ class OrderCancellationRequestResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])
+                    ->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

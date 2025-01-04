@@ -21,6 +21,8 @@ use Filament\Forms\Components\Split;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\ActionGroup;
@@ -40,6 +42,11 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
+
+    public static function getBreadcrumb(): string
+    {
+        return __('models.users');
+    }
 
     public static function form(Form $form): Form
     {
@@ -98,6 +105,8 @@ class UserResource extends Resource
                             ->label(__('models.gender'))
                             ->default('Other')
                             ->searchable(),
+                        DatePicker::make('birth')
+                            ->label(__('models.birthday')),
                         Select::make('role')
                             ->label(__('models.role'))
                             ->required()
@@ -140,80 +149,80 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('models.name'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('first_name')
+                TextColumn::make('first_name')
                     ->label(__('models.first_name'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('last_name')
+                TextColumn::make('last_name')
                     ->sortable()
                     ->label(__('models.last_name'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('identification_code')
+                TextColumn::make('identification_code')
                     ->label(__('models.identification_code'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('identification_number')
+                TextColumn::make('identification_number')
                     ->label(__('models.identification_number'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label(__('models.email'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('gender')
+                TextColumn::make('gender')
                     ->label(__('models.gender'))
                     ->badge()
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\ImageColumn::make('image_url')
+                ImageColumn::make('image_url')
                     ->circular()
                     ->label(__('models.image_url'))
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('country_code')
+                TextColumn::make('country_code')
                     ->label(__('models.country_code'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('phone_number')
+                TextColumn::make('phone_number')
                     ->label(__('models.phone_number'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('country')
+                TextColumn::make('country')
                     ->sortable()
                     ->badge()
                     ->label(__('models.country'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('postal_code')
+                TextColumn::make('postal_code')
                     ->label(__('models.postal_code'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('city')
+                TextColumn::make('city')
                     ->label(__('models.city'))
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('email_verified_at')
+                TextColumn::make('email_verified_at')
                     ->label(__('models.email_verified_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('role')
+                TextColumn::make('role')
                     ->label(__('models.role'))
                     ->sortable()
                     ->badge()

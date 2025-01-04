@@ -298,7 +298,7 @@
             >
 
                 <!-- Status = Pending -->
-                <article v-if="status === 'Pending'" class="main-container">
+                <article v-if="status === 'Pending'" class="article-container">
                     <div class="timeline-container">
                         <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item
@@ -450,7 +450,6 @@
                             </table>
 
                         </div>
-
                         <div class="order-resume">
                             <div class="resume-item">
                                 <span>Currency</span>
@@ -495,9 +494,8 @@
                     </div>
                 </article>
 
-
                 <!-- Status = Processing -->
-                <article v-else-if="status === 'Processing'" class="processing-container">
+                <article v-else-if="status === 'Processing'" class="article-container">
                     <div class="timeline-container">
                         <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="ORDER CREATED">
@@ -580,13 +578,16 @@
                                 <input v-model="userData.phone_number">
                             </div>
                         </div>
-                        <div class="address-item">
+                        <div class="address-description">
+                            <span>Address:</span>
                             <textarea rows="4" cols="50" v-model="userData.address"></textarea>
                         </div>
                     </div>
                     <div class="processing-actions">
                         <Link
                             method="post"
+                            as="button"
+                            id="update-address-btn"
                             :data="{
                                 userOrderCode: lastOrderCreated.order_code,
                                 userCity: userData.city,
@@ -596,7 +597,6 @@
                                 userPhoneNumber: userData.phone_number
                             }"
                             :href="`/${currentLocal}/update-customer-address`"
-                            style="padding: 5px 7px; background-color: red; color: #fff; border-radius: 8px;"
                         >
                             CONTINUE
                         </Link>
@@ -704,7 +704,7 @@
                 </article>
 
                 <!-- Status = Completed -->
-                <article v-else-if="status === 'Completed'" class="invoice-container">
+                <article v-else-if="status === 'Completed'" class="article-container">
                     <div class="timeline-container">
                         <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
@@ -752,12 +752,12 @@
                             </n-timeline-item>
     					</n-timeline>
                     </div>
-                    <div class="print-invoice">
-                        <div class="invoice-card">
+                    <aside class="message-container">
+                        <div class="card">
                             <div class="card-icon">
                                 <img src="/assets/images/system/success_tick.svg">
                             </div>
-                            <div class="card-text">
+                            <div class="card-content">
                                 <span>Order Successfully</span>
                                 <p>
                                     Your order has been created, if you want an invoice,
@@ -768,11 +768,11 @@
                                 <n-button type=primary>PRINT</n-button>
                             </div>
                         </div>
-                    </div>
+                    </aside>
                 </article>
 
                 <!-- Status = Delivered -->
-                <article v-else-if="status === 'Delivered'" class="voucher-container">
+                <article v-else-if="status === 'Delivered'" class="article-container">
                     <div class="timeline-container">
                         <n-timeline :horizontal=isHorizontal size="large">
       						<n-timeline-item type="success" color="success" title="CREATED">
@@ -811,12 +811,12 @@
                             </n-timeline-item>
     					</n-timeline>
                     </div>
-                    <div class="print-voucher">
-                        <div class="voucher-card">
+                    <aside class="message-container">
+                        <div class="card">
                             <div class="card-icon">
                                 <img src="/assets/images/system/delivery_truck.svg">
                             </div>
-                            <div class="card-text">
+                            <div class="card-content">
                                 <span>Your order has been placed</span>
                                 <p>
                                     if you want a proof of purchase
@@ -827,7 +827,7 @@
                                 <n-button type=primary>GENERATE</n-button>
                             </div>
                         </div>
-                    </div>
+                    </aside>
                 </article>
 
                 <!-- Status = Failed -->
@@ -851,8 +851,17 @@
                 </article>
 
                 <!-- Status = Cancelled -->
-                <article v-else-if="status === 'Cancelled'">
-                    <p>Order Cancelled</p>
+                <article v-else-if="status === 'Cancelled'" class="article-container">
+                    <div class="message-container">
+                        <div class="card">
+                            <div class="card-icon">
+                                <img src="/assets/images/system/cancel_icon.svg">
+                            </div>
+                            <div class="card-content">
+                                <span>This order has been cancelled!</span>
+                            </div>
+                        </div>
+                    </div>
                 </article>
 
             </section>
@@ -869,7 +878,7 @@
 
 <style scoped>
 
-    /* MAIN CONTAINER */
+    /* Main Styles */
     .order-container {
         display: flex;
         flex-direction: column;
@@ -880,9 +889,6 @@
         flex-direction: column;
         gap: 20px;
     }
-    /* MAIN CONTAINER */
-
-    /* TIMELINE CONTAINER */
     .timeline-container {
         display: flex;
         justify-content: center;
@@ -891,8 +897,56 @@
         overflow: auto;
         max-width: 100%;
     }
-    /* TIMELINE CONTAINER */
-    /* ORDER STATUS = PENDING */
+    .article-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .message-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 60px;
+    }
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        background-color: #f9f9f9;
+        padding: 30px 30px;
+        border-radius: 10px;
+    }
+    .card-icon {
+        display: flex;
+        padding: 10px 10px;
+        justify-content: center;
+    }
+    .card-icon img {
+        width: 100px;
+        height: 100px;
+    }
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 10px;
+        gap: 10px;
+    }
+    .card-content span {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .card-content p {
+        color: gray;
+    }
+    .card-actions {
+        display: flex;
+        justify-content: center;
+    }
+    /* Main Styles */
+
+    /* Create Order Container */
     .create-order-container {
         display: flex;
         flex-direction: column;
@@ -911,6 +965,9 @@
         font-weight: bold;
         font-size: 28px;
     }
+    /* Create Order Container */
+
+    /* Currency Container */
     .currency-container {
         display: flex;
         align-items: center;
@@ -922,6 +979,9 @@
     .currency-container select {
         background-color: #f9f9f9;
     }
+    /* Currency Container */
+
+    /* Shipping Products Table */
     .products-container {
         max-width: 100%;
         overflow-x: auto;
@@ -953,22 +1013,23 @@
         /*background-color: #f7b267;*/
     }
     .product-table tr:hover {
-        background-color: #f1f1f1;
+        background-color: #f9f9f9;
     }
     .product-image img {
         width: 50px;
         height: 50px;
         border-radius: 5px;
     }
-    /* ORDER STATUS = PENDING */
-    /* ORDER RESUME */
+    /* Shipping Products Table */
+
+    /* Order Resume */
     .order-resume {
         display: flex;
         width: 50%;
         gap: 10px;
         flex-direction: column;
         background-color: #fff;
-        border: 1px solid black;
+        border: 1px solid #adb5bd;
         margin-top: 20px;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -1006,9 +1067,9 @@
         cursor: pointer;
         background-color: #f7b267;
     }
-    /* ORDER RESUME */
+    /* Order Resume */
 
-    /* STATUS = PROCESSING */
+    /* Update Shipping Address Form */
     .address-header {
         display: flex;
         align-items: flex-end;
@@ -1057,7 +1118,7 @@
         width: 100%;
     }
     .country-item span, .city-item span,
-    .code-item span, .phone-item span {
+    .code-item span, .phone-item span, .address-description span {
         font-weight: bold;
         font-zise: 2rem;
     }
@@ -1065,33 +1126,49 @@
     .code-item select, .phone-item input {
         padding: 10px 10px;
         border-radius: 5px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s;
+    }
+    .country-item select:focus, .city-item input:focus,
+    .code-item select:focus, .phone-item input:focus {
+        border-color: #E77917;
+        outline: none;
     }
     .country-item select, .code-item select {
         background-color: #fff;
+        border: 1px solid #ccc;
     }
-    .address-item textarea {
+    .address-description {
+        display: flex;
+        flex-direction: column;
+    }
+    .address-description textarea {
         padding: 10px 10px;
         width: 100%;
         border-radius: 5px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s;
     }
-    .address-item textarea:focus {
-        border: 1px solid #a2d2ff;
+    .address-description textarea:focus {
+        border-color: #E77917;
+        outline: none;
     }
     .processing-actions {
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
-    /* STATUS = PROCESSING */
+    #update-address-btn {
+        padding: 5px 16px;
+        width: 100%;
+        background-color: #E77917;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+    }
+    /* Update Shipping Address Form */
 
-    /* PAYMENT INFORMATION */
-    .payment-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+    /* Payment Information */
     .payment-header {
         display: flex;
         align-items: center;
@@ -1104,6 +1181,45 @@
     .payment-icon img {
         width: 100px;
         height: 100px;
+    }
+    .payment-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .payment-card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border: 1px solid #adb5bd;
+        background-color: #f9f9f9;
+        width: 50%;
+        padding: 20px 20px;
+        border-radius: 10px;
+    }
+    .payment-card h3 {
+        color: #000;
+        font-weight: bold;
+        padding: 4px 4px;
+    }
+    .payment-card p, select {
+        background-color: #fff;
+        border: 1px solid #adb5bd;
+        border-radius: 5px;
+        color: #000;
+        padding: 8px 8px;
+    }
+    .card-aside {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    .aside-item {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
     }
     .payment-actions {
         display: flex;
@@ -1124,128 +1240,18 @@
         cursor: pointer;
         background-color: #f1b559;
     }
-    .payment-content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .payment-card {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        border: 1px solid #E77917;
-        background-color: #faedcd;
-        width: 50%;
-        padding: 20px 20px;
-        border-radius: 10px;
-    }
-    .payment-card h3 {
-        color: #000;
-        font-weight: bold;
-        padding: 4px 4px;
-    }
-    .payment-card p, select {
-        background-color: #fff;
-        border-radius: 5px;
-        color: #000;
-        padding: 8px 8px;
-    }
-    .card-aside {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-    }
-    .aside-item {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .aside-item h3 {
-    }
-    .aside-item p {
-    }
-    /* PAYMENT INFORMATION */
+    /* Payment Information */
 
-    /* GENERATE INVOICE */
-    .voucher-container {
-        display: flex;
-        flex-direction: column;
-    }
-    .print-invoice {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 60px;
-    }
-    .invoice-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        background-color: #f9f9f9;
-        padding: 30px 30px;
-        border-radius: 10px;
-    }
-    /* GENERATE INVOICE */
-
-    /* GENERATE VOUCHER */
-    .print-voucher {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 60px;
-    }
-    .voucher-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        background-color: #f9f9f9;
-        padding: 30px 30px;
-        border-radius: 10px;
-    }
-    .card-icon {
-        display: flex;
-        padding: 10px 10px;
-        justify-content: center;
-    }
-    .card-icon img {
-        width: 100px;
-        height: 100px;
-    }
-    .card-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 10px;
-        gap: 10px;
-    }
-    .card-text span {
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    .card-text p {
-        color: gray;
-    }
-    .card-actions {
-        display: flex;
-        justify-content: center;
-    }
-    /* GENERATE VOUCHER */
-
-    /* EMPTY CONTAINER */
+    /* Empty Container */
     .empty-container {
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 40px 40px;
     }
-    /* EMPTY CONTAINER */
+    /* Empty Container */
 
-    /* RESPONSIVE MEDIA QUERIES */
+    /* Responsive Media Queries */
     @media (max-width: 896px) {
         .order-resume {
             width: 100%;
@@ -1256,6 +1262,12 @@
         .card-aside {
             display: flex;
             flex-direction: column;
+        }
+        .address-item {
+            flex-direction: column;
+        }
+        .address-container {
+            padding: 30px 30px;
         }
     }
 

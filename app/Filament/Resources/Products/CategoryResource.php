@@ -7,8 +7,16 @@ use App\Filament\Resources\Products\CategoryResource\RelationManagers;
 use App\Models\Products\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -21,23 +29,49 @@ class CategoryResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
 
+    public static function getBreadcrumb(): string
+    {
+        return __('models.categories');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__('models.name'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->label(__('models.description'))
+                Split::make([
+                    Section::make([
+                        TextInput::make('name')
+                            ->label(__('models.name'))
+                            ->required()
+                            ->maxLength(255)
+                    ]),
+                    Section::make([
+                        FileUpload::make('icon')
+                            ->label(__('models.image_url'))
+                            ->disk('public')
+                            ->directory('categories-icon')
+                            ->previewable(false)
+                            ->image(),
+                    ]),
+                ])
+                    ->from('md')
                     ->columnSpanFull(),
+                Section::make([
+                    MarkdownEditor::make('description')
+                        ->label(__('models.description'))
+                        ->columnSpanFull()
+                ])
             ]);
     }
 
@@ -45,17 +79,22 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('models.name'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
+                    ->limit(10)
+                    ->searchable()
                     ->label(__('models.description')),
-                Tables\Columns\TextColumn::make('created_at')
+                ImageColumn::make('image_url')
+                    ->circular()
+                    ->label(__('models.image_url')),
+                TextColumn::make('created_at')
                     ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
@@ -65,8 +104,10 @@ class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

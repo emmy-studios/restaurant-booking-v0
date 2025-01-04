@@ -18,11 +18,13 @@ class InvoiceController extends Controller
         $user = Auth::user();
         $invoices = Billing::where('user_id', $user->id)->paginate(6);
         $locale = app()->getLocale();
+        $translations = getTranslations(['invoices']);
 
         return Inertia::render('Accounts/Invoices', [
             'invoices' => $invoices,
             'user' => $user,
             'locale' => $locale,
+            'translations' => $translations,
         ]);
     }
 

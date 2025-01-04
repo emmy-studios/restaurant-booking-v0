@@ -1,11 +1,12 @@
 <script setup>
 
+    import { computed } from 'vue';
     import DashboardSidebar from '../Components/DashboardSidebar.vue';
     import { usePage, router, Link } from '@inertiajs/vue3';
     import { NIcon } from 'naive-ui';
     import { LocalPrintshopFilled } from '@vicons/material';
 
-    const { invoices, user, locale } = usePage().props;
+    const { invoices, user, locale, translations } = usePage().props;
     const currentLocale = locale || 'en';
 
     // Pagination
@@ -46,7 +47,7 @@
                         <h3>{{ invoice.currency_symbol }} {{ invoice.total }}</h3>
                         <span>Subtotal: {{ invoice.subtotal }}</span>
                         <div class="date-item">
-                            <h4>Date:</h4>
+                            <h4>{{ translations.invoices.date }}:</h4>
                             <p>{{ formatDate(invoice.created_at) }}</p>
                         </div>
                     </div>
@@ -96,7 +97,8 @@
         gap: 20px;
         border-radius: 5px;
         padding: 10px 10px;
-        background-color: #e3d5ca;
+        /*background-color: #e3d5ca;*/
+        background-color: #f9f9f9;
     }
     .card-header {
         display: flex;
@@ -122,7 +124,7 @@
     }
     .date-item {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         gap: 10px;
         align-items: center;
     }

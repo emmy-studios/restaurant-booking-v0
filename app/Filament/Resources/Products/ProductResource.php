@@ -8,8 +8,15 @@ use App\Filament\Resources\Products\ProductResource\RelationManagers\CategoriesR
 use App\Models\Products\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -22,39 +29,61 @@ class ProductResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
 
+    public static function getBreadcrumb(): string
+    {
+        return __('models.products');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label(__('models.name'))
-                    ->columnSpanFull()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('models.quantity'))
-                    ->numeric(),
-                Forms\Components\TextInput::make('portion')
-                    ->required()
-                    ->label(__('models.portion'))
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->required()
-                    ->label(__('models.description'))
+                Split::make([
+                    Section::make([
+                        TextInput::make('name')
+                            ->required()
+                            ->label(__('models.name'))
+                            ->columnSpanFull()
+                            ->maxLength(255),
+                        TextInput::make('quantity')
+                            ->label(__('models.quantity'))
+                            ->numeric()
+                            ->default(1),
+                        TextInput::make('portion')
+                            ->required()
+                            ->default(1)
+                            ->label(__('models.portion'))
+                            ->maxLength(255)
+                    ]),
+                    Section::make([
+                        FileUpload::make('image_url')
+                            ->disk('public')
+                            ->directory('product-images')
+                            ->image()
+                            ->imageEditor()
+                            ->label(__('models.image_url'))
+                            ->required()
+                    ]),
+                ])
+                    ->from('md')
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image_url')
-                    ->disk('public')
-                    ->directory('product-images')
-                    ->image()
-                    ->imageEditor()
-                    ->label(__('models.image_url'))
-                    ->required(),
+                Section::make([
+                    MarkdownEditor::make('description')
+                        ->required()
+                        ->label(__('models.description'))
+                        ->columnSpanFull()
+                ])
             ]);
     }
 
@@ -89,8 +118,10 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

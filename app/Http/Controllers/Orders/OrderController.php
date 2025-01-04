@@ -181,7 +181,6 @@ class OrderController extends Controller
 
     public function cancelOrderRequest(Request $request)
     {
-        ($request);
         $validated = $request->validate([
             'orderCode' => 'required|string|max:255',
             'reason' => 'string',
@@ -190,6 +189,7 @@ class OrderController extends Controller
         $user = Auth::user();
 
         $orderCancellationRequest = new OrderCancellationRequest();
+        $orderCancellationRequest->user_id = $user->id;
         $orderCancellationRequest->order_code = $orderCode;
         $orderCancellationRequest->reason = $validated['reason'];
         $orderCancellationRequest->status = 'Processing';

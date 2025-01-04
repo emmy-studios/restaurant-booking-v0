@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 use App\Models\User;
 use App\Models\Orders\Order;
+use App\Models\Shoppingcarts\Shoppingcart;
 
 class AuthenticationController extends Controller
 {
@@ -25,9 +26,6 @@ class AuthenticationController extends Controller
 
     public function register(Request $request)
     {
-        // Get Current Language
-        $locale = app()->getLocale();
-
         // Create User
         $user = User::create($request->validate([
           "name" => ["required", "max:50"],
@@ -37,6 +35,9 @@ class AuthenticationController extends Controller
 
         // Login
         Auth::login($user);
+
+        // Generate Shoppingcart
+        $shoppingcart = Shoppingcart::create('user_id', $user->id);
 
         // Redirect to Dashboard
         return to_route("dashboard");

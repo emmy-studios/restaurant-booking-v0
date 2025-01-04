@@ -8,9 +8,14 @@ use App\Enums\OrderStatus;
 use App\Filament\Resources\Orders\OrderResource\Pages;
 use App\Filament\Resources\Orders\OrderResource\RelationManagers;
 use App\Models\Orders\Order;
+use App\Models\Products\Product;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -38,16 +43,16 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    /*public static function getNavigationBadge(): ?string
+    public static function getBreadcrumb(): string
     {
-        return static::getModel()::where('order_status', '=', 'Pending')->count();
-    }*/
+        return __('models.orders');
+    }
+
+    protected static ?string $recordTitleAttribute = 'order_code';
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('order_status', '=', 'Pending')
-            ->whereDate('created_at', now()->toDateString())
-            ->count();
+        return static::getModel()::whereDate('created_at', now()->toDateString())->count();
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -61,37 +66,81 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('order_code')
-                    ->required()
-                    ->label(__('models.order_code'))
-                    ->maxLength(255),
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->label(__('models.user'))
-                    ->required(),
-                Select::make('order_status')
-                    ->options(OrderStatus::class)
-                    ->searchable()
-                    ->default('Processing')
-                    ->label(__('models.order_status')),
-                Select::make('order_source')
-                    ->options(OrderSource::class)
-                    ->default('Online')
-                    ->searchable()
-                    ->label(__('models.order_source')),
-                Select::make('currency_symbol')
-                    ->options(CurrencySymbol::class)
-                    ->searchable()
-                    ->default('USD $')
-                    ->label(__('models.currency_symbol')),
-                TextInput::make('subtotal')
-                    ->required()
-                    ->label(__('models.subtotal'))
-                    ->numeric(),
-                TextInput::make('total')
-                    ->required()
-                    ->label(__('models.total'))
-                    ->numeric(),
+                Wizard::make([
+                    Wizard\Step::make('Order')
+                        ->label(__('models.order'))
+                        ->icon('heroicon-o-shopping-cart')
+                        ->schema([
+                            Split::make([
+                                Section::make([
+                                    TextInput::make('order_code')
+                                        ->default('OR-' . random_int(100000, 9999999))
+                                        ->required()
+                                        ->label(__('models.order_code'))
+                                        ->disabled()
+                                        ->dehydrated(),
+                                    Select::make('user_id')
+                                        ->relationship('user', 'name')
+                                        ->label(__('models.user'))
+                                        ->required(),
+                                    Select::make('order_status')
+                                        ->options(OrderStatus::class)
+                                        ->searchable()
+                                        ->default('Processing')
+                                        ->label(__('models.order_status')),
+                                    Select::make('order_source')
+                                        ->options(OrderSource::class)
+                                        ->default('Online')
+                                        ->searchable()
+                                        ->label(__('models.order_source')),
+                                ]),
+                                Section::make([
+                                    Select::make('currency_symbol')
+                                        ->options(CurrencySymbol::class)
+                                        ->searchable()
+                                        ->default('USD $')
+                                        ->label(__('models.currency')),
+                                    TextInput::make('subtotal')
+                                        ->required()
+                                        ->label(__('models.subtotal'))
+                                        ->numeric()
+                                        ->default(0),
+                                    TextInput::make('total')
+                                        ->required()
+                                        ->label(__('models.total'))
+                                        ->numeric()
+                                        ->default(0)
+                                ]),
+                            ])->from('md'),
+                        ]),
+                    Wizard\Step::make('Order Items')
+                        ->label(__('models.order_items'))
+                        ->icon('heroicon-o-shopping-bag')
+                        ->schema([
+                            Repeater::make('orderItems')
+                                ->relationship()
+                                ->schema([
+                                    Select::make('product_id')
+                                        ->options(Product::query()->pluck('name', 'id'))
+                                        ->label(__('models.product')),
+                                    TextInput::make('quantity')
+                                        ->numeric()
+                                        ->label(__('models.quantity'))
+                                        ->default(1),
+                                    TextInput::make('subtotal')
+                                        ->numeric()
+                                        ->label(__('models.subtotal'))
+                                        ->default(0)
+                                        ->required(),
+                                    TextInput::make('total')
+                                        ->numeric()
+                                        ->label(__('models.total'))
+                                        ->default(0)
+                                        ->required(),
+                                ])->columns(2)
+                        ])
+                ])
+                    ->columnSpanFull()
             ]);
     }
 

@@ -16,12 +16,6 @@
         password: "",
     });
 
-    // Submit Form
-    form.post(`/${currentLocale}/authenticate`, {
-        preserveScroll: true,
-        //onSuccess: () => form.reset('password'),
-    });
-
 </script>
 
 <template>
@@ -36,6 +30,9 @@
                 <p>Please enter your credentials to continue.</p>
             </div>
 
+            <div class="error-message" v-if="form.errors.name">
+                <span>{{ form.errors.name }}</span>
+            </div>
             <form
                 @submit.prevent="form.post(`/${currentLocale}/authenticate`)"
                 method="POST"
@@ -48,7 +45,6 @@
                         id="name"
                         type="text"
                         placeholder="Enter your username"
-                        required
                     />
                 </div>
 
@@ -59,12 +55,12 @@
                         id="password"
                         type="password"
                         placeholder="Enter your password"
-                        required
                     />
                 </div>
 
                 <div class="button-container">
                     <button
+                        id="enter-btn"
                         type="submit"
                         :disabled="form.processing"
                     >
@@ -75,7 +71,6 @@
                 <div class="extra-actions">
                     <a href="#">Forgot password?</a>
                     <span> | </span>
-                    <!--<a href="#">Register Now!</a>-->
                     <Link :href="`/${currentLocale}/signup`">Register Now!</Link>
                 </div>
 
@@ -86,16 +81,6 @@
 </template>
 
 <style scoped>
-    /* General Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html {
-        font-family: "Inter", sans-serif;
-    }
 
     .main-container {
         display: flex;
@@ -118,7 +103,6 @@
         flex-direction: column;
         gap: 20px;
     }
-
     /* Header Section */
     .header-container {
         display: flex;
@@ -127,23 +111,19 @@
         text-align: center;
         gap: 10px;
     }
-
     .header-container h1 {
         font-weight: 700;
         font-size: 1.8rem;
         color: #333;
     }
-
     .header-container p {
         color: #777;
         font-size: 0.9rem;
     }
-
     .header-container img {
         width: 90px;
         height: auto;
     }
-
     /* Form Items */
     .form-item {
         display: flex;
@@ -151,12 +131,10 @@
         gap: 5px;
         margin-top: 15px;
     }
-
     .form-item label {
         font-weight: 600;
         color: #444;
     }
-
     .form-item input {
         height: 2.5rem;
         padding: 0 15px;
@@ -165,13 +143,11 @@
         background-color: #f9f9f9;
         transition: border-color 0.3s ease;
     }
-
     .form-item input:focus {
         border-color: #ff7e5f;
         outline: none;
         background-color: #fff;
     }
-
     /* Button */
     .button-container {
         display: flex;
@@ -179,16 +155,15 @@
         align-items: center;
         margin-top: 10px;
     }
-
-    .button-container button {
+    #enter-btn {
+        width: 100%;
         padding: 10px 120px;
         border-radius: 5px;
         background-color: #ff7e5f !important;
         color: white;
         transition: background-color 0.3s ease;
     }
-
-    .button-container button:hover {
+    #enter-btn button:hover {
         background-color: #e06c50 !important;
     }
 
@@ -209,9 +184,21 @@
     .extra-actions a:hover {
         text-decoration: underline;
     }
+    /* Error Message */
+    .error-message {
+        display: flex;
+        justify-content: center;
+    }
+    .error-message span {
+        font-size: 12px;
+        color: red;
+    }
 
     /* Responsive Design */
     @media (max-width: 480px) {
+        .main-container {
+            align-items: flex-start;
+        }
         .form-container {
             padding: 20px;
         }

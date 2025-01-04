@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\Orders\Order;
+use App\Models\Orders\OrderItem;
 use App\Models\UserNotification;
+use App\Models\Reservations\Reservation;
 use App\Enums\Countries;
 use App\Enums\CountryCode;
 use App\Enums\Gender;
@@ -18,9 +21,25 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
+        $lastOrderMade = Order::where('user_id', $user->id)->latest()->first();
+        $orderItems = OrderItem::where('order_id', $lastOrderMade->id)->with('product')->get();
+
+        $totalOrders = Order::where('user_id', $user->id)->get()->count();
+        $totalNotifications = UserNotification::where('user_id', $user->id)->get()->count();
+        $totalReservations = Reservation::where('user_id', $user->id)->get()->count();
+
+        $translations = getTranslations(['dashboard']);
+        $locale = app()->getLocale();
 
         return Inertia::render('Accounts/Dashboard', [
             'user' => $user,
+            'locale' => $locale,
+            'translations' => $translations,
+            'lastOrderMade' => $lastOrderMade,
+            'orderItems' => $orderItems,
+            'totalOrders' => $totalOrders,
+            'totalNotifications' => $totalNotifications,
+            'totalReservations' => $totalReservations,
         ]);
     }
 

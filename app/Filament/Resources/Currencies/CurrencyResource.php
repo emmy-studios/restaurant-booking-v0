@@ -9,9 +9,14 @@ use App\Filament\Resources\Currencies\CurrencyResource\RelationManagers;
 use App\Models\Currencies\Currency;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -20,6 +25,18 @@ class CurrencyResource extends Resource
     protected static ?string $model = Currency::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
+    public static function getBreadcrumb(): string
+    {
+        return __('models.currencies');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected static ?string $navigationLabel = null;
 
@@ -31,20 +48,22 @@ class CurrencyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(CurrencySymbol::class)
-                    ->searchable()
-                    ->default('USD $')
-                    ->label(__('models.currency_symbol'))
-                    ->required(),
-                Forms\Components\TextInput::make('currency_name')
-                    ->required()
-                    ->label(__('models.currency_name'))
-                    ->maxLength(255)
-                    ->default('Dólar Estadounidense'),
-                Forms\Components\MarkdownEditor::make('notes')
-                    ->label(__('models.notes'))
-                    ->columnSpanFull(),
+                Section::make([
+                    Select::make('currency_symbol')
+                        ->options(CurrencySymbol::class)
+                        ->searchable()
+                        ->default('USD $')
+                        ->label(__('models.currency_symbol'))
+                        ->required(),
+                    TextInput::make('currency_name')
+                        ->required()
+                        ->label(__('models.currency_name'))
+                        ->maxLength(255)
+                        ->default('Dólar Estadounidense'),
+                    MarkdownEditor::make('notes')
+                        ->label(__('models.notes'))
+                        ->columnSpanFull()
+                ])->columns(2)
             ]);
     }
 
@@ -53,11 +72,16 @@ class CurrencyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->label(__('models.currency_symbol')),
+                    ->label(__('models.currency_symbol'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('currency_name')
                     ->searchable()
                     ->sortable()
                     ->label(__('models.currency_name')),
+                Tables\Columns\TextColumn::make('notes')
+                    ->label(__('models.notes'))
+                    ->limit(10)
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
@@ -73,8 +97,10 @@ class CurrencyResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

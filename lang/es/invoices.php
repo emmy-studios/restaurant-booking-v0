@@ -10,4 +10,5 @@ return [
     "payment_method" => "Método de Pago",
     "shipping_address" => "Dirección de Compra",
     "export_to_pdf" => "Exportar a Pdf",
+    "date" => "Fecha",
 ];

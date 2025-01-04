@@ -10,9 +10,18 @@ use App\Filament\Resources\Orders\BillingResource\RelationManagers;
 use App\Models\Orders\Billing;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -34,43 +43,56 @@ class BillingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label(__('models.name'))
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('order_id')
-                    ->relationship('order', 'order_code')
-                    ->label(__('models.order'))
-                    ->required(),
-                Forms\Components\TextInput::make('billing_code')
-                    ->required()
-                    ->label(__('models.billing_code'))
-                    ->maxLength(255),
-                Forms\Components\Select::make('payment_method')
-                    ->options(PaymentMethod::class)
-                    ->searchable()
-                    ->default('Credit Card')
-                    ->label(__('models.payment_method')),
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(CurrencySymbol::class)
-                    ->searchable()
-                    ->default('USD $')
-                    ->required()
-                    ->label(__('models.payment_currency')),
-                Forms\Components\Select::make('status')
-                    ->required()
-                    ->options(BillingStatus::class)
-                    ->default('Processing')
-                    ->searchable()
-                    ->label(__('models.status')),
-                Forms\Components\TextInput::make('subtotal')
-                    ->required()
-                    ->label(__('models.subtotal'))
-                    ->numeric(),
-                Forms\Components\TextInput::make('total')
-                    ->required()
-                    ->label(__('models.total'))
-                    ->numeric(),
+                Split::make([
+                    Section::make([
+                        Select::make('user_id')
+                            ->label(__('models.name'))
+                            ->relationship('user', 'name')
+                            ->required(),
+                        Select::make('order_id')
+                            ->relationship('order', 'order_code')
+                            ->label(__('models.order'))
+                            ->required(),
+                        TextInput::make('billing_code')
+                            ->required()
+                            ->default('BI-' . random_int(100000, 9999999))
+                            ->disabled()
+                            ->dehydrated()
+                            ->label(__('models.billing_code'))
+                            ->maxLength(255),
+                        Select::make('payment_method')
+                            ->options(PaymentMethod::class)
+                            ->searchable()
+                            ->default('Credit Card')
+                            ->label(__('models.payment_method')),
+                        Select::make('status')
+                            ->required()
+                            ->options(BillingStatus::class)
+                            ->default('Processing')
+                            ->searchable()
+                            ->label(__('models.status')),
+                    ]),
+                    Section::make([
+                        Select::make('currency_symbol')
+                            ->options(CurrencySymbol::class)
+                            ->searchable()
+                            ->default('USD $')
+                            ->required()
+                            ->label(__('models.payment_currency')),
+                        TextInput::make('subtotal')
+                            ->required()
+                            ->label(__('models.subtotal'))
+                            ->numeric()
+                            ->default(0),
+                        TextInput::make('total')
+                            ->required()
+                            ->label(__('models.total'))
+                            ->numeric()
+                            ->default(0),
+                    ]),
+                ])
+                    ->from('md')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -78,53 +100,80 @@ class BillingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label(__('models.name'))
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order.id')
-                    ->numeric()
+                TextColumn::make('order.order_code')
+                    ->searchable()
                     ->label(__('models.order'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('billing_code')
+                TextColumn::make('billing_code')
                     ->searchable()
                     ->label(__('models.billing_code')),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->badge()
+                    ->color(fn ($record) => BillingStatus::from($record->status)->getColor())
+                    ->searchable()
                     ->label(__('models.status')),
-                Tables\Columns\TextColumn::make('payment_method')
+                TextColumn::make('payment_method')
                     ->searchable()
                     ->badge()
                     ->label(__('models.payment_method')),
-                Tables\Columns\TextColumn::make('currency_symbol')
+                TextColumn::make('currency_symbol')
                     ->badge()
-                    ->label(__('models.payment_currency')),
-                Tables\Columns\TextColumn::make('subtotal')
+                    ->color('success')
+                    ->searchable()
+                    ->label(__('models.payment_currency'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('subtotal')
                     ->numeric()
                     ->label(__('models.subtotal'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('total')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('total')
                     ->numeric()
                     ->label(__('models.total'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('date_applied')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+    				}),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->tooltip(__('panels.actions'))
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

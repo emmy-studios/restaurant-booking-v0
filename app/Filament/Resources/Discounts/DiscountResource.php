@@ -8,9 +8,18 @@ use App\Filament\Resources\Discounts\DiscountResource\RelationManagers\ProductsR
 use App\Models\Discounts\Discount;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -30,33 +39,44 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('discount_code')
-                    ->label(__('models.discount_code'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('discount_percentage')
-                    ->label(__('models.discount_percentage'))
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DateTimePicker::make('start_at')
-                    ->label(__('models.start_at'))
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_at')
-                    ->label(__('models.end_at'))
-                    ->required(),
-                Forms\Components\TextInput::make('banner_text')
-                    ->columnSpanFull()
-                    ->label(__('models.banner_text'))
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('banner_image')
-                    ->label(__('models.banner_image'))
-                    ->image(),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->label(__('models.description'))
+                Split::make([
+                    Section::make([
+                        TextInput::make('discount_code')
+                            ->label(__('models.discount_code'))
+                            ->required()
+                            ->default('DE-' . random_int(10000, 999999999)),
+                        TextInput::make('discount_percentage')
+                            ->label(__('models.discount_percentage'))
+                            ->required()
+                            ->numeric(),
+                        DateTimePicker::make('start_at')
+                            ->label(__('models.start_at'))
+                            ->required(),
+                        DateTimePicker::make('end_at')
+                            ->label(__('models.end_at'))
+                            ->required(),
+                    ]),
+                    Section::make([
+                        FileUpload::make('banner_image')
+                            ->label(__('models.banner_image'))
+                            ->image(),
+                    ]),
+                ])
+                    ->from('md')
                     ->columnSpanFull(),
-                Forms\Components\MarkdownEditor::make('additional_details')
-                    ->label(__('models.additional_details'))
-                    ->columnSpanFull(),
+                Section::make()
+                    ->schema([
+                        TextInput::make('banner_text')
+                            ->columnSpanFull()
+                            ->label(__('models.banner_text'))
+                            ->maxLength(255),
+                        MarkdownEditor::make('description')
+                            ->label(__('models.description'))
+                            ->columnSpanFull(),
+                        MarkdownEditor::make('additional_details')
+                            ->label(__('models.additional_details'))
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -64,32 +84,34 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('discount_code')
+                TextColumn::make('discount_code')
                     ->label(__('models.discount_code'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('discount_percentage')
+                TextColumn::make('discount_percentage')
                     ->label(__('models.discount_percentage'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_at')
+                TextColumn::make('start_at')
                     ->label(__('models.start_at'))
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('end_at')
+                TextColumn::make('end_at')
                     ->label(__('models.end_at'))
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('banner_text')
+                TextColumn::make('banner_text')
                     ->label(__('models.banner_text'))
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('banner_image')
-                    ->label(__('models.banner_image')),
-                Tables\Columns\TextColumn::make('created_at')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('banner_image')
+                    ->label(__('models.banner_image'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
                     ->label(__('models.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(__('models.updated_at'))
                     ->dateTime()
                     ->sortable()
@@ -99,8 +121,11 @@ class DiscountResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->tooltip(__('models.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('discount_code');
             $table->decimal('discount_percentage' ,10,2);
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->dateTime('start_at')->nullable();
+            $table->dateTime('end_at')->nullable();
             $table->string('banner_text')->nullable();
             $table->string('banner_image')->nullable();
             $table->text('description')->nullable();
