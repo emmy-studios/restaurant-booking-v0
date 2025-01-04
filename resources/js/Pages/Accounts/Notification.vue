@@ -1,5 +1,6 @@
 <script setup>
 
+    import { computed } from 'vue';
     import { usePage, Link } from "@inertiajs/vue3";
     import { NIcon } from 'naive-ui';
     import { ArrowCircleLeftOutlined } from '@vicons/material';
@@ -7,7 +8,7 @@
 
     const { notificationDetails } = usePage().props;
     // Get Current Locale
-    const { locale } = usePage().props;
+    const { locale, translations } = usePage().props;
     const currentLocale = locale || 'en';
 
     const formatDate = (date) => {
@@ -18,13 +19,18 @@
         return `${day}-${month}-${year}`;
     };
 
+    // Translate Slot Props
+    const localizedPageTitle = computed(() => {
+        return translations.notifications.notification_details || 'Notification Details';
+    });
+
 </script>
 
 <template>
 
     <DashboardSidebar
         :activePage="'Notification Details'"
-        :pageTitle="'Notification Details'">
+        :pageTitle="localizedPageTitle">
 
         <template v-slot:mainContentSlot>
 

@@ -7,9 +7,18 @@ use App\Filament\Resources\NotificationResource\RelationManagers;
 use App\Models\UserNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Enums\Roles;
@@ -31,41 +40,51 @@ class NotificationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required()
-                    ->label(__('models.user')),
-                Forms\Components\Select::make('role')
-                    ->options(Roles::class)
-                    ->default('Customer')
-                    ->required()
-                    ->searchable()
-                    ->label(__('models.role')),
-                Forms\Components\TextInput::make('title')
-                    ->required()
+                Split::make([
+                    Section::make([
+                        Select::make('user_id')
+                            ->relationship('user', 'name')
+                            ->required()
+                            ->label(__('models.user')),
+                        Select::make('role')
+                            ->options(Roles::class)
+                            ->default('Customer')
+                            ->required()
+                            ->searchable()
+                            ->label(__('models.role')),
+                    ]),
+                    Section::make([
+                        Select::make('notification_type')
+                            ->options(NotificationType::class)
+                            ->default('Information')
+                            ->searchable()
+                            ->required()
+                            ->label(__('models.notification_type')),
+                        Toggle::make('is_read')
+                            ->required()
+                            ->label(__('models.is_read')),
+                    ]),
+                ])
                     ->columnSpanFull()
-                    ->label(__('models.title'))
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('message')
-                    ->required()
-                    ->label(__('models.message'))
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('notification_type')
-                    ->options(NotificationType::class)
-                    ->default('Information')
-                    ->searchable()
-                    ->required()
-                    ->label(__('models.notification_type')),
-                Forms\Components\Toggle::make('is_read')
-                    ->required()
-                    ->label(__('models.is_read')),
-                Forms\Components\TextInput::make('data')
-                    ->label(__('models.data'))
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('redirect_url')
-                    ->maxLength(255)
-                    ->columnSpanFull()
-                    ->label(__('models.redirect_url')),
+                    ->from('md'),
+                Section::make([
+                    TextInput::make('title')
+                        ->required()
+                        ->columnSpanFull()
+                        ->label(__('models.title'))
+                        ->maxLength(255),
+                    MarkdownEditor::make('message')
+                        ->required()
+                        ->label(__('models.message'))
+                        ->columnSpanFull(),
+                    TextInput::make('data')
+                        ->label(__('models.data'))
+                        ->columnSpanFull(),
+                    TextInput::make('redirect_url')
+                        ->maxLength(255)
+                        ->columnSpanFull()
+                        ->label(__('models.redirect_url'))
+                ])
             ]);
     }
 
@@ -73,35 +92,37 @@ class NotificationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label(__('models.user'))
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('role')
+                TextColumn::make('role')
                     ->label(__('models.role'))
                     ->sortable()
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->searchable()
+                    ->limit(15)
                     ->label(__('models.title')),
-                Tables\Columns\TextColumn::make('notification_type')
+                TextColumn::make('notification_type')
                     ->label(__('models.notification_type'))
                     ->searchable()
                     ->badge()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_read')
+                IconColumn::make('is_read')
                     ->boolean()
                     ->label(__('models.is_read')),
-                Tables\Columns\TextColumn::make('redirect_url')
+                TextColumn::make('redirect_url')
                     ->searchable()
-                    ->label(__('models.redirect_url')),
-                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('models.redirect_url'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->label(__('models.created_at'))
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->label(__('models.updated_at'))
@@ -111,8 +132,10 @@ class NotificationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'notifications' => auth()->check()
-                ? UserNotification::where('user_id', Auth::user()->id)->get()
+                ? UserNotification::where('user_id', Auth::user()->id)->where('is_read', false)->get()
                 : [],
         ]);
     }

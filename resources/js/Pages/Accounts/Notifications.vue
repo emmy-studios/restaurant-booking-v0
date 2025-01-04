@@ -1,6 +1,6 @@
 <script setup>
 
-    //import { ref, reactive } from "vue";
+    import { computed } from "vue";
     import { Link, usePage } from "@inertiajs/vue3";
     import DashboardSidebar from "../Components/DashboardSidebar.vue";
     import { NIcon, NButton } from 'naive-ui';
@@ -8,9 +8,10 @@
 
     // Notification Information
     // Get Current Locale
-    const { locale } = usePage().props;
+    const { locale, translations } = usePage().props;
     const currentLocale = locale || 'en';
-    const { notifications } = usePage().props;
+    const { userNotifications } = usePage().props;
+
     const formatDate = (date) => {
         const d = new Date(date);
         const day = String(d.getDate()).padStart(2, '0');
@@ -33,6 +34,10 @@
             return false;
         };
     };
+    // Translate Slot Props
+    const localizedPageTitle = computed(() => {
+        return translations.notifications.notifications || 'Notifications';
+    });
 
 </script>
 
@@ -40,7 +45,7 @@
 
     <DashboardSidebar
         :activePage="'Notifications'"
-        :pageTitle="'Notifications'"
+        :pageTitle="localizedPageTitle"
     >
 
         <template v-slot:mainContentSlot>
@@ -48,7 +53,7 @@
             <div class="notifications-container">
 
                 <div
-                    v-for="notification in notifications"
+                    v-for="notification in userNotifications"
                     :key="notification.id"
                     class="notification-card"
                 >
@@ -64,18 +69,11 @@
                     <div class="card-container">
                         <p>{{ truncateMessage(notification.message) }}</p>
                     </div>
-                    <!--<span
-                        style="color: red;">
-                        {{ convertBoolean(notification.is_read) }}
-                    </span>-->
                     <div class="card-action">
-                        <!--<n-icon size=25 class="view-icon" color="#457b9d">
-                            <RemoveRedEyeFilled />
-                        </n-icon>-->
                         <Link
                             :href="route('notification.show', { notificationId: notification.id })"
                         >
-                            Details
+                            {{ translations.notifications.details }}
                         </Link>
                     </div>
                 </div>

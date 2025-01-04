@@ -126,11 +126,16 @@ class DashboardController extends Controller
     public function notifications()
     {
         $user = Auth::user();
-        $notifications = UserNotification::where('user_id', $user->id)->get();
+        $userNotifications = UserNotification::where('user_id', $user->id)->get();
+
+        $locale = app()->getLocale();
+        $translations = getTranslations(['notifications']);
 
         return Inertia::render('Accounts/Notifications', [
-            'notifications' => $notifications,
+            'userNotifications' => $userNotifications,
             'user' => $user,
+            'locale' => $locale,
+            'translations' => $translations,
         ]);
     }
 
@@ -142,8 +147,13 @@ class DashboardController extends Controller
         $notificationDetails->is_read = true;
         $notificationDetails->save();
 
+        $locale = app()->getLocale();
+        $translations = getTranslations(['notifications']);
+
         return Inertia::render('Accounts/Notification', [
             'notificationDetails' => $notificationDetails,
+            'locale' => $locale,
+            'translations' => $translations,
         ]);
     }
 

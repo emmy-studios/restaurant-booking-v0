@@ -1,6 +1,6 @@
 <script setup>
 
-    import { ref, reactive } from "vue";
+    import { ref, reactive, computed } from "vue";
     import { Link, usePage } from "@inertiajs/vue3";
     import { NIcon, NButton } from "naive-ui";
     import { AssignmentReturnFilled, MenuBookFilled, ShoppingCartFilled } from "@vicons/material";
@@ -22,13 +22,18 @@
         return new Intl.DateTimeFormat(locale, options).format(date);
     };
 
+    // Translate Slot Props
+    const localizedPageTitle = computed(() => {
+        return translations.dashboard.dashboard || 'Dashboard';
+    });
+
 </script>
 
 <template>
 
     <DashboardSidebar
         :notifications="notifications"
-        :pageTitle="'Dashboard'"
+        :pageTitle="localizedPageTitle"
         :activePage="'Dashboard'"
     >
 
@@ -40,8 +45,9 @@
                     <div class="card-content">
                         <span>{{ translations.dashboard.welcome_back }}, {{ user.name }}!</span>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur
-                            adipiscing elit.
+                            Aquí podrás consultar el estado de tus pedidos,
+                            gestionar tus reservas, acceder a tu historial de compras y actualizar tu información
+                            de perfil. ¡Todo en un mismo lugar!
                         </p>
                     </div>
                     <div class="card-image">
@@ -156,6 +162,8 @@
     }
     .card-content p {
         font-size: 14px;
+        color: #283618;
+        /*font-weight: bold;*/
     }
     .card-image {
         display: flex;
@@ -201,12 +209,12 @@
 		align-items: center;
 	}
 	.box-info li:nth-child(1) .bx {
-		background: #CFE8FF;
-		color: #3C91E6;
+		background: #FFE0D3;
+        color: #FD7238;
 	}
 	.box-info li:nth-child(2) .bx {
-		background: #FFF2C6;
-		color: #FFCE26;
+		background: #FFE0D3;
+        color: #FD7238;
 	}
 	.box-info li:nth-child(3) .bx {
 		background: #FFE0D3;
@@ -215,10 +223,11 @@
 	.box-info li .text h3 {
 		font-size: 24px;
 		font-weight: 600;
-		color: #342E37;
+        color: #342E37;
 	}
 	.box-info li .text p {
-		color: #342E37;
+		font-weight: bold;
+        color: #342E37;
 	}
     /* STATS */
 
