@@ -59,8 +59,7 @@ class ShoppingcartResource extends Resource
                                 ->label(__('models.product'))
                                 ->multiple()
                                 ->preload()
-                                ->searchable()
-                                ->required(),
+                                ->searchable(),
                         ]),
                 ])
                     ->columnSpanFull()

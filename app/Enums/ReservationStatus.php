@@ -14,26 +14,22 @@ enum ReservationStatus: string implements HasLabel, HasColor, HasIcon
     case CANCELED = 'Canceled';
     case FINISHED = 'Finished';
     case WAITING = 'Waiting';
+    case INPROGRESS = 'In Progress';
     case PENDING = 'Pending';
 
     public function getLabel(): ?string
     {
-        return match($this){
-            self::CONFIRMED => 'Confirmed',
-            self::CANCELED => 'Canceled',
-            self::FINISHED => 'Finished',
-            self::WAITING => 'Waiting',
-            self::PENDING => 'Pending',
-        };
+        return __("enums.reservation_status.{$this->value}");
     }
 
     public function getColor(): string|array|null
     {
         return match($this){
-            self::CONFIRMED => 'success',
+            self::CONFIRMED => 'info',
             self::CANCELED => 'danger',
-            self::FINISHED => 'info',
+            self::FINISHED => 'success',
             self::WAITING => 'gray',
+            self::INPROGRESS => 'gray',
             self::PENDING => 'warning',
         };
     }
@@ -45,7 +41,8 @@ enum ReservationStatus: string implements HasLabel, HasColor, HasIcon
             self::CANCELED => 'heroicon-o-x-circle',
             self::FINISHED => 'heroicon-o-hand-thumb-up',
             self::WAITING => 'heroicon-o-clock',
-            self::PENDING => 'heroicon-o-ellipsis-horizontal-circle',
+            self::INPROGRESS => 'heroicon-o-ellipsis-horizontal-circle',
+            self::PENDING => 'heroicon-o-pause-circle',
         };
     }
 

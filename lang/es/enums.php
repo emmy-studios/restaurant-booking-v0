@@ -147,6 +147,22 @@ return [
         'Shift Overlap' => 'Traslape entre turnos',
         'On-Call' => 'Horas extras en guardia',
     ],
+    // Return Status
+    'return_status' => [
+        'Processing' => 'Procesando',
+        'Confirmed' => 'Confirmado',
+        'Canceled' => 'Cancelado',
+        'Successfully' => 'Exitoso',
+    ],
+    // Reservation Status
+    'reservation_status' => [
+        'Pending' => 'Pendiente',
+        'In Progress' => 'En Proceso',
+        'Waiting' => 'Esperando',
+        'Finished' => 'Terminado',
+        'Canceled' => 'Cancelado',
+        'Confirmed' => 'Confirmado',
+    ],
     // Salary Type
     'salary_type' => [
         'Hourly' => 'Por hora',

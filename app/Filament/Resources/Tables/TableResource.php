@@ -7,9 +7,15 @@ use App\Filament\Resources\Tables\TableResource\RelationManagers;
 use App\Models\Tables\Table as TableModel;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -19,29 +25,59 @@ class TableResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-stop';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 1;
 
+    public static function getBreadcrumb(): string
+    {
+        return __('models.tables');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::whereDate('created_at', now()->toDateString())
+            ->where('is_available', true)
+            ->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('table_number')
-                    ->maxLength(255)
-                    ->label(__('models.table_number')),
-                Forms\Components\TextInput::make('capacity')
-                    ->numeric()
-                    ->label(__('models.capacity')),
-                Forms\Components\TextInput::make('location')
-                    ->maxLength(255)
-                    ->label(__('models.location')),
-                Forms\Components\Toggle::make('is_available')
-                    ->label(__('models.is_available')),
+                Split::make([
+                    Section::make([
+                        TextInput::make('table_number')
+                            ->maxLength(255)
+                            ->label(__('models.table_number')),
+                        TextInput::make('capacity')
+                            ->numeric()
+                            ->label(__('models.capacity')),
+                        TextInput::make('location')
+                            ->maxLength(255)
+                            ->label(__('models.location')),
+                    ]),
+                    Section::make([
+                        Toggle::make('is_available')
+                            ->label(__('models.is_available'))
+                            ->onIcon('heroicon-o-check')
+                            ->offIcon('heroicon-o-x-mark')
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        TextInput::make('floor')
+                            ->label(__('models.floor'))
+                            ->numeric()
+                            ->default(1),
+                    ]),
+                ])
+                    ->from('md')
+                    ->columnSpanFull(),
             ]);
-    } 
+    }
 
     public static function table(Table $table): Table
     {
@@ -56,7 +92,8 @@ class TableResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('location')
                     ->searchable()
-                    ->label(__('models.location')),
+                    ->label(__('models.location'))
+                    ->limit(15),
                 Tables\Columns\IconColumn::make('is_available')
                     ->boolean()
                     ->label(__('models.is_available')),
@@ -72,11 +109,18 @@ class TableResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('is_available')
+                    ->label(__('models.is_available'))
+                    ->options([
+                        true => __('models.is_available'),
+                        false => __('models.is_not_available'),
+                    ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -107,7 +151,7 @@ class TableResource extends Resource
     {
         return __('models.tables');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

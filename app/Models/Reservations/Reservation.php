@@ -16,6 +16,7 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'reservation_code',
         'user_id',
         'reservation_date',
         'number_of_guests',
@@ -30,7 +31,7 @@ class Reservation extends Model
     public function reservationPayments(): HasMany
     {
         return $this->hasMany(ReservationPayment::class);
-    } 
+    }
 
     public function tables(): BelongsToMany
     {
@@ -39,7 +40,7 @@ class Reservation extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class); 
+        return $this->belongsTo(User::class);
     }
 
-} 
+}

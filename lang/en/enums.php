@@ -105,6 +105,22 @@ return [
         'Canceled' => 'Canceled',
         'Approved' => 'Approved',
     ],
+    // Return Status
+    'return_status' => [
+        'Processing' => 'Processing',
+        'Confirmed' => 'Confirmed',
+        'Canceled' => 'Canceled',
+        'Successfully' => 'Successfully',
+    ],
+    // Reservation Status
+    'reservation_status' => [
+        'Pending' => 'Pending',
+        'In Progress' => 'In Progress',
+        'Waiting' => 'Waiting',
+        'Finished' => 'Finished',
+        'Canceled' => 'Canceled',
+        'Confirmed' => 'Confirmed',
+    ],
     // Salary Type
     'salary_type' => [
         'Hourly' => 'Hourly',

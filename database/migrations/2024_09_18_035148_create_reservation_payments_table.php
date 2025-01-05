@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\CurrencyCode;
 use App\Enums\CurrencySymbol;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
@@ -18,6 +17,7 @@ return new class extends Migration
         Schema::create('reservation_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('payment_code')->unique();
             $table->enum('payment_method', array_map(fn($code) => $code->value, PaymentMethod::cases()))->default('Credit Card');
             $table->enum('currency_symbol', array_map(fn($code) => $code->value, CurrencySymbol::cases()))->default('USD $');
             $table->decimal('payment_amount', 10, 2);

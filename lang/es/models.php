@@ -278,6 +278,8 @@ return [
     'capacity' => 'Capacidad',
     'location' => 'Ubicación',
     'is_available' => 'Está Disponible',
+    'is_not_available' => 'No Está Disponible',
+    'floor' => 'Piso',
     // Pages
     'create_table' => 'Crear Mesa',
     'edit_table' => 'Editar Mesa',
@@ -361,6 +363,7 @@ return [
     'edit_review' => 'Editar Reseña',
     'view_review' => 'Ver Reseña',
     /** ReservationResource Filament Translations */
+    'reservation_code' => 'Código de Rerservación',
     'reservation_payments' => 'Pagos de Reservaciones',
     'reservation' => 'Reservación',
     'reservations' => 'Reservaciones',
@@ -621,6 +624,10 @@ return [
     'stats' => 'Estadísticas',
     'number_of_users' => 'Numero de Usuarios',
     'total_sales' => 'Ventas Totales',
-    'total_orders_made' => 'Órdenes Totales Realizadas'
+    'total_orders_made' => 'Órdenes Totales Realizadas',
+    /* Relation Managers */
+    'tables_related_to_the_reservation' => 'Mesas Relacionadas a la Reservación',
+    'attach_table' => 'Vincular Mesa',
+    'select_a_table/tables' => 'Seleccione una Mesa/Mesas',
 ];
 

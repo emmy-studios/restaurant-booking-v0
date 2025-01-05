@@ -9,14 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ReservationPayment extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'reservation_id',
         'payment_method',
-        'currency_symbol', 
+        'currency_symbol',
         'payment_amount',
         'payment_status',
+        'payment_code',
     ];
 
     protected $casts = [

@@ -278,6 +278,8 @@ return [
     'capacity' => 'Capacity',
     'location' => 'Location',
     'is_available' => 'Is Available',
+    'is_not_available' => 'Is Not Available',
+    'floor' => 'Floor',
     // Pages
     'create_table' => 'Create Table',
     'edit_table' => 'Edit Table',
@@ -361,6 +363,7 @@ return [
     'edit_review' => 'Edit Review',
     'view_review' => 'View Review',
     /** ReservationResource Filament Translations */
+    'reservation_code' => 'Reservation Code',
     'reservation_payment' => 'Reservation Payment',
     'reservation_payments' => 'Reservation Payments',
     'reservation' => 'Reservation',
@@ -623,5 +626,9 @@ return [
     'number_of_users' => 'Number of Users',
     'total_sales' => 'Total Sales',
     'total_orders_made' => 'Total Orders Made',
+    /* Relation Managers */
+    'tables_related_to_the_reservation' => 'Tables Related to the Reservation',
+    'attach_table' => 'Attach Table',
+    'select_a_table/tables' => 'Select a Table/Tables',
 ];
 
