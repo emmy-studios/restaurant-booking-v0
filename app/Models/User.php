@@ -36,18 +36,18 @@ class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const ADMIN_ROLE = 'ADMIN';
-    const MANAGER_ROLE = 'MANAGER';
-    const CUSTOMER_ROLE = 'CUSTOMER';
-    const CHEF_ROLE = 'CHEF';
-    const EMPLOYEE_ROLE = 'EMPLOYEE';
+    const ADMIN_ROLE = 'Admin';
+    const MANAGER_ROLE = 'Manager';
+    const CUSTOMER_ROLE = 'Customer';
+    const CHEF_ROLE = 'Chef';
+    const EMPLOYEE_ROLE = 'Employee';
 
     const ROLES = [
-        self::ADMIN_ROLE => 'admin',
-        self::MANAGER_ROLE => 'manager',
-        self::CUSTOMER_ROLE => 'customer',
-        self::CHEF_ROLE => 'chef',
-        self::EMPLOYEE_ROLE => 'employee',
+        self::ADMIN_ROLE => 'Admin',
+        self::MANAGER_ROLE => 'Manager',
+        self::CUSTOMER_ROLE => 'Customer',
+        self::CHEF_ROLE => 'Chef',
+        self::EMPLOYEE_ROLE => 'Employee',
     ];
 
     /**
@@ -91,6 +91,7 @@ class User extends Authenticatable implements FilamentUser
      * @var array<string, string>
      */
     protected $casts = [
+        'role',
         'gender' => Gender::class,
         //'role' => Roles::class,
         'country' => Countries::class,

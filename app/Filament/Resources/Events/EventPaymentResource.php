@@ -23,12 +23,24 @@ class EventPaymentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
 
     protected static ?int $navigationSort = 2;
- 
+
+    public static function getBreadcrumb(): string
+    {
+        return __('models.payments');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::whereDate('created_at', now()->toDateString())->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -58,7 +70,7 @@ class EventPaymentResource extends Resource
                 Forms\Components\Select::make('currency_symbol')
                     ->options(self::getCurrencySymbol())
                     ->searchable()
-                    ->default('USD $')    
+                    ->default('USD $')
                     ->required()
                     ->label(__('models.currency_symbol')),
                 Forms\Components\TextInput::make('payment_amount')
@@ -155,7 +167,7 @@ class EventPaymentResource extends Resource
     {
         return __('models.event_payments');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

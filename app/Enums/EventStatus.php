@@ -15,20 +15,15 @@ enum EventStatus: string implements HasLabel, HasColor, HasIcon
 
     public function getLabel(): ?string
     {
-        return match($this){
-            self::CONFIRMED => 'Confirmed',
-            self::CANCELED => 'Canceled',
-            self::FINISHED => 'Finished',
-            self::WAITING => 'Waiting',
-        };
+        return __("enums.event_status.{$this->value}");
     }
 
     public function getColor(): string|array|null
     {
         return match($this){
-            self::CONFIRMED => 'success',
+            self::CONFIRMED => 'info',
             self::CANCELED => 'danger',
-            self::FINISHED => 'info',
+            self::FINISHED => 'success',
             self::WAITING => 'warning',
         };
     }

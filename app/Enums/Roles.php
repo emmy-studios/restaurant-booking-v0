@@ -9,21 +9,22 @@ use Filament\Support\Contracts\HasColor;
 
 enum Roles: string implements HasLabel, HasIcon, HasColor
 {
-    case ADMIN = 'ADMIN';
-    case MANAGER = 'MANAGER';
-    case CHEF = 'CHEF';
-    case EMPLOYEE = 'EMPLOYEE';
-    case CUSTOMER = 'CUSTOMER';
+    case ADMIN = 'Admin';
+    case MANAGER = 'Manager';
+    case CHEF = 'Chef';
+    case EMPLOYEE = 'Employee';
+    case CUSTOMER = 'Customer';
 
     public function getLabel(): ?string
     {
-        return match($this){
+        /*return match($this){
             self::ADMIN => __('enums.Admin'),
             self::MANAGER => __('enums.Manager'),
             self::CHEF => __('enums.Chef'),
             self::EMPLOYEE => __('enums.Employee'),
             self::CUSTOMER => __('enums.Customer'),
-        };
+        };*/
+        return __("enums.roles.{$this->value}");
     }
 
     public function getIcon(): ?string

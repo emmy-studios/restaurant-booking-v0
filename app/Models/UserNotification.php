@@ -14,17 +14,18 @@ class UserNotification extends Model
 
     protected $fillable = [
         'user_id',
-        'role',
         'title',
-        'message',
+        'role',
         'notification_type',
+        'message',
         'is_read',
         'data',
         'redirect_url',
     ];
 
     protected $casts = [
-        'notification_type' => NotificationType::class,
+        'notification_type',
+        'role',
     ];
 
     public function user(): BelongsTo

@@ -48,6 +48,13 @@ return [
         'Money Market Account' => 'Cuenta de Mercado Monetario',
         'Certificate of Deposit' => 'Certificado de Depósito',
     ],
+    // Event Status
+    'event_status' => [
+        'Waiting' => 'En Espera',
+        'Confirmed' => 'Confirmado',
+        'Finished' => 'Terminado',
+        'Canceled' => 'Cancelado',
+    ],
     // Notifiation Type
     'notification_type' => [
         'Order' => 'Orden',
@@ -237,11 +244,13 @@ return [
         'Vacations' => 'Vacaciones',
     ],
     // Roles
-    'Admin' => 'Administrador',
-    'Chef' => 'Chef',
-    'Customer' => 'Cliente',
-    'Manager' => 'Supervisor',
-    'Employee' => 'Empleado',
+    'roles' => [
+        'Admin' => 'Administrador',
+        'Chef' => 'Chef',
+        'Customer' => 'Cliente',
+        'Manager' => 'Supervisor',
+        'Employee' => 'Empleado'
+    ],
     // Task Status
     'task_status' => [
         'Pending' => 'Pendiente',

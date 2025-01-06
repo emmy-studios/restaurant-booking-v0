@@ -26,6 +26,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Arr;
@@ -37,6 +38,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
     protected static ?string $navigationLabel = null;
 
     protected static ?string $navigationGroup = null;
@@ -46,6 +49,11 @@ class UserResource extends Resource
     public static function getBreadcrumb(): string
     {
         return __('models.users');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function form(Form $form): Form
@@ -110,8 +118,8 @@ class UserResource extends Resource
                         Select::make('role')
                             ->label(__('models.role'))
                             ->required()
-                            ->options(Roles::class)
-                            ->default('CUSTOMER'),
+                            ->options(Roles::class),
+                            //->default('CUSTOMER'),
                     ])
                     ->columns(2),
                 Section::make()
@@ -153,6 +161,18 @@ class UserResource extends Resource
                     ->label(__('models.name'))
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('role')
+                    ->label(__('models.role'))
+                    ->sortable()
+                    ->badge()
+                    ->formatStateUsing(fn ($record) => Roles::from($record->role)->getLabel())
+                    ->color(fn ($record) => Roles::from($record->role)->getColor())
+                    ->icon(fn ($record) => Roles::from($record->role)->getIcon())
+                    ->searchable(),
+                ImageColumn::make('image_url')
+                    ->circular()
+                    ->label(__('models.image_url'))
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('first_name')
                     ->label(__('models.first_name'))
                     ->sortable()
@@ -169,7 +189,8 @@ class UserResource extends Resource
                 TextColumn::make('identification_number')
                     ->label(__('models.identification_number'))
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('email')
                     ->label(__('models.email'))
                     ->searchable()
@@ -179,10 +200,6 @@ class UserResource extends Resource
                     ->badge()
                     ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                ImageColumn::make('image_url')
-                    ->circular()
-                    ->label(__('models.image_url'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('country_code')
                     ->label(__('models.country_code'))
@@ -222,12 +239,6 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('role')
-                    ->label(__('models.role'))
-                    ->sortable()
-                    ->badge()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
             ])
             ->filters([
                 Filter::make('created_at')
@@ -247,7 +258,7 @@ class UserResource extends Resource
                 				$data['created_until'],
                 				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-    				}),
+                    }),
                 SelectFilter::make('role')
                     ->label(__('models.role'))
                     ->options([
@@ -277,8 +288,8 @@ class UserResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
-                ])
-            ])
+                ])->tooltip(__('panels.actions'))
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

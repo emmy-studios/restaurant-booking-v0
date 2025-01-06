@@ -59,6 +59,13 @@ return [
         'Consultant' => 'Consultant',
         'Seasonal' => 'Seasonal',
     ],
+    // Event Status
+    'event_status' => [
+        'Waiting' => 'Waiting',
+        'Confirmed' => 'Confirmed',
+        'Finished' => 'Finished',
+        'Canceled' => 'Canceled',
+    ],
     // Notifiation Type
     'notification_type' => [
         'Order' => 'Order',
@@ -226,11 +233,13 @@ return [
         'Vacations' => 'Vacations',
     ],
     // Roles
-    'Admin' => 'Admin',
-    'Chef' => 'Chef',
-    'Customer' => 'Customer',
-    'Manager' => 'Manager',
-    'Employee' => 'Employee',
+    'roles' => [
+        'Admin' => 'Admin',
+        'Chef' => 'Chef',
+        'Customer' => 'Customer',
+        'Manager' => 'Manager',
+        'Employee' => 'Employee',
+    ],
     // Task Status
     'task_status' => [
         'Pending' => 'Pending',
