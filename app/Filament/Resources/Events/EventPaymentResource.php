@@ -11,9 +11,14 @@ use App\Filament\Resources\Events\EventPaymentResource\RelationManagers;
 use App\Models\Events\EventPayment;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -45,38 +50,41 @@ class EventPaymentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('event_id')
-                    ->relationship('event', 'id')
-                    ->label(__('models.event'))
-                    ->required(),
-                Forms\Components\Select::make('payment_method')
-                    ->options(self::getPaymentMethod())
-                    ->searchable()
-                    ->default('Cash')
-                    ->required()
-                    ->label(__('models.payment_method')),
-                Forms\Components\Select::make('payment_status')
-                    ->options(self::getPaymentStatus())
-                    ->searchable()
-                    ->default('Completed')
-                    ->required()
-                    ->label(__('models.payment_status')),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->required()
-                    ->label(__('models.currency_code')),
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
-                    ->searchable()
-                    ->default('USD $')
-                    ->required()
-                    ->label(__('models.currency_symbol')),
-                Forms\Components\TextInput::make('payment_amount')
-                    ->required()
-                    ->label(__('models.payment_amount'))
-                    ->numeric(),
+                Split::make([
+                    Section::make([
+                        Select::make('event_id')
+                            ->relationship('event', 'event_code')
+                            ->label(__('models.event'))
+                            ->required(),
+                        Select::make('payment_method')
+                            ->options(PaymentMethod::class)
+                            ->searchable()
+                            ->default('Cash')
+                            ->required()
+                            ->label(__('models.payment_method')),
+                        Select::make('payment_status')
+                            ->options(PaymentStatus::class)
+                            ->searchable()
+                            ->default('Pending')
+                            ->required()
+                            ->label(__('models.payment_status')),
+                    ]),
+                    Section::make([
+                        Select::make('currency_symbol')
+                            ->options(CurrencySymbol::class)
+                            ->searchable()
+                            ->default('USD $')
+                            ->required()
+                            ->label(__('models.currency_symbol')),
+                        TextInput::make('payment_amount')
+                            ->required()
+                            ->label(__('models.payment_amount'))
+                            ->default(0)
+                            ->numeric(),
+                    ]),
+                ])
+                    ->from('md')
+                    ->columnSpanFull()
             ]);
     }
 
@@ -84,18 +92,28 @@ class EventPaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('event.id')
+                Tables\Columns\TextColumn::make('event.event_code')
                     ->numeric()
                     ->label(__('models.event'))
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('payment_method')
+                    ->badge()
+                    ->formatStateUsing(fn ($record) => PaymentMethod::from($record->payment_method)->getLabel())
+                    ->color('info')
+                    ->searchable()
                     ->label(__('models.payment_method')),
                 Tables\Columns\TextColumn::make('payment_status')
+                    ->formatStateUsing(fn ($record) => PaymentStatus::from($record->payment_status)->getLabel())
+                    ->badge()
+                    ->searchable()
+                    ->color('warning')
                     ->label(__('models.payment_status')),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
                 Tables\Columns\TextColumn::make('currency_symbol')
-                    ->label(__('models.currency_symbol')),
+                    ->label(__('models.currency_symbol'))
+                    ->badge()
+                    ->searchable()
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('payment_amount')
                     ->numeric()
                     ->label(__('models.payment_amount'))
@@ -115,34 +133,16 @@ class EventPaymentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getCurrencySymbol(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencySymbol::cases());
-    }
-
-    public static function getCurrencyCode(): array
-    {
-        return array_map(fn($case) => $case->value, CurrencyCode::cases());
-    }
-
-    public static function getPaymentMethod(): array
-    {
-        return array_map(fn($case) => $case->value, PaymentMethod::cases());
-    }
-
-    public static function getPaymentStatus(): array
-    {
-        return array_map(fn($case) => $case->value, PaymentStatus::cases());
     }
 
     public static function getRelations(): array
