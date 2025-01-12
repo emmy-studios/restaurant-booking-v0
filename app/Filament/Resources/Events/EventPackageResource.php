@@ -9,9 +9,17 @@ use App\Filament\Resources\Events\EventPackageResource\RelationManagers;
 use App\Models\Events\EventPackage;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -19,7 +27,9 @@ class EventPackageResource extends Resource
 {
     protected static ?string $model = EventPackage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-gift-top'; 
+    protected static ?string $navigationIcon = 'heroicon-o-gift-top';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
 
     protected static ?string $navigationLabel = null;
 
@@ -27,41 +37,57 @@ class EventPackageResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    public static function getBreadcrumb(): string
+    {
+        return __('models.packages');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('package_name')
-                    ->required()
-                    ->label(__('models.package_name'))
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('details')
+                Split::make([
+                    Section::make([
+                        TextInput::make('package_name')
+                            ->required()
+                            ->label(__('models.package_name'))
+                            ->maxLength(255),
+                        MarkdownEditor::make('details')
+                            ->columnSpanFull()
+                            ->label(__('models.details')),
+                    ]),
+                    Section::make([
+                        Select::make('currency_symbol')
+                            ->options(self::getCurrencySymbol())
+                            ->searchable()
+                            ->default('USD $')
+                            ->required()
+                            ->label(__('models.currency_symbol')),
+                        TextInput::make('subtotal')
+                            ->numeric()
+                            ->default(0)
+                            ->label(__('models.subtotal')),
+                        TextInput::make('total')
+                            ->numeric()
+                            ->default(0)
+                            ->label(__('models.total')),
+                    ]),
+                ])
                     ->columnSpanFull()
-                    ->label(__('models.details')),
-                Forms\Components\MarkdownEditor::make('additional_details')
-                    ->columnSpanFull()
-                    ->label(__('models.additional_details')),
-                Forms\Components\MarkdownEditor::make('notes')
-                    ->columnSpanFull()
-                    ->label(__('models.notes')),
-                Forms\Components\Select::make('currency_code')
-                    ->options(self::getCurrencyCode())
-                    ->searchable()
-                    ->default('USD')
-                    ->required()
-                    ->label(__('models.currency_code')),
-                Forms\Components\Select::make('currency_symbol')
-                    ->options(self::getCurrencySymbol())
-                    ->searchable()
-                    ->default('USD $')
-                    ->required()
-                    ->label(__('models.currency_symbol')),
-                Forms\Components\TextInput::make('subtotal')
-                    ->numeric()
-                    ->label(__('models.subtotal')),
-                Forms\Components\TextInput::make('total')
-                    ->numeric()
-                    ->label(__('models.total')), 
+                    ->from('md'),
+                Section::make([
+                    MarkdownEditor::make('additional_details')
+                        ->columnSpanFull()
+                        ->label(__('models.additional_details')),
+                    MarkdownEditor::make('notes')
+                        ->columnSpanFull()
+                        ->label(__('models.notes'))
+                ])
             ]);
     }
 
@@ -72,8 +98,6 @@ class EventPackageResource extends Resource
                 Tables\Columns\TextColumn::make('package_name')
                     ->searchable()
                     ->label(__('models.package_name')),
-                Tables\Columns\TextColumn::make('currency_code')
-                    ->label(__('models.currency_code')),
                 Tables\Columns\TextColumn::make('currency_symbol')
                     ->label(__('models.currency_symbol')),
                 Tables\Columns\TextColumn::make('subtotal')
@@ -96,11 +120,30 @@ class EventPackageResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -141,7 +184,7 @@ class EventPackageResource extends Resource
     {
         return __('models.event_packages');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

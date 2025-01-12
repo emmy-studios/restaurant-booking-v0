@@ -628,7 +628,13 @@ return [
     'total_orders_made' => 'Total Orders Made',
     /* Relation Managers */
     'tables_related_to_the_reservation' => 'Tables Related to the Reservation',
+    'packages_related_to_the_reservation' => 'Packages Related to the Reservation',
+    'staff_related_to_the_reservation' => 'Staff Related to the Reservation',
     'attach_table' => 'Attach Table',
+    'attach_package' => 'Attach Package',
+    'attach_staff' => 'Attach Staff',
     'select_a_table/tables' => 'Select a Table/Tables',
+    'select_staff' => 'Select Staff',
+    'select_a_package/packages' => 'Select a Package/Packages',
 ];
 

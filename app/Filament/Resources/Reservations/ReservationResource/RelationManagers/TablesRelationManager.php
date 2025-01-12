@@ -53,6 +53,7 @@ class TablesRelationManager extends RelationManager
                     ->modalHeading(__('models.attach_table')),
             ])
             ->actions([
+                Tables\Actions\ActionGroup::make([
                 Tables\Actions\DetachAction::make(),
                 Tables\Actions\ViewAction::make()
                     ->modalHeading(__('models.details'))
@@ -73,7 +74,8 @@ class TablesRelationManager extends RelationManager
                             ->onIcon('heroicon-o-check')
                             ->offIcon('heroicon-o-x-mark')
                             ->onColor('success')
-                            ->offColor('danger'),
+                                ->offColor('danger')
+                        ])
                     ]),
             ])
             ->bulkActions([

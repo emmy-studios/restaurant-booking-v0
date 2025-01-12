@@ -7,18 +7,23 @@ use App\Enums\CurrencySymbol;
 use App\Enums\EventStatus;
 use App\Filament\Resources\Events\EventResource\Pages;
 use App\Filament\Resources\Events\EventResource\RelationManagers;
+use App\Filament\Resources\Events\EventResource\RelationManagers\StaffRelationManager;
+use App\Filament\Resources\Events\EventResource\RelationManagers\TablesRelationManager;
+use App\Filament\Resources\Events\EventResource\RelationManagers\EventPackagesRelationManager;
 use App\Models\Events\Event;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -169,7 +174,24 @@ class EventResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('event_date')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label(__('models.start_date')),
+                        DatePicker::make('created_until')
+                            ->label(__('models.end_date')),
+    				])
+                    ->query(function (Builder $query, array $data): Builder {
+        				return $query
+            				->when(
+                				$data['created_from'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('event_date', '>=', $date),
+            				)
+            				->when(
+                				$data['created_until'],
+                				fn (Builder $query, $date): Builder => $query->whereDate('event_date', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 ActionGroup::make([
@@ -187,7 +209,9 @@ class EventResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            StaffRelationManager::class,
+            TablesRelationManager::class,
+            EventPackagesRelationManager::class,
         ];
     }
 

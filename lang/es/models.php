@@ -626,8 +626,14 @@ return [
     'total_sales' => 'Ventas Totales',
     'total_orders_made' => 'Órdenes Totales Realizadas',
     /* Relation Managers */
-    'tables_related_to_the_reservation' => 'Mesas Relacionadas a la Reservación',
+    'tables_related_to_the_reservation' => 'Mesas Relacionadas con la Reservación',
+    'packages_related_to_the_reservation' => 'Paquetes Relacionadas con la Reservación',
+    'staff_related_to_the_reservation' => 'Personal Relacionado con la Reservación',
     'attach_table' => 'Vincular Mesa',
-    'select_a_table/tables' => 'Seleccione una Mesa/Mesas',
+    'attach_package' => 'Vincular Paquete',
+    'attach_staff' => 'Vincular Personal',
+    'select_a_table/tables' => 'Selecciona una Mesa/Mesas',
+    'select_staff' => 'Seleccionar Personal',
+    'select_a_package/packages' => 'Selecciona un Paquete/Paquetes',
 ];
 
