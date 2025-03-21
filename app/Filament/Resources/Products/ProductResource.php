@@ -71,7 +71,7 @@ class ProductResource extends Resource
                             ->disk('public')
                             ->directory('product-images')
                             ->image()
-                            ->imageEditor()
+                            ->previewable(false)
                             ->label(__('models.image_url'))
                             ->required()
                     ]),
@@ -93,15 +93,23 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->icon('heroicon-o-cake')
+                    ->color('danger')
+                    ->words(6)
                     ->label(__('models.name'))
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image_url')
                     ->circular()
                     ->label(__('models.image_url')),
                 Tables\Columns\TextColumn::make('quantity')
-                    ->label(__('models.quantity')),
+                    ->label(__('models.quantity'))
+                    ->icon('heroicon-o-hashtag')
+                    ->color('success')
+                    ->numeric(decimalPlaces: 0),
                 Tables\Columns\TextColumn::make('portion')
                     ->searchable()
+                    ->icon('heroicon-o-plus-circle')
+                    ->color('info')
                     ->label(__('models.portion')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -12,25 +12,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class InventoryItem extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
-        'ingredient_id',
+        'name',
+        'description',
+        'image_url',
         'inventory_id',
+        'barcode',
+        'sku',
         'batch_number',
         'expiration_date',
         'unit_of_measurement',
         'quantity',
+        'currency',
+        'unit_price',
     ];
 
     protected $casts = [
         'unit_of_measurement',
+        'currency',
     ];
-
-    public function ingredient(): BelongsTo
-    {
-        return $this->belongsTo(Ingredient::class);
-    }
 
     public function inventory(): BelongsTo
     {

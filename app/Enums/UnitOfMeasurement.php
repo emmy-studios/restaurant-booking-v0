@@ -6,110 +6,72 @@ use Filament\Support\Contracts\HasLabel;
 
 enum UnitOfMeasurement: string implements HasLabel
 {
-    // Volumen (líquidos)
-    case LITERS = 'L';
-    case MILLILITERS = 'mL';
-    case GALLONS = 'gal';
-    case QUARTS = 'qt';
-    case PINTS = 'pt';
-    case CUPS = 'cup';
-    case FLUID_OUNCES = 'fl oz';
-    case TEASPOONS = 'tsp';
-    case TABLESPOONS = 'tbsp';
-    case SHOTS = 'shot';
+    // Unidades de masa (peso)
+    case MILLIGRAM = 'mg';
+    case GRAM = 'g';
+    case KILOGRAM = 'kg';
+    case OUNCE = 'oz';
+    case POUND = 'lb';
+    case TON = 't'; // Tonelada métrica
+    case SHORT_TON = 'ton_us'; // Tonelada corta (US) - clave más consistente
+    case LONG_TON = 'ton_uk';  // Tonelada larga (UK) - clave más consistente
 
-    // Peso (sólidos)
-    case GRAMS = 'g';
-    case KILOGRAMS = 'kg';
-    case MILLIGRAMS = 'mg';
-    case OUNCES = 'oz';
-    case POUNDS = 'lb';
-    case TONS = 't';
+    // Unidades de volumen (líquidos)
+    case MILLILITER = 'ml';
+    case LITER = 'l';
+    case FLUID_OUNCE = 'fl_oz'; // Clave más consistente
+    case CUP = 'cup';
+    case PINT = 'pt';
+    case QUART = 'qt';
+    case GALLON = 'gal';
+    case TEASPOON = 'tsp';
+    case TABLESPOON = 'tbsp';
 
-    // Longitud
-    case CENTIMETERS = 'cm';
-    case METERS = 'm';
-    case INCHES = 'in';
-    case FEET = 'ft';
+    // Unidades de longitud
+    case MILLIMETER = 'mm';
+    case CENTIMETER = 'cm';
+    case METER = 'm';
+    case KILOMETER = 'km';
+    case INCH = 'in';
+    case FOOT = 'ft';
+    case YARD = 'yd';
+    case MILE = 'mi';
 
-    // Volumen sólido
-    case CUBIC_CENTIMETERS = 'cm3';
-    case CUBIC_METERS = 'm3';
+    // Unidades de área
+    case SQUARE_MILLIMETER = 'mm2'; // Clave más consistente
+    case SQUARE_CENTIMETER = 'cm2'; // Clave más consistente
+    case SQUARE_METER = 'm2';     // Clave más consistente
+    case SQUARE_KILOMETER = 'km2'; // Clave más consistente
+    case SQUARE_INCH = 'in2';     // Clave más consistente
+    case SQUARE_FOOT = 'ft2';     // Clave más consistente
+    case SQUARE_YARD = 'yd2';     // Clave más consistente
+    case ACRE = 'acre';
+    case HECTARE = 'ha';
 
-    // Unidades
-    case UNITS = 'unit';
-    case PIECES = 'pcs';
-    case DOZEN = 'dozen';
-    case BOXES = 'box';
-    case BOTTLES = 'bottle';
-    case BUNCH = 'bunch';
-    case SCOOPS = 'scoop';
-    case JUGS = 'jug';
-    case PLATES = 'plate';
-    case TRAYS = 'tray';
-    case PORTIONS = 'portion';
-    case GLASSES = 'glass';
-    case PACKETS = 'packet';
+    // Unidades de volumen (sólidos)
+    case CUBIC_MILLIMETER = 'mm3'; // Clave más consistente
+    case CUBIC_CENTIMETER = 'cm3'; // Clave más consistente
+    case CUBIC_METER = 'm3';     // Clave más consistente
+    case CUBIC_INCH = 'in3';     // Clave más consistente
+    case CUBIC_FOOT = 'ft3';     // Clave más consistente
+    case CUBIC_YARD = 'yd3';     // Clave más consistente
 
-    // Superficie
-    case SQUARE_METERS = 'm2';
-    case SQUARE_CENTIMETERS = 'cm2';
-    case SQUARE_FEET = 'ft2';
-    case ACRES = 'acre';
+    // Unidades de conteo
+    case UNIT = 'unit';
+    case PIECE = 'pc';
+    case DOZEN = 'doz';
+    case GROSS = 'gross'; // Gruesa (144 unidades)
+
+    // Unidades diversas (contenedores, etc.)
+    case BOTTLE = 'bottle';
+    case CAN = 'can';
+    case JAR = 'jar';
+    case BOX = 'box';
+    case PACKAGE = 'pkg';
+    case BAG = 'bag';
 
     public function getLabel(): ?string
     {
-        return match ($this) {
-            // Volumen (líquidos)
-            self::LITERS => 'Liters',
-            self::MILLILITERS => 'Milliliters',
-            self::GALLONS => 'Gallons',
-            self::QUARTS => 'Quarts',
-            self::PINTS => 'Pints',
-            self::CUPS => 'Cups',
-            self::FLUID_OUNCES => 'Fluid Ounces',
-            self::TEASPOONS => 'Teaspoons',
-            self::TABLESPOONS => 'Tablespoons',
-            self::SHOTS => 'Shots',
-
-            // Peso (sólidos)
-            self::GRAMS => 'Grams',
-            self::KILOGRAMS => 'Kilograms',
-            self::MILLIGRAMS => 'Milligrams',
-            self::OUNCES => 'Ounces',
-            self::POUNDS => 'Pounds',
-            self::TONS => 'Tons',
-
-            // Longitud
-            self::CENTIMETERS => 'Centimeters',
-            self::METERS => 'Meters',
-            self::INCHES => 'Inches',
-            self::FEET => 'Feet',
-
-            // Volumen sólido
-            self::CUBIC_CENTIMETERS => 'Cubic Centimeters',
-            self::CUBIC_METERS => 'Cubic Meters',
-
-            // Unidades
-            self::UNITS => 'Units',
-            self::PIECES => 'Pieces',
-            self::DOZEN => 'Dozen',
-            self::BOXES => 'Boxes',
-            self::BOTTLES => 'Bottles',
-            self::BUNCH => 'Bunch',
-            self::SCOOPS => 'Scoops',
-            self::JUGS => 'Jugs',
-            self::PLATES => 'Plates',
-            self::TRAYS => 'Trays',
-            self::PORTIONS => 'Portions',
-            self::GLASSES => 'Glasses',
-            self::PACKETS => 'Packets',
-
-            // Superficie
-            self::SQUARE_METERS => 'Square Meters',
-            self::SQUARE_CENTIMETERS => 'Square Centimeters',
-            self::SQUARE_FEET => 'Square Feet',
-            self::ACRES => 'Acres',
-        };
+        return __("enums.unit_of_measurement.{$this->value}");
     }
 }

@@ -186,6 +186,7 @@ return [
     'edit_menu_special' => 'Editar Especial de Menu',
     'view_menu_special' => 'Ver Especial de Menu',
     /** InventoryResource Filament Translations */
+    'inventory_code' => 'Código de Inventario',
     'total_quantity' => 'Cantidad Total',
     'last_restocked_at' => 'Última Reposición',
     'next_restock_date' => 'Próxima Fecha de Reposición',
@@ -209,6 +210,8 @@ return [
     /** InventoryItemResource Filament Translations */
     'items' => 'Elementos',
     'item' => 'Elemento',
+    'sku' => 'SKU',
+    'barcode' => 'Código de Barras',
     'batch_number' => 'Número de Lote',
     'expiration_date' => 'Día de Expiración',
     'unit_of_measurement' => 'Unidad de Medida',
@@ -629,10 +632,13 @@ return [
     'tables_related_to_the_reservation' => 'Mesas Relacionadas con la Reservación',
     'packages_related_to_the_reservation' => 'Paquetes Relacionadas con la Reservación',
     'staff_related_to_the_reservation' => 'Personal Relacionado con la Reservación',
+    'ingredients_of_the_recipe' => 'Ingredientes de la Receta',
+    'attach_ingredient' => 'Vincular Ingrediente',
     'attach_table' => 'Vincular Mesa',
     'attach_package' => 'Vincular Paquete',
     'attach_staff' => 'Vincular Personal',
     'select_a_table/tables' => 'Selecciona una Mesa/Mesas',
+    'select_ingredient/ingredients' => 'Selecciona un Ingrediente/Ingredientes',
     'select_staff' => 'Seleccionar Personal',
     'select_a_package/packages' => 'Selecciona un Paquete/Paquetes',
 ];

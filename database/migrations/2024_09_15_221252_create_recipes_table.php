@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->text('title');
+            $table->string('recipe_code')->unique();
             $table->text('preparation')->nullable();
             $table->text('recomendations')->nullable();
             $table->text('considerations')->nullable();
             $table->text('additional_details')->nullable();
             $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
-        }); 
+        });
     }
 
     /**

@@ -6,11 +6,21 @@ use App\Enums\UnitOfMeasurement;
 use App\Filament\Resources\Inventories\InventoryItemResource\Pages;
 use App\Filament\Resources\Inventories\InventoryItemResource\RelationManagers;
 use App\Models\Inventories\InventoryItem;
+use App\Enums\CurrencySymbol;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -19,6 +29,18 @@ class InventoryItemResource extends Resource
     protected static ?string $model = InventoryItem::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-o-check-badge';
+
+    public static function getBreadcrumb(): string
+    {
+        return __('models.items');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected static ?string $navigationLabel = null;
 
@@ -30,27 +52,60 @@ class InventoryItemResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('ingredient_id') 
-                    ->relationship('ingredient', 'name')
-                    ->label(__('models.ingredient'))
-                    ->required(),
-                Forms\Components\Select::make('inventory_id')
-                    ->relationship('inventory', 'id')
-                    ->label(__('models.inventory'))
-                    ->required(),
-                Forms\Components\TextInput::make('batch_number')
-                    ->maxLength(255)
-                    ->label(__('models.batch_number')),
-                Forms\Components\DatePicker::make('expiration_date')
-                    ->label(__('models.expiration_date')),
-                Forms\Components\Select::make('unit_of_measurement')
-                    ->options(self::getUnitOfMeasurement())
-                    ->label(__('models.unit_of_measurement'))
-                    ->searchable()
-                    ->required(),
-                Forms\Components\TextInput::make('quantity')
-                    ->numeric()
-                    ->label(__('models.quantity')),
+                Split::make([
+                    Section::make([
+                        TextInput::make('name')
+                            ->label(__('models.name')),
+                        Select::make('inventory_id')
+                            ->relationship('inventory', 'inventory_code')
+                            ->label(__('models.inventory'))
+                            ->required(),
+                        DatePicker::make('expiration_date')
+                            ->label(__('models.expiration_date')),
+                        TextInput::make('batch_number')
+                            ->maxLength(255)
+                            ->label(__('models.batch_number')),
+                    ]),
+                    Section::make([
+                        FileUpload::make('image_url')
+                            ->disk('public')
+                            ->directory('inventory-images')
+                            ->image()
+                            ->previewable(false)
+                            ->label(__('models.image_url'))
+                            ->required(),
+                        TextInput::make('barcode')
+                            ->label(__('models.barcode')),
+                        TextInput::make(__('models.sku')),
+                    ]),
+                ])
+                    ->from('md')
+                    ->columnSpanFull(),
+                Section::make([
+                    Select::make('unit_of_measurement')
+                        ->options(UnitOfMeasurement::class)
+                        ->label(__('models.unit_of_measurement'))
+                        ->searchable()
+                        ->required(),
+                    TextInput::make('quantity')
+                        ->numeric()
+                        ->label(__('models.quantity')),
+                    Select::make('currency')
+                        ->options(CurrencySymbol::class)
+                        ->default('USD $')
+                        ->searchable()
+                        ->label(__('models.currency')),
+                    TextInput::make('unit_price')
+                        ->numeric()
+                        ->label(__('models.unit_price'))
+                        ->default(0),
+                ])
+                    ->columns(2),
+                Section::make([
+                    MarkdownEditor::make('description')
+                        ->required()
+                        ->label(__('models.description')),
+                ]),
             ]);
     }
 
@@ -58,33 +113,40 @@ class InventoryItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ingredient.name')
-                    ->numeric()
-                    ->label(__('models.ingredient'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('inventory.id')
-                    ->numeric()
+                TextColumn::make('inventory.inventory_code')
                     ->label(__('models.inventory'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('batch_number')
+                TextColumn::make('name')
                     ->searchable()
-                    ->label(__('models.batch_number')),
-                Tables\Columns\TextColumn::make('expiration_date')
+                    ->label(__('models.name'))
+                    ->sortable()
+                    ->words(10),
+                TextColumn::make('expiration_date')
                     ->date()
+                    ->badge()
+                    ->color('danger')
+                    ->icon('heroicon-o-calendar-date-range')
                     ->label(__('models.expiration_date'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('unit_of_measurement')
-                    ->label(__('models.unit_of_measurement')),
-                Tables\Columns\TextColumn::make('quantity')
+                TextColumn::make('unit_of_measurement')
+                    ->label(__('models.unit_of_measurement'))
+                    ->badge()
+                    ->color('success')
+                    ->icon('heroicon-o-scale')
+                    ->formatStateUsing(fn ($record) => UnitOfMeasurement::from($record->unit_of_measurement)->getLabel()),
+                TextColumn::make('quantity')
                     ->numeric()
+                    ->badge()
+                    ->color('info')
+                    ->icon('heroicon-o-hashtag')
                     ->label(__('models.quantity'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label(__('models.created_at'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label(__('models.updated_at'))
                     ->sortable()
@@ -94,8 +156,10 @@ class InventoryItemResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()
+                ])->tooltip(__('panels.actions'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -131,7 +195,7 @@ class InventoryItemResource extends Resource
     {
         return __('models.inventory_item');
     }
- 
+
     // Translate Navigation Group.
     public static function getNavigationGroup(): string
     {

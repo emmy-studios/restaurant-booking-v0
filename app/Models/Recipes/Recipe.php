@@ -14,7 +14,8 @@ class Recipe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 
+        'recipe_code',
+        'title',
         'preparation',
         'recomendations',
         'considerations',
@@ -32,4 +33,4 @@ class Recipe extends Model
         return $this->belongsToMany(Ingredient::class);
     }
 }
- 
+

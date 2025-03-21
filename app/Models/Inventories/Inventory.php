@@ -14,6 +14,7 @@ class Inventory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'inventory_code',
         'total_quantity',
         'last_restocked_at',
         'next_restock_date',
